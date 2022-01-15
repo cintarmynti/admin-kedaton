@@ -107,3 +107,7 @@ Route::post('/pembayaran/store', [PembayaranController::class, 'store'])->name('
 Route::delete('/pembayaran/delete/{id}', [PembayaranController::class, 'delete'])->name('bayar.delete');
 Route::get('/pembayaran/edit/{id}', [PembayaranController::class, 'edit'])->name('bayar.edit');
 Route::put('/pembayaran/update/{id}', [PembayaranController::class, 'update'])->name('bayar.update');
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
