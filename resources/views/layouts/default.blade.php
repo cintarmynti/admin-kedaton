@@ -9,7 +9,7 @@
     <meta name="keywords" content="admin,dashboard">
     <meta name="author" content="stacks">
     <!-- The above 6 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-
+    @stack('before-style')
     <!-- Title -->
     <title>Circl - Responsive Admin Dashboard Template</title>
 
@@ -43,6 +43,9 @@
 
     <!-- Javascripts -->
     @include('includes.script')
+
+
+    @stack('after-style')
 </body>
 
 </html>
