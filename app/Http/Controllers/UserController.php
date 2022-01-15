@@ -64,9 +64,9 @@ class UserController extends Controller
         $user->nik = $request->nik;
         $user->alamat=$request->alamat;
         $user->phone = $request->phone;
-        $destination = $user->photo_identitas;
         if($request->hasFile('photo_identitas'))
         {
+            $destination = public_path().'/user_photo/'.$user->photo_identitas;;
             // dd($destination);
             if(File::exists($destination))
             {
@@ -99,10 +99,7 @@ class UserController extends Controller
 
     public function delete($id){
         $user = User::find($id);
-        // dd($user);
-        // dd($paymentkata);
         $image_path = public_path().'/user_photo/'.$user->photo_identitas;
-        // dd($image_path);
         unlink($image_path);
         $user->delete();
         return redirect('/user');
