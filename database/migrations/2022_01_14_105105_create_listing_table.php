@@ -16,17 +16,17 @@ class CreateListingTable extends Migration
         Schema::create('listing', function (Blueprint $table) {
             $table->id();
             $table->string('alamat');
-            $table->integer('no_rumah');
+            $table->string('no_rumah');
             $table->integer('RT');
             $table->integer('RW');
             $table->string('lantai');
-            $table->integer('jumlah kamar');
+            $table->integer('jumlah_kamar');
             $table->string('luas_tanah');
             $table->string('luas_bangunan');
             $table->integer('user_id_penghuni');
             $table->integer('user_id_pemilik');
             $table->string('status');
-            $table->integer('harga')->nullable();
+            $table->string('harga')->nullable();
             $table->timestamps();
         });
     }

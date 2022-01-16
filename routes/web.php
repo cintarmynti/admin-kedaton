@@ -48,6 +48,7 @@ Route::put('/blog/update/{id}', [BlogController::class, 'update'])->name('blog.u
 Route::get('/listing', [ListingController::class, 'index'])->name('listing');
 Route::get('/listing/create', [ListingController::class, 'create'])->name('listing.create');
 Route::post('/listing/store', [ListingController::class, 'store'])->name('listing.store');
+Route::get('/listing/detail/{id}', [ListingController::class, 'detail'])->name('listing.detail');
 Route::delete('/listing/delete/{id}', [ListingController::class, 'delete'])->name('listing.delete');
 Route::get('/listing/edit/{id}', [ListingController::class, 'edit'])->name('listing.edit');
 Route::put('/listing/update/{id}', [ListingController::class, 'update'])->name('listing.update');
