@@ -25,7 +25,7 @@
                 <th scope="row">{{$no++}}</th>
                 <td>{{$bnr->judul}}</td>
                 <td>{{$bnr->link}}</td>
-                <td>{{$bnr->foto}}</td>
+                <td><img src="{{url('banner_photo/'.$bnr->foto)}}" width="80px" alt=""></td>
                 <td>
                     <a href="{{route('banner.edit',$bnr->id)}}"><i data-feather="edit"></i></a>
                     <form action="{{route('banner.delete', $bnr -> id)}}" method="post">

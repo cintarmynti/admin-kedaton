@@ -5,16 +5,16 @@
     <div class="card-body">
         <h5 class="card-title">Example</h5>
         <p class="card-description">
-            <a class="btn btn-primary" href="{{route('user.create')}}">tambah user</a>
+            <a class="btn btn-primary" href="{{route('user.create')}}">Tambah Penghuni</a>
         </p>
         <table class="table" id="myTable">
           <thead>
             <tr>
               <th scope="col">id</th>
-              <th scope="col">name</th>
+              <th scope="col">nama</th>
               <th scope="col">nik</th>
               <th scope="col">alamat</th>
-              <th scope="col">phone</th>
+              <th scope="col">no telp</th>
               <th scope="col">photo-identitas</th>
               <th scope="col">aksi</th>
             </tr>

@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\PanicButton;
 use Illuminate\Http\Request;
 
 class LaporanPanicButtonController extends Controller
 {
     public function index(){
-        return view('pages.laporan panic button.index');
+        $panic = PanicButton::with('user', 'listing')->get();
+        // dd($panic);
+        return view('pages.laporan panic button.index', ['panic' => $panic]);
     }
 
     public function create(){

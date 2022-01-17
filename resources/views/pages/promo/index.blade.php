@@ -25,7 +25,7 @@
                 <th scope="row">{{$no++}}</th>
                 <td>{{$pr->judul}}</td>
                 <td>{{$pr->link}}</td>
-                <td>{{$pr->foto}}</td>
+                <td><img src="{{url('promo_photo/'.$pr->foto)}}" width="80px" alt=""></td>
                 <td>
                     <a href="{{route('promo.edit',$pr->id)}}"><i data-feather="edit"></i></a>
                     <form action="{{route('promo.delete', $pr -> id)}}" method="post">
