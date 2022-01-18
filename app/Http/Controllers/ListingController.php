@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Listing;
+use App\Models\listing_image;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -35,6 +36,24 @@ class ListingController extends Controller
 
         $listing->save();
 
+
+        $files = [];
+        if($request->hasfile('image'))
+         {
+            foreach($request->file('image') as $file)
+            {
+                $name = time().rand(1,100).'.'.$file->extension();
+                $file->move(public_path('files'), $name);
+                $files[] = $name;
+
+                $file= new listing_image();
+                $file->listing_id = $listing->id;
+                $file->image = $name;
+                $file->save();
+            }
+         }
+
+
         if ($listing) {
             return redirect()
                 ->route('listing')
@@ -53,6 +72,7 @@ class ListingController extends Controller
 
     public function detail($id){
         $listing = Listing::with('user_penghuni', 'user_pemilik')->where('id', $id)->first();
+        // $listing = Listing::findOrFail($id);
         // dd($listing);
         return view('pages.listing.detail',['listing' => $listing]);
     }
@@ -98,6 +118,12 @@ class ListingController extends Controller
 
     public function delete($id){
         $post = Listing::findOrFail($id);
+        $image = listing_image::where('listing_id', $post->id)->get();
+
+        foreach($image as $img){
+            $img->delete();
+            unlink();
+        }
         $post->delete();
 
         if ($post) {

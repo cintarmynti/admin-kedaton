@@ -8,6 +8,7 @@
     <meta name="description" content="Responsive Admin Dashboard Template">
     <meta name="keywords" content="admin,dashboard">
     <meta name="author" content="stacks">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <!-- The above 6 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     @stack('before-style')
     <!-- Title -->
@@ -45,7 +46,7 @@
     @include('includes.script')
 
 
-    @stack('after-style')
+    @stack('after-script')
 </body>
 
 </html>
