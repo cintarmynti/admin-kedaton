@@ -77,6 +77,19 @@
                 </div>
             </div>
 
+            <div class="row mt-4">
+                <div class="col">
+                    <select  id="category" class="form-control select2" name="cluster_id" aria-label="Default select example">
+                        <option disabled selected="">Pilih Cluster</option>
+                        @foreach ($cluster as $item)
+                        <option value="{{$item -> name}}">{{$item->name}}</option>
+                        @endforeach
+
+                      </select>
+                </div>
+
+            </div>
+
 
 
             <div class="row mt-4">
@@ -115,5 +128,16 @@
           $(this).parents(".realprocode").remove();
       });
     });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js" defer></script>
+<script>
+
+    $(document).ready(function(){
+        $('.select2').select2({
+            placeholder:'Select Cluster',
+            theme:'bootstrap4',
+            tags:true
+        })
+    })
 </script>
 @endpush

@@ -5,9 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Blog extends Model
+class Cluster extends Model
 {
     use HasFactory;
-    protected $table = 'blog';
-    protected $fillable = ['judul', 'desc', 'gambar'];
+    protected $table = 'cluster';
+    protected $fillable = ['name'];
 }

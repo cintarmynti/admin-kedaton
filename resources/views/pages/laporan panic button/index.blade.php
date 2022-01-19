@@ -22,11 +22,11 @@
               @php
                   $no = 1
               @endphp
-              @foreach ($panic as $pan)
+              {{-- @foreach ($panic as $pan) --}}
               <tr>
                 <th scope="row">{{$no++}}</th>
-                <td>{{$pan->user->name}}</td>
-                <td>{{$pan->listing->alamat}}</td>
+                {{-- <td>{{$pan->user->name}}</td>
+                <td>{{$pan->listing->alamat}}</td> --}}
 
 
                 <td>
@@ -40,7 +40,7 @@
                     </form>
                 </td>
               </tr>
-              @endforeach
+              {{-- @endforeach --}}
 
 
           </tbody>

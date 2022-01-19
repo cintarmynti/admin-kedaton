@@ -21,6 +21,10 @@
       <li class="{{ Request::is('promo') ? 'active-page' : '' }}" class="active-page">
         <a href="{{route('promo')}}"><i data-feather="home"></i>Promo</a>
       </li>
+{{--
+      <li class="{{ Request::is('cluster') ? 'active-page' : '' }}" class="active-page">
+        <a href="{{route('cluster')}}"><i data-feather="home"></i>cluster</a>
+      </li> --}}
 
       <li class="{{ Request::is('blog') ? 'active-page' : '' }}" class="active-page">
         <a href="{{route('blog')}}"><i data-feather="home"></i>Blog</a>
@@ -36,11 +40,11 @@
         <a href="{{route('panic')}}"><i data-feather="user"></i>Laporan Panic Button</a>
       </li>
 
-      <li class="{{ Request::is('iuran') ? 'active-page' : '' }}">
+      {{-- <li class="{{ Request::is('iuran') ? 'active-page' : '' }}">
         <a href="{{route('iuran')}}"><i data-feather="calendar"></i>Iuran</a>
       </li>
       <li class="{{ Request::is('bayar') ? 'active-page' : '' }}">
         <a href="{{route('bayar')}}"><i data-feather="user"></i>bayar</a>
-      </li>
+      </li> --}}
     </ul>
 </div>

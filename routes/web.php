@@ -12,6 +12,7 @@ use App\Http\Controllers\LaporanComplainController;
 use App\Http\Controllers\LaporanPanicButtonController;
 use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\IuranController;
+use App\Http\Controllers\ClusterController;
 
 
 /*
@@ -109,4 +110,9 @@ Route::delete('/pembayaran/delete/{id}', [PembayaranController::class, 'delete']
 Route::get('/pembayaran/edit/{id}', [PembayaranController::class, 'edit'])->name('bayar.edit');
 Route::put('/pembayaran/update/{id}', [PembayaranController::class, 'update'])->name('bayar.update');
 
-
+Route::get('/cluster', [ClusterController::class, 'index'])->name('cluster');
+Route::get('/cluster/create', [ClusterController::class, 'create'])->name('cluster.create');
+Route::post('/cluster/store', [ClusterController::class, 'store'])->name('cluster.store');
+Route::delete('/cluster/delete/{id}', [ClusterController::class, 'delete'])->name('cluster.delete');
+Route::get('/cluster/edit/{id}', [ClusterController::class, 'edit'])->name('cluster.edit');
+Route::put('/cluster/update/{id}', [ClusterController::class, 'update'])->name('cluster.update');

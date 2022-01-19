@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cluster;
 use App\Models\Listing;
 use App\Models\listing_image;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Symfony\Component\Console\Input\Input;
 
 class ListingController extends Controller
 {
@@ -15,8 +17,9 @@ class ListingController extends Controller
     }
 
     public function create(){
+        $cluster = Cluster::all();
         $user = User::all();
-        return view('pages.listing.create', ['user' => $user]);
+        return view('pages.listing.create', ['user' => $user, 'cluster' => $cluster ]);
     }
 
     public function store(Request $request){
@@ -33,6 +36,23 @@ class ListingController extends Controller
         $listing->user_id_pemilik = $request->pemilik;
         $listing-> status = $request->status;
         $listing->harga = $request->harga;
+
+        $cluster = Cluster::where('name', '=', $request->cluster_id)->first();
+        // dd($cluster);
+        if ($cluster === null) {
+            // User does not exist
+            $clus = new Cluster();
+            $clus->name = $request->cluster_id;
+            $clus->save();
+
+            $listing->cluster_id = $clus->id;
+
+          } else {
+            $cls = Cluster::where('name', '=', $request->cluster_id)->first();
+            // dd($cls->id);
+            $listing->cluster_id = $cls->id;
+          }
+
 
         $listing->save();
 
