@@ -8,45 +8,46 @@
             <a class="btn btn-primary" href="{{route('user.create')}}">Tambah Penghuni</a>
         </p>
         <table class="table" id="myTable">
-          <thead>
-            <tr>
-              <th scope="col">id</th>
-              <th scope="col">nama</th>
-              <th scope="col">nik</th>
-              <th scope="col">alamat</th>
-              <th scope="col">no telp</th>
-              <th scope="col">photo-identitas</th>
-              <th scope="col">aksi</th>
-            </tr>
-          </thead>
-          <tbody>
-              @php
-                  $no = 1
-              @endphp
-              @foreach ($users as $user)
+            <thead>
               <tr>
-                <th scope="row">{{$no++}}</th>
-                <td>{{$user->name}}</td>
-                <td>{{$user->nik}}</td>
-                <td>{{$user->alamat}}</td>
-                <td>{{$user->phone}}</td>
-                <td><img src="{{url('user_photo/'.$user->photo_identitas)}}" width="80px" alt=""></td>
-                <td>
-                    <a href="{{route('user.edit',$user->id)}}"><i data-feather="edit"></i></a>
-                    <form action="{{route('user.delete', $user -> id)}}" method="post">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger">
-                            <i data-feather="trash"></i>
-                        </button>
-                    </form>
-                </td>
+                <th scope="col">id</th>
+                {{-- user id --}}
+                <th scope="col">pengguna</th>
+                <th scope="col">tanggal mulai</th>
+                <th scope="col">tanggal akhir</th>
+                <th scope="col">catatan renovasi</th>
+                <th scope="col">detail foto</th>
+                <th scope="col">aksi</th>
               </tr>
-              @endforeach
+            </thead>
+            <tbody>
+                @php
+                    $no = 1
+                @endphp
+                 @foreach ($users as $user)
+                <tr>
+                  <th scope="row">{{$no++}}</th>
+                  <td>{{$user->name}}</td>
+                  <td>{{$user->nik}}</td>
+                  <td>{{$user->alamat}}</td>
+                  <td>{{$user->phone}}</td>
+                  <td><img src="{{url('user_photo/'.$user->photo_identitas)}}" width="80px" alt=""></td>
+                  <td>
+                      <a href="{{route('user.edit',$user->id)}}"><i data-feather="edit"></i></a>
+                      <form action="{{route('user.delete', $user -> id)}}" method="post">
+                          @csrf
+                          @method('DELETE')
+                          <button type="submit" class="btn btn-danger">
+                              <i data-feather="trash"></i>
+                          </button>
+                      </form>
+                  </td>
+                </tr>
+                @endforeach
 
 
-          </tbody>
-        </table>
+            </tbody>
+          </table>
     </div>
 </div>
 @endsection

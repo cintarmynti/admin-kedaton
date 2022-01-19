@@ -8,7 +8,7 @@
       </li>
 
       <li class="{{ Request::is('user') ? 'active-page' : '' }}">
-        <a href="{{route('user')}}"><i data-feather="inbox"></i>Penghuni</a>
+        <a href="{{route('user')}}"><i data-feather="inbox"></i>User</a>
       </li>
       <li class="{{ Request::is('listing') ? 'active-page' : '' }}">
         <a href="{{route('listing')}}"><i data-feather="calendar"></i>Listing</a>
@@ -20,6 +20,10 @@
 
       <li class="{{ Request::is('promo') ? 'active-page' : '' }}" class="active-page">
         <a href="{{route('promo')}}"><i data-feather="home"></i>Promo</a>
+      </li>
+
+      <li class="{{ Request::is('blog') ? 'active-page' : '' }}" class="active-page">
+        <a href="{{route('blog')}}"><i data-feather="home"></i>Blog</a>
       </li>
 
       <li class="{{ Request::is('renovasi') ? 'active-page' : '' }}">

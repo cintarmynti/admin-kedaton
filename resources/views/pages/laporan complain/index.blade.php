@@ -5,16 +5,18 @@
     <div class="card-body">
         <h5 class="card-title">Daftar Complain</h5>
         <p class="card-description">
-            {{-- <a class="btn btn-primary" href="{{route('complain.create')}}">Tambah <Complain></Complain></a> --}}
+            <a class="btn btn-primary" href="{{route('complain.create')}}">Tambah Complain</a>
         </p>
         <table class="table" id="myTable">
           <thead>
             <tr>
               <th scope="col">id</th>
               {{-- user id --}}
-              <th scope="col">Rumah</th>
               <th scope="col">User</th>
+              <th scope="col">Pesan komplain</th>
               <th scope="col">detail foto</th>
+
+
               <th scope="col">aksi</th>
             </tr>
           </thead>
@@ -27,9 +29,10 @@
                 <th scope="row">{{$no++}}</th>
                 <td>{{$com->user->name}}</td>
                 <td>{{$com->pesan_complain}}</td>
+                {{-- {{$com->id}} --}}
                 <td>detail foto</td>
                 <td>
-                    {{-- <a href="{{route('complain.edit',$com->id)}}"><i data-feather="edit"></i></a> --}}
+                    <a href="{{route('complain.edit',$com->id)}}"><i data-feather="edit"></i></a>
                     <form action="{{route('complain.delete', $com -> id)}}" method="post">
                         @csrf
                         @method('DELETE')

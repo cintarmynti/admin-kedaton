@@ -122,7 +122,8 @@ class ListingController extends Controller
 
         foreach($image as $img){
             $img->delete();
-            unlink();
+            $image_path = public_path().'/files/'.$img->image;
+            unlink($image_path);
         }
         $post->delete();
 

@@ -5,7 +5,7 @@
     <div class="card-body">
         <h5 class="card-title">Daftar Renovasi</h5>
         <p class="card-description">
-            {{-- <a class="btn btn-primary" href="{{route('renovasi.create')}}">Tambah <renovasi></renovasi></a> --}}
+            <a class="btn btn-primary" href="{{route('renovasi.create')}}">Tambah renovasi</a>
         </p>
         <table class="table" id="myTable">
           <thead>
@@ -16,6 +16,7 @@
               <th scope="col">tanggal mulai</th>
               <th scope="col">tanggal akhir</th>
               <th scope="col">catatan renovasi</th>
+              <th scope="col">catatan biasa</th>
               <th scope="col">detail foto</th>
               <th scope="col">aksi</th>
             </tr>
@@ -31,9 +32,11 @@
                 <td>{{$com->tanggal_mulai}}</td>
                 <td>{{$com->tanggal_akhir}}</td>
                 <td>{{$com->catatan_renovasi}}</td>
+                <td>{{$com->catatan_biasa}}</td>
+
                 <td>detail foto</td>
                 <td>
-                    {{-- <a href="{{route('renovasi.edit',$com->id)}}"><i data-feather="edit"></i></a> --}}
+                    <a href="{{route('renovasi.edit',$com->id)}}"><i data-feather="edit"></i></a>
                     <form action="{{route('renovasi.delete', $com -> id)}}" method="post">
                         @csrf
                         @method('DELETE')
