@@ -120,4 +120,11 @@ class BlogController extends Controller
                 ]);
         }
     }
+
+    public function detail($id){
+        $blog = Blog::findOrFail($id);
+        $image = blog_image::where('blog_id', $id)->get();
+        // dd($image);
+        return view('pages.blog.detail', ['blog' => $blog, 'image' => $image]);
+    }
 }
