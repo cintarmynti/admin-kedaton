@@ -15,8 +15,8 @@ class CreateIuranTable extends Migration
     {
         Schema::create('iuran', function (Blueprint $table) {
             $table->id();
-            $table->string('nama pembayaran');
-            $table->string('jumlah uang');
+            $table->string('nama_pembayaran');
+            $table->string('jumlah_uang');
             $table->timestamps();
         });
     }

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateComplainTable extends Migration
+class CreateListingImageTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,10 @@ class CreateComplainTable extends Migration
      */
     public function up()
     {
-        Schema::create('complain', function (Blueprint $table) {
+        Schema::create('listing_image', function (Blueprint $table) {
             $table->id();
-            $table->string('pesan_complain');
+            $table->string('image');
+            $table->string('listing_image');
             $table->timestamps();
         });
     }
@@ -27,6 +28,6 @@ class CreateComplainTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('complain');
+        Schema::dropIfExists('listing_image');
     }
 }

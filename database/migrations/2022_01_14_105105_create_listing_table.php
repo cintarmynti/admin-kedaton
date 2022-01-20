@@ -26,6 +26,7 @@ class CreateListingTable extends Migration
             $table->integer('user_id_penghuni');
             $table->integer('user_id_pemilik');
             $table->string('status');
+            $table->integer('cluster_id');
             $table->string('harga')->nullable();
             $table->timestamps();
         });
