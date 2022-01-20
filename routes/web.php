@@ -45,6 +45,8 @@ Route::post('/blog/store', [BlogController::class, 'store'])->name('blog.store')
 Route::delete('/blog/delete/{id}', [BlogController::class, 'delete'])->name('blog.delete');
 Route::get('/blog/edit/{id}', [BlogController::class, 'edit'])->name('blog.edit');
 Route::put('/blog/update/{id}', [BlogController::class, 'update'])->name('blog.update');
+Route::get('/blog/detail/{id}', [BlogController::class, 'detail'])->name('blog.detail');
+
 
 Route::get('/listing', [ListingController::class, 'index'])->name('listing');
 Route::get('/listing/create', [ListingController::class, 'create'])->name('listing.create');
@@ -81,6 +83,8 @@ Route::post('/renovasi/store', [RenovasiController::class, 'store'])->name('reno
 Route::delete('/renovasi/delete/{id}', [RenovasiController::class, 'delete'])->name('renovasi.delete');
 Route::get('/renovasi/edit/{id}', [RenovasiController::class, 'edit'])->name('renovasi.edit');
 Route::put('/renovasi/update/{id}', [RenovasiController::class, 'update'])->name('renovasi.update');
+Route::get('/renovasi/detail/{id}', [RenovasiController::class, 'detail'])->name('renovasi.detail');
+
 
 Route::get('/complain', [LaporanComplainController::class, 'index'])->name('complain');
 Route::get('/complain/create', [LaporanComplainController::class, 'create'])->name('complain.create');
@@ -88,6 +92,8 @@ Route::post('/complain/store', [LaporanComplainController::class, 'store'])->nam
 Route::delete('/complain/delete/{id}', [LaporanComplainController::class, 'delete'])->name('complain.delete');
 Route::get('/complain/edit/{id}', [LaporanComplainController::class, 'edit'])->name('complain.edit');
 Route::put('/complain/update/{id}', [LaporanComplainController::class, 'update'])->name('complain.update');
+Route::get('/complain/detail/{id}', [LaporanComplainController::class, 'detail'])->name('complain.detail');
+
 
 Route::get('/panic-button', [LaporanPanicButtonController::class, 'index'])->name('panic');
 Route::get('/panic-button/create', [LaporanPanicButtonController::class, 'create'])->name('panic.create');

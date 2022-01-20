@@ -30,7 +30,7 @@
                 <td>{{$com->user->name}}</td>
                 <td>{{$com->pesan_complain}}</td>
                 {{-- {{$com->id}} --}}
-                <td>detail foto</td>
+                <td><a href="{{route('complain.detail', $com->id)}}">lihat detail</a></td>
                 <td>
                     <a href="{{route('complain.edit',$com->id)}}"><i data-feather="edit"></i></a>
                     <form action="{{route('complain.delete', $com -> id)}}" method="post">

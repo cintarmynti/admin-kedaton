@@ -119,4 +119,11 @@ class RenovasiController extends Controller
                 ]);
         }
     }
+
+    public function detail($id){
+        $renovasi = Renovasi::findOrFail($id);
+        $image = renovasi_image::where('renovasi_id', $id)->get();
+        // dd($image);
+        return view('pages.otoritas renovasi.detail', ['renovasi' => $renovasi, 'image' => $image]);
+    }
 }

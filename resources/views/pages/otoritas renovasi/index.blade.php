@@ -34,7 +34,7 @@
                 <td>{{$com->catatan_renovasi}}</td>
                 <td>{{$com->catatan_biasa}}</td>
 
-                <td>detail foto</td>
+                <td><a href="{{route('renovasi.detail', $com->id)}}">lihat detail</a></td>
                 <td>
                     <a href="{{route('renovasi.edit',$com->id)}}"><i data-feather="edit"></i></a>
                     <form action="{{route('renovasi.delete', $com -> id)}}" method="post">

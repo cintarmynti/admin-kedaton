@@ -129,4 +129,11 @@ class LaporanComplainController extends Controller
                 ]);
         }
     }
+
+    public function detail($id){
+        $complain = Complain::findOrFail($id);
+        $image = complain_image::where('complain_id', $id)->get();
+        // dd($image);
+        return view('pages.laporan complain.detail', ['complain' => $complain, 'image' => $image]);
+    }
 }
