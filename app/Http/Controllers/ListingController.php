@@ -92,9 +92,10 @@ class ListingController extends Controller
 
     public function detail($id){
         $listing = Listing::with('user_penghuni', 'user_pemilik')->where('id', $id)->first();
+        $image = listing_image::where('listing_id', $id)->get();
         // $listing = Listing::findOrFail($id);
         // dd($listing);
-        return view('pages.listing.detail',['listing' => $listing]);
+        return view('pages.listing.detail',['listing' => $listing, 'image' =>$image]);
     }
 
     public function edit($id){

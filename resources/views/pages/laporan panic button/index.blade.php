@@ -22,16 +22,16 @@
               @php
                   $no = 1
               @endphp
-              {{-- @foreach ($panic as $pan) --}}
+              @foreach ($panic as $pan)
               <tr>
                 <th scope="row">{{$no++}}</th>
-                {{-- <td>{{$pan->user->name}}</td>
-                <td>{{$pan->listing->alamat}}</td> --}}
+                <td>{{$pan->user->name}}</td>
+                <td>{{$pan->listing->alamat}}</td>
 
 
                 <td>
                     {{-- <a href="{{route('complain.edit',$com->id)}}"><i data-feather="edit"></i></a> --}}
-                    <form action="" method="post">
+                    <form action="{{route('panic.delete', $pan->id)}}" method="post">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-danger">
@@ -40,7 +40,7 @@
                     </form>
                 </td>
               </tr>
-              {{-- @endforeach --}}
+              @endforeach
 
 
           </tbody>

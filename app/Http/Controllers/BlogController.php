@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\Blog;
+use App\Models\blog_image;
 use Illuminate\Http\Request;
 
 class BlogController extends Controller
@@ -19,8 +20,33 @@ class BlogController extends Controller
         $blog = new Blog();
         $blog-> judul = $request-> judul;
         $blog-> desc = $request-> desc;
-
+        if($request->hasFile('photo_header'))
+        {
+            $file = $request->file('photo_header');
+            $extention = $file->getClientOriginalExtension();
+            $filename=time().'.'.$extention;
+            $file->move('blog_image',$filename);
+            $blog->gambar=$filename;
+        }
         $blog->save();
+
+        $files = [];
+        if($request->hasfile('image'))
+         {
+            foreach($request->file('image') as $file)
+            {
+                $name = time().rand(1,100).'.'.$file->extension();
+                $file->move(public_path('blog_image'), $name);
+                $files[] = $name;
+
+                $file= new blog_image();
+                $file->blog_id = $blog->id;
+                $file->image = $name;
+                $file->save();
+            }
+         }
+
+
 
         if ($blog) {
             return redirect()
@@ -67,6 +93,17 @@ class BlogController extends Controller
 
     public function delete($id){
         $post = Blog::findOrFail($id);
+
+        $image_path = public_path().'/blog_image/'.$post->gambar;
+        unlink($image_path);
+
+        $image = blog_image::where('blog_id', $post->id)->get();
+
+        foreach($image as $img){
+            $img->delete();
+            $image_path = public_path().'/blog_image/'.$img->image;
+            unlink($image_path);
+        }
         $post->delete();
 
         if ($post) {

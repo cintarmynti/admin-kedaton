@@ -78,6 +78,16 @@
             </div>
         </div>
 
+        <div class="row mt-4">
+            @foreach ($image as $item)
+            <div class="col">
+                <img src="{{url('files/'.$item->image)}}" width="200px" height="200px" alt="">
+
+            </div>
+            @endforeach
+
+        </div>
+
     </div>
 </div>
 @endsection

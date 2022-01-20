@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Renovasi;
+use App\Models\renovasi_image;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -28,6 +29,22 @@ class RenovasiController extends Controller
         $renovasi-> catatan_biasa = $request->catatan_biasa;
 
         $renovasi->save();
+
+        $files = [];
+        if($request->hasfile('image'))
+         {
+            foreach($request->file('image') as $file)
+            {
+                $name = time().rand(1,100).'.'.$file->extension();
+                $file->move(public_path('renovasi_Image'), $name);
+                $files[] = $name;
+
+                $file= new renovasi_image();
+                $file->renovasi_id = $renovasi->id;
+                $file->image = $name;
+                $file->save();
+            }
+         }
 
         if ($renovasi) {
             return redirect()
@@ -79,6 +96,13 @@ class RenovasiController extends Controller
 
     public function delete($id){
         $post = Renovasi::findOrFail($id);
+        $image = renovasi_image::where('renovasi_id', $post->id)->get();
+
+        foreach($image as $img){
+            $img->delete();
+            $image_path = public_path().'/renovasi_image/'.$img->image;
+            unlink($image_path);
+        }
         $post->delete();
 
         if ($post) {

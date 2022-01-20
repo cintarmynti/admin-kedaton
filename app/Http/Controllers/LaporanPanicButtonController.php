@@ -25,7 +25,22 @@ class LaporanPanicButtonController extends Controller
 
     }
 
-    public function delete(){
+    public function delete($id){
+        $post = PanicButton::findOrFail($id);
+        $post->delete();
 
+        if ($post) {
+            return redirect()
+                ->route('panic')
+                ->with([
+                    'success' => 'Post has been deleted successfully'
+                ]);
+        } else {
+            return redirect()
+                ->route('panic')
+                ->with([
+                    'error' => 'Some problem has occurred, please try again'
+                ]);
+        }
     }
 }

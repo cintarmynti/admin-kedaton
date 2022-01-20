@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Complain;
+use App\Models\complain_image;
 use Illuminate\Http\Request;
 use App\Models\User;
 
@@ -25,6 +26,22 @@ class LaporanComplainController extends Controller
         $complain-> pesan_complain = $request-> pesan_complain;
 
         $complain->save();
+
+        $files = [];
+        if($request->hasfile('image'))
+         {
+            foreach($request->file('image') as $file)
+            {
+                $name = time().rand(1,100).'.'.$file->extension();
+                $file->move(public_path('complain_image'), $name);
+                $files[] = $name;
+
+                $file= new complain_image();
+                $file->complain_id = $complain->id;
+                $file->image = $name;
+                $file->save();
+            }
+         }
 
         if ($complain) {
             return redirect()
@@ -89,6 +106,13 @@ class LaporanComplainController extends Controller
 
     public function delete($id){
         $post = Complain::findOrFail($id);
+        $image = complain_image::where('complain_id', $post->id)->get();
+
+        foreach($image as $img){
+            $img->delete();
+            $image_path = public_path().'/complain_image/'.$img->image;
+            unlink($image_path);
+        }
         $post->delete();
 
         if ($post) {

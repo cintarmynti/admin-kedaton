@@ -19,8 +19,11 @@
 
             <div class="row mt-4">
                 <div class="col">
-                    <label for="">Foto Header</label>
-                  <input type="file" class="form-control" name="photo_identitas" placeholder="photo identitas" aria-label="First name">
+                    <div>
+                        <label for="">Foto Header</label>
+                    </div>
+
+                  <input type="file" class="form-control" name="photo_header" placeholder="photo identitas" aria-label="First name">
                 </div>
             </div>
 
