@@ -5,11 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class UserController extends Controller
 {
     public function index(){
-        $users = User::all();
+        $users = User::where('user_status', 'pengguna')->get();
         return view('pages.user.index', ['users' => $users]);
     }
 
@@ -26,6 +27,7 @@ class UserController extends Controller
         $user->nik = $request->nik;
         $user->alamat=$request->alamat;
         $user->phone = $request->phone;
+        $user->user_status = 'pengguna';
         if($request->hasFile('photo_identitas'))
         {
             $file = $request->file('photo_identitas');
@@ -37,18 +39,13 @@ class UserController extends Controller
         $user->save();
 
         if ($user) {
+            Alert::success('Data berhasil disimpan');
             return redirect()
-                ->route('user')
-                ->with([
-                    'success' => 'New post has been created successfully'
-                ]);
+                ->route('user');
         } else {
             return redirect()
                 ->back()
-                ->withInput()
-                ->with([
-                    'error' => 'Some problem occurred, please try again'
-                ]);
+                ->withInput();
         }
     }
 
@@ -64,6 +61,7 @@ class UserController extends Controller
         $user->nik = $request->nik;
         $user->alamat=$request->alamat;
         $user->phone = $request->phone;
+        $user->user_status = 'pengguna';
         if($request->hasFile('photo_identitas'))
         {
             $destination = public_path().'/user_photo/'.$user->photo_identitas;;

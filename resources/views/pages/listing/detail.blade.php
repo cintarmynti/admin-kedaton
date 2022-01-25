@@ -44,7 +44,7 @@
 
         <div class="row mt-4">
             <div class="col">
-                <p>luas tanah</p>
+                <p>luas kavling</p>
                 <p>{{$listing -> luas_tanah}}</p>
             </div>
 
@@ -76,6 +76,15 @@
                 <p>harga</p>
                 <p>{{$listing -> harga}}</p>
             </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col">
+                <p>Biaya IPKL</p>
+                <p>Rp {{number_format($listing -> tarif_ipkl,2,',','.')}}</p>
+
+            </div>
+
         </div>
 
         <div class="row mt-4">

@@ -30,8 +30,9 @@
                 <td>{{$com->desc}}</td>
                 <td><img src="{{url('blog_image/'.$com->gambar)}}" width="200px" alt=""></td>
                 <td> <a href="{{route('blog.detail', $com->id)}}">lihat detail</a></td>
-                <td>
-                    <a href="{{route('blog.edit',$com->id)}}"><i data-feather="edit"></i></a>
+                <td >
+                    <div class="d-flex">
+                        <a class="btn btn-warning" href="{{route('blog.edit',$com->id)}}"><i data-feather="edit"></i></a>
                     <form action="{{route('blog.delete', $com -> id)}}" method="post">
                         @csrf
                         @method('DELETE')
@@ -39,6 +40,8 @@
                             <i data-feather="trash"></i>
                         </button>
                     </form>
+                    </div>
+
                 </td>
               </tr>
               @endforeach

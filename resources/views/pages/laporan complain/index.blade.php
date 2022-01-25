@@ -31,8 +31,8 @@
                 <td>{{$com->pesan_complain}}</td>
                 {{-- {{$com->id}} --}}
                 <td><a href="{{route('complain.detail', $com->id)}}">lihat detail</a></td>
-                <td>
-                    <a href="{{route('complain.edit',$com->id)}}"><i data-feather="edit"></i></a>
+                <td class="d-flex">
+                    <a class="btn btn-warning" href="{{route('complain.edit',$com->id)}}"><i data-feather="edit"></i></a>
                     <form action="{{route('complain.delete', $com -> id)}}" method="post">
                         @csrf
                         @method('DELETE')

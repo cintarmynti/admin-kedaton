@@ -26,16 +26,20 @@ use App\Http\Controllers\ClusterController;
 |
 */
 
-Route::get('/', function () {
-    return redirect('/dashboard');
-});
+
+
+Route::group(['middleware' => 'auth'], function(){
+
+    Route::get('/', function () {
+        return redirect('/dashboard');
+    });
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 
 Route::get('/user', [UserController::class, 'index'])->name('user');
 Route::get('/user/create', [UserController::class, 'create'])->name('user.create');
 Route::post('/user/store', [UserController::class, 'store'])->name('user.store');
-Route::delete('/user/delete/{id}', [UserController::class, 'delete'])->name('user.delete');
+Route::get('/user/delete/{id}', [UserController::class, 'delete'])->name('user.delete');
 Route::get('/user/edit/{id}', [UserController::class, 'edit'])->name('user.edit');
 Route::put('/user/update/{id}', [UserController::class, 'update'])->name('user.update');
 
@@ -52,7 +56,7 @@ Route::get('/listing', [ListingController::class, 'index'])->name('listing');
 Route::get('/listing/create', [ListingController::class, 'create'])->name('listing.create');
 Route::post('/listing/store', [ListingController::class, 'store'])->name('listing.store');
 Route::get('/listing/detail/{id}', [ListingController::class, 'detail'])->name('listing.detail');
-Route::delete('/listing/delete/{id}', [ListingController::class, 'delete'])->name('listing.delete');
+Route::get('/listing/delete/{id}', [ListingController::class, 'delete'])->name('listing.delete');
 Route::get('/listing/edit/{id}', [ListingController::class, 'edit'])->name('listing.edit');
 Route::put('/listing/update/{id}', [ListingController::class, 'update'])->name('listing.update');
 
@@ -122,3 +126,10 @@ Route::post('/cluster/store', [ClusterController::class, 'store'])->name('cluste
 Route::delete('/cluster/delete/{id}', [ClusterController::class, 'delete'])->name('cluster.delete');
 Route::get('/cluster/edit/{id}', [ClusterController::class, 'edit'])->name('cluster.edit');
 Route::put('/cluster/update/{id}', [ClusterController::class, 'update'])->name('cluster.update');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+});
+
+Auth::routes();
+
+

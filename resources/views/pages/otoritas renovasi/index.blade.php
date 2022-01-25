@@ -35,8 +35,8 @@
                 <td>{{$com->catatan_biasa}}</td>
 
                 <td><a href="{{route('renovasi.detail', $com->id)}}">lihat detail</a></td>
-                <td>
-                    <a href="{{route('renovasi.edit',$com->id)}}"><i data-feather="edit"></i></a>
+                <td class="d-flex">
+                    <a class="btn btn-warning" href="{{route('renovasi.edit',$com->id)}}"><i data-feather="edit"></i></a>
                     <form action="{{route('renovasi.delete', $com -> id)}}" method="post">
                         @csrf
                         @method('DELETE')

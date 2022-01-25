@@ -21,6 +21,7 @@ class Listing extends Model
         'user_id_penghuni',
         'user_id_pemilik',
         'status',
+        'tarif_ipkl',
         'harga'
     ];
 

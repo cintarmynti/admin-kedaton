@@ -13,10 +13,10 @@
                 <th scope="col">id</th>
                 {{-- user id --}}
                 <th scope="col">pengguna</th>
-                <th scope="col">tanggal mulai</th>
-                <th scope="col">tanggal akhir</th>
-                <th scope="col">catatan renovasi</th>
-                <th scope="col">detail foto</th>
+                <th scope="col">nik</th>
+                <th scope="col">alamat</th>
+                <th scope="col">No telp</th>
+                <th scope="col">detail Photo</th>
                 <th scope="col">aksi</th>
               </tr>
             </thead>
@@ -32,15 +32,13 @@
                   <td>{{$user->alamat}}</td>
                   <td>{{$user->phone}}</td>
                   <td><img src="{{url('user_photo/'.$user->photo_identitas)}}" width="80px" alt=""></td>
-                  <td>
-                      <a href="{{route('user.edit',$user->id)}}"><i data-feather="edit"></i></a>
-                      <form action="{{route('user.delete', $user -> id)}}" method="post">
-                          @csrf
-                          @method('DELETE')
-                          <button type="submit" class="btn btn-danger">
+                  <td class="d-flex">
+                      <a class="btn btn-warning" href="{{route('user.edit',$user->id)}}"><i data-feather="edit"></i></a>
+
+                          <button type="submit" class="btn btn-danger delete" data-id="{{$user->id}}" data-nama="">
                               <i data-feather="trash"></i>
                           </button>
-                      </form>
+
                   </td>
                 </tr>
                 @endforeach
@@ -66,5 +64,28 @@
       $(document).ready( function () {
         $('#myTable').DataTable();
       });
+    </script>
+    <script>
+        $('.delete').click(function(){
+            var userId = $(this).attr('data-id')
+            swal({
+                title: "yakin menghapus?",
+                text: "data yang sudah dihapus tidak akan ditampilkan!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then((willDelete) => {
+                if (willDelete) {
+                    window.location = "/user/delete/"+userId;
+                    swal("data berhasil dihapus!", {
+                        icon: "success",
+                    });
+                } else {
+                    swal("data anda batal dihapus!");
+                }
+            });
+        });
+
     </script>
 @endpush

@@ -14,6 +14,8 @@
               <th scope="col">judul</th>
               <th scope="col">link</th>
               <th scope="col">foto</th>
+              <th scope="col">aksi</th>
+
             </tr>
           </thead>
           <tbody>
@@ -26,8 +28,8 @@
                 <td>{{$bnr->judul}}</td>
                 <td>{{$bnr->link}}</td>
                 <td><img src="{{url('banner_photo/'.$bnr->foto)}}" width="80px" alt=""></td>
-                <td>
-                    <a href="{{route('banner.edit',$bnr->id)}}"><i data-feather="edit"></i></a>
+                <td class="d-flex">
+                    <a class="btn btn-warning" href="{{route('banner.edit',$bnr->id)}}"><i data-feather="edit"></i></a>
                     <form action="{{route('banner.delete', $bnr -> id)}}" method="post">
                         @csrf
                         @method('DELETE')

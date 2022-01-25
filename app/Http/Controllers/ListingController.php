@@ -5,9 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Cluster;
 use App\Models\Listing;
 use App\Models\listing_image;
+use App\Models\tarif_ipkl;
 use App\Models\User;
 use Illuminate\Http\Request;
+use DB;
 use Symfony\Component\Console\Input\Input;
+use Alert;
 
 class ListingController extends Controller
 {
@@ -30,12 +33,16 @@ class ListingController extends Controller
         $listing-> RW = $request-> RW;
         $listing-> lantai = $request->lantai;
         $listing->jumlah_kamar = $request->jumlah_kamar;
-        $listing-> luas_tanah = $request->luas_tanah;
+        $listing-> luas_tanah = $request->luas_tanah; //ini luas kavling
         $listing->luas_bangunan = $request->luas_bangunan;
         $listing-> user_id_penghuni = $request->penghuni;
         $listing->user_id_pemilik = $request->pemilik;
         $listing-> status = $request->status;
         $listing->harga = $request->harga;
+
+        $ipkl = tarif_ipkl::where('luas_kavling_awal', '<=', $request-> luas_tanah)->where('luas_kavling_akhir', '>=', $request-> luas_tanah)->first()->tarif;
+
+        $listing->tarif_ipkl = $ipkl * $request-> luas_tanah;
 
         $cluster = Cluster::where('name', '=', $request->cluster_id)->first();
         // dd($cluster);
@@ -75,6 +82,8 @@ class ListingController extends Controller
 
 
         if ($listing) {
+            Alert::success('Data berhasil disimpan');
+
             return redirect()
                 ->route('listing')
                 ->with([
