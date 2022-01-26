@@ -107,7 +107,7 @@
                     <div class="col">
                         <label for="formGroupExampleInput" class="form-label">Harga</label>
 
-                        <input type="number" required class="form-control money" onkeyup="onchange_comma(this.id, this.value)" name="harga" placeholder="harga(optional)">
+                        <input type="text" required class="form-control money" id="harga" onkeyup="onchange_comma(this.id, this.value)" name="harga" placeholder="harga(optional)">
                     </div>
                 </div>
 
@@ -173,8 +173,10 @@
             });
         });
     </script>
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js" defer></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
+
     <script>
         $(document).ready(function() {
             $('.select2').select2({
@@ -182,12 +184,15 @@
                 theme: 'bootstrap4',
                 tags: true
             })
+
+            // alert('halo');
         })
 
         function onchange_comma(id, value) {
             var x = numeral($("#" + id).val()).format('0,0');
             $("#" + id).val(x);
         }
+
     </script>
 
 

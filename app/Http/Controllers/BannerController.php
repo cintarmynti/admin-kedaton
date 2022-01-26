@@ -76,6 +76,7 @@ class BannerController extends Controller
         $banner->update();
 
         if ($banner) {
+            Alert::success('Data berhasil diupdate');
             return redirect()
                 ->route('banner')
                 ->with([

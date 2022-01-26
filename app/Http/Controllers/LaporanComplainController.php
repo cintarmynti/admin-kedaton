@@ -92,7 +92,7 @@ class LaporanComplainController extends Controller
         $complain->update();
 
         if ($complain) {
-
+            Alert::success('Data berhasil diupdate');
             return redirect()
                 ->route('complain')
                 ->with([

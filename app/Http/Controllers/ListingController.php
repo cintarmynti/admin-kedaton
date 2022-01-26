@@ -135,6 +135,7 @@ class ListingController extends Controller
         $listing->update();
 
         if ($listing) {
+            Alert::success('Data berhasil diupdate');
             return redirect()
                 ->route('listing')
                 ->with([

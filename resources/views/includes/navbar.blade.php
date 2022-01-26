@@ -8,7 +8,7 @@
       </ul>
       </div>
       <div class="logo">
-        <a class="navbar-brand" href="index.html"></a>
+       <img src="{{asset('assets/images/kedaton-logo.png')}}" height="40px" alt="">
       </div>
       <div class="" id="headerNav">
         <ul class="navbar-nav">

@@ -31,9 +31,11 @@
 
             <div class="row mt-4">
                 <div class="col-md-6">
-                    <label for="formGroupExampleInput" class="form-label">Foto Pengguna</label>
+                    <label for="formGroupExampleInput" class="form-label ">Foto Pengguna</label>
                   <input type="file" required class="form-control" name="photo_identitas" placeholder="photo identitas" aria-label="First name">
                 </div>
+                <img id="preview-image" src=""
+                      alt="preview image" style="max-height: 250px;">
             </div>
                 <a href="{{route('user')}}" class="btn btn-warning mt-4">kembali</a>
                 <button type="submit"  class="btn btn-primary ml-4 mt-4">Simpan</a>
@@ -42,3 +44,17 @@
     </div>
 </div>
 @endsection
+
+@push('after-script')
+<script type="text/javascript">
+    $('#image').change(function(){
+
+    let reader = new FileReader();
+    reader.onload = (e) => {
+      $('#preview-image').attr('src', e.target.result);
+    }
+    reader.readAsDataURL(this.files[0]);
+
+   });
+  </script>
+@endpush

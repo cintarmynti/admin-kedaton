@@ -83,6 +83,7 @@ class RenovasiController extends Controller
         $renovasi->update();
 
         if ($renovasi) {
+            Alert::success('Data berhasil diupdate');
             return redirect()
                 ->route('renovasi')
                 ->with([

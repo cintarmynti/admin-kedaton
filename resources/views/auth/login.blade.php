@@ -42,7 +42,7 @@
                     <div class="card login-box-container">
                         <div class="card-body">
                             <div class="authent-logo">
-                                <img src="{{asset('assets/images/logo@2x.png')}}" alt="">
+                                <img src="{{asset('assets/images/kedaton-logo.png')}}" height="40px" alt="">
                             </div>
                             <div class="authent-text">
 

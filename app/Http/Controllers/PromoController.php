@@ -34,7 +34,7 @@ class PromoController extends Controller
         $promo->save();
 
         if ($promo) {
-            Alert::success('Data berhasil disimpan');
+            Alert::success('Data berhasil diupdate');
             return redirect()
                 ->route('promo')
                 ->with([

@@ -79,6 +79,7 @@ class UserController extends Controller
         $user->update();
 
         if ($user) {
+            Alert::success('Data berhasil diupdate');
             return redirect()
                 ->route('user')
                 ->with([

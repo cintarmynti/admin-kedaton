@@ -79,6 +79,7 @@ class BlogController extends Controller
         $blog->update();
 
         if ($blog) {
+            Alert::success('Data berhasil diupdate');
             return redirect()
                 ->route('blog')
                 ->with([
