@@ -37,13 +37,11 @@
                 <td><a href="{{route('renovasi.detail', $com->id)}}">lihat detail</a></td>
                 <td class="d-flex">
                     <a class="btn btn-warning" href="{{route('renovasi.edit',$com->id)}}"><i data-feather="edit"></i></a>
-                    <form action="{{route('renovasi.delete', $com -> id)}}" method="post">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger">
+
+                        <button type="submit" data-id="{{$com->id}}" class="btn btn-danger delete">
                             <i data-feather="trash"></i>
                         </button>
-                    </form>
+
                 </td>
               </tr>
               @endforeach
@@ -69,5 +67,29 @@
       $(document).ready( function () {
         $('#myTable').DataTable();
       });
+
+      $('.delete').click(function() {
+            var userId = $(this).attr('data-id')
+            swal({
+                    title: "yakin menghapus?",
+                    text: "data yang sudah dihapus tidak akan ditampilkan!",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        window.location = "/renovasi/delete/" + userId;
+                        swal("data berhasil dihapus!", {
+                            icon: "success",
+                        });
+                    } else {
+                        swal("data anda batal dihapus!");
+                    }
+                });
+        });
+
     </script>
+
+
 @endpush

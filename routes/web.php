@@ -46,7 +46,7 @@ Route::put('/user/update/{id}', [UserController::class, 'update'])->name('user.u
 Route::get('/blog', [BlogController::class, 'index'])->name('blog');
 Route::get('/blog/create', [BlogController::class, 'create'])->name('blog.create');
 Route::post('/blog/store', [BlogController::class, 'store'])->name('blog.store');
-Route::delete('/blog/delete/{id}', [BlogController::class, 'delete'])->name('blog.delete');
+Route::get('/blog/delete/{id}', [BlogController::class, 'delete'])->name('blog.delete');
 Route::get('/blog/edit/{id}', [BlogController::class, 'edit'])->name('blog.edit');
 Route::put('/blog/update/{id}', [BlogController::class, 'update'])->name('blog.update');
 Route::get('/blog/detail/{id}', [BlogController::class, 'detail'])->name('blog.detail');
@@ -63,14 +63,14 @@ Route::put('/listing/update/{id}', [ListingController::class, 'update'])->name('
 Route::get('/banner', [BannerController::class, 'index'])->name('banner');
 Route::get('/banner/create', [BannerController::class, 'create'])->name('banner.create');
 Route::post('/banner/store', [BannerController::class, 'store'])->name('banner.store');
-Route::delete('/banner/delete/{id}', [BannerController::class, 'delete'])->name('banner.delete');
+Route::get('/banner/delete/{id}', [BannerController::class, 'delete'])->name('banner.delete');
 Route::get('/banner/edit/{id}', [BannerController::class, 'edit'])->name('banner.edit');
 Route::put('/banner/update/{id}', [BannerController::class, 'update'])->name('banner.update');
 
 Route::get('/promo', [PromoController::class, 'index'])->name('promo');
 Route::get('/promo/create', [PromoController::class, 'create'])->name('promo.create');
 Route::post('/promo/store', [PromoController::class, 'store'])->name('promo.store');
-Route::delete('/promo/delete/{id}', [PromoController::class, 'delete'])->name('promo.delete');
+Route::get('/promo/delete/{id}', [PromoController::class, 'delete'])->name('promo.delete');
 Route::get('/promo/edit/{id}', [PromoController::class, 'edit'])->name('promo.edit');
 Route::put('/promo/update/{id}', [PromoController::class, 'update'])->name('promo.update');
 
@@ -84,7 +84,7 @@ Route::put('/promo/update/{id}', [PromoController::class, 'update'])->name('prom
 Route::get('/renovasi', [RenovasiController::class, 'index'])->name('renovasi');
 Route::get('/renovasi/create', [RenovasiController::class, 'create'])->name('renovasi.create');
 Route::post('/renovasi/store', [RenovasiController::class, 'store'])->name('renovasi.store');
-Route::delete('/renovasi/delete/{id}', [RenovasiController::class, 'delete'])->name('renovasi.delete');
+Route::get('/renovasi/delete/{id}', [RenovasiController::class, 'delete'])->name('renovasi.delete');
 Route::get('/renovasi/edit/{id}', [RenovasiController::class, 'edit'])->name('renovasi.edit');
 Route::put('/renovasi/update/{id}', [RenovasiController::class, 'update'])->name('renovasi.update');
 Route::get('/renovasi/detail/{id}', [RenovasiController::class, 'detail'])->name('renovasi.detail');
@@ -93,7 +93,7 @@ Route::get('/renovasi/detail/{id}', [RenovasiController::class, 'detail'])->name
 Route::get('/complain', [LaporanComplainController::class, 'index'])->name('complain');
 Route::get('/complain/create', [LaporanComplainController::class, 'create'])->name('complain.create');
 Route::post('/complain/store', [LaporanComplainController::class, 'store'])->name('complain.store');
-Route::delete('/complain/delete/{id}', [LaporanComplainController::class, 'delete'])->name('complain.delete');
+Route::get('/complain/delete/{id}', [LaporanComplainController::class, 'delete'])->name('complain.delete');
 Route::get('/complain/edit/{id}', [LaporanComplainController::class, 'edit'])->name('complain.edit');
 Route::put('/complain/update/{id}', [LaporanComplainController::class, 'update'])->name('complain.update');
 Route::get('/complain/detail/{id}', [LaporanComplainController::class, 'detail'])->name('complain.detail');

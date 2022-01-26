@@ -9,29 +9,29 @@
             @csrf
             <div class="row">
                 <div class="col">
+                    <label for="">Judul</label>
                   <input type="text" required class="form-control" name="judul" placeholder="judul" aria-label="First name">
                 </div>
                 <div class="col">
+                    <label for="">Deskripsi</label>
                     <textarea class="form-control" placeholder="deskripsi" name="desc" aria-label="With textarea"></textarea>
 
                 </div>
             </div>
 
-            <div class="row mt-4">
-                <div class="col">
-                    <div>
+            <div class="row mt-1 mx-1">
+                <div class="col-md-6">
                         <label for="">Foto Header</label>
-                    </div>
-
                   <input type="file" class="form-control" name="photo_header" placeholder="photo identitas" aria-label="First name">
                 </div>
+
             </div>
 
             <div class="row mt-4">
-
+                <label for="" class="ml-3">Foto Deskripsi</label>
                 <div class="input-group realprocode control-group lst increment" >
-                    <div class="col">
-                        <label for="">Foto deskripsi Blog</label> <br>
+
+                    <div class="col-md-6 d-flex">
                         <input type="file" name="image[]" class="myfrm form-control">
                         <div class="input-group-btn">
                             <button class="btn btn-success" type="button"> <i class="fldemo glyphicon glyphicon-plus"></i>Add</button>
@@ -41,9 +41,9 @@
 
                 </div>
                 <div class="clone hide">
+
                   <div class="realprocode control-group lst input-group" style="margin-top:10px">
-                    <div class="col">
-                        <label for="">Foto deskripsi Blog</label> <br>
+                    <div class="col-md-6 d-flex">
                         <input type="file" name="image[]" class="myfrm form-control">
                         <div class="input-group-btn">
                             <button class="btn btn-danger" type="button"><i class="fldemo glyphicon glyphicon-remove"></i> Remove</button>
@@ -54,6 +54,7 @@
                   </div>
                 </div>
         </div>
+
 
 
                 <a href="{{route('blog')}}" class="btn btn-warning mt-4">kembali</a>

@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\File;
 
 use App\Models\Promo;
 use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
+
 
 class PromoController extends Controller
 {
@@ -32,6 +34,7 @@ class PromoController extends Controller
         $promo->save();
 
         if ($promo) {
+            Alert::success('Data berhasil disimpan');
             return redirect()
                 ->route('promo')
                 ->with([

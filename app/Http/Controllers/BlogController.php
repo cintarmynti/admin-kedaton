@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 use App\Models\Blog;
 use App\Models\blog_image;
 use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
+
 
 class BlogController extends Controller
 {
@@ -49,6 +51,7 @@ class BlogController extends Controller
 
 
         if ($blog) {
+            Alert::success('Data berhasil disimpan');
             return redirect()
                 ->route('blog')
                 ->with([

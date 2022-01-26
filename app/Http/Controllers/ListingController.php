@@ -10,7 +10,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use DB;
 use Symfony\Component\Console\Input\Input;
-use Alert;
+use RealRashid\SweetAlert\Facades\Alert;
+
 
 class ListingController extends Controller
 {
@@ -41,6 +42,8 @@ class ListingController extends Controller
         $listing->harga = $request->harga;
 
         $ipkl = tarif_ipkl::where('luas_kavling_awal', '<=', $request-> luas_tanah)->where('luas_kavling_akhir', '>=', $request-> luas_tanah)->first()->tarif;
+
+        // dd($ipkl);
 
         $listing->tarif_ipkl = $ipkl * $request-> luas_tanah;
 
@@ -110,7 +113,8 @@ class ListingController extends Controller
     public function edit($id){
         $listing = Listing::findOrFail($id);
         $user = User::all();
-        return view('pages.listing.edit', ['listing' => $listing, 'user'=> $user]);
+        $cluster = Cluster::all();
+        return view('pages.listing.edit', ['listing' => $listing, 'user'=> $user, 'cluster' => $cluster]);
     }
 
     public function update(Request $request, $id){

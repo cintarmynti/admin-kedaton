@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Banner;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use RealRashid\SweetAlert\Facades\Alert;
 
 
 class BannerController extends Controller
@@ -33,6 +34,7 @@ class BannerController extends Controller
         $banner->save();
 
         if ($banner) {
+            Alert::success('Data berhasil disimpan');
             return redirect()
                 ->route('banner')
                 ->with([

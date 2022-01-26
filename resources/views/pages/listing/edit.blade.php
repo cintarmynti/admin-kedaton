@@ -4,59 +4,79 @@
 <div class="card">
     <div class="card-body">
         <h5 class="card-title">Edit Listing</h5>
-        <p class="card-description">Listing yang telah ditampilkan akan muncul di halaman listing</p>
+        <p class="card-description">Listing yang telah diedit akan muncul di halaman listing</p>
         <form action="{{route('listing.update', $listing->id)}}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('put')
             <div class="row">
                 <div class="col">
+                    <label for="">Alamat</label>
                   <input type="text" value="{{old('alamat', $listing->alamat)}}" required class="form-control" name="alamat" placeholder="alamat" aria-label="First name">
                 </div>
                 <div class="col">
+                    <label for="">No Rumah</label>
                   <input type="text" value="{{old('no_rumah', $listing->no_rumah)}}" required class="form-control" name="no" placeholder="no" aria-label="Last name">
                 </div>
             </div>
 
             <div class="row mt-4">
                 <div class="col">
+                    <label for="">RT</label>
                   <input type="text" value="{{old('RT', $listing->RT)}}" required class="form-control" name="RT" placeholder="RT" aria-label="First name">
                 </div>
                 <div class="col">
+                    <label for="">RW</label>
                   <input type="text" value="{{old('RW', $listing->RW)}}" required class="form-control" name="RW" placeholder="RW" aria-label="Last name">
                 </div>
             </div>
 
             <div class="row mt-4">
                 <div class="col">
+                    <label for="">Lantai</label>
                   <input type="text" value="{{old('lantai', $listing->lantai)}}" required class="form-control" name="lantai" placeholder="lantai" aria-label="First name">
                 </div>
                 <div class="col">
+                    <label for="">Jumlah Kamar</label>
                   <input type="text" value="{{old('jumlah_kamar', $listing->jumlah_kamar)}}" required class="form-control" name="jumlah_kamar" placeholder="jumlah kamar" aria-label="Last name">
                 </div>
             </div>
 
             <div class="row mt-4">
                 <div class="col">
-                  <input type="text" value="{{old('luas_tanah', $listing->luas_tanah)}}" required class="form-control" name="luas_tanah" placeholder="luas tanah" aria-label="First name">
+                    <label for="">Luas Kavling</label>
+
+                    <div class="input-group mb-3">
+                        <input type="number" value="{{old('luas_tanah', $listing->luas_tanah)}}" min="0" required name="luas_tanah" placeholder="luas kavling" class="form-control" placeholder="luas kavling" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                        <span class="input-group-text" id="basic-addon2">m2</span>
+                      </div>
                 </div>
                 <div class="col">
-                  <input type="text" value="{{old('luas_bangunan', $listing->luas_bangunan)}}" required class="form-control" name="luas_bangunan" placeholder="luas bangunan" aria-label="Last name">
+                    <label for="">Luas Bangunan</label>
+                    <div class="input-group mb-3">
+                        <input type="number" value="{{old('luas_bangunan', $listing->luas_bangunan)}}" min="0" required name="luas_bangunan" placeholder="luas bangunan" class="form-control" placeholder="luas bangunan" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                        <span class="input-group-text" id="basic-addon2">m2</span>
+                      </div>
+
                 </div>
             </div>
 
             <div class="row mt-4">
                 <div class="col">
-                    <select class="form-control" id="type" name="penghuni">
+                    <label for="">Penghuni</label>
+                    <select class="form-select" name="penghuni" aria-label="Default select example">
                         <option disabled selected="">penghuni</option>
-
                         @foreach($user as $lis)
                             <option value="{{ $lis->id }}" {{ $lis->id == $listing->user_id_penghuni ? 'selected' : '' }}>
                                 {{ $lis->name }}
                             </option>
                         @endforeach
-                    </select>
+                      </select>
+
+
                 </div>
                 <div class="col">
+                    <label for="">Pemilik</label>
+
                     <select class="form-select" name="pemilik" aria-label="Default select example">
                         <option disabled selected="">pemilik</option>
                         @foreach($user as $lis)
@@ -70,6 +90,7 @@
 
             <div class="row mt-4">
                 <div class="col">
+                    <label for="">Status Kepemilikan</label>
                     <select class="form-select" name="status" aria-label="Default select example">
                         <option disabled selected="">Status Kepemilikan</option>
                         <option value="dihuni" {{ 'dihuni' == $listing->status ? 'selected' : '' }}>dihuni</option>
@@ -78,7 +99,23 @@
                       </select>
                 </div>
                 <div class="col">
+                    <label for="">Harga</label>
                     <input type="text" value="{{old('harga', $listing->harga)}}" required class="form-control" name="harga" placeholder="harga(optional)" aria-label="Last name">
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-md-6">
+                    <label for="">Pilih Cluster</label>
+                    <select class="form-select" name="status" aria-label="Default select example">
+                        <option disabled selected="">Pilih Cluster</option>
+                        @foreach($cluster as $clu)
+
+                        <option value="{{ $clu->id }}" {{ $clu->id == $listing->cluster_id ? 'selected' : '' }}>
+                            {{ $clu->name }}
+                        </option>
+                        @endforeach
+                      </select>
                 </div>
             </div>
 

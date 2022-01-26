@@ -10,6 +10,7 @@
 
             <div class="row mt-4">
                 <div class="col">
+                    <label for="">Nama User</label>
                     <select class="form-select" name="user_id" aria-label="Default select example">
                         <option disabled selected="">nama user</option>
                         @foreach($user as $role)
@@ -23,25 +24,30 @@
 
             <div class="row mt-4">
                 <div class="col">
+                    <label for="">Tanggal Mulai</label>
                     <input type="date" required class="form-control" placeholder="tanggal mulai" name="tanggal_mulai" placeholder="tanggal mulai" aria-label="Last name">
                   </div>
                 <div class="col">
+                    <label for="">Tanggal Akhir</label>
                     <input type="date" required class="form-control" placeholder="tanggal berakhir" name="tanggal_akhir" placeholder="tanggal akhir" aria-label="Last name">
                 </div>
             </div>
 
             <div class="row mt-4">
                 <div class="col">
+                    <label for="">Catatan Renovasi</label>
                     <textarea class="form-control" placeholder="catatan renovasi" name="catatan_renovasi" aria-label="With textarea"></textarea>
                   </div>
                 <div class="col">
+                    <label for="">Catatan Biasa</label>
                     <textarea class="form-control" placeholder="catatan biasa" name="catatan_biasa"  aria-label="With textarea"></textarea>
                 </div>
             </div>
 
 
-
-            <div class="row mt-4">
+            <div class="col-md-6">
+                <div class="row mt-4">
+                    <label for="">Tambah Gambar</label>
 
                     <div class="input-group realprocode control-group lst increment" >
                       <input type="file" name="image[]" class="myfrm form-control">
@@ -58,6 +64,8 @@
                       </div>
                     </div>
             </div>
+            </div>
+
                 <a href="{{route('renovasi')}}" class="btn btn-warning mt-4">kembali</a>
                 <button type="submit"  class="btn btn-primary ml-4 mt-4">Simpan</a>
         </form>

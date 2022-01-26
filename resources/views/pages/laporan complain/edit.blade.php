@@ -4,12 +4,13 @@
 <div class="card">
     <div class="card-body">
         <h5 class="card-title">Tambahkan Otoritas complain</h5>
-        <p class="card-description">Otoritas complain yang telah ditampilkan akan muncul di halaman complain</p>
+        <p class="card-description">Otoritas complain yang telah diedit akan muncul di halaman complain</p>
         <form action="{{route('complain.update', $complain ->id)}}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <div class="row mt-4">
-                <div class="col">
+                <div class="col-md-6">
+                <label for="">nama</label>
                     <select class="form-select" name="user_id" aria-label="Default select example">
                         <option disabled selected="">nama user</option>
                         @foreach($user as $lis)
@@ -21,35 +22,20 @@
                       </select>
                 </div>
 
-            </div>
-
-            <div class="row mt-4">
-                <div class="col">
+                <div class="col-md-6">
+                    <label for="">Pesan Complain</label>
                     <textarea class="form-control" placeholder="catatan complain" name="pesan_complain" aria-label="With textarea">{{$complain->pesan_complain}}</textarea>
-                  </div>
+                </div>
 
             </div>
 
-
-            <div class="row mt-4">
-
-                    <div class="input-group realprocode control-group lst increment" >
-                      <input type="file" name="image[]" class="myfrm form-control">
-                      <div class="input-group-btn">
-                        <button class="btn btn-success" type="button"> <i class="fldemo glyphicon glyphicon-plus"></i>Add</button>
-                      </div>
-                    </div>
-                    <div class="clone hide">
-                      <div class="realprocode control-group lst input-group" style="margin-top:10px">
-                        <input type="file" name="image[]" class="myfrm form-control">
-                        <div class="input-group-btn">
-                          <button class="btn btn-danger" type="button"><i class="fldemo glyphicon glyphicon-remove"></i> Remove</button>
-                        </div>
-                      </div>
-                    </div>
+            <a href="{{route('complain')}}" class="btn btn-warning mt-4">kembali</a>
+            <button type="submit"  class="btn btn-primary ml-4 mt-4">Simpan</a>
             </div>
-                <a href="{{route('complain')}}" class="btn btn-warning mt-4">kembali</a>
-                <button type="submit"  class="btn btn-primary ml-4 mt-4">Simpan</a>
+            </div>
+
+
+
         </form>
 
     </div>

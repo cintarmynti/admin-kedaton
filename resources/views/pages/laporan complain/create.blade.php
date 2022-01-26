@@ -9,7 +9,8 @@
             @csrf
 
             <div class="row mt-4">
-                <div class="col">
+                <div class="col-md-6">
+                    <label for="">nama</label>
                     <select class="form-select" name="user_id" aria-label="Default select example">
                         <option disabled selected="">nama user</option>
                         @foreach($user as $role)
@@ -18,33 +19,34 @@
 
                       </select>
                 </div>
-
-            </div>
-
-            <div class="row mt-4">
-                <div class="col">
+                <div class="col-md-6">
+                    <label for="">catatan complain</label>
                     <textarea class="form-control" placeholder="catatan complain" name="pesan_complain" aria-label="With textarea"></textarea>
-                  </div>
+                </div>
 
             </div>
 
 
-            <div class="row mt-4">
 
+            <div class="row mt-1">
+                <label for="">Tambahkan Gambar</label>
+                <div class="col-md-6">
                     <div class="input-group realprocode control-group lst increment" >
-                      <input type="file" name="image[]" class="myfrm form-control">
-                      <div class="input-group-btn">
-                        <button class="btn btn-success" type="button"> <i class="fldemo glyphicon glyphicon-plus"></i>Add</button>
-                      </div>
-                    </div>
-                    <div class="clone hide">
-                      <div class="realprocode control-group lst input-group" style="margin-top:10px">
                         <input type="file" name="image[]" class="myfrm form-control">
                         <div class="input-group-btn">
-                          <button class="btn btn-danger" type="button"><i class="fldemo glyphicon glyphicon-remove"></i> Remove</button>
+                          <button class="btn btn-success" type="button"> <i class="fldemo glyphicon glyphicon-plus"></i>Add</button>
                         </div>
                       </div>
-                    </div>
+                      <div class="clone hide">
+                        <div class="realprocode control-group lst input-group" style="margin-top:10px">
+                          <input type="file" name="image[]" class="myfrm form-control">
+                          <div class="input-group-btn">
+                            <button class="btn btn-danger" type="button"><i class="fldemo glyphicon glyphicon-remove"></i> Remove</button>
+                          </div>
+                        </div>
+                      </div>
+                </div>
+
             </div>
                 <a href="{{route('complain')}}" class="btn btn-warning mt-4">kembali</a>
                 <button type="submit"  class="btn btn-primary ml-4 mt-4">Simpan</a>

@@ -6,6 +6,9 @@ use App\Models\Renovasi;
 use App\Models\renovasi_image;
 use App\Models\User;
 use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
+
+
 
 class RenovasiController extends Controller
 {
@@ -47,6 +50,7 @@ class RenovasiController extends Controller
          }
 
         if ($renovasi) {
+            Alert::success('Data berhasil disimpan');
             return redirect()
                 ->route('renovasi')
                 ->with([

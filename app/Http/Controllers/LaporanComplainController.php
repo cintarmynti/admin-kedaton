@@ -6,6 +6,8 @@ use App\Models\Complain;
 use App\Models\complain_image;
 use Illuminate\Http\Request;
 use App\Models\User;
+use RealRashid\SweetAlert\Facades\Alert;
+
 
 class LaporanComplainController extends Controller
 {
@@ -44,6 +46,7 @@ class LaporanComplainController extends Controller
          }
 
         if ($complain) {
+            Alert::success('Data berhasil disimpan');
             return redirect()
                 ->route('complain')
                 ->with([
@@ -89,6 +92,7 @@ class LaporanComplainController extends Controller
         $complain->update();
 
         if ($complain) {
+
             return redirect()
                 ->route('complain')
                 ->with([

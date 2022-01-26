@@ -18,7 +18,7 @@
 
             </tr>
           </thead>
-          <tbody>
+          <tbody id="images">
               @php
                   $no = 1
               @endphp
@@ -27,16 +27,12 @@
                 <th scope="row">{{$no++}}</th>
                 <td>{{$pr->judul}}</td>
                 <td>{{$pr->link}}</td>
-                <td><img src="{{url('promo_photo/'.$pr->foto)}}" width="80px" alt=""></td>
+                <td><img onclick="image()" src="{{url('promo_photo/'.$pr->foto)}}" width="80px" alt=""></td>
                 <td class="d-flex">
                     <a class="btn btn-warning" href="{{route('promo.edit',$pr->id)}}"><i data-feather="edit"></i></a>
-                    <form action="{{route('promo.delete', $pr -> id)}}" method="post">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger">
+                        <button data-id="{{$pr->id}}" type="submit" class="btn btn-danger delete">
                             <i data-feather="trash"></i>
                         </button>
-                    </form>
                 </td>
               </tr>
               @endforeach
@@ -62,5 +58,39 @@
       $(document).ready( function () {
         $('#myTable').DataTable();
       });
+
+      $('.delete').click(function() {
+            var userId = $(this).attr('data-id')
+            swal({
+                    title: "yakin menghapus?",
+                    text: "data yang sudah dihapus tidak akan ditampilkan!",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        window.location = "/promo/delete/" + userId;
+                        swal("data berhasil dihapus!", {
+                            icon: "success",
+                        });
+                    } else {
+                        swal("data anda batal dihapus!");
+                    }
+                });
+        });
+
     </script>
+
+    <script>
+        function image() {
+
+            const viewer = new Viewer(document.getElementById('images'), {
+                viewed() {
+                    viewer.zoomTo(1);
+                },
+            });
+        }
+    </script>
+
 @endpush
