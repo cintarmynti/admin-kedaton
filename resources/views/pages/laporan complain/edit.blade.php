@@ -22,9 +22,20 @@
                       </select>
                 </div>
 
+
                 <div class="col-md-6">
                     <label for="">Pesan Complain</label>
-                    <textarea class="form-control" placeholder="catatan complain" name="pesan_complain" aria-label="With textarea">{{$complain->pesan_complain}}</textarea>
+                    <textarea class="form-control"  name="pesan_complain" aria-label="With textarea">{{$complain->pesan_complain}}</textarea>
+                </div>
+
+                <div class="row mt-4" id="images">
+                    @foreach ($image as $item)
+                        <div class="col wrapper" >
+                            <img onclick="image()" src="{{ url('complain_image/' . $item->image) }}" width="200px" height="200px" alt="">
+                            <a href="{{route('complainimg.delete', $item->id)}}" class="btn btn-danger hapus mt-3">hapus gambar</a>
+                        </div>
+                    @endforeach
+
                 </div>
 
             </div>
@@ -54,4 +65,13 @@
       });
     });
 </script>
+@endpush
+
+
+@push('before-style')
+    <style>
+        .form-label{
+            font-weight: 500;
+        }
+    </style>
 @endpush

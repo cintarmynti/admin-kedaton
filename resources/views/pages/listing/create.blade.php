@@ -10,12 +10,12 @@
                 <div class="row">
                     <div class="col">
                         <label for="formGroupExampleInput" class="form-label">Alamat</label>
-                        <input type="text" required class="form-control" name="alamat" placeholder="Alamat"
+                        <input type="text" required class="form-control" name="alamat"
                             aria-label="First name">
                     </div>
                     <div class="col">
                         <label for="formGroupExampleInput" class="form-label">No Rumah</label>
-                        <input type="text" required class="form-control" name="no" placeholder="No Rumah"
+                        <input type="text" required class="form-control" name="no"
                             aria-label="Last name">
                     </div>
                 </div>
@@ -23,25 +23,25 @@
                 <div class="row mt-4">
                     <div class="col">
                         <label for="formGroupExampleInput" class="form-label">RT</label>
-                        <input type="text" required class="form-control" name="RT" placeholder="RT"
+                        <input type="text" required class="form-control" name="RT"
                             aria-label="First name">
                     </div>
                     <div class="col">
                         <label for="formGroupExampleInput" class="form-label">RW</label>
-                        <input type="text" required class="form-control" name="RW" placeholder="RW"
+                        <input type="text" required class="form-control" name="RW"
                             aria-label="Last name">
                     </div>
                 </div>
 
                 <div class="row mt-4">
                     <div class="col">
-                        <label for="formGroupExampleInput" class="form-label">Lantai</label>
-                        <input type="text" required class="form-control" name="lantai" placeholder="Lantai"
+                        <label for="formGroupExampleInput" class="form-label">Jumlah Lantai</label>
+                        <input type="text" required class="form-control" name="lantai"
                             aria-label="First name">
                     </div>
                     <div class="col">
                         <label for="formGroupExampleInput" class="form-label">Jumlah Kamar</label>
-                        <input type="text" required class="form-control" name="jumlah_kamar" placeholder="Jumlah kamar"
+                        <input type="text" required class="form-control" name="jumlah_kamar"
                             aria-label="Last name">
                     </div>
                 </div>
@@ -51,8 +51,8 @@
                     <div class="col">
                         <label for="formGroupExampleInput" class="form-label">Luas Kavling</label>
                         <div class="input-group mb-3">
-                            <input type="number" min="0" required name="luas_tanah" placeholder="luas kavling"
-                                class="form-control" placeholder="Recipient's username" aria-label="Recipient's username"
+                            <input type="number" min="0" required name="luas_tanah"
+                                class="form-control"  aria-label="Recipient's username"
                                 aria-describedby="basic-addon2">
                             <span class="input-group-text" id="basic-addon2">m2</span>
                         </div>
@@ -62,8 +62,8 @@
                     <div class="col">
                         <label for="formGroupExampleInput" class="form-label">Luas Bangunan</label>
                         <div class="input-group mb-3">
-                            <input type="number" min="0" required name="luas_bangunan" placeholder="luas bangunan"
-                                class="form-control" placeholder="Recipient's username" aria-label="Recipient's username"
+                            <input type="number" min="0" required name="luas_bangunan"
+                                class="form-control"  aria-label="Recipient's username"
                                 aria-describedby="basic-addon2">
                             <span class="input-group-text" id="basic-addon2">m2</span>
                         </div>
@@ -75,7 +75,7 @@
                     <div class="col">
                         <label for="formGroupExampleInput" class="form-label">Penghuni</label>
                         <select class="form-select" name="penghuni" aria-label="Default select example">
-                            <option disabled selected="">penghuni</option>
+                            <option disabled selected=""></option>
                             @foreach ($user as $role)
                                 <option value="{{ $role->id }}">{{ $role->name }}</option>
                             @endforeach
@@ -85,7 +85,7 @@
                     <div class="col">
                         <label for="formGroupExampleInput" class="form-label">Pemilik</label>
                         <select class="form-select" name="pemilik" aria-label="Default select example">
-                            <option disabled selected="">pemilik</option>
+                            <option disabled selected=""></option>
                             @foreach ($user as $role)
                                 <option value="{{ $role->id }}">{{ $role->name }}</option>
                             @endforeach
@@ -98,7 +98,7 @@
                         <label for="formGroupExampleInput" class="form-label">Status Kepemilikan</label>
 
                         <select class="form-select" name="status" aria-label="Default select example">
-                            <option disabled selected="">Status Kepemilikan</option>
+                            <option disabled selected=""></option>
                             <option value="dihuni">dihuni</option>
                             <option value="disewakan">disewakan</option>
                             <option value="dijual">dijual</option>
@@ -107,7 +107,7 @@
                     <div class="col">
                         <label for="formGroupExampleInput" class="form-label">Harga</label>
 
-                        <input type="text" required class="form-control money" id="harga" onkeyup="onchange_comma(this.id, this.value)" name="harga" placeholder="harga(optional)">
+                        <input type="text" required class="form-control money" id="harga" onkeyup="onchange_comma(this.id, this.value)" name="harga">
                     </div>
                 </div>
 
@@ -117,7 +117,7 @@
 
                         <select id="category" class="form-control select2" name="cluster_id"
                             aria-label="Default select example">
-                            <option disabled selected="">Pilih Cluster</option>
+                            <option disabled selected=""></option>
                             @foreach ($cluster as $item)
                                 <option value="{{ $item->name }}">{{ $item->name }}</option>
                             @endforeach
@@ -125,29 +125,10 @@
                         </select>
                     </div>
 
-                </div>
-
-
-
-                <div class="row mt-4">
                     <div class="col-md-6">
-                        <label for="formGroupExampleInput" class="form-label">Masukkan Gambar</label>
-                        <div class="input-group realprocode control-group lst increment">
-                            <input type="file" name="image[]" class="myfrm form-control">
-                            <div class="input-group-btn">
-                                <button class="btn btn-success" type="button"> <i
-                                        class="fldemo glyphicon glyphicon-plus"></i>Add</button>
-                            </div>
-                        </div>
-                        <div class="clone hide">
-                            <div class="realprocode control-group lst input-group" style="margin-top:10px">
-                                <input type="file" name="image[]" class="myfrm form-control">
-                                <div class="input-group-btn">
-                                    <button class="btn btn-danger" type="button"><i
-                                            class="fldemo glyphicon glyphicon-remove"></i> Remove</button>
-                                </div>
-                            </div>
-                        </div>
+                        <label for="" class="form-label">Masukkan Gambar</label>
+                        <input required type="file" class="form-control" name="image[]" placeholder="address" multiple>
+
                     </div>
 
                 </div>
@@ -196,4 +177,12 @@
     </script>
 
 
+@endpush
+
+@push('before-style')
+    <style>
+        .form-label{
+            font-weight: 500;
+        }
+    </style>
 @endpush

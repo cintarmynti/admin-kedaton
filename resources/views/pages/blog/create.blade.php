@@ -9,53 +9,33 @@
             @csrf
             <div class="row">
                 <div class="col">
-                    <label for="">Judul</label>
-                  <input type="text" required class="form-control" name="judul" placeholder="judul" aria-label="First name">
+                    <label class="form-label" for="">Judul</label>
+                  <input type="text" required class="form-control" name="judul"  aria-label="First name">
                 </div>
                 <div class="col">
-                    <label for="">Deskripsi</label>
-                    <textarea class="form-control" placeholder="deskripsi" name="desc" aria-label="With textarea"></textarea>
-
-                </div>
-            </div>
-
-            <div class="row mt-1 mx-1">
-                <div class="col-md-6">
-                        <label for="">Foto Header</label>
-                  <input type="file" class="form-control" name="photo_header" placeholder="photo identitas" aria-label="First name">
+                    <label class="form-label" for="" >Foto Deskripsi(bisa lebih dari 1)</label>
+                    <input required type="file" name="image[]" class="form-control" name="images[]" placeholder="address" multiple>
                 </div>
 
             </div>
 
-            <div class="row mt-4">
-                <label for="" class="ml-3">Foto Deskripsi</label>
-                <div class="input-group realprocode control-group lst increment" >
+            <div class="row mt-1">
+                <div class="col">
+                        <label class="form-label" for="" >Foto Header</label>
+                  <input type="file" class="form-control" id="filePhoto" name="photo_header"  aria-label="First name">
+                  <img id="output" class="mb-3" style="max-height: 200px; max-width: 300px">
+                </div>
 
-                    <div class="col-md-6 d-flex">
-                        <input type="file" name="image[]" class="myfrm form-control">
-                        <div class="input-group-btn">
-                            <button class="btn btn-success" type="button"> <i class="fldemo glyphicon glyphicon-plus"></i>Add</button>
-                          </div>
-                    </div>
 
+            </div>
+            <div class="row mt-1">
+                <div class="col">
+                    <label class="form-label" for="">Deskripsi</label>
+                    <textarea class="form-control" id="post" rows="12"  name="desc" aria-label="With textarea"></textarea>
 
                 </div>
-                <div class="clone hide">
 
-                  <div class="realprocode control-group lst input-group" style="margin-top:10px">
-                    <div class="col-md-6 d-flex">
-                        <input type="file" name="image[]" class="myfrm form-control">
-                        <div class="input-group-btn">
-                            <button class="btn btn-danger" type="button"><i class="fldemo glyphicon glyphicon-remove"></i> Remove</button>
-                          </div>
-                    </div>
-
-
-                  </div>
-                </div>
-        </div>
-
-
+            </div>
 
                 <a href="{{route('blog')}}" class="btn btn-warning mt-4">kembali</a>
                 <button type="submit"  class="btn btn-primary ml-4 mt-4">Simpan</a>
@@ -67,6 +47,16 @@
 
 
 @push('after-script')
+
+<script>
+    $(document).ready(function() {
+        $('#post').summernote({
+            placeholder: "Ketikan sesuatu disini . . .",
+            height: '200'
+        });
+    });
+</script>
+
 <script type="text/javascript">
     $(document).ready(function() {
       $(".btn-success").click(function(){
@@ -78,4 +68,30 @@
       });
     });
 </script>
+
+@endpush
+
+
+@push('before-style')
+
+    <style>
+        .form-label{
+            font-weight: 500;
+        }
+
+
+    </style>
+@endpush
+
+
+@push('after-script')
+    <script>
+        $(function() {
+            $("#filePhoto").change(function(event) {
+                var x = URL.createObjectURL(event.target.files[0]);
+                $("#output").attr("src", x);
+                console.log(event);
+            });
+        });
+    </script>
 @endpush

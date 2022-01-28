@@ -50,6 +50,8 @@ Route::get('/blog/delete/{id}', [BlogController::class, 'delete'])->name('blog.d
 Route::get('/blog/edit/{id}', [BlogController::class, 'edit'])->name('blog.edit');
 Route::put('/blog/update/{id}', [BlogController::class, 'update'])->name('blog.update');
 Route::get('/blog/detail/{id}', [BlogController::class, 'detail'])->name('blog.detail');
+Route::get('/blog-img/delete/{id}', [BlogController::class, 'imgdelete'])->name('blogimg.delete');
+
 
 
 Route::get('/listing', [ListingController::class, 'index'])->name('listing');
@@ -57,6 +59,7 @@ Route::get('/listing/create', [ListingController::class, 'create'])->name('listi
 Route::post('/listing/store', [ListingController::class, 'store'])->name('listing.store');
 Route::get('/listing/detail/{id}', [ListingController::class, 'detail'])->name('listing.detail');
 Route::get('/listing/delete/{id}', [ListingController::class, 'delete'])->name('listing.delete');
+Route::get('/listing-img/delete/{id}', [ListingController::class, 'imgdelete'])->name('listingimg.delete');
 Route::get('/listing/edit/{id}', [ListingController::class, 'edit'])->name('listing.edit');
 Route::put('/listing/update/{id}', [ListingController::class, 'update'])->name('listing.update');
 
@@ -88,6 +91,8 @@ Route::get('/renovasi/delete/{id}', [RenovasiController::class, 'delete'])->name
 Route::get('/renovasi/edit/{id}', [RenovasiController::class, 'edit'])->name('renovasi.edit');
 Route::put('/renovasi/update/{id}', [RenovasiController::class, 'update'])->name('renovasi.update');
 Route::get('/renovasi/detail/{id}', [RenovasiController::class, 'detail'])->name('renovasi.detail');
+Route::get('/renovasi-img/delete/{id}', [RenovasiController::class, 'imgdelete'])->name('renovasiimg.delete');
+
 
 
 Route::get('/complain', [LaporanComplainController::class, 'index'])->name('complain');
@@ -97,6 +102,8 @@ Route::get('/complain/delete/{id}', [LaporanComplainController::class, 'delete']
 Route::get('/complain/edit/{id}', [LaporanComplainController::class, 'edit'])->name('complain.edit');
 Route::put('/complain/update/{id}', [LaporanComplainController::class, 'update'])->name('complain.update');
 Route::get('/complain/detail/{id}', [LaporanComplainController::class, 'detail'])->name('complain.detail');
+Route::get('/complain-img/delete/{id}', [LaporanComplainController::class, 'imgdelete'])->name('complainimg.delete');
+
 
 
 Route::get('/panic-button', [LaporanPanicButtonController::class, 'index'])->name('panic');

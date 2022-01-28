@@ -11,33 +11,33 @@
             <div class="row">
                 <div class="col">
                     <label for="">Alamat</label>
-                  <input type="text" value="{{old('alamat', $listing->alamat)}}" required class="form-control" name="alamat" placeholder="alamat" aria-label="First name">
+                  <input type="text" value="{{old('alamat', $listing->alamat)}}" required class="form-control" name="alamat"  aria-label="First name">
                 </div>
                 <div class="col">
                     <label for="">No Rumah</label>
-                  <input type="text" value="{{old('no_rumah', $listing->no_rumah)}}" required class="form-control" name="no" placeholder="no" aria-label="Last name">
+                  <input type="text" value="{{old('no_rumah', $listing->no_rumah)}}" required class="form-control" name="no"  aria-label="Last name">
                 </div>
             </div>
 
             <div class="row mt-4">
                 <div class="col">
                     <label for="">RT</label>
-                  <input type="text" value="{{old('RT', $listing->RT)}}" required class="form-control" name="RT" placeholder="RT" aria-label="First name">
+                  <input type="text" value="{{old('RT', $listing->RT)}}" required class="form-control" name="RT" aria-label="First name">
                 </div>
                 <div class="col">
                     <label for="">RW</label>
-                  <input type="text" value="{{old('RW', $listing->RW)}}" required class="form-control" name="RW" placeholder="RW" aria-label="Last name">
+                  <input type="text" value="{{old('RW', $listing->RW)}}" required class="form-control" name="RW" aria-label="Last name">
                 </div>
             </div>
 
             <div class="row mt-4">
                 <div class="col">
-                    <label for="">Lantai</label>
-                  <input type="text" value="{{old('lantai', $listing->lantai)}}" required class="form-control" name="lantai" placeholder="lantai" aria-label="First name">
+                    <label for="">Jumlah Lantai</label>
+                  <input type="text" value="{{old('lantai', $listing->lantai)}}" required class="form-control" name="lantai"  aria-label="First name">
                 </div>
                 <div class="col">
                     <label for="">Jumlah Kamar</label>
-                  <input type="text" value="{{old('jumlah_kamar', $listing->jumlah_kamar)}}" required class="form-control" name="jumlah_kamar" placeholder="jumlah kamar" aria-label="Last name">
+                  <input type="text" value="{{old('jumlah_kamar', $listing->jumlah_kamar)}}" required class="form-control" name="jumlah_kamar"  aria-label="Last name">
                 </div>
             </div>
 
@@ -46,14 +46,14 @@
                     <label for="">Luas Kavling</label>
 
                     <div class="input-group mb-3">
-                        <input type="number" value="{{old('luas_tanah', $listing->luas_tanah)}}" min="0" required name="luas_tanah" placeholder="luas kavling" class="form-control" placeholder="luas kavling" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                        <input type="number" value="{{old('luas_tanah', $listing->luas_tanah)}}" min="0" required name="luas_tanah"  class="form-control"  aria-label="Recipient's username" aria-describedby="basic-addon2">
                         <span class="input-group-text" id="basic-addon2">m2</span>
                       </div>
                 </div>
                 <div class="col">
                     <label for="">Luas Bangunan</label>
                     <div class="input-group mb-3">
-                        <input type="number" value="{{old('luas_bangunan', $listing->luas_bangunan)}}" min="0" required name="luas_bangunan" placeholder="luas bangunan" class="form-control" placeholder="luas bangunan" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                        <input type="number" value="{{old('luas_bangunan', $listing->luas_bangunan)}}" min="0" required name="luas_bangunan"  class="form-control"  aria-label="Recipient's username" aria-describedby="basic-addon2">
                         <span class="input-group-text" id="basic-addon2">m2</span>
                       </div>
 
@@ -100,7 +100,7 @@
                 </div>
                 <div class="col">
                     <label for="">Harga</label>
-                    <input type="text" value="{{old('harga', $listing->harga)}}" required class="form-control" name="harga" placeholder="harga(optional)" aria-label="Last name">
+                    <input type="text" value="{{old('harga', $listing->harga)}}" required class="form-control" name="harga"  aria-label="Last name">
                 </div>
             </div>
 
@@ -119,6 +119,15 @@
                 </div>
             </div>
 
+            <div class="row mt-4" id="images">
+                @foreach ($image as $item)
+                    <div class="col wrapper" >
+                        <img onclick="image()" src="{{ url('files/' . $item->image) }}" width="200px" height="200px" alt="">
+                        <a href="{{route('listingimg.delete', $item->id)}}" class="btn btn-danger hapus mt-3">hapus gambar</a>
+                    </div>
+                @endforeach
+
+            </div>
 
 
             <div class="row mt-4">
@@ -133,3 +142,11 @@
     </div>
 </div>
 @endsection
+
+@push('before-style')
+    <style>
+        .form-label{
+            font-weight: 500;
+        }
+    </style>
+@endpush

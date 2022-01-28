@@ -69,7 +69,9 @@ class BlogController extends Controller
 
     public function edit($id){
         $blog = Blog::findOrFail($id);
-        return view('pages.blog.edit', ['blog' => $blog]);
+        $image = blog_image::where('blog_id', $id)->get();
+
+        return view('pages.blog.edit', ['blog' => $blog, 'image' => $image]);
     }
 
     public function update(Request $request, $id){
@@ -93,6 +95,17 @@ class BlogController extends Controller
                     'error' => 'Some problem occurred, please try again'
                 ]);
         }
+    }
+
+    public function imgdelete($id){
+        $image = blog_image::findOrFail($id);
+        // dd($image->image);
+        if(file_exists($image->image)){
+            $image_path = public_path().'/blog_image/'.$image->image;
+            unlink($image_path);
+        }
+        $image->delete();
+        return redirect()->back();
     }
 
     public function delete($id){

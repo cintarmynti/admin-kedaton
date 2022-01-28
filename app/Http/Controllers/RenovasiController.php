@@ -66,10 +66,23 @@ class RenovasiController extends Controller
         }
     }
 
+    public function imgdelete($id){
+        $image = renovasi_image::findOrFail($id);
+        // dd($image->image);
+        if(file_exists($image->image)){
+            $image_path = public_path().'/renovasi_image/'.$image->image;
+            unlink($image_path);
+        }
+        $image->delete();
+        return redirect()->back();
+    }
+
     public function edit($id){
         $user = User::all();
         $renovasi = Renovasi::findOrFail($id);
-        return view('pages.otoritas renovasi.edit', ['renovasi' => $renovasi, 'user'=> $user]);
+        $image = renovasi_image::where('renovasi_id', $id)->get();
+
+        return view('pages.otoritas renovasi.edit', ['renovasi' => $renovasi, 'user'=> $user, 'image' => $image]);
     }
 
     public function update(Request $request, $id){

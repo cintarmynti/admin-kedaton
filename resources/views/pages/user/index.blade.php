@@ -3,7 +3,7 @@
 @section('content')
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title">Example</h5>
+            <h5 class="card-title">Daftar User</h5>
             <p class="card-description">
                 <a class="btn btn-primary" href="{{ route('user.create') }}">Tambah Penghuni</a>
             </p>
@@ -79,8 +79,8 @@
         $('.delete').click(function() {
             var userId = $(this).attr('data-id')
             swal({
-                    title: "yakin menghapus?",
-                    text: "data yang sudah dihapus tidak akan ditampilkan!",
+                    title: "Yakin Menghapus?",
+                    text: "Data yang sudah dihapus tidak akan ditampilkan!",
                     icon: "warning",
                     buttons: true,
                     dangerMode: true,
@@ -88,11 +88,11 @@
                 .then((willDelete) => {
                     if (willDelete) {
                         window.location = "/user/delete/" + userId;
-                        swal("data berhasil dihapus!", {
+                        swal("Data berhasil dihapus!", {
                             icon: "success",
                         });
                     } else {
-                        swal("data anda batal dihapus!");
+                        swal("Data anda batal dihapus!");
                     }
                 });
         });

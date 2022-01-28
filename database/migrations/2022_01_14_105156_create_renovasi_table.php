@@ -18,7 +18,7 @@ class CreateRenovasiTable extends Migration
             $table->integer('user_id');
             $table->date('tanggal_mulai');
             $table->date('tanggal_akhir');
-            $table->string('catatan_renovasi');
+            $table->string('catatan_renovasi')->nullable();
             $table->string('catatan_biasa')->nullable();
             $table->timestamps();
         });

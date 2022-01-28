@@ -10,19 +10,20 @@
             <div class="row">
                 <div class="col-md-6">
                     <label for="">Judul</label>
-                  <input type="text" required class="form-control" name="judul" placeholder="judul" aria-label="First name">
+                  <input type="text" required class="form-control" name="judul"  aria-label="First name">
                 </div>
 
                 <div class="col-md-6">
                     <label for="">Link</label>
-                    <input type="text" required class="form-control" name="link" placeholder="link" aria-label="First name">
+                    <input type="text" required class="form-control" name="link"  aria-label="First name">
                   </div>
 
 
                   <div class="row mt-4">
                     <div class="col-md-6">
                         <label for="">Masukkan Gambar</label>
-                      <input type="file" required class="form-control" name="photo" placeholder="photo" aria-label="First name">
+                      <input id="filePhoto" type="file" required class="form-control" name="photo"  aria-label="First name">
+                      <img id="output" class="mb-3" style="max-height: 200px; max-width: 300px">
                     </div>
                 </div>
             </div>
@@ -36,3 +37,23 @@
     </div>
 </div>
 @endsection
+
+@push('before-style')
+    <style>
+        .form-label{
+            font-weight: 500;
+        }
+    </style>
+@endpush
+
+@push('after-script')
+    <script>
+        $(function() {
+            $("#filePhoto").change(function(event) {
+                var x = URL.createObjectURL(event.target.files[0]);
+                $("#output").attr("src", x);
+                console.log(event);
+            });
+        });
+    </script>
+@endpush

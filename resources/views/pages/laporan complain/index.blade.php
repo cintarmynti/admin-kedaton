@@ -67,8 +67,8 @@
       $('.delete').click(function() {
             var userId = $(this).attr('data-id')
             swal({
-                    title: "yakin menghapus?",
-                    text: "data yang sudah dihapus tidak akan ditampilkan!",
+                    title: "Yakin Menghapus?",
+                    text: "Data yang sudah dihapus tidak akan ditampilkan!",
                     icon: "warning",
                     buttons: true,
                     dangerMode: true,
@@ -76,11 +76,11 @@
                 .then((willDelete) => {
                     if (willDelete) {
                         window.location = "/complain/delete/" + userId;
-                        swal("data berhasil dihapus!", {
+                        swal("Data berhasil dihapus!", {
                             icon: "success",
                         });
                     } else {
-                        swal("data anda batal dihapus!");
+                        swal("Data anda batal dihapus!");
                     }
                 });
         });

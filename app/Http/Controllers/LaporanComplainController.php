@@ -64,9 +64,10 @@ class LaporanComplainController extends Controller
 
     public function edit($id){
         $complain = Complain::findOrFail($id);
+        $image = complain_image::where('complain_id', $id)->get();
         // dd($complain->id);
         $user = User::all();
-        return view('pages.laporan complain.edit', ['complain' => $complain, 'user' => $user]);
+        return view('pages.laporan complain.edit', ['complain' => $complain, 'user' => $user, 'image' => $image]);
 
         if ($complain) {
             return redirect()
@@ -106,6 +107,17 @@ class LaporanComplainController extends Controller
                     'error' => 'Some problem occurred, please try again'
                 ]);
         }
+    }
+
+    public function imgdelete($id){
+        $image = complain_image::findOrFail($id);
+        // dd($image->image);
+
+            $image_path = public_path().'/complain_image/'.$image->image;
+            unlink($image_path);
+
+        $image->delete();
+        return redirect()->back();
     }
 
     public function delete($id){

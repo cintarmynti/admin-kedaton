@@ -20,32 +20,20 @@
                       </select>
                 </div>
                 <div class="col-md-6">
-                    <label for="">catatan complain</label>
-                    <textarea class="form-control" placeholder="catatan complain" name="pesan_complain" aria-label="With textarea"></textarea>
+                    <label for="">Tambahkan Gambar</label>
+                    <input required type="file" class="form-control" name="image[]" placeholder="address" multiple>
+
                 </div>
 
             </div>
 
-
-
             <div class="row mt-1">
-                <label for="">Tambahkan Gambar</label>
-                <div class="col-md-6">
-                    <div class="input-group realprocode control-group lst increment" >
-                        <input type="file" name="image[]" class="myfrm form-control">
-                        <div class="input-group-btn">
-                          <button class="btn btn-success" type="button"> <i class="fldemo glyphicon glyphicon-plus"></i>Add</button>
-                        </div>
-                      </div>
-                      <div class="clone hide">
-                        <div class="realprocode control-group lst input-group" style="margin-top:10px">
-                          <input type="file" name="image[]" class="myfrm form-control">
-                          <div class="input-group-btn">
-                            <button class="btn btn-danger" type="button"><i class="fldemo glyphicon glyphicon-remove"></i> Remove</button>
-                          </div>
-                        </div>
-                      </div>
+
+                <div class="col">
+                    <label for="">catatan complain</label>
+                    <textarea  class="form-control post"  name="pesan_complain" aria-label="With textarea"></textarea>
                 </div>
+
 
             </div>
                 <a href="{{route('complain')}}" class="btn btn-warning mt-4">kembali</a>
@@ -68,4 +56,22 @@
       });
     });
 </script>
+
+<script>
+    $(document).ready(function() {
+      $('.post').summernote({
+          placeholder: "Ketikan sesuatu disini . . .",
+          height: '100'
+      });
+  });
+</script>
+@endpush
+
+
+@push('before-style')
+    <style>
+        .form-label{
+            font-weight: 500;
+        }
+    </style>
 @endpush

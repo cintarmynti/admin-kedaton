@@ -41,11 +41,28 @@ class ListingController extends Controller
         $listing-> status = $request->status;
         $listing->harga = $request->harga;
 
-        $ipkl = tarif_ipkl::where('luas_kavling_awal', '<=', $request-> luas_tanah)->where('luas_kavling_akhir', '>=', $request-> luas_tanah)->first()->tarif;
-
+        $ipkl = tarif_ipkl::where('luas_kavling_awal', '<=', $request-> luas_tanah)->where('luas_kavling_akhir', '>=', $request-> luas_tanah)->first();
         // dd($ipkl);
 
-        $listing->tarif_ipkl = $ipkl * $request-> luas_tanah;
+        // $ipkl = tarif_ipkl::where('luas_kavling_awal', '<=', 12)->where('luas_kavling_akhir', '>=', 12)->first();
+
+
+        $terkecil = tarif_ipkl::orderBy('luas_kavling_awal', 'asc')->first();
+        $terbesar = tarif_ipkl::orderBy('luas_kavling_akhir', 'desc')->first();
+
+        // dd($terbesar);
+
+        if($ipkl == null){
+            if($request->luas_tanah <= $terbesar && $request->luas_tanah <= $terkecil){
+                $listing-> tarif_ipkl = $terkecil->tarif * $request->luas_tanah;
+            }else if($request->luas_tanah >= $terbesar && $request->luas_tanah >= $terkecil){
+                $listing-> tarif_ipkl = $terbesar->tarif * $request->luas_tanah;
+            }
+        }else if($ipkl != null){
+            $listing->tarif_ipkl = $ipkl->tarif * $request-> luas_tanah;
+        }
+
+
 
         $cluster = Cluster::where('name', '=', $request->cluster_id)->first();
         // dd($cluster);
@@ -114,7 +131,19 @@ class ListingController extends Controller
         $listing = Listing::findOrFail($id);
         $user = User::all();
         $cluster = Cluster::all();
-        return view('pages.listing.edit', ['listing' => $listing, 'user'=> $user, 'cluster' => $cluster]);
+        $image = listing_image::where('listing_id', $id)->get();
+        return view('pages.listing.edit', ['listing' => $listing, 'user'=> $user, 'cluster' => $cluster, 'image' => $image]);
+    }
+
+    public function imgdelete($id){
+        $image = Listing_image::findOrFail($id);
+        // dd($image->image);
+        if(file_exists($image->image)){
+            $image_path = public_path().'/files/'.$image->image;
+            unlink($image_path);
+        }
+        $image->delete();
+        return redirect()->back();
     }
 
     public function update(Request $request, $id){
