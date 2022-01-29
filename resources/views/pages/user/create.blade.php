@@ -3,8 +3,8 @@
 @section('content')
 <div class="card">
     <div class="card-body">
-        <h5 class="card-title">Tambahkan User</h5>
-        <p class="card-description">User yang telah ditambahkan akan muncul di halaman user</p>
+        <h5 class="card-title">Tambahkan Pengguna</h5>
+        <p class="card-description">Pengguna yang telah ditambahkan akan muncul di halaman pengguna</p>
         <form action="{{route('user.store')}}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="row">

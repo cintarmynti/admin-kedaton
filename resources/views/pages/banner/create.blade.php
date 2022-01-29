@@ -4,24 +4,24 @@
 <div class="card">
     <div class="card-body">
         <h5 class="card-title">Tambahkan Banner</h5>
-        <p class="card-description">Banner yang telah ditampilkan akan muncul di halaman banner</p>
+        <p class="card-description">Banner yang telah ditambahkan akan muncul di halaman banner</p>
         <form action="{{route('banner.store')}}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="row">
                 <div class="col-md-6">
-                    <label for="">Judul</label>
+                    <label class="form-label" for="">Judul</label>
                   <input type="text" required class="form-control" name="judul"  aria-label="First name">
                 </div>
 
                 <div class="col-md-6">
-                    <label for="">Link</label>
+                    <label class="form-label" for="">Link</label>
                     <input type="text" required class="form-control" name="link"  aria-label="First name">
                   </div>
 
                   <div class="col-md-6">
                     <div class="row mt-4">
                         <div class="col">
-                            <label for="">Masukkan Gambar</label>
+                            <label class="form-label" for="">Masukkan Gambar</label>
                           <input id="filePhoto" type="file" required class="form-control" name="photo"  aria-label="First name">
                           <img id="output" class="mb-3" style="max-height: 200px; max-width: 300px">
                         </div>

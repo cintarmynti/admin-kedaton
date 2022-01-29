@@ -65,12 +65,12 @@ class UserController extends Controller
         if($request->hasFile('photo_identitas'))
         {
 
+            $destination = public_path().'/user_photo/'.$user->photo_identitas;
             // dd($destination);
-            if(file_exists($user->image)){
-                $image_path = public_path().'/user_photo/'.$user->image;
-                unlink($image_path);
+            if(File::exists($destination))
+            {
+                unlink($destination);
             }
-
             $file = $request->file('photo_identitas');
             $extention = $file->getClientOriginalExtension();
             $filename=time().'.'.$extention;
@@ -99,12 +99,8 @@ class UserController extends Controller
 
     public function delete($id){
         $user = User::find($id);
-        // dd($destination);
-        if(file_exists($user->photo_identitas)){
-            $image_path = public_path().'/user_photo/'.$user->image;
-            unlink($image_path);
-        }
-
+        $image_path = public_path().'/user_photo/'.$user->photo_identitas;
+        unlink($image_path);
         $user->delete();
         return redirect('/user');
     }

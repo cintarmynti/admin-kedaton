@@ -31,8 +31,8 @@
                 <td>{{$com->user->name}}</td>
                 <td>{{$com->tanggal_mulai}}</td>
                 <td>{{$com->tanggal_akhir}}</td>
-                <td>{{$com->catatan_renovasi}}</td>
-                <td>{{$com->catatan_biasa}}</td>
+                <td>{!! $com->catatan_renovasi !!}</td>
+                <td>{!! $com->catatan_biasa !!}</td>
 
                 <td><a href="{{route('renovasi.detail', $com->id)}}">lihat detail</a></td>
                 <td class="d-flex">

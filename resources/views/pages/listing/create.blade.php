@@ -126,7 +126,7 @@
                     </div>
 
                     <div class="col-md-6">
-                        <label for="" class="form-label">Masukkan Gambar</label>
+                        <label for="" class="form-label">Masukkan Gambar(bisa lebih dari 1)</label>
                         <input required type="file" class="form-control" name="image[]" placeholder="address" multiple>
 
                     </div>

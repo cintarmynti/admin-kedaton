@@ -4,7 +4,7 @@
 <div class="card">
     <div class="card-body">
         <h5 class="card-title">Tambahkan promo</h5>
-        <p class="card-description">promo yang telah ditampilkan akan muncul di halaman user</p>
+        <p class="card-description">promo yang telah ditampilkan akan muncul di halaman promo</p>
         <form action="{{route('promo.store')}}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="row">

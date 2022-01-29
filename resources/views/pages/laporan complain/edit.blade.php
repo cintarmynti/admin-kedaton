@@ -28,15 +28,19 @@
                     <textarea class="form-control"  name="pesan_complain" aria-label="With textarea">{{$complain->pesan_complain}}</textarea>
                 </div>
 
-                <div class="row mt-4" id="images">
+                <div class="row mt-2" id="images">
                     @foreach ($image as $item)
                         <div class="col wrapper" >
                             <img onclick="image()" src="{{ url('complain_image/' . $item->image) }}" width="200px" height="200px" alt="">
-                            <a href="{{route('complainimg.delete', $item->id)}}" class="btn btn-danger hapus mt-3">hapus gambar</a>
+                            <div class="panjang">
+                                <a href="{{route('complainimg.delete', $item->id)}}" width="200px" class="btn btn-danger hapus mt-3">hapus gambar</a>
+                            </div>
                         </div>
                     @endforeach
 
                 </div>
+
+
 
             </div>
 
@@ -65,6 +69,16 @@
       });
     });
 </script>
+
+<script>
+    function image() {
+        const viewer = new Viewer(document.getElementById('images'), {
+            viewed() {
+                viewer.zoomTo(1);
+            },
+        });
+    }
+</script>
 @endpush
 
 
@@ -72,6 +86,16 @@
     <style>
         .form-label{
             font-weight: 500;
+        }
+
+        .wrapper {
+            text-align: center;
+           display: flex;
+           flex-direction: column;
+        }
+
+        .panjang{
+            width:200px;
         }
     </style>
 @endpush

@@ -138,10 +138,10 @@ class ListingController extends Controller
     public function imgdelete($id){
         $image = Listing_image::findOrFail($id);
         // dd($image->image);
-        if(file_exists($image->image)){
+        // if(file_exists($image->image)){
             $image_path = public_path().'/files/'.$image->image;
             unlink($image_path);
-        }
+        // }
         $image->delete();
         return redirect()->back();
     }

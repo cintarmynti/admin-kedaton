@@ -69,10 +69,10 @@ class RenovasiController extends Controller
     public function imgdelete($id){
         $image = renovasi_image::findOrFail($id);
         // dd($image->image);
-        if(file_exists($image->image)){
+
             $image_path = public_path().'/renovasi_image/'.$image->image;
             unlink($image_path);
-        }
+
         $image->delete();
         return redirect()->back();
     }

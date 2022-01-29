@@ -100,10 +100,10 @@ class BlogController extends Controller
     public function imgdelete($id){
         $image = blog_image::findOrFail($id);
         // dd($image->image);
-        if(file_exists($image->image)){
+
             $image_path = public_path().'/blog_image/'.$image->image;
             unlink($image_path);
-        }
+
         $image->delete();
         return redirect()->back();
     }

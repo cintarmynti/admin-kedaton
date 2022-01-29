@@ -121,9 +121,11 @@
 
             <div class="row mt-4" id="images">
                 @foreach ($image as $item)
-                    <div class="col wrapper" >
+                    <div class="col-md-6 wrapper" >
                         <img onclick="image()" src="{{ url('files/' . $item->image) }}" width="200px" height="200px" alt="">
-                        <a href="{{route('listingimg.delete', $item->id)}}" class="btn btn-danger hapus mt-3">hapus gambar</a>
+                        <div class="panjang">
+                            <a href="{{route('listingimg.delete', $item->id)}}" width="200px" class="btn btn-danger hapus mt-3">hapus gambar</a>
+                        </div>
                     </div>
                 @endforeach
 
@@ -143,10 +145,29 @@
 </div>
 @endsection
 
+@push('after-script')
+    <script>
+        function image() {
+            const viewer = new Viewer(document.getElementById('images'), {
+                viewed() {
+                    viewer.zoomTo(1);
+                },
+            });
+        }
+    </script>
+@endpush
+
 @push('before-style')
     <style>
-        .form-label{
-            font-weight: 500;
+        .wrapper {
+            text-align: center;
+           display: flex;
+           flex-direction: column;
         }
+
+        .panjang{
+            width:200px;
+        }
+
     </style>
 @endpush

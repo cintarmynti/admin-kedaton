@@ -26,8 +26,9 @@
                     <div class="row mt-4">
                         <div class="col-md-6">
                             <label for="">Masukkan Gambar</label>
-                            <input type="file" class="form-control" name="photo"
+                            <input id="filePhoto" type="file" class="form-control" name="photo"
                                 aria-label="First name">
+                                <img id="output" class="mb-3" style="max-height: 200px; max-width: 300px">
                         </div>
                     </div>
                 </div>
@@ -47,4 +48,16 @@
             font-weight: 500;
         }
     </style>
+@endpush
+
+@push('after-script')
+    <script>
+        $(function() {
+            $("#filePhoto").change(function(event) {
+                var x = URL.createObjectURL(event.target.files[0]);
+                $("#output").attr("src", x);
+                console.log(event);
+            });
+        });
+    </script>
 @endpush

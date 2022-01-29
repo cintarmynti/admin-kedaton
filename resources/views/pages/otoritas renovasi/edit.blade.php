@@ -38,20 +38,26 @@
             <div class="row mt-4">
                 <div class="col">
                     <label for="">Catatan Renovasi</label>
-                    <textarea class="form-control" name="catatan_renovasi" aria-label="With textarea">{{old('catatan_renovasi', $renovasi->catatan_renovasi)}}</textarea>
+                    <textarea class="form-control post" name="catatan_renovasi" aria-label="With textarea">{{old('catatan_renovasi', $renovasi->catatan_renovasi)}}</textarea>
                   </div>
                 <div class="col">
                     <label for="">Catatan Deskripsi</label>
-                    <textarea class="form-control"  name="catatan_biasa"  aria-label="With textarea">{{old('catatan_biasa', $renovasi->catatan_biasa)}}</textarea>
+                    <textarea class="form-control post"  name="catatan_biasa"  aria-label="With textarea">{{old('catatan_biasa', $renovasi->catatan_biasa)}}</textarea>
                 </div>
             </div>
 
-            @foreach ($image as $item)
-            <div class="col">
-                <img src="{{url('renovasi_image/'.$item->image)}}" onclick="image()"  width="200px" height="200px" alt="">
-                <a href="{{route('renovasiimg.delete', $item->id)}}" class="btn btn-danger hapus mt-3">hapus gambar</a>
+
+            <div class="row mt-2" id="images">
+                @foreach ($image as $item)
+                    <div class="col wrapper" >
+                        <img onclick="image()" src="{{ url('renovasi_image/' . $item->image) }}" width="200px" height="200px" alt="">
+                        <div class="panjang">
+                            <a href="{{route('renovasiimg.delete', $item->id)}}" width="200px" class="btn btn-danger hapus mt-3">hapus gambar</a>
+                        </div>
+                    </div>
+                @endforeach
+
             </div>
-            @endforeach
 
 
 
@@ -74,6 +80,27 @@
           $(this).parents(".realprocode").remove();
       });
     });
+
+
+</script>
+
+<script>
+    function image() {
+        const viewer = new Viewer(document.getElementById('images'), {
+            viewed() {
+                viewer.zoomTo(1);
+            },
+        });
+    }
+</script>
+
+<script>
+    $(document).ready(function() {
+      $('.post').summernote({
+          placeholder: "Ketikan sesuatu disini . . .",
+          height: '100'
+      });
+  });
 </script>
 @endpush
 
@@ -81,6 +108,16 @@
     <style>
         .form-label{
             font-weight: 500;
+        }
+
+        .wrapper {
+            text-align: center;
+           display: flex;
+           flex-direction: column;
+        }
+
+        .panjang{
+            width:200px;
         }
     </style>
 @endpush

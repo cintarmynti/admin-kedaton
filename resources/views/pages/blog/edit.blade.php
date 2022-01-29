@@ -13,17 +13,18 @@
                     <label for="">Judul</label>
                   <input type="text" value="{{old('judul', $blog->judul)}}" required class="form-control" name="judul"  aria-label="First name">
                 </div>
-                <div class="col">
-                    <label for="">Deskripsi</label>
-                    <textarea class="form-control"  name="desc" aria-label="With textarea">{{old('desc', $blog->desc)}}</textarea>
-
+                <div class="col-md-6">
+                    <label for="">Foto Header</label>
+                  <input type="file" class="form-control" name="photo_identitas" placeholder="photo identitas" aria-label="First name">
                 </div>
             </div>
 
             <div class="row mt-1">
-                <div class="col-md-6">
-                    <label for="">Foto Header</label>
-                  <input type="file" class="form-control" name="photo_identitas" placeholder="photo identitas" aria-label="First name">
+
+                <div class="col">
+                    <label for="">Deskripsi</label>
+                    <textarea id="post" class="form-control"  name="desc" aria-label="With textarea">{{old('desc', $blog->desc)}}</textarea>
+
                 </div>
             </div>
 
@@ -31,7 +32,10 @@
                 @foreach ($image as $item)
                     <div class="col wrapper" >
                         <img onclick="image()" src="{{ url('blog_image/' . $item->image) }}" width="200px" height="200px" alt="">
-                        <a href="{{route('blogimg.delete', $item->id)}}" class="btn btn-danger hapus mt-3">hapus gambar</a>
+                        <div class="panjang">
+                            <a href="{{route('blogimg.delete', $item->id)}}" class="btn btn-danger hapus mt-3">hapus gambar</a>
+                        </div>
+
                     </div>
                 @endforeach
 
@@ -59,12 +63,38 @@
       });
     });
 </script>
+<script>
+    $(document).ready(function() {
+        $('#post').summernote({
+            placeholder: "Ketikan sesuatu disini . . .",
+            height: '200'
+        });
+    });
+
+    function image() {
+            const viewer = new Viewer(document.getElementById('images'), {
+                viewed() {
+                    viewer.zoomTo(1);
+                },
+            });
+        }
+</script>
 @endpush
 
 @push('before-style')
     <style>
         .form-label{
             font-weight: 500;
+        }
+
+        .wrapper {
+            text-align: center;
+           display: flex;
+           flex-direction: column;
+        }
+
+        .panjang{
+            width:200px;
         }
     </style>
 @endpush

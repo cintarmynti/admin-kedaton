@@ -3,8 +3,8 @@
 @section('content')
 <div class="card">
     <div class="card-body">
-        <h5 class="card-title">Edit User</h5>
-        <p class="card-description">User yang telah diedit akan ditampilkan akan muncul di halaman user</p>
+        <h5 class="card-title">Edit Pengguna</h5>
+        <p class="card-description">Pengguna yang telah diedit akan ditampilkan akan muncul di halaman pengguna</p>
         <form action="{{route('user.update', $user->id)}}" method="POST" enctype="multipart/form-data">
             @method('PUT')
             @csrf

@@ -3,7 +3,7 @@
 @section('content')
 <div class="card">
     <div class="card-body">
-        <h5 class="card-title">Tambahkan Banner</h5>
+        <h5 class="card-title">Edit Banner</h5>
         <p class="card-description">Banner yang telah diedit akan muncul di halaman banner</p>
         <form action="{{route('banner.update', $banner->id)}}" method="POST" enctype="multipart/form-data">
             @csrf
@@ -23,7 +23,9 @@
                 <div class="row mt-4">
                     <label for="">Masukkan Gambar</label>
                     <div class="col-md-6">
-                        <input type="file"  class="form-control" name="photo"  aria-label="First name">
+                        <input type="file" id="filePhoto"  class="form-control" name="photo"  aria-label="First name">
+
+                  <img id="output" class="mb-3" style="max-height: 200px; max-width: 300px">
                     </div>
                 </div>
 
@@ -45,4 +47,16 @@
             font-weight: 500;
         }
     </style>
+@endpush
+
+@push('after-script')
+    <script>
+        $(function() {
+            $("#filePhoto").change(function(event) {
+                var x = URL.createObjectURL(event.target.files[0]);
+                $("#output").attr("src", x);
+                console.log(event);
+            });
+        });
+    </script>
 @endpush

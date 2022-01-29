@@ -3,9 +3,9 @@
 @section('content')
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title">Daftar User</h5>
+            <h5 class="card-title">Daftar Penggguna</h5>
             <p class="card-description">
-                <a class="btn btn-primary" href="{{ route('user.create') }}">Tambah Penghuni</a>
+                <a class="btn btn-primary" href="{{ route('user.create') }}">Tambah Pengguna</a>
             </p>
             <table class="table" id="myTable">
                 <thead>

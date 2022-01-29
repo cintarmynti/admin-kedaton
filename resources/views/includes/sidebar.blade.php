@@ -9,13 +9,14 @@
       {{-- <li  class="{{ Request::is('admin') ? 'active-page' : '' }}">
         <a href="{{route('admin.index')}}"><i data-feather="home"></i>Admin</a>
       </li> --}}
+
+      <li class="{{ Request::is('user') ? 'active-page' : '' }}">
+        <a href="{{route('user')}}"><i data-feather="inbox"></i>Pengguna</a>
+      </li>
       <li class="{{ Request::is('listing') ? 'active-page' : '' }}">
         <a href="{{route('listing')}}"><i data-feather="calendar"></i>Listing</a>
       </li>
 
-      <li class="{{ Request::is('user') ? 'active-page' : '' }}">
-        <a href="{{route('user')}}"><i data-feather="inbox"></i>User</a>
-      </li>
 
       <li class="{{ Request::is('banner') ? 'active-page' : '' }}">
         <a href="{{route('banner')}}"><i data-feather="user"></i>Banner</a>

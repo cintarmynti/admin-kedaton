@@ -28,7 +28,7 @@
               <tr>
                 <th scope="row">{{$no++}}</th>
                 <td>{{$com->user->name}}</td>
-                <td>{{$com->pesan_complain}}</td>
+                <td>{!! $com->pesan_complain !!}</td>
                 {{-- {{$com->id}} --}}
                 <td><a href="{{route('complain.detail', $com->id)}}">lihat detail</a></td>
                 <td class="d-flex">
