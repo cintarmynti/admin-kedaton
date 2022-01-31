@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Listing;
 use App\Models\Renovasi;
 use App\Models\renovasi_image;
 use App\Models\User;
@@ -13,14 +14,17 @@ use RealRashid\SweetAlert\Facades\Alert;
 class RenovasiController extends Controller
 {
     public function index(){
-        $renovasi = Renovasi::with('user')->get();
+        $renovasi = Renovasi::with('user', 'nomer')->get();
+
+        // dd($renovasi);
         // dd($renovasi);
         return view('pages.otoritas renovasi.index', ['renovasi' => $renovasi]);
     }
 
     public function create(){
-        $user = User::all();
-        return view('pages.otoritas renovasi.create', ['user' => $user]);
+        $user = User::where('user_status', 'pengguna')->get();
+        $nomer = Listing::all();
+        return view('pages.otoritas renovasi.create', ['user' => $user, 'nomer' => $nomer]);
     }
 
     public function store(Request $request){
@@ -30,6 +34,7 @@ class RenovasiController extends Controller
         $renovasi-> tanggal_akhir = $request-> tanggal_akhir;
         $renovasi-> catatan_renovasi = $request-> catatan_renovasi;
         $renovasi-> catatan_biasa = $request->catatan_biasa;
+        $renovasi-> rumah_id = $request->rumah_id;
 
         $renovasi->save();
 
@@ -78,11 +83,14 @@ class RenovasiController extends Controller
     }
 
     public function edit($id){
-        $user = User::all();
-        $renovasi = Renovasi::findOrFail($id);
+        $user = User::where('user_status', 'pengguna')->get();
+        $renovasi = Renovasi::with('nomer')->where('id', $id)->first();
+        $rumah = Listing::all();
+
+        // dd($renovasi);
         $image = renovasi_image::where('renovasi_id', $id)->get();
 
-        return view('pages.otoritas renovasi.edit', ['renovasi' => $renovasi, 'user'=> $user, 'image' => $image]);
+        return view('pages.otoritas renovasi.edit', ['renovasi' => $renovasi, 'user'=> $user, 'image' => $image, 'rumah' => $rumah]);
     }
 
     public function update(Request $request, $id){
@@ -92,6 +100,8 @@ class RenovasiController extends Controller
         $renovasi-> tanggal_akhir = $request-> tanggal_akhir;
         $renovasi-> catatan_renovasi = $request-> catatan_renovasi;
         $renovasi-> catatan_biasa = $request->catatan_biasa;
+        $renovasi-> rumah_id = $request->rumah_id;
+
 
         $renovasi->update();
 

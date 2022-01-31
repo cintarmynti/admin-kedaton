@@ -22,7 +22,7 @@ class ListingController extends Controller
 
     public function create(){
         $cluster = Cluster::all();
-        $user = User::all();
+        $user = User::where('user_status', 'pengguna')->get();
         return view('pages.listing.create', ['user' => $user, 'cluster' => $cluster ]);
     }
 
@@ -129,7 +129,7 @@ class ListingController extends Controller
 
     public function edit($id){
         $listing = Listing::findOrFail($id);
-        $user = User::all();
+        $user = User::where('user_status', 'pengguna')->get();
         $cluster = Cluster::all();
         $image = listing_image::where('listing_id', $id)->get();
         return view('pages.listing.edit', ['listing' => $listing, 'user'=> $user, 'cluster' => $cluster, 'image' => $image]);

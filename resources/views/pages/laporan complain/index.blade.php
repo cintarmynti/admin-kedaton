@@ -31,12 +31,15 @@
                 <td>{!! $com->pesan_complain !!}</td>
                 {{-- {{$com->id}} --}}
                 <td><a href="{{route('complain.detail', $com->id)}}">lihat detail</a></td>
-                <td class="d-flex">
-                    <a class="btn btn-warning" href="{{route('complain.edit',$com->id)}}"><i data-feather="edit"></i></a>
+                <td >
+                    <div class="d-flex">
+                        <a class="btn btn-warning" href="{{route('complain.edit',$com->id)}}"><i data-feather="edit"></i></a>
 
                         <button type="submit" data-id="{{$com->id}}" class="btn btn-danger delete">
                             <i data-feather="trash"></i>
                         </button>
+
+                    </div>
 
                 </td>
               </tr>

@@ -64,7 +64,7 @@
                 <div class="col">
                     <label for="">Penghuni</label>
                     <select class="form-select" name="penghuni" aria-label="Default select example">
-                        <option disabled selected="">penghuni</option>
+                        <option disabled selected="">Pilih Penghuni</option>
                         @foreach($user as $lis)
                             <option value="{{ $lis->id }}" {{ $lis->id == $listing->user_id_penghuni ? 'selected' : '' }}>
                                 {{ $lis->name }}
@@ -78,7 +78,7 @@
                     <label for="">Pemilik</label>
 
                     <select class="form-select" name="pemilik" aria-label="Default select example">
-                        <option disabled selected="">pemilik</option>
+                        <option disabled selected="">Pilih Pemilik</option>
                         @foreach($user as $lis)
                             <option value="{{ $lis->id }}" {{ $lis->id == $listing->user_id_pemilik ? 'selected' : '' }}>
                                 {{ $lis->name }}
@@ -92,7 +92,7 @@
                 <div class="col">
                     <label for="">Status Kepemilikan</label>
                     <select class="form-select" name="status" aria-label="Default select example">
-                        <option disabled selected="">Status Kepemilikan</option>
+                        <option disabled selected="">Pilih Status Kepemilikan</option>
                         <option value="dihuni" {{ 'dihuni' == $listing->status ? 'selected' : '' }}>dihuni</option>
                         <option value="disewakan" {{ 'disewakan' == $listing->status ? 'selected' : '' }}>disewakan</option>
                         <option value="dijual" {{ 'dijual' == $listing->status ? 'selected' : '' }}>dijual</option>

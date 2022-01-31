@@ -28,11 +28,14 @@
                 <td>{{$pr->judul}}</td>
                 <td>{{$pr->link}}</td>
                 <td><img onclick="image()" src="{{url('promo_photo/'.$pr->foto)}}" width="80px" alt=""></td>
-                <td class="d-flex">
-                    <a class="btn btn-warning" href="{{route('promo.edit',$pr->id)}}"><i data-feather="edit"></i></a>
+                <td >
+                    <div class="d-flex">
+                        <a class="btn btn-warning" href="{{route('promo.edit',$pr->id)}}"><i data-feather="edit"></i></a>
                         <button data-id="{{$pr->id}}" type="submit" class="btn btn-danger delete">
                             <i data-feather="trash"></i>
                         </button>
+                    </div>
+
                 </td>
               </tr>
               @endforeach

@@ -16,6 +16,7 @@ class CreateRenovasiTable extends Migration
         Schema::create('renovasi', function (Blueprint $table) {
             $table->id();
             $table->integer('user_id');
+            $table->integer('rumah_id');
             $table->date('tanggal_mulai');
             $table->date('tanggal_akhir');
             $table->string('catatan_renovasi')->nullable();

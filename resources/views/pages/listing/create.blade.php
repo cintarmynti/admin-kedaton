@@ -75,7 +75,7 @@
                     <div class="col">
                         <label for="formGroupExampleInput" class="form-label">Penghuni</label>
                         <select class="form-select" name="penghuni" aria-label="Default select example">
-                            <option disabled selected=""></option>
+                            <option disabled selected="">Pilih Penghuni</option>
                             @foreach ($user as $role)
                                 <option value="{{ $role->id }}">{{ $role->name }}</option>
                             @endforeach
@@ -85,7 +85,7 @@
                     <div class="col">
                         <label for="formGroupExampleInput" class="form-label">Pemilik</label>
                         <select class="form-select" name="pemilik" aria-label="Default select example">
-                            <option disabled selected=""></option>
+                            <option disabled selected="">Pilih Pemilik</option>
                             @foreach ($user as $role)
                                 <option value="{{ $role->id }}">{{ $role->name }}</option>
                             @endforeach
@@ -98,7 +98,7 @@
                         <label for="formGroupExampleInput" class="form-label">Status Kepemilikan</label>
 
                         <select class="form-select" name="status" aria-label="Default select example">
-                            <option disabled selected=""></option>
+                            <option disabled selected="">Pilih Status Kepemilikan</option>
                             <option value="dihuni">dihuni</option>
                             <option value="disewakan">disewakan</option>
                             <option value="dijual">dijual</option>
@@ -117,7 +117,7 @@
 
                         <select id="category" class="form-control select2" name="cluster_id"
                             aria-label="Default select example">
-                            <option disabled selected=""></option>
+                            <option disabled selected="">Pilih Cluster</option>
                             @foreach ($cluster as $item)
                                 <option value="{{ $item->name }}">{{ $item->name }}</option>
                             @endforeach
@@ -161,7 +161,7 @@
     <script>
         $(document).ready(function() {
             $('.select2').select2({
-                placeholder: 'Select Cluster',
+                // placeholder: 'Select Cluster',
                 theme: 'bootstrap4',
                 tags: true
             })

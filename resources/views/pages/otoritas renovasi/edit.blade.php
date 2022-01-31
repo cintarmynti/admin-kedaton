@@ -22,6 +22,19 @@
                       </select>
                 </div>
 
+                <div class="col">
+                    <label for="">No Rumah</label>
+                    <select class="form-select" name="rumah_id" aria-label="Default select example">
+                        <option disabled selected="">pilih No Rumah</option>
+                        @foreach($rumah as $lis)
+                        <option value="{{ $lis->id }}" {{ $lis->id == $renovasi->rumah_id ? 'selected' : '' }}>
+                            {{ $lis->no_rumah }}
+                        </option>
+                        @endforeach
+
+                      </select>
+                </div>
+
             </div>
 
             <div class="row mt-4">

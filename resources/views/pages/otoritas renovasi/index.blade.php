@@ -13,6 +13,7 @@
               <th scope="col">id</th>
               {{-- user id --}}
               <th scope="col">pengguna</th>
+              <th scope="col">no rumah</th>
               <th scope="col">tanggal mulai</th>
               <th scope="col">tanggal akhir</th>
               <th scope="col">catatan renovasi</th>
@@ -29,18 +30,22 @@
               <tr>
                 <th scope="row">{{$no++}}</th>
                 <td>{{$com->user->name}}</td>
+                <td>{{$com->nomer->no_rumah}}</td>
                 <td>{{$com->tanggal_mulai}}</td>
                 <td>{{$com->tanggal_akhir}}</td>
                 <td>{!! $com->catatan_renovasi !!}</td>
                 <td>{!! $com->catatan_biasa !!}</td>
 
                 <td><a href="{{route('renovasi.detail', $com->id)}}">lihat detail</a></td>
-                <td class="d-flex">
-                    <a class="btn btn-warning" href="{{route('renovasi.edit',$com->id)}}"><i data-feather="edit"></i></a>
+                <td >
+                    <div class="d-flex">
+                        <a class="btn btn-warning" href="{{route('renovasi.edit',$com->id)}}"><i data-feather="edit"></i></a>
 
                         <button type="submit" data-id="{{$com->id}}" class="btn btn-danger delete">
                             <i data-feather="trash"></i>
                         </button>
+                    </div>
+
 
                 </td>
               </tr>

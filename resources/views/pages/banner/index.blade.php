@@ -29,13 +29,16 @@
                             <td>{{ $bnr->link }}</td>
                             <td><img id="images" onclick="image()" src="{{ url('banner_photo/' . $bnr->foto) }}"
                                     width="80px" alt=""></td>
-                            <td class="d-flex">
-                                <a class="btn btn-warning" href="{{ route('banner.edit', $bnr->id) }}"><i
+                            <td >
+                                <div class="d-flex">
+                                    <a class="btn btn-warning" href="{{ route('banner.edit', $bnr->id) }}"><i
                                         data-feather="edit"></i></a>
 
                                     <button type="submit" data-id="{{$bnr-> id}}" class="btn btn-danger delete">
                                         <i data-feather="trash"></i>
                                     </button>
+                                </div>
+
 
                             </td>
                         </tr>

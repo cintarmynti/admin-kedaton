@@ -12,7 +12,7 @@
                 <div class="col-md-6">
                     <label for="">nama</label>
                     <select class="form-select" name="user_id" aria-label="Default select example">
-                        <option disabled selected="">nama user</option>
+                        <option disabled selected="">Nama Pengguna</option>
                         @foreach($user as $role)
                         <option value="{{ $role->id }}">{{ $role->name }}</option>
                         @endforeach

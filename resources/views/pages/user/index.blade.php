@@ -32,14 +32,17 @@
                             <td>{{ $user->alamat }}</td>
                             <td>{{ $user->phone }}</td>
                             <td ><img src="{{ url('user_photo/' . $user->photo_identitas) }}" id="image" onclick="image()" width="80px" alt=""></td>
-                            <td class="d-flex">
-                                <a class="btn btn-warning" href="{{ route('user.edit', $user->id) }}"><i
+                            <td >
+                                <div class="d-flex">
+                                    <a class="btn btn-warning" href="{{ route('user.edit', $user->id) }}"><i
                                         data-feather="edit"></i></a>
 
                                 <button type="submit" class="btn btn-danger delete" data-id="{{ $user->id }}"
                                     data-nama="">
                                     <i data-feather="trash"></i>
                                 </button>
+                                </div>
+
 
                             </td>
                         </tr>

@@ -10,15 +10,27 @@
 
             <div class="row mt-4">
                 <div class="col">
-                    <label for="">Nama User</label>
+                    <label for="">Nama Pengguna</label>
                     <select class="form-select" name="user_id" aria-label="Default select example">
-                        <option disabled selected=""></option>
+                        <option disabled selected="">Pilih User</option>
                         @foreach($user as $role)
                         <option value="{{ $role->id }}">{{ $role->name }}</option>
                         @endforeach
 
                       </select>
                 </div>
+
+                <div class="col">
+                    <label for="">No Rumah</label>
+                    <select class="form-select" name="rumah_id" aria-label="Default select example">
+                        <option disabled selected="">Pilih No Rumah</option>
+                        @foreach($nomer as $no)
+                        <option value="{{ $no->id }}">{{ $no->no_rumah }}</option>
+                        @endforeach
+
+                      </select>
+                </div>
+
 
             </div>
 

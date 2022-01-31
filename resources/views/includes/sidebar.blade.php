@@ -11,7 +11,7 @@
       </li> --}}
 
       <li class="{{ Request::is('user') ? 'active-page' : '' }}">
-        <a href="{{route('user')}}"><i data-feather="inbox"></i>Pengguna</a>
+        <a href="{{route('user')}}"><i data-feather="user"></i>Pengguna</a>
       </li>
       <li class="{{ Request::is('listing') ? 'active-page' : '' }}">
         <a href="{{route('listing')}}"><i data-feather="calendar"></i>Listing</a>
@@ -19,12 +19,12 @@
 
 
       <li class="{{ Request::is('banner') ? 'active-page' : '' }}">
-        <a href="{{route('banner')}}"><i data-feather="user"></i>Banner</a>
+        <a href="{{route('banner')}}"><i data-feather="monitor"></i>Banner</a>
       </li>
 
 
       <li class="{{ Request::is('promo') ? 'active-page' : '' }}" class="active-page">
-        <a href="{{route('promo')}}"><i data-feather="home"></i>Promo</a>
+        <a href="{{route('promo')}}"><i data-feather="paperclip"></i>Promo</a>
       </li>
 {{--
       <li class="{{ Request::is('cluster') ? 'active-page' : '' }}" class="active-page">
@@ -32,17 +32,17 @@
       </li> --}}
 
       <li class="{{ Request::is('blog') ? 'active-page' : '' }}" class="active-page">
-        <a href="{{route('blog')}}"><i data-feather="home"></i>Blog</a>
+        <a href="{{route('blog')}}"><i data-feather="file"></i>Blog</a>
       </li>
 
       <li class="{{ Request::is('renovasi') ? 'active-page' : '' }}">
-        <a href="{{route('renovasi')}}"><i data-feather="inbox"></i>Otoritas Renovasi</a>
+        <a href="{{route('renovasi')}}"><i data-feather="tool"></i>Otoritas Renovasi</a>
       </li>
       <li class="{{ Request::is('complain') ? 'active-page' : '' }}">
-        <a href="{{route('complain')}}"><i data-feather="calendar"></i>Laporan Complain</a>
+        <a href="{{route('complain')}}"><i data-feather="alert-triangle"></i>Laporan Complain</a>
       </li>
       <li class="{{ Request::is('panic-button') ? 'active-page' : '' }}">
-        <a href="{{route('panic')}}"><i data-feather="user"></i>Laporan Panic Button</a>
+        <a href="{{route('panic')}}"><i data-feather="activity"></i>Laporan Panic Button</a>
       </li>
 
       {{-- <li class="{{ Request::is('iuran') ? 'active-page' : '' }}">

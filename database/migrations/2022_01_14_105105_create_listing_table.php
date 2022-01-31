@@ -23,8 +23,8 @@ class CreateListingTable extends Migration
             $table->integer('jumlah_kamar');
             $table->string('luas_tanah');
             $table->string('luas_bangunan');
-            $table->integer('user_id_penghuni');
-            $table->integer('user_id_pemilik');
+            $table->integer('user_id_penghuni')->nullable();
+            $table->integer('user_id_pemilik')->nullable();
             $table->integer('tarif_ipkl')->nullable();
             // $table->integer('listing_id');
             $table->string('status');

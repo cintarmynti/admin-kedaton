@@ -30,7 +30,7 @@
                 <td>{!! $com->desc !!}</td>
                 <td><img onclick="image()" src="{{url('blog_image/'.$com->gambar)}}" width="200px" alt=""></td>
                 <td> <a href="{{route('blog.detail', $com->id)}}">lihat detail</a></td>
-                <td >
+                <td>
                     <div class="d-flex">
                         <a class="btn btn-warning" href="{{route('blog.edit',$com->id)}}"><i data-feather="edit"></i></a>
 

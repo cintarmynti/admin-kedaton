@@ -18,7 +18,7 @@ class LaporanComplainController extends Controller
     }
 
     public function create(){
-        $user = User::all();
+        $user = User::where('user_status', 'pengguna')->get();
         return view('pages.laporan complain.create', ['user'=>$user]);
     }
 
@@ -66,7 +66,7 @@ class LaporanComplainController extends Controller
         $complain = Complain::findOrFail($id);
         $image = complain_image::where('complain_id', $id)->get();
         // dd($complain->id);
-        $user = User::all();
+        $user = User::where('user_status', 'pengguna')->get();
         return view('pages.laporan complain.edit', ['complain' => $complain, 'user' => $user, 'image' => $image]);
 
         if ($complain) {
