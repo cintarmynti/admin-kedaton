@@ -13,6 +13,8 @@ use App\Http\Controllers\LaporanPanicButtonController;
 use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\IuranController;
 use App\Http\Controllers\ClusterController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\IPKLController;
 
 
 /*
@@ -42,6 +44,9 @@ Route::post('/user/store', [UserController::class, 'store'])->name('user.store')
 Route::get('/user/delete/{id}', [UserController::class, 'delete'])->name('user.delete');
 Route::get('/user/edit/{id}', [UserController::class, 'edit'])->name('user.edit');
 Route::put('/user/update/{id}', [UserController::class, 'update'])->name('user.update');
+// Route::get('/siswa', 'SiswaController@index');
+Route::get('/user/export_excel', [UserController::class, 'export_excel'])->name('user.excel');
+
 
 Route::get('/blog', [BlogController::class, 'index'])->name('blog');
 Route::get('/blog/create', [BlogController::class, 'create'])->name('blog.create');
@@ -92,6 +97,8 @@ Route::get('/renovasi/edit/{id}', [RenovasiController::class, 'edit'])->name('re
 Route::put('/renovasi/update/{id}', [RenovasiController::class, 'update'])->name('renovasi.update');
 Route::get('/renovasi/detail/{id}', [RenovasiController::class, 'detail'])->name('renovasi.detail');
 Route::get('/renovasi-img/delete/{id}', [RenovasiController::class, 'imgdelete'])->name('renovasiimg.delete');
+Route::get('/renovasi/export_excel', [RenovasiController::class, 'export_excel'])->name('renovasi.excel');
+
 
 
 
@@ -103,6 +110,8 @@ Route::get('/complain/edit/{id}', [LaporanComplainController::class, 'edit'])->n
 Route::put('/complain/update/{id}', [LaporanComplainController::class, 'update'])->name('complain.update');
 Route::get('/complain/detail/{id}', [LaporanComplainController::class, 'detail'])->name('complain.detail');
 Route::get('/complain-img/delete/{id}', [LaporanComplainController::class, 'imgdelete'])->name('complainimg.delete');
+Route::get('/complain/export_excel', [LaporanComplainController::class, 'export_excel'])->name('complain.excel');
+
 
 
 
@@ -133,7 +142,16 @@ Route::post('/cluster/store', [ClusterController::class, 'store'])->name('cluste
 Route::delete('/cluster/delete/{id}', [ClusterController::class, 'delete'])->name('cluster.delete');
 Route::get('/cluster/edit/{id}', [ClusterController::class, 'edit'])->name('cluster.edit');
 Route::put('/cluster/update/{id}', [ClusterController::class, 'update'])->name('cluster.update');
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [HomeController::class, 'index'])->name('home');
+
+Route::get('/ipkl', [IPKLController::class, 'index'])->name('ipkl');
+Route::get('/ipkl/status/{id}', [IPKLController::class, 'status'])->name('ipkl.status');
+Route::get('/ipkl/create', [IPKLController::class, 'create'])->name('ipkl.create');
+Route::post('/ipkl/store', [IPKLController::class, 'store'])->name('ipkl.store');
+Route::get('/ipkl/delete/{id}', [IPKLController::class, 'delete'])->name('ipkl.delete');
+Route::get('/ipkl/edit/{id}', [IPKLController::class, 'edit'])->name('ipkl.edit');
+Route::put('/ipkl/update/{id}', [IPKLController::class, 'update'])->name('ipkl.update');
+Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 });
 

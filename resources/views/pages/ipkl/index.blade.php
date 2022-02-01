@@ -3,40 +3,55 @@
 @section('content')
 <div class="card">
     <div class="card-body">
-        <h5 class="card-title">Daftar Complain</h5>
+        <h5 class="card-title">Daftar Pembayaran IPKL</h5>
         <p class="card-description">
-            {{-- <a class="btn btn-primary" href="{{route('complain.create')}}">Tambah Complain</a> --}}
-            <a href="{{route('complain.excel')}}" class="btn btn-success my-3" target="_blank">EXPORT EXCEL</a>
+            <a class="btn btn-primary" href="{{route('ipkl.create')}}">Tambah IPKL</a>
         </p>
         <table class="table" id="myTable">
           <thead>
             <tr>
               <th scope="col">id</th>
               {{-- user id --}}
-              <th scope="col">User</th>
-              <th scope="col">Pesan komplain</th>
-              <th scope="col">detail foto</th>
-
-
+              <th scope="col">No Rumah</th>
+              <th scope="col">Periode Pembayaran</th>
+              <th scope="col">Metode Pembayaran</th>
+              <th scope="col">Jumlah Pembayaran</th>
+              <th scope="col">Status</th>
               <th scope="col">aksi</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody id="images">
               @php
                   $no = 1
               @endphp
-              @foreach ($complain as $com)
+              @foreach ($ipkl as $i)
               <tr>
-                <th scope="row">{{$no++}}</th>
-                <td>{{$com->user->name}}</td>
-                <td>{!! $com->pesan_complain !!}</td>
-                {{-- {{$com->id}} --}}
-                <td><a href="{{route('complain.detail', $com->id)}}">lihat detail</a></td>
-                <td >
+                <td>{{$no++}}</td>
+                <td>{{$i ->nomer->no_rumah}}</td>
+                <td>{{$i -> periode_pembayaran}}</td>
+                <td>{{$i -> metode_pembayaran}}</td>
+                <td>Rp {{ number_format($i->jumlah_pembayaran, 2, ',', '.') }}</td>
+                <td><span class="badge @if ($i->status == 1)
+                    bg-danger
+                @else
+                    bg-success
+                @endif ">
+                    @if ($i->status == 1)
+                        belum dibayar
+                    @else
+                        sudah dibayar
+                    @endif
+            </span>
+            </td>
+                <td>
                     <div class="d-flex">
-                        <a class="btn btn-warning" href="{{route('complain.edit',$com->id)}}"><i data-feather="edit"></i></a>
+                        @if ($i->status == 1)
+                        <a class="btn btn-success" href="{{route('ipkl.status',$i->id)}}"><i data-feather="check"></i></a>
+                        @else
 
-                        <button type="submit" data-id="{{$com->id}}" class="btn btn-danger delete">
+                        @endif
+
+                        <button type="submit" data-id="{{$i->id}}" class="btn btn-danger delete">
                             <i data-feather="trash"></i>
                         </button>
 
@@ -67,8 +82,18 @@
       $(document).ready( function () {
         $('#myTable').DataTable();
       });
+    </script>
+    <script>
+        function image() {
 
-      $('.delete').click(function() {
+            const viewer = new Viewer(document.getElementById('images'), {
+                viewed() {
+                    viewer.zoomTo(1);
+                },
+            });
+        }
+
+        $('.delete').click(function() {
             var userId = $(this).attr('data-id')
             swal({
                     title: "Yakin Menghapus?",
@@ -79,7 +104,7 @@
                 })
                 .then((willDelete) => {
                     if (willDelete) {
-                        window.location = "/complain/delete/" + userId;
+                        window.location = "/ipkl/delete/" + userId;
                         swal("Data berhasil dihapus!", {
                             icon: "success",
                         });

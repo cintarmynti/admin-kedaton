@@ -8,6 +8,8 @@ use App\Models\renovasi_image;
 use App\Models\User;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
+use App\Exports\RenovasiExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 
 
@@ -26,6 +28,11 @@ class RenovasiController extends Controller
         $nomer = Listing::all();
         return view('pages.otoritas renovasi.create', ['user' => $user, 'nomer' => $nomer]);
     }
+
+    public function export_excel()
+	{
+		return Excel::download(new RenovasiExport, 'renovasi.xlsx');
+	}
 
     public function store(Request $request){
         $renovasi = new Renovasi();

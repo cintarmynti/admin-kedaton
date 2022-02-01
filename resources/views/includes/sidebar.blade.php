@@ -26,6 +26,10 @@
       <li class="{{ Request::is('promo') ? 'active-page' : '' }}" class="active-page">
         <a href="{{route('promo')}}"><i data-feather="paperclip"></i>Promo</a>
       </li>
+
+      <li class="{{ Request::is('ipkl') ? 'active-page' : '' }}" class="active-page">
+        <a href="{{route('ipkl')}}"><i data-feather="archive"></i>Pembayaran IPKL</a>
+      </li>
 {{--
       <li class="{{ Request::is('cluster') ? 'active-page' : '' }}" class="active-page">
         <a href="{{route('cluster')}}"><i data-feather="home"></i>cluster</a>

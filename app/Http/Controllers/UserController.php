@@ -1,8 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Maatwebsite\Excel\Facades\Excel;
 use App\Models\User;
+use App\Exports\UserExport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -12,6 +13,10 @@ class UserController extends Controller
     public function index(){
         $users = User::where('user_status', 'pengguna')->get();
         return view('pages.user.index', ['users' => $users]);
+    }
+
+    public function export_excel(){
+        return Excel::download(new UserExport, 'user.xlsx');
     }
 
     public function create(){

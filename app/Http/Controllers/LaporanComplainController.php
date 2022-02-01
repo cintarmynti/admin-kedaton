@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ComplainExport;
 use App\Models\Complain;
 use App\Models\complain_image;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Maatwebsite\Excel\Facades\Excel;
 use RealRashid\SweetAlert\Facades\Alert;
+
 
 
 class LaporanComplainController extends Controller
@@ -21,6 +24,11 @@ class LaporanComplainController extends Controller
         $user = User::where('user_status', 'pengguna')->get();
         return view('pages.laporan complain.create', ['user'=>$user]);
     }
+
+    public function export_excel()
+	{
+		return Excel::download(new ComplainExport, 'complain.xlsx');
+	}
 
     public function store(Request $request){
         $complain = new Complain();

@@ -10,7 +10,8 @@
         <!-- The above 6 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
         <!-- Title -->
-        <title>Circl - Responsive Admin Dashboard Template</title>
+        <title>Admin - Kedaton</title>
+
 
         <!-- Styles -->
         <link href="https://fonts.googleapis.com/css?family=Poppins:400,500,700,800&display=swap" rel="stylesheet">

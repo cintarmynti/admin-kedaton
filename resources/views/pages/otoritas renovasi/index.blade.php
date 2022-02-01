@@ -6,6 +6,8 @@
         <h5 class="card-title">Daftar Renovasi</h5>
         <p class="card-description">
             <a class="btn btn-primary" href="{{route('renovasi.create')}}">Tambah Renovasi</a>
+            <a href="{{route('renovasi.excel')}}" class="btn btn-success my-3" target="_blank">EXPORT EXCEL</a>
+
         </p>
         <table class="table" id="myTable">
           <thead>
