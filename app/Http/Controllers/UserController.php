@@ -44,7 +44,6 @@ class UserController extends Controller
         $user->phone = $request->phone;
         $user->email = $request->email;
         $user-> password = bcrypt($request->password);
-
         $user->user_status = 'pengguna';
         if($request->hasFile('photo_identitas'))
         {

@@ -56,11 +56,20 @@ class UserController extends Controller
           return ResponseFormatter::failed('User Email Already Exists!', 409, $validator->errors());
       }
 
+    //   $user->user_status = 'pengguna';
+        if($request->hasFile('photo_identitas'))
+        {
+            $file = $request->file('photo_identitas');
+            $extention = $file->getClientOriginalExtension();
+            $filename=time().'.'.$extention;
+            $file->move('user_photo',$filename);
+            $input['photo_identitas']=$filename;
+        }
 
-      $input['photo'] = null;
+   
       $input['user_status'] = 'pengguna';
       $user = User::create($input);
-    //   $user['token'] =  $user->createToken('nApp')->accessToken;
+
 
       return ResponseFormatter::success('User Registration Success!', $user);
     }
