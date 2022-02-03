@@ -15,6 +15,7 @@ class CreatePembayaranIpklTable extends Migration
     {
         Schema::create('pembayaran_ipkl', function (Blueprint $table) {
             $table->id();
+            $table->integer('cluster_id');
             $table->integer('rumah_id');
             $table->date('periode_pembayaran');
             $table->string('metode_pembayaran');

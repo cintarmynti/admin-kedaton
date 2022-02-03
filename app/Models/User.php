@@ -25,6 +25,8 @@ class User extends Authenticatable
         'alamat',
         'phone',
         'photo_identitas',
+        'user_status',
+        'password'
 
     ];
 

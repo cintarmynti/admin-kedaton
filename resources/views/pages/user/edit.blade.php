@@ -11,22 +11,34 @@
             <div class="row">
                 <div class="col">
                     <label for="formGroupExampleInput" class="form-label">Nama</label>
-                  <input type="text" value="{{old('name', $user->name)}}" required class="form-control" name="name"  aria-label="First name">
+                  <input type="text" value="{{old('name', $user->name)}}"  class="form-control" name="name"  aria-label="First name">
                 </div>
                 <div class="col">
                     <label for="formGroupExampleInput" class="form-label">NIK</label>
-                  <input type="text" value="{{old('nik', $user->nik)}}" required class="form-control" name="nik" aria-label="Last name">
+                  <input type="text" value="{{old('nik', $user->nik)}}"  class="form-control" name="nik" aria-label="Last name">
                 </div>
             </div>
 
             <div class="row mt-4">
                 <div class="col">
                     <label for="formGroupExampleInput" class="form-label">Alamat</label>
-                  <input type="text" value="{{old('alamat', $user->alamat)}}" required class="form-control" name="alamat"  aria-label="First name">
+                  <input type="text" value="{{old('alamat', $user->alamat)}}"  class="form-control" name="alamat"  aria-label="First name">
                 </div>
                 <div class="col">
                     <label for="formGroupExampleInput" class="form-label">No Telp</label>
-                  <input type="text" value="{{old('phone', $user->phone)}}" required class="form-control" name="phone"  aria-label="Last name">
+                  <input type="text" value="{{old('phone', $user->phone)}}"  class="form-control" name="phone"  aria-label="Last name">
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col">
+                    <label for="formGroupExampleInput" class="form-label">Email</label>
+                  <input type="email" value="{{old('email', $user->email)}}"  class="form-control" name="email"  aria-label="First name">
+                </div>
+                <div class="col">
+
+                    <label for="formGroupExampleInput" class="form-label">Password</label>
+                  <input type="password"   class="form-control" name="password"  aria-label="Last name">
                 </div>
             </div>
 

@@ -107,10 +107,9 @@
             <div class="row mt-4">
                 <div class="col-md-6">
                     <label for="">Pilih Cluster</label>
-                    <select class="form-select" name="status" aria-label="Default select example">
+                    <select class="form-select" name="cluster_id" aria-label="Default select example">
                         <option disabled selected="">Pilih Cluster</option>
                         @foreach($cluster as $clu)
-
                         <option value="{{ $clu->id }}" {{ $clu->id == $listing->cluster_id ? 'selected' : '' }}>
                             {{ $clu->name }}
                         </option>

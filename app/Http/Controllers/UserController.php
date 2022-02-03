@@ -26,12 +26,25 @@ class UserController extends Controller
 
     public function store(Request $request){
 
+        $request->validate([
+            'name' => 'required',
+            'password' => 'required|min:8',
+            'nik' => 'required',
+            'email' => 'required|email',
+            'alamat' => 'required',
+            'phone' => 'required',
+
+        ]);
+
 
         $user = new User();
         $user-> name = $request->name;
         $user->nik = $request->nik;
-        $user->alamat=$request->alamat;
+        $user->alamat= $request->alamat;
         $user->phone = $request->phone;
+        $user->email = $request->email;
+        $user-> password = bcrypt($request->password);
+
         $user->user_status = 'pengguna';
         if($request->hasFile('photo_identitas'))
         {
@@ -61,26 +74,39 @@ class UserController extends Controller
     }
 
     public function update(Request $request, $id){
+
         $user = User::findOrFail($id);
         $user-> name = $request->name;
         $user->nik = $request->nik;
-        $user->alamat=$request->alamat;
+        $user->alamat= $request->alamat;
         $user->phone = $request->phone;
+        $user->email = $request->email;
+        $user-> password = bcrypt($request->password);
         $user->user_status = 'pengguna';
         if($request->hasFile('photo_identitas'))
         {
 
             $destination = public_path().'/user_photo/'.$user->photo_identitas;
-            // dd($destination);
-            if(File::exists($destination))
+            $identitas = $user->photo_identitas;
+
+            if($identitas == null){
+                $file = $request->file('photo_identitas');
+                $extention = $file->getClientOriginalExtension();
+                $filename=time().'.'.$extention;
+                $file->move('user_photo',$filename);
+                $user->photo_identitas=$filename;
+            }
+            else if(File::exists($destination))
             {
                 unlink($destination);
+
             }
             $file = $request->file('photo_identitas');
-            $extention = $file->getClientOriginalExtension();
-            $filename=time().'.'.$extention;
-            $file->move('user_photo',$filename);
-            $user->photo_identitas=$filename;
+                $extention = $file->getClientOriginalExtension();
+                $filename=time().'.'.$extention;
+                $file->move('user_photo',$filename);
+                $user->photo_identitas=$filename;
+
         }
         $user->update();
 
