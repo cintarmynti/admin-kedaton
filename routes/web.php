@@ -15,7 +15,7 @@ use App\Http\Controllers\IuranController;
 use App\Http\Controllers\ClusterController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\IPKLController;
-
+use App\Http\Controllers\RumahController;
 
 /*
 |--------------------------------------------------------------------------
@@ -156,6 +156,10 @@ Route::get('/ipkl/harga/{id}', [IPKLController::class, 'getIPKLharga'])->name('i
 
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
+
+Route::resource('/rumah-pengguna', RumahController::class);
+Route::get('/rumah-pengguna/cluster/{id}', [RumahController::class,'getIPKLid']);
+Route::get('/rumah-pengguna/delete/{id}', [RumahController::class,'delete']);
 
 });
 
