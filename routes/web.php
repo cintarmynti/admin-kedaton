@@ -151,6 +151,10 @@ Route::post('/ipkl/store', [IPKLController::class, 'store'])->name('ipkl.store')
 Route::get('/ipkl/delete/{id}', [IPKLController::class, 'delete'])->name('ipkl.delete');
 Route::get('/ipkl/edit/{id}', [IPKLController::class, 'edit'])->name('ipkl.edit');
 Route::put('/ipkl/update/{id}', [IPKLController::class, 'update'])->name('ipkl.update');
+Route::get('/ipkl/cluster/{id}', [IPKLController::class, 'getIPKLid'])->name('ipkl.cluster');
+Route::get('/ipkl/harga/{id}', [IPKLController::class, 'getIPKLharga'])->name('ipkl.harga');
+
+
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 Route::resource('/rumah-pengguna', RumahController::class);

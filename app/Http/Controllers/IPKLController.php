@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\IPKL;
 use App\Models\Listing;
+use App\Models\Cluster;
 use Illuminate\Http\Request;
 
 class IPKLController extends Controller
@@ -14,15 +15,38 @@ class IPKLController extends Controller
         return view('pages.ipkl.index', ['ipkl' => $ipkl]);
     }
 
+    public function getIPKLid($id)
+    {
+        $listing = Listing::where('cluster_id', $id)->get();
+        $html   = '';
+        foreach($listing as $data){
+            $html .= '<option value="'.$data['id'].'">'.$data['no_rumah'].'</option>';
+        }
+
+        echo $html;
+        // return response()->json($Listing);
+    }
+
+    public function getIPKLharga($id)
+    {
+        $listing = Listing::findOrFail($id);
+        $html   = '';
+        $html .= $listing['harga'];
+        echo $html;
+        // return response()->json($Listing);
+    }
+
     public function create()
     {
         $nomer = Listing::all();
-        return view('pages.ipkl.create', ['nomer' => $nomer]);
+        $cluster = Cluster::all();
+        return view('pages.ipkl.create', ['nomer' => $nomer, 'cluster' => $cluster]);
     }
 
     public function store(Request $request)
     {
         $ipkl = new IPKL();
+        $ipkl-> cluster_id = $request->cluster_id;
         $ipkl-> rumah_id = $request->rumah_id;
         $ipkl->periode_pembayaran = $request->periode_pembayaran;
         $ipkl->metode_pembayaran = $request->metode_pembayaran;

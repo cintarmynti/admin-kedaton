@@ -30,6 +30,17 @@
             </div>
 
             <div class="row mt-4">
+                <div class="col">
+                    <label for="formGroupExampleInput" class="form-label">Email</label>
+                  <input type="email" required class="form-control" name="email"  aria-label="First name">
+                </div>
+                <div class="col">
+                    <label for="formGroupExampleInput" class="form-label">Password</label>
+                  <input type="password" required class="form-control" name="password"  aria-label="Last name">
+                </div>
+            </div>
+
+            <div class="row mt-4">
                 <div class="col-md-6">
                     <label for="formGroupExampleInput" class="form-label ">Foto Pengguna</label>
                   <input type="file" id="filePhoto" required class="form-control" name="photo_identitas"  aria-label="First name">

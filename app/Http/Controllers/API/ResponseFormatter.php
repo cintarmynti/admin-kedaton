@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-
+use APp\Models\User;
 
 class ResponseFormatter extends Controller
 {
@@ -14,6 +14,9 @@ class ResponseFormatter extends Controller
             "message" => null
         ]
     ];
+
+
+ 
 
     public static function success($message, $data = [])
     {
