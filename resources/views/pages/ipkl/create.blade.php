@@ -10,50 +10,58 @@
                 <div class="row">
                     <div class="col">
 
-                            <label for="">No Rumah</label>
-                            <select class="form-select no-rumah" onchange="myFunction($(this))" name="rumah_id" aria-label="Default select example">
-                                <option disabled selected="">Pilih No Rumah</option>
-                                @foreach($nomer as $no)
-                                <option value="{{ $no->id }}" data-tarif={{$no -> tarif_ipkl}}>{{ $no->no_rumah }}</option>
-                                @endforeach
-                              </select>
-                        </div>
-                        {{-- <label for="formGroupExampleInput" class="form-label">No Rumah</label>
-                        <input type="text" required class="form-control" name="rumah_id"
-                            aria-label="First name"> --}}
-
-                    <div class="col">
-                        <label for="formGroupExampleInput" class="form-label">Periode Pembayaran</label>
-                        <input type="date" required class="form-control tarif-input"  name="periode_pembayaran"
-                            aria-label="Last name">
+                        <label for="">Pilih Cluster</label>
+                        <select class="form-select" name="cluster_id" id="cluster">
+                            <option hidden>Pilih Cluster</option>
+                            @foreach ($cluster as $item)
+                                <option value="{{ $item->id }}">{{ $item->name }}</option>
+                            @endforeach
+                        </select>
                     </div>
-                </div>
 
-                <div class="row mt-4">
                     <div class="col">
+                        <label for="no_rmh" class="form-label">Pilih No Rumah</label>
+                        <select class="form-select" name="rumah_id" id="no_rmh"></select>
+                    </div>
+
+                </div>
+                <div class="row mt-4">
+                    <div class="col-md-6" >
+                        <label for="formGroupExampleInput" class="form-label">Periode Pembayaran</label>
+                        <input type="date"  required class="form-control date tarif-input date" id="datepicker"
+                            name="periode_pembayaran" aria-label="Last name">
+                    </div>
+
+                    <div class="col-md-6">
 
                         <label for="">Metode Pembayaran</label>
                         <select class="form-select" name="metode_pembayaran" aria-label="Default select example">
                             <option disabled selected="">Pilih Metode Pembayaran</option>
                             <option value="transfer">transfer</option>
                             <option value="cash">cash</option>
-                          </select>
+                        </select>
                     </div>
-
-                    <div class="col">
-                        <label for="formGroupExampleInput" class="form-label">Jumlah Pembayaran</label>
-                        <input id="myText" type="text" id="jumlah" onkeyup="onchange_comma(this.id, this.value)" required class="form-control" name="jumlah_pembayaran"
-                            aria-label="Last name">
-                    </div>
-
                 </div>
 
-                <a href="{{ route('ipkl') }}" class="btn btn-warning mt-4">kembali</a>
-                <button type="submit" class="btn btn-primary ml-4 mt-4">Simpan</a>
+                <div class="row mt-4">
+
+                    <div class="col-md-6" id="harga">
+                        <label for="formGroupExampleInput" class="form-label">Jumlah Pembayaran</label>
+                        <input  type="text" id="jumlah" readonly required
+                            class="form-control" name="jumlah_pembayaran" aria-label="Last name">
+                    </div>
+                </div>
+
+        </div>
+
+
+
+        <a href="{{ route('ipkl') }}" class="btn btn-warning mt-4">kembali</a>
+        <button type="submit" class="btn btn-primary ml-4 mt-4">Simpan</a>
 
             </form>
 
-        </div>
+    </div>
     </div>
 @endsection
 
@@ -69,12 +77,11 @@
             });
         });
     </script>
-     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js" defer></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
 
     <script>
-
         function onchange_comma(id, value) {
             var x = numeral($("#" + id).val()).format('0,0');
             $("#" + id).val(x);
@@ -82,7 +89,7 @@
 
         function myFunction(e) {
             // console.log(data.tarif);
-            document.getElementById("myText").value = $(e).find('option:selected').data('tarif');
+            document.getElementById("no_rmh").value = $(e).find('option:selected').data('tarif');
 
         }
 
@@ -91,15 +98,71 @@
             $("#" + id).val(x);
         }
 
+
+        $('.date').datepicker({
+            format: 'mm-dd-yyyy'
+        });
     </script>
 
+    <script>
+        $(document).ready(function() {
+            $('#cluster').on('change', function() {
+                var clusterID = $(this).val();
+                if (clusterID) {
+                    $.ajax({
+                        url: '/ipkl/cluster/' + clusterID,
+                        type: "GET",
+                        data: {
+                            "_token": "{{ csrf_token() }}"
+                        },
+                        dataType: "html",
+                        success: function(data) {
+                            $('#no_rmh').html(data);
+                        }
+                    });
+                } else {
+                    $('#no_rmh').empty();
+                }
+            });
+        });
+
+
+        $(document).ready(function() {
+            $('#no_rmh').on('change', function() {
+                var harga_id = $(this).val();
+                if (harga_id) {
+                    $.ajax({
+                        url: '/ipkl/harga/' + harga_id,
+                        type: "GET",
+                        data: {
+                            "_token": "{{ csrf_token() }}"
+                        },
+                        dataType: "html",
+                        success: function(data) {
+                            $('#jumlah').val(data);
+                        }
+                    });
+                } else {
+                    $('#jumlah').val('');
+                }
+            });
+        });
+    </script>
 
 @endpush
 
 @push('before-style')
+
+
     <style>
-        .form-label{
+        .form-label {
             font-weight: 500;
         }
+
     </style>
+
+@endpush
+
+@push('after-script')
+
 @endpush

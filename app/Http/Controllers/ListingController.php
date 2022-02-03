@@ -160,6 +160,7 @@ class ListingController extends Controller
         $listing->user_id_pemilik = $request->pemilik;
         $listing-> status = $request->status;
         $listing->harga = $request->harga;
+        $listing->cluster_id = $request->cluster_id;
 
         $listing->update();
 
