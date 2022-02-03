@@ -13,6 +13,11 @@
       <li class="{{ Request::is('user') ? 'active-page' : '' }}">
         <a href="{{route('user')}}"><i data-feather="user"></i>Pengguna</a>
       </li>
+
+      <li class="{{ Request::is('rumah-pengguna*') ? 'active-page' : '' }}">
+        <a href="/rumah-pengguna"><i data-feather="user-check"></i>Rumah Pengguna</a>
+      </li>
+      
       <li class="{{ Request::is('listing') ? 'active-page' : '' }}">
         <a href="{{route('listing')}}"><i data-feather="calendar"></i>Listing</a>
       </li>
