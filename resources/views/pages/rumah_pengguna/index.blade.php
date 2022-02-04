@@ -3,7 +3,7 @@
 @section('content')
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title">Daftar Penggguna</h5>
+            <h5 class="card-title">Daftar Rumah Penggguna</h5>
             <p class="card-description">
                 <a class="btn btn-primary" href="/rumah-pengguna/create">Tambah Rumah Pengguna</a>
                 {{-- <a href="/user/export_excel" class="btn btn-success my-3" target="_blank">EXPORT EXCEL</a> --}}

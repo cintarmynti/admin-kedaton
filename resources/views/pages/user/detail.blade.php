@@ -14,11 +14,9 @@
                         <th scope="col">id</th>
                         {{-- user id --}}
                         <th scope="col">pengguna</th>
-                        <th scope="col">nik</th>
-                        <th scope="col">alamat</th>
-                        <th scope="col">No telp</th>
-                        <th scope="col">detail Photo</th>
-                        <th scope="col">Riwayat pembayaran</th>
+                        <th scope="col">nama pembayaran</th>
+                        <th scope="col">status</th>
+                        <th scope="col">tanggal</th>
                         <th scope="col">aksi</th>
                     </tr>
                 </thead>
@@ -26,31 +24,29 @@
                     @php
                         $no = 1;
                     @endphp
-                    @foreach ($users as $user)
+                    {{-- {{ $user }} --}}
+                    @foreach ($user as $us)
+                        
+                    
                         <tr>
                             <th scope="row">{{ $no++ }}</th>
-                            <td>{{ $user->name }}</td>
-                            <td>{{ $user->nik }}</td>
-                            <td>{{ $user->alamat }}</td>
-                            <td>{{ $user->phone }}</td>
-                            <td ><img src="{{ url('user_photo/' . $user->photo_identitas) }}" id="image" onclick="image()" style="height: 100px; width:200px; object-fit:cover" alt=""></td>
-                            <td><a href="/user/detail/{{ $user->id }}">lihat detail</a></td>
+                            <td>{{ $us->user->name }}</td>
+                            <td>{{ $us->nama_pembayaran }}</td>
+                            <td>{{ $us->status }}</td>
+                            <td>{{ $us->tanggal }}</td>
                             <td >
                                 <div class="d-flex">
-                                    <a class="btn btn-warning" href="{{ route('user.edit', $user->id) }}"><i
+                                    <a class="btn btn-warning" href="{{ route('user.edit', $us->id) }}"><i
                                         data-feather="edit"></i></a>
 
-                                <button type="submit" class="btn btn-danger delete" data-id="{{ $user->id }}"
+                                <button type="submit" class="btn btn-danger delete" data-id="{{ $us->id }}"
                                     data-nama="">
                                     <i data-feather="trash"></i>
                                 </button>
                                 </div>
-
-
                             </td>
                         </tr>
-                    @endforeach
-
+@endforeach
 
                 </tbody>
             </table>

@@ -15,7 +15,10 @@ use App\Http\Controllers\IuranController;
 use App\Http\Controllers\ClusterController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\IPKLController;
+use App\Http\Controllers\NotifikasiController;
 use App\Http\Controllers\RumahController;
+use App\Http\Controllers\SplashController;
+use App\Models\IPKL;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,6 +47,7 @@ Route::post('/user/store', [UserController::class, 'store'])->name('user.store')
 Route::get('/user/delete/{id}', [UserController::class, 'delete'])->name('user.delete');
 Route::get('/user/edit/{id}', [UserController::class, 'edit'])->name('user.edit');
 Route::put('/user/update/{id}', [UserController::class, 'update'])->name('user.update');
+Route::get('/user/detail/{id}', [UserController::class, 'show'])->name('user.detail');
 // Route::get('/siswa', 'SiswaController@index');
 Route::get('/user/export_excel', [UserController::class, 'export_excel'])->name('user.excel');
 
@@ -153,13 +157,17 @@ Route::get('/ipkl/edit/{id}', [IPKLController::class, 'edit'])->name('ipkl.edit'
 Route::put('/ipkl/update/{id}', [IPKLController::class, 'update'])->name('ipkl.update');
 Route::get('/ipkl/cluster/{id}', [IPKLController::class, 'getIPKLid'])->name('ipkl.cluster');
 Route::get('/ipkl/harga/{id}', [IPKLController::class, 'getIPKLharga'])->name('ipkl.harga');
-
+Route::get('/ipkl/riwayat/{id}', [IPKLController::class, 'get_riwayat'])->name('ipkl.riwayat');
+Route::patch('/ipkl/riwayat-create', [IPKLController::class, 'create_riwayat'])->name('ipkl.riwayat');
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 Route::resource('/rumah-pengguna', RumahController::class);
 Route::get('/rumah-pengguna/cluster/{id}', [RumahController::class,'getIPKLid']);
 Route::get('/rumah-pengguna/delete/{id}', [RumahController::class,'delete']);
+
+Route::resource('/splash-screen', SplashController::class);
+Route::get('/splash-screen/delete/{id}', [SplashController::class,'delete']);
 
 });
 

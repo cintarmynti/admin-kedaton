@@ -46,7 +46,7 @@
                 <div class="col-md-6">
                     <label for="formGroupExampleInput" class="form-label">Foto Pengguna</label>
                   <input type="file" id="filePhoto"  class="form-control" name="photo_identitas"  aria-label="First name">
-                  <img id="output" class="mb-3" style="max-height: 200px; max-width: 300px">
+                  <img id="output" src="{{ asset('user_photo/' . $user->photo_identitas) }}" class="mb-3" style="max-height: 200px; max-width: 300px">
                 </div>
             </div>
                 <a href="{{route('user')}}" class="btn btn-warning mt-4">kembali</a>
