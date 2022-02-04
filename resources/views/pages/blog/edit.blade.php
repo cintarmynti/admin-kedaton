@@ -15,7 +15,8 @@
                 </div>
                 <div class="col-md-6">
                     <label for="">Foto Header</label>
-                  <input type="file" class="form-control" name="photo_identitas" placeholder="photo identitas" aria-label="First name">
+                    <input type="file" id="filePhoto" class="form-control" name="photo_identitas" placeholder="photo identitas" aria-label="First name">
+                    <img id="output" src="{{ asset('blog_image/' . $blog->gambar) }}" alt="{{ $blog->gambar }}" class="mt-2" style="max-height: 200px; max-width: 300px">
                 </div>
             </div>
 
@@ -78,6 +79,15 @@
                 },
             });
         }
+</script>
+<script>
+    $(function() {
+        $("#filePhoto").change(function(event) {
+            var x = URL.createObjectURL(event.target.files[0]);
+            $("#output").attr("src", x);
+            console.log(event);
+        });
+    });
 </script>
 @endpush
 
