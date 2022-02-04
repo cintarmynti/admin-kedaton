@@ -3,53 +3,39 @@
 @section('content')
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title">Daftar Penggguna</h5>
+            <h5 class="card-title">Daftar Listing</h5>
             <p class="card-description">
-                <a class="btn btn-primary" href="{{ route('user.create') }}">Tambah Pengguna</a>
-                {{-- <a href="/user/export_excel" class="btn btn-success my-3" target="_blank">EXPORT EXCEL</a> --}}
+                {{-- <a class="btn btn-primary" href="{{ route('listing.create') }}">Tambah Listing</a> --}}
             </p>
             <table class="table" id="myTable">
                 <thead>
                     <tr>
                         <th scope="col">id</th>
-                        {{-- user id --}}
-                        <th scope="col">pengguna</th>
-                        <th scope="col">nik</th>
                         <th scope="col">alamat</th>
-                        <th scope="col">No telp</th>
-                        <th scope="col">detail Photo</th>
-                        <th scope="col">Riwayat pembayaran</th>
+                        <th scope="col">detail bangunan</th>
                         <th scope="col">aksi</th>
                     </tr>
                 </thead>
-                <tbody id="images">
+                <tbody>
                     @php
                         $no = 1;
                     @endphp
-                    @foreach ($users as $user)
+                    {{-- @foreach ($listing as $lis) --}}
                         <tr>
-                            <th scope="row">{{ $no++ }}</th>
-                            <td>{{ $user->name }}</td>
-                            <td>{{ $user->nik }}</td>
-                            <td>{{ $user->alamat }}</td>
-                            <td>{{ $user->phone }}</td>
-                            <td ><img src="{{ url('user_photo/' . $user->photo_identitas) }}" id="image" onclick="image()" style="height: 100px; width:200px; object-fit:cover" alt=""></td>
-                            <td><a href="/user/detail/{{ $user->id }}">lihat detail</a></td>
-                            <td >
-                                <div class="d-flex">
-                                    <a class="btn btn-warning" href="{{ route('user.edit', $user->id) }}"><i
+                            {{-- <th scope="row">{{ $no++ }}</th>
+                            <td>{{ $lis->alamat }}</td>
+                            <td><a href="{{ route('listing.detail', $lis->id) }}">lihat detail</a></td>
+                            <td class="d-flex">
+                                <a class="btn btn-warning" href="{{ route('listing.edit', $lis->id) }}"><i
                                         data-feather="edit"></i></a>
-
-                                <button type="submit" class="btn btn-danger delete" data-id="{{ $user->id }}"
-                                    data-nama="">
+                                <button type="submit" class="btn btn-danger delete" data-id="{{ $lis->id }}">
                                     <i data-feather="trash"></i>
                                 </button>
-                                </div>
 
-
-                            </td>
+                            </td> --}}
                         </tr>
-                    @endforeach
+                    {{-- @endforeach --}}
+
 
 
                 </tbody>
@@ -75,7 +61,6 @@
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
     </script>
     <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.11.3/datatables.min.js"></script>
-
     <script>
         $(document).ready(function() {
             $('#myTable').DataTable();
@@ -93,7 +78,7 @@
                 })
                 .then((willDelete) => {
                     if (willDelete) {
-                        window.location = "/user/delete/" + userId;
+                        window.location = "/listing/delete/" + userId;
                         swal("Data berhasil dihapus!", {
                             icon: "success",
                         });
@@ -104,15 +89,6 @@
         });
 
 
-        function image() {
-
-            const viewer = new Viewer( document.getElementById('images'), {
-                        viewed() {
-                            viewer.zoomTo(1);
-                        },
-                    });
-        }
     </script>
-
 
 @endpush

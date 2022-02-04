@@ -26,9 +26,9 @@
                         <tr>
                             <th scope="row">{{ $no++ }}</th>
                             <td>{{ $bnr->judul }}</td>
-                            <td>{{ $bnr->link }}</td>
+                            <td>{{ substr($bnr->link , 0, 40) }}</td>
                             <td><img id="images" onclick="image()" src="{{ url('banner_photo/' . $bnr->foto) }}"
-                                    width="80px" alt=""></td>
+                                style="height: 100px; width:200px; object-fit:cover" alt=""></td>
                             <td >
                                 <div class="d-flex">
                                     <a class="btn btn-warning" href="{{ route('banner.edit', $bnr->id) }}"><i

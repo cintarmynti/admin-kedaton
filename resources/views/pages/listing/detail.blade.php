@@ -6,91 +6,91 @@
             <h5 class="card-title">Detail Bangunan</h5>
             <p class="card-description"></p>
 
-            <div class="row mt-4">
-                <div class="col">
-                    <p>Alamat</p>
+            <div class="row mt-4 border border-5 ">
+                <div class="col border-end">
+                    <p><b>Alamat</b> </p>
                     <p>{{ $listing->alamat }}</p>
                 </div>
 
                 <div class="col">
-                    <p>No Rumah</p>
+                    <p><b>No Rumah</b> </p>
                     <p>{{ $listing->no_rumah }}</p>
                 </div>
             </div>
 
-            <div class="row mt-4">
-                <div class="col">
-                    <p>RT</p>
+            <div class="row mt-4 border border-5">
+                <div class="col border-end">
+                    <p><b>RT</b></p>
                     <p>{{ $listing->RT }}</p>
                 </div>
 
                 <div class="col">
-                    <p>RW</p>
+                    <p><b>RW</b></p>
                     <p>{{ $listing->RW }}</p>
                 </div>
             </div>
 
-            <div class="row mt-4">
-                <div class="col">
-                    <p>Lantai</p>
+            <div class="row mt-4 border border-5">
+                <div class="col border-end">
+                    <p><b>Lantai</b></p>
                     <p>{{ $listing->lantai }}</p>
                 </div>
 
                 <div class="col">
-                    <p>Jumlah Kamar</p>
+                    <p><b>Jumlah Kamar</b></p>
                     <p>{{ $listing->jumlah_kamar }}</p>
                 </div>
             </div>
 
-            <div class="row mt-4">
-                <div class="col">
-                    <p>Luas Kavling</p>
+            <div class="row mt-4 border border-5">
+                <div class="col border-end">
+                    <p><b>Luas Kavling</b></p>
                     <p>{{ $listing->luas_tanah }}</p>
                 </div>
 
                 <div class="col">
-                    <p>Luas Bangunan</p>
+                    <p><b>Luas Bangunan</b></p>
                     <p>{{ $listing->luas_bangunan }}</p>
                 </div>
             </div>
 
-            <div class="row mt-4">
-                <div class="col">
-                    <p>Penghuni</p>
+            <div class="row mt-4 border border-5">
+                <div class="col border-end">
+                    <p><b>Penghuni</b></p>
                     <p>{{ $listing->user_penghuni->name }}</p>
                 </div>
 
                 <div class="col">
-                    <p>Pemilik</p>
+                    <p><b>Pemilik</b></p>
                     <p>{{ $listing->user_pemilik->name }}</p>
                 </div>
             </div>
 
-            <div class="row mt-4">
-                <div class="col">
-                    <p>Status</p>
+            <div class="row mt-4 border border-5">
+                <div class="col border-end">
+                    <p><b>Status</b></p>
                     <p>{{ $listing->status }}</p>
                 </div>
 
                 <div class="col">
-                    <p>Harga</p>
+                    <p><b>Harga</b></p>
                     <p>{{ $listing->harga }}</p>
                 </div>
             </div>
 
-            <div class="row mt-4">
+            <div class="row mt-4 border border-5">
                 <div class="col">
-                    <p>Biaya IPKL</p>
+                    <p><b>Biaya IPKL</b></p>
                     <p>Rp {{ number_format($listing->tarif_ipkl, 2, ',', '.') }}</p>
 
                 </div>
 
             </div>
 
-            <div class="row mt-2" id="images">
+            <div class="row mt-3" id="images">
                 @foreach ($image as $item)
                     <div class="col wrapper" >
-                        <img onclick="image()" src="{{ url('files/' . $item->image) }}" width="200px" height="200px" alt="">
+                        <img onclick="image()" src="{{ url('files/' . $item->image) }}" style="height: 100px; width:200px; object-fit:cover" alt="">
                         <div class="panjang">
                             <a href="{{route('listingimg.delete', $item->id)}}" width="200px" class="btn btn-danger hapus mt-3">hapus gambar</a>
                         </div>

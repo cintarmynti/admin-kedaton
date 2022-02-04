@@ -6,7 +6,7 @@
         <div class="row mt-2" id="images">
             @foreach ($image as $item)
                 <div class="col wrapper" >
-                    <img onclick="image()" src="{{ url('blog_image/' . $item->image) }}" width="200px" height="200px" alt="">
+                    <img onclick="image()" src="{{ url('blog_image/' . $item->image) }}" style="height: 100px; width:200px; object-fit:cover" alt="">
                     <div class="panjang">
                         <a href="{{route('blogimg.delete', $item->id)}}" width="200px" class="btn btn-danger hapus mt-3">hapus gambar</a>
                     </div>

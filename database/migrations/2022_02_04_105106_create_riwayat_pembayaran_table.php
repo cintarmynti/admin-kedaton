@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePembayaranIpklTable extends Migration
+class CreateRiwayatPembayaranTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,13 @@ class CreatePembayaranIpklTable extends Migration
      */
     public function up()
     {
-        Schema::create('pembayaran_ipkl', function (Blueprint $table) {
+        Schema::create('riwayat_pembayaran', function (Blueprint $table) {
             $table->id();
-            $table->integer('cluster_id');
-            $table->integer('rumah_id');
             $table->integer('user_id');
-            $table->date('periode_pembayaran');
-            $table->string('metode_pembayaran');
-            $table->string('jumlah_pembayaran');
-            $table->integer('status')->default(1);
+            $table->integer('tagihan_id');
+            $table->string('nama_pembayaran');
+            $table->string('status');
+            $table->string('tanggal');
             $table->timestamps();
         });
     }
@@ -33,6 +31,6 @@ class CreatePembayaranIpklTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pembayaran_ipkl');
+        Schema::dropIfExists('riwayat_pembayaran');
     }
 }
