@@ -16,5 +16,7 @@ class DatabaseSeeder extends Seeder
         // \App\Models\User::factory(10)->create();
         $this->call(UsersTableSeeder::class);
         $this->call(tarif_ipklTableSeeder::class);
+        $this->call(ListingTableSeeder::class);
+        $this->call(ClusterTableSeeder::class);
     }
 }

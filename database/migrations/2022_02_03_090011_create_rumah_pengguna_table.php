@@ -15,8 +15,8 @@ class CreateRumahPenggunaTable extends Migration
     {
         Schema::create('rumah_pengguna', function (Blueprint $table) {
             $table->id();
-            $table->string('no_rumah');
-            $table->string('user_id')->nullable();
+            $table->integer('no_rumah');
+            $table->integer('user_id')->nullable();
             $table->timestamps();
         });
     }
