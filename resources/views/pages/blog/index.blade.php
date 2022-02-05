@@ -27,8 +27,8 @@
               <tr>
                 <th scope="row">{{$no++}}</th>
                 <td>{{$com->judul}}</td>
-                <td>{!! $com->desc !!}</td>
-                <td><img onclick="image()" src="{{url('blog_image/'.$com->gambar)}}" width="200px" alt=""></td>
+                <td>{!! substr($com->desc , 0, 40) !!}..</td>
+                <td><img onclick="image()" src="{{url('blog_image/'.$com->gambar)}}" style="height: 100px; width:200px; object-fit:cover" alt=""></td>
                 <td> <a href="{{route('blog.detail', $com->id)}}">lihat detail</a></td>
                 <td>
                     <div class="d-flex">

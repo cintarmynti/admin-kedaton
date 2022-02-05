@@ -3,9 +3,9 @@
 @section('content')
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title">Daftar Penggguna</h5>
+            <h5 class="card-title">Daftar Splash Screen</h5>
             <p class="card-description">
-                <a class="btn btn-primary" href="{{ route('user.create') }}">Tambah Pengguna</a>
+                <a class="btn btn-primary" href="/splash-screen/create">Tambah Splash Screen</a>
                 {{-- <a href="/user/export_excel" class="btn btn-success my-3" target="_blank">EXPORT EXCEL</a> --}}
             </p>
             <table class="table" id="myTable">
@@ -13,12 +13,9 @@
                     <tr>
                         <th scope="col">id</th>
                         {{-- user id --}}
-                        <th scope="col">pengguna</th>
-                        <th scope="col">nik</th>
-                        <th scope="col">alamat</th>
-                        <th scope="col">No telp</th>
-                        <th scope="col">detail Photo</th>
-                        <th scope="col">Riwayat pembayaran</th>
+                        <th scope="col">JUDUL</th>
+                        <th scope="col">DESKRIPSI</th>
+                        <th scope="col">DETAIL PHOTO</th>
                         <th scope="col">aksi</th>
                     </tr>
                 </thead>
@@ -26,18 +23,16 @@
                     @php
                         $no = 1;
                     @endphp
-                    @foreach ($users as $user)
+                    @foreach ($splash as $user)
                         <tr>
                             <th scope="row">{{ $no++ }}</th>
-                            <td>{{ $user->name }}</td>
-                            <td>{{ $user->nik }}</td>
-                            <td>{{ $user->alamat }}</td>
-                            <td>{{ $user->phone }}</td>
-                            <td ><img src="{{ url('user_photo/' . $user->photo_identitas) }}" id="image" onclick="image()" style="height: 100px; width:200px; object-fit:cover" alt=""></td>
-                            <td><a href="/user/detail/{{ $user->id }}">lihat detail</a></td>
+                            <td>{{ $user->judul}}</td>
+                            <td>{{substr(strip_tags($user->desc) , 0, 40)}}..</td>
+                            <td >
+                                <img src="{{ url('splash_photo/' . $user->gambar) }}" id="image" onclick="image()" style="height: 100px; width:200px; object-fit:cover" alt=""></td>
                             <td >
                                 <div class="d-flex">
-                                    <a class="btn btn-warning" href="{{ route('user.edit', $user->id) }}"><i
+                                    <a class="btn btn-warning" href="splash-screen/{{ $user->id }}/edit"><i
                                         data-feather="edit"></i></a>
 
                                 <button type="submit" class="btn btn-danger delete" data-id="{{ $user->id }}"
@@ -93,7 +88,7 @@
                 })
                 .then((willDelete) => {
                     if (willDelete) {
-                        window.location = "/user/delete/" + userId;
+                        window.location = "/splash-screen/delete/" + userId;
                         swal("Data berhasil dihapus!", {
                             icon: "success",
                         });

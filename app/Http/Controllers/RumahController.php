@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Cluster;
 use App\Models\User;
 use App\Models\Rumah;
+use App\Models\Cluster;
 use App\Models\Listing;
-use Illuminate\Auth\Events\Validated;
 use Illuminate\Http\Request;
+use Illuminate\Auth\Events\Validated;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class RumahController extends Controller
 {
@@ -50,6 +51,7 @@ class RumahController extends Controller
         $renovasi-> user_id = $request-> user_id;
         $renovasi-> no_rumah = $request-> no_rumah;
         $renovasi->save();
+        Alert::success('Data berhasil disimpan');
         return redirect('/rumah-pengguna');
     }
 

@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\IPKL;
-use App\Models\Listing;
 use App\Models\Cluster;
+use App\Models\Listing;
+use App\Models\Riwayat;
 use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class IPKLController extends Controller
 {
@@ -98,4 +100,19 @@ class IPKLController extends Controller
         $ipkl->delete();
         return redirect('/ipkl');
     }
+
+    public function get_riwayat($id){
+
+        $cancel = IPKL::findOrFail($id);
+        return response()->json($cancel);
+     }
+    
+     public function create_riwayat(Request $request)
+     {
+        $renovasi = new Riwayat();
+        $renovasi-> user_id = $request-> user_id;
+        $renovasi->save();
+        Alert::success('Data berhasil disimpan');
+        // return redirect('/ipkl');
+     }
 }

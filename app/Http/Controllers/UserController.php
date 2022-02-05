@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Models\User;
 use App\Exports\UserExport;
+use App\Models\Pembayaran;
+use App\Models\Riwayat;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -133,5 +135,13 @@ class UserController extends Controller
         unlink($image_path);
         $user->delete();
         return redirect('/user');
+    }
+
+    public function show($id)
+    {   
+        $user = Riwayat::where('user_id', 2)->get();
+       return view('pages.user.detail',[
+           "user" => $user
+       ]);
     }
 }

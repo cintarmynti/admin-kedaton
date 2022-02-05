@@ -28,7 +28,7 @@
                             <label for="">Masukkan Gambar</label>
                             <input id="filePhoto" type="file" class="form-control" name="photo"
                                 aria-label="First name">
-                                <img id="output" class="mb-3" style="max-height: 200px; max-width: 300px">
+                                <img id="output" src="{{ asset('promo_photo/' . $promo->foto) }}" class="mb-3" style="max-height: 200px; max-width: 300px">
                         </div>
                     </div>
                 </div>

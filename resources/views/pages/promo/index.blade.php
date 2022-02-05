@@ -26,8 +26,8 @@
               <tr>
                 <th scope="row">{{$no++}}</th>
                 <td>{{$pr->judul}}</td>
-                <td>{{$pr->link}}</td>
-                <td><img onclick="image()" src="{{url('promo_photo/'.$pr->foto)}}" width="80px" alt=""></td>
+                <td>{{substr($pr->link, 0, 40)}}</td>
+                <td><img onclick="image()" src="{{url('promo_photo/'.$pr->foto)}}" style="height: 100px; width:200px; object-fit:cover" alt=""></td>
                 <td >
                     <div class="d-flex">
                         <a class="btn btn-warning" href="{{route('promo.edit',$pr->id)}}"><i data-feather="edit"></i></a>
