@@ -5,15 +5,20 @@ namespace App\Http\Controllers;
 use App\Models\IPKL;
 use App\Models\Cluster;
 use App\Models\Listing;
+use App\Models\Notifikasi;
 use App\Models\Riwayat;
 use Illuminate\Http\Request;
+use App\Models\Tagihan;
 use RealRashid\SweetAlert\Facades\Alert;
+use Illuminate\Support\Carbon;
+use App\Models\Rumah;
 
 class IPKLController extends Controller
 {
     public function index()
     {
-        $ipkl = IPKL::with('nomer')->get();
+        $ipkl = Tagihan::with('nomer', 'cluster')->get();
+        // dd($ipkl);
         return view('pages.ipkl.index', ['ipkl' => $ipkl]);
     }
 
@@ -22,6 +27,7 @@ class IPKLController extends Controller
         $listing = Listing::where('cluster_id', $id)->get();
         $html   = '';
         foreach($listing as $data){
+
             $html .= '<option value="'.$data['id'].'">'.$data['no_rumah'].'</option>';
         }
 
@@ -33,10 +39,12 @@ class IPKLController extends Controller
     {
         $listing = Listing::findOrFail($id);
         $html   = '';
-        $html .= $listing['harga'];
+        $html .= $listing['tarif_ipkl'];
         echo $html;
         // return response()->json($Listing);
     }
+
+
 
     public function create()
     {
@@ -47,11 +55,10 @@ class IPKLController extends Controller
 
     public function store(Request $request)
     {
-        $ipkl = new IPKL();
+        $ipkl = new Tagihan();
         $ipkl-> cluster_id = $request->cluster_id;
-        $ipkl-> rumah_id = $request->rumah_id;
+        $ipkl-> listing_id = $request->rumah_id;
         $ipkl->periode_pembayaran = $request->periode_pembayaran;
-        $ipkl->metode_pembayaran = $request->metode_pembayaran;
         $ipkl->jumlah_pembayaran = $request->jumlah_pembayaran;
         $ipkl->status = 1;
         $ipkl->save();
@@ -106,13 +113,39 @@ class IPKLController extends Controller
         $cancel = IPKL::findOrFail($id);
         return response()->json($cancel);
      }
-    
+
      public function create_riwayat(Request $request)
      {
-        $renovasi = new Riwayat();
-        $renovasi-> user_id = $request-> user_id;
-        $renovasi->save();
+
+
+        $riwayat = new Notifikasi();
+        $riwayat -> user_id = $request->user_id;
+        $riwayat-> pembayaran_id = $request->pembayaran_id;
+        $riwayat->tanggal = Carbon::now()->toDateString();
+        $riwayat-> desc = 'pembayaran anda telah diterima oleh admin';
+        $riwayat->type = 'IPKL';
+        $riwayat->save();
         Alert::success('Data berhasil disimpan');
+
+        $data = IPKL::findOrFail($request-> pembayaran_id);
+        // dd($status_id);
+        $status_sekarang = $data->status;
+        if($status_sekarang == 1){
+            IPKL::where('id', $request-> pembayaran_id)->update([
+                'status' => 2
+            ]);
+
+            Tagihan::where('id', $request->tagihan_id)->update([
+                'status' => 2
+            ]);
+        }
+
+        return redirect()->back();
         // return redirect('/ipkl');
+     }
+
+     public function pembayar($id){
+        $ipkl = IPKL::with('user')->where('tagihan_id', $id)->get();
+        return view('pages.ipkl.detail', ['ipkl' => $ipkl]);
      }
 }

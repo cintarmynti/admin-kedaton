@@ -15,7 +15,7 @@ class CreateRiwayatPembayaranTable extends Migration
     {
         Schema::create('riwayat_pembayaran', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id');
+            $table->integer('user_id')->nullable();
             $table->integer('tagihan_id');
             $table->string('nama_pembayaran');
             $table->string('status');

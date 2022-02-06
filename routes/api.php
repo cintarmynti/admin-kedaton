@@ -2,7 +2,8 @@
 
 use App\Http\Controllers\API\RenovasiController;
 use App\Http\Controllers\API\UserController;
-
+use App\Http\Controllers\API\IPKLController;
+use App\Http\Controllers\API\NotifikasiController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -32,7 +33,18 @@ Route::get('/renovasi/delete/{id}', [RenovasiController::class, 'delete']);
 
 Route::post('login', [UserController::class, 'login']);
 Route::post('register', [UserController::class, 'register']);
-Route::post('profile', [UserController::class, 'profile']);
+Route::get('profile', [UserController::class, 'profile']);
+
+Route::post('bayar-ipkl', [IPKLController::class, 'store']);
+Route::get('sudah-acc', [IPKLController::class, 'ipklAcc']);
+
+Route::get('belom-bayar-ipkl', [IPKLController::class, 'belomDibayar']);
+Route::get('sudah-bayar-ipkl', [IPKLController::class, 'sudahDibayar']);
+
+
+Route::get('count-notif', [NotifikasiController::class, 'countNotif']);
+Route::get('semua-notif', [NotifikasiController::class, 'notif']);
+
 
 
 

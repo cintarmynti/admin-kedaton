@@ -18,7 +18,7 @@
                         <th scope="col">alamat</th>
                         <th scope="col">No telp</th>
                         <th scope="col">detail Photo</th>
-                        <th scope="col">Riwayat pembayaran</th>
+                        {{-- <th scope="col">Riwayat pembayaran</th> --}}
                         <th scope="col">aksi</th>
                     </tr>
                 </thead>
@@ -33,8 +33,8 @@
                             <td>{{ $user->nik }}</td>
                             <td>{{ $user->alamat }}</td>
                             <td>{{ $user->phone }}</td>
-                            <td ><img src="{{ url('user_photo/' . $user->photo_identitas) }}" id="image" onclick="image()" style="height: 100px; width:200px; object-fit:cover" alt=""></td>
-                            <td><a href="/user/detail/{{ $user->id }}">lihat detail</a></td>
+                            <td ><img src="{{ url('user_photo/' . $user->photo_identitas) }}" id="image" onclick="image()" style="height: 100px; width:150px; object-fit:cover" alt=""></td>
+                            {{-- <td><a href="/user/detail/{{ $user->id }}">lihat detail</a></td> --}}
                             <td >
                                 <div class="d-flex">
                                     <a class="btn btn-warning" href="{{ route('user.edit', $user->id) }}"><i

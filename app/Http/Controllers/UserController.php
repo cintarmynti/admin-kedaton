@@ -131,14 +131,19 @@ class UserController extends Controller
 
     public function delete($id){
         $user = User::find($id);
-        $image_path = public_path().'/user_photo/'.$user->photo_identitas;
-        unlink($image_path);
+        // dd($user->photo_identitas);
+        if($user->photo_identitas != null){
+            $image_path = public_path().'/user_photo/'.$user->photo_identitas;
+            unlink($image_path);
+            $user->delete();
+        }
+
         $user->delete();
         return redirect('/user');
     }
 
     public function show($id)
-    {   
+    {
         $user = Riwayat::where('user_id', 2)->get();
        return view('pages.user.detail',[
            "user" => $user

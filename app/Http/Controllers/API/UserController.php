@@ -84,16 +84,23 @@ class UserController extends Controller
     public function login(Request $request)
     {
         $no_rumah = Listing::where('no_rumah', $request->no_rumah)->first()->id;
-        $rumah = Rumah::where('id', $no_rumah)->first()->id;
-        $user = Rumah::where('no_rumah', $no_rumah)->first()->user_id;
-        $password_user = User::where('id', $user)->first()->password;
-        $pw = Hash::check(request('password'), $password_user);
+        $pemilik = Listing::where('no_rumah', $request->no_rumah)->first()->user_id_pemilik;
+        $password_pemilik = User::where('id', $pemilik)->first()->password;
+        // dd($password_pemilik);
+        $penghuni = Listing::where('no_rumah', $request->no_rumah)->first()->user_id_penghuni;
+        $password_penghuni = User::where('id', $penghuni)->first()->password;
 
-        if($no_rumah == $rumah && $pw){
-            $user_login = User::where('id', $user)->first();
+        $pw_penghuni = Hash::check($request->password, $password_penghuni);
+        $pw_pemilik = Hash::check($request->password, $password_pemilik);
+
+
+        if($no_rumah != null && $pw_penghuni){
+            $user_login = User::where('id', $penghuni)->first();
             return ResponseFormatter::success('User Login Success!', $user_login);
-        }
-        else {
+        }else if($no_rumah != null && $pw_pemilik){
+            $user_login = User::where('id', $pemilik)->first();
+            return ResponseFormatter::success('User Login Success!', $user_login);
+        }else{
             return ResponseFormatter::failed('User Login Failed!', 401, ['Unauthorized']);
         }
     }
@@ -102,7 +109,6 @@ class UserController extends Controller
     public function profile(Request $request)
     {
         $user = User::where('id', $request->id)->first();
-        // dd($user);
         return ResponseFormatter::success('get user profile!', $user);
     }
 

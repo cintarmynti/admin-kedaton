@@ -157,8 +157,12 @@ Route::get('/ipkl/edit/{id}', [IPKLController::class, 'edit'])->name('ipkl.edit'
 Route::put('/ipkl/update/{id}', [IPKLController::class, 'update'])->name('ipkl.update');
 Route::get('/ipkl/cluster/{id}', [IPKLController::class, 'getIPKLid'])->name('ipkl.cluster');
 Route::get('/ipkl/harga/{id}', [IPKLController::class, 'getIPKLharga'])->name('ipkl.harga');
-Route::get('/ipkl/riwayat/{id}', [IPKLController::class, 'get_riwayat'])->name('ipkl.riwayat');
-Route::patch('/ipkl/riwayat-create', [IPKLController::class, 'create_riwayat'])->name('ipkl.riwayat');
+Route::get('/ipkl/riwayat/{id}', [IPKLController::class, 'get_riwayat']);
+Route::patch('/ipkl/riwayat-create', [IPKLController::class, 'create_riwayat']);
+Route::get('/ipkl/pembayar/{id}', [IPKLController::class, 'pembayar'])->name('ipkl.pembayar');
+
+
+
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 

@@ -42,8 +42,8 @@ class ListingTableSeeder extends Seeder
             'jumlah_kamar' => '5',
             'luas_tanah' => '155',
             'luas_bangunan' => '20',
-            'user_id_penghuni' => 2,
-            'user_id_pemilik' => 7,
+            'user_id_penghuni' => 1,
+            'user_id_pemilik' => 3,
             'tarif_ipkl' => 400000,
             'status' => 'dijual',
             'cluster_id' => 2,
@@ -60,8 +60,8 @@ class ListingTableSeeder extends Seeder
             'jumlah_kamar' => '3',
             'luas_tanah' => '155',
             'luas_bangunan' => '20',
-            'user_id_penghuni' => 2,
-            'user_id_pemilik' => 7,
+            'user_id_penghuni' => 5,
+            'user_id_pemilik' => 4,
             'tarif_ipkl' => 400000,
             'status' => 'dijual',
             'cluster_id' => 3,
@@ -79,7 +79,7 @@ class ListingTableSeeder extends Seeder
             'jumlah_kamar' => '5',
             'luas_tanah' => '155',
             'luas_bangunan' => '20',
-            'user_id_penghuni' => 2,
+            'user_id_penghuni' => 1,
             'user_id_pemilik' => 7,
             'tarif_ipkl' => 12000,
             'status' => 'dijual',
@@ -98,16 +98,13 @@ class ListingTableSeeder extends Seeder
             'jumlah_kamar' => '5',
             'luas_tanah' => '155',
             'luas_bangunan' => '20',
-            'user_id_penghuni' => 2,
-            'user_id_pemilik' => 7,
+            'user_id_penghuni' => 6,
+            'user_id_pemilik' => 5,
             'tarif_ipkl' => 12000,
             'status' => 'dijual',
             'cluster_id' => 2,
             'harga' => 50000000,
         ]);
-
-
-
 
     }
 }

@@ -3,9 +3,9 @@
 @section('content')
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title">Daftar Penggguna</h5>
+            <h5 class="card-title">Riwayat Pembayaran</h5>
             <p class="card-description">
-                <a class="btn btn-primary" href="{{ route('user.create') }}">Tambah Pengguna</a>
+                {{-- <a class="btn btn-primary" href="{{ route('user.create') }}">Tambah Pengguna</a> --}}
                 {{-- <a href="/user/export_excel" class="btn btn-success my-3" target="_blank">EXPORT EXCEL</a> --}}
             </p>
             <table class="table" id="myTable">
@@ -26,8 +26,8 @@
                     @endphp
                     {{-- {{ $user }} --}}
                     @foreach ($user as $us)
-                        
-                    
+
+
                         <tr>
                             <th scope="row">{{ $no++ }}</th>
                             <td>{{ $us->user->name }}</td>

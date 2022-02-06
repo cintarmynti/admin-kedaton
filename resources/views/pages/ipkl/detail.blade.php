@@ -5,17 +5,19 @@
         <div class="card-body">
             <h5 class="card-title">Daftar Tagihan IPKL</h5>
             <p class="card-description">
-                <a class="btn btn-primary" href="{{ route('ipkl.create') }}">Tambah IPKL</a>
+                {{-- <a class="btn btn-primary" href="{{ route('ipkl.create') }}">Tambah IPKL</a> --}}
             </p>
             <table class="table" id="myTable">
                 <thead>
                     <tr>
                         <th scope="col">id</th>
                         {{-- user id --}}
-                        <th scope="col">cluster id</th>
-                        <th scope="col">no rumah</th>
-                        <th scope="col">periode Pembayaran</th>
-                        <th scope="col">jumlah pembayaran</th>
+                        <th scope="col">dibayar oleh</th>
+                        {{-- <th scope="col">tagihan</th> --}}
+                        <th scope="col"> tagihan IPKL periode </th>
+                        <th scope="col">bank</th>
+                        <th scope="col">bukti tf</th>
+                        <th scope="col">nominal</th>
                         <th scope="col">status</th>
                         <th scope="col">aksi</th>
 
@@ -28,10 +30,12 @@
                     @foreach ($ipkl as $i)
                         <tr>
                             <td>{{ $no++ }}</td>
-                            <td>{{ $i->cluster->name }}</td>
-                            <td>{{ $i->nomer->no_rumah }}</td>
+                            <td>{{ $i->user->name }}</td>
+                            {{-- <td>{{ $i->user_id }}</td> --}}
                             <td>{{ $i->periode_pembayaran }}</td>
-                            <td>{{ $i->jumlah_pembayaran }}</td>
+                            <td>{{ $i->bank }}</td>
+                            <td><img src="{{ url('bukti_tf/' . $i->bukti_tf) }}" width="100" alt=""></td>
+                            <td>{{ $i->nominal }}</td>
 
                             <td><span
                                     class="badge @if ($i->status == 1)
@@ -46,8 +50,23 @@
                                     @endif
                                 </span>
                             </td>
-                            <td><a href="{{route('ipkl.pembayar', $i->id)}}">lihat</a></td>
+                            <td>
+                                <div class="d-flex">
+                                    @if ($i->status == 1)
+                                        <a class="btn btn-success" data-bukti="{{ $i->bukti_tf }}"
+                                            data-riwayat_id="{{ $i->id }}" data-toggle="modal"
+                                            data-target="#exampleModal" href="{{ route('ipkl.status', $i->id) }}"><i
+                                                data-feather="check"></i></a>
+                                    @else
 
+                                    @endif
+                                    {{-- <button type="submit" data-id="{{$i->id}}" class="btn btn-danger delete">
+                            <i data-feather="trash"></i>
+                        </button> --}}
+
+                                </div>
+
+                            </td>
                         </tr>
                     @endforeach
 
@@ -71,8 +90,9 @@
                                 @csrf
                                 @method('patch')
                                 <img src="" width="400" height="300" id="bukti_tf" alt="">
+                                <input type="text" name="user_id" id="user_id">
                                 <input type="text" name="tagihan_id" id="tagihan_id">
-                                <input type="text" name="no_rumah" id="no_rumah">
+                                <input type="text" name="pembayaran_id" id="pembayaran_id">
 
                         </div>
                         <div class="modal-footer">
@@ -161,8 +181,9 @@
                 success: function(response) {
                     console.log(response);
 
-                    $('#tagihan_id').val(response.id);
-                    $('#no_rumah').val(response.rumah_id);
+                    $('#user_id').val(response.user_id);
+                    $('#pembayaran_id').val(response.id);
+                    $('#tagihan_id').val(response.tagihan_id);
                     $('#bukti_tf').attr('src', APP_URL + '/bukti_tf/' + response.bukti_tf);
 
 

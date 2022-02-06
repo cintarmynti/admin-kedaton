@@ -21,8 +21,11 @@
 
                     <div class="col">
                         <label for="no_rmh" class="form-label">Pilih No Rumah</label>
-                        <select class="form-select" name="rumah_id" id="no_rmh"></select>
+                        <select class="form-select" name="rumah_id" id="no_rmh">
+                            <option value="" selected disabled>Pilih No Rumah</option>
+                        </select>
                     </div>
+
 
                 </div>
                 <div class="row mt-4">
@@ -32,7 +35,13 @@
                             name="periode_pembayaran" aria-label="Last name">
                     </div>
 
-                    <div class="col-md-6">
+                    <div class="col-md-6" id="harga">
+                        <label for="formGroupExampleInput" class="form-label">Jumlah Pembayaran</label>
+                        <input  type="text" id="jumlah" readonly required
+                            class="form-control" name="jumlah_pembayaran" aria-label="Last name">
+                    </div>
+
+                    {{-- <div class="col-md-6">
 
                         <label for="">Metode Pembayaran</label>
                         <select class="form-select" name="metode_pembayaran" aria-label="Default select example">
@@ -40,24 +49,27 @@
                             <option value="transfer">transfer</option>
                             <option value="cash">cash</option>
                         </select>
-                    </div>
+                    </div> --}}
                 </div>
 
                 <div class="row mt-4">
 
-                    <div class="col-md-6" id="harga">
-                        <label for="formGroupExampleInput" class="form-label">Jumlah Pembayaran</label>
-                        <input  type="text" id="jumlah" readonly required
-                            class="form-control" name="jumlah_pembayaran" aria-label="Last name">
-                    </div>
+
+
+                    {{-- <div class="col-md-6">
+                        <label for="formGroupExampleInput" class="form-label">Masukkan Bukti Pembayaran</label>
+                        <input  type="file" id="jumlah" readonly required
+                            class="form-control" name="bukti_tf" aria-label="Last name">
+                    </div> --}}
                 </div>
+
+                <a href="{{ route('ipkl') }}" class="btn btn-warning mt-4">kembali</a>
+                <button type="submit" class="btn btn-primary ml-4 mt-4">Simpan</a>
 
         </div>
 
 
 
-        <a href="{{ route('ipkl') }}" class="btn btn-warning mt-4">kembali</a>
-        <button type="submit" class="btn btn-primary ml-4 mt-4">Simpan</a>
 
             </form>
 
@@ -99,13 +111,15 @@
         }
 
 
-        $('.date').datepicker({
-            format: 'mm-dd-yyyy'
-        });
+        // $('.date').datepicker({
+        //     format: 'mm-dd-yyyy'
+        // });
     </script>
 
     <script>
         $(document).ready(function() {
+
+
             $('#cluster').on('change', function() {
                 var clusterID = $(this).val();
                 if (clusterID) {
@@ -118,6 +132,7 @@
                         dataType: "html",
                         success: function(data) {
                             $('#no_rmh').html(data);
+                            $('#no_rmh').trigger('change'); 
                         }
                     });
                 } else {
@@ -147,6 +162,8 @@
                 }
             });
         });
+
+
     </script>
 
 @endpush
