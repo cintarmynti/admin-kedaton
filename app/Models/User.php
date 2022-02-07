@@ -27,6 +27,10 @@ class User extends Authenticatable
 
     ];
 
+    public function properti(){
+        return $this->hasOne(Properti::class, 'user_id', 'id');
+    }
+
     public function pemilik()
     {
         return $this->hasMany(Listing::class, 'user_id_pemilik', 'id');

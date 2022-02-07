@@ -33,7 +33,14 @@
                             <td>{{ $user->nik }}</td>
                             <td>{{ $user->alamat }}</td>
                             <td>{{ $user->phone }}</td>
-                            <td ><img src="{{ url('user_photo/' . $user->photo_identitas) }}" id="image" onclick="image()" style="height: 100px; width:150px; object-fit:cover" alt=""></td>
+                            <td >
+                                @if ($user->photo_identitas == null)
+
+                                @else
+                                    <img src="{{ url('user_photo/' . $user->photo_identitas) }}" id="image" onclick="image()" style="height: 100px; width:150px; object-fit:cover" alt="">
+                                @endif
+
+                          </td>
                             {{-- <td><a href="/user/detail/{{ $user->id }}">lihat detail</a></td> --}}
                             <td >
                                 <div class="d-flex">

@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Validator;
 use App\Models\Listing;
+use App\Models\Properti;
 use Hash;
 
 class UserController extends Controller
@@ -31,9 +32,11 @@ class UserController extends Controller
         return User::where('nik', $nik)->first();
     }
 
-    public function register(Request $request)
+       public function register(Request $request)
     {
         $input = $request->all();
+        $properti = $request->all();
+
 
         $validator = Validator::make($input, [
             'nik' => 'required',
@@ -41,9 +44,17 @@ class UserController extends Controller
             'alamat' => 'required',
             'phone' => 'required',
             'email' => 'required|email',
-            // 'password' => 'required',
-            // 'c_password' => 'required|same:password',
         ]);
+
+        $validator = Validator::make($properti, [
+            'cluster_id' => 'required',
+            'no_rumah' => 'required',
+            'no_listrik' => 'required',
+            'no_pam_bsd' => 'required',
+        ]);
+
+
+
 
         if ($validator->fails()) {
             return ResponseFormatter::failed('User Registration Failed!', 401, $validator->errors());
@@ -73,43 +84,45 @@ class UserController extends Controller
 
 
         $input['user_status'] = 'pengguna';
+
         $user = User::create($input);
-        // $user['token'] =  $user->createToken('nApp')->accessToken;
+        $properti['user_id'] = $user->id;
+        $tbl_properti = Properti::create($properti);
 
-
-        return ResponseFormatter::success('User Registration Success!', $user);
+        return ResponseFormatter::success('User Registration Success!', [$user, $tbl_properti]);
     }
+
 
 
     public function login(Request $request)
     {
-        $no_rumah = Listing::where('no_rumah', $request->no_rumah)->first()->id;
-        $pemilik = Listing::where('no_rumah', $request->no_rumah)->first()->user_id_pemilik;
-        $password_pemilik = User::where('id', $pemilik)->first()->password;
-        // dd($password_pemilik);
-        $penghuni = Listing::where('no_rumah', $request->no_rumah)->first()->user_id_penghuni;
-        $password_penghuni = User::where('id', $penghuni)->first()->password;
 
-        $pw_penghuni = Hash::check($request->password, $password_penghuni);
-        $pw_pemilik = Hash::check($request->password, $password_pemilik);
+        $check_no_rumah = Properti::where('no_rumah', $request->no_rumah)->first();
+        $user = User::where('id', $check_no_rumah->user_id)->first();
+        $user_penghuni = User::where('id', $check_no_rumah->penghuni_id)->first();
+        $pw = Hash::check($request->password, $user->password);
 
 
-        if($no_rumah != null && $pw_penghuni){
-            $user_login = User::where('id', $penghuni)->first();
-            return ResponseFormatter::success('User Login Success!', $user_login);
-        }else if($no_rumah != null && $pw_pemilik){
-            $user_login = User::where('id', $pemilik)->first();
-            return ResponseFormatter::success('User Login Success!', $user_login);
+        if($check_no_rumah->id != null &&  $pw){
+            $user_login = User::with('properti')->where('id', $user->id)->first();
+            return ResponseFormatter::success('User Login Pemilik Success!', [$user_login]);
+        }else if($check_no_rumah->id !=null && Hash::check($request->password, $user_penghuni->password)){
+            $user_login = User::with('properti')->where('id', $user_penghuni->id)->first();
+            return ResponseFormatter::success('User Login penghuni Success!', [$user_login]);
         }else{
             return ResponseFormatter::failed('User Login Failed!', 401, ['Unauthorized']);
         }
     }
 
 
+
     public function profile(Request $request)
     {
         $user = User::where('id', $request->id)->first();
-        return ResponseFormatter::success('get user profile!', $user);
+        $properti = Properti::where('user_id', $user->id)->first();
+
+        return ResponseFormatter::success('get user profile!', [$user, $properti]);
+
     }
 
 

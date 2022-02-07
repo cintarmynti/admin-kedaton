@@ -23,10 +23,6 @@ class CreateUsersTable extends Migration
             $table->string('user_status');
             $table->string('phone')->unique()->nullable();
             $table->string('photo_identitas')->nullable();
-            $table->integer('cluster_id')->nullable();
-            $table->integer('rumah_id')->nullable();
-            $table->string('no_listrik')->nullable();
-            $table->integer('no_pam_bsd')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->nullable();
             $table->longText('device_token')->nullable();

@@ -18,5 +18,6 @@ class DatabaseSeeder extends Seeder
         $this->call(tarif_ipklTableSeeder::class);
         $this->call(ListingTableSeeder::class);
         $this->call(ClusterTableSeeder::class);
+        $this->call(PropertiTableSeeder::class);
     }
 }
