@@ -14,10 +14,8 @@
                         <th scope="col">id</th>
                         {{-- user id --}}
                         <th scope="col">pengguna</th>
-                        <th scope="col">nama pembayaran</th>
-                        <th scope="col">status</th>
-                        <th scope="col">tanggal</th>
-                        <th scope="col">aksi</th>
+                        <th scope="col">NO RUMAH</th>
+                        <th scope="col">DETAIL </th>
                     </tr>
                 </thead>
                 <tbody id="images">
@@ -26,27 +24,24 @@
                     @endphp
                     {{-- {{ $user }} --}}
                     @foreach ($user as $us)
-
-
                         <tr>
                             <th scope="row">{{ $no++ }}</th>
-                            <td>{{ $us->user->name }}</td>
-                            <td>{{ $us->nama_pembayaran }}</td>
-                            <td>{{ $us->status }}</td>
-                            <td>{{ $us->tanggal }}</td>
-                            <td >
-                                <div class="d-flex">
-                                    <a class="btn btn-warning" href="{{ route('user.edit', $us->id) }}"><i
-                                        data-feather="edit"></i></a>
-
-                                <button type="submit" class="btn btn-danger delete" data-id="{{ $us->id }}"
-                                    data-nama="">
-                                    <i data-feather="trash"></i>
-                                </button>
-                                </div>
-                            </td>
+                            @if ($us->pemilik_id != null)
+                                <td>{{ $us->pemilik->name }}</td>
+                            @else
+                            <td>{{ $us->penghuni->name }}</td>
+                            @endif
+                            
+                            <td>{{ $us->no_rumah }}</td>
+                            @if ($us->pemilik_id != null)
+                                <td><a href="/user/detail/rumah/{{ $us->pemilik_id }}">lihat detail</a></td>
+                                
+                            @else
+                                <td><a href="/user/detail/rumah/{{ $us->penghuni_id }}">lihat detail</a></td>
+                            @endif
+                            
                         </tr>
-@endforeach
+                    @endforeach
 
                 </tbody>
             </table>

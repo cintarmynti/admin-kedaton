@@ -15,7 +15,7 @@ class CreatePropertiTable extends Migration
     {
         Schema::create('properti', function (Blueprint $table) {
             $table->id();
-            $table->integer('pemilik_id');
+            $table->integer('pemilik_id')->nullable();
             $table->integer('cluster_id');
             $table->string('no_rumah');
             $table->string('no_listrik');

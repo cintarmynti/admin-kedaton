@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Cluster;
 use App\Models\Listing;
 use App\Models\listing_image;
+use App\Models\Properti;
 use App\Models\tarif_ipkl;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -40,6 +41,19 @@ class ListingController extends Controller
         $listing->user_id_pemilik = $request->pemilik;
         $listing-> status = $request->status;
         $listing->harga = $request->harga;
+        $properti = new Properti();
+        $properti-> alamat = $request-> alamat;
+        $properti-> no_rumah = $request-> no;
+        $properti-> RT = $request-> RT;
+        $properti-> RW = $request-> RW;
+        $properti-> lantai = $request->lantai;
+        $properti->jumlah_kamar = $request->jumlah_kamar;
+        $properti-> luas_tanah = $request->luas_tanah; //ini luas kavling
+        $properti->luas_bangunan = $request->luas_bangunan;
+        $properti-> penghuni_id = $request->user_id_penghuni;
+        $properti->pemilik_id = $request->user_id_pemilik;
+        $properti-> status = $request->status;
+        $properti->harga = $request->harga;
 
         $ipkl = tarif_ipkl::where('luas_kavling_awal', '<=', $request-> luas_tanah)->where('luas_kavling_akhir', '>=', $request-> luas_tanah)->first();
         // dd($ipkl);
@@ -55,11 +69,14 @@ class ListingController extends Controller
         if($ipkl == null){
             if($request->luas_tanah <= $terbesar && $request->luas_tanah <= $terkecil){
                 $listing-> tarif_ipkl = $terkecil->tarif * $request->luas_tanah;
+                $properti-> tarif_ipkl = $terkecil->tarif * $request->luas_tanah;
             }else if($request->luas_tanah >= $terbesar && $request->luas_tanah >= $terkecil){
                 $listing-> tarif_ipkl = $terbesar->tarif * $request->luas_tanah;
+                $properti-> tarif_ipkl = $terbesar->tarif * $request->luas_tanah;
             }
         }else if($ipkl != null){
             $listing->tarif_ipkl = $ipkl->tarif * $request-> luas_tanah;
+            $properti->tarif_ipkl = $ipkl->tarif * $request-> luas_tanah;
         }
 
 
@@ -73,16 +90,19 @@ class ListingController extends Controller
             $clus->save();
 
             $listing->cluster_id = $clus->id;
+            $properti->cluster_id = $clus->id;
 
           } else {
             $cls = Cluster::where('name', '=', $request->cluster_id)->first();
             // dd($cls->id);
             $listing->cluster_id = $cls->id;
+            $properti->cluster_id = $cls->id;
           }
 
 
         $listing->save();
-
+        // $properti->update(); belum bisa
+        
 
         $files = [];
         if($request->hasfile('image'))
