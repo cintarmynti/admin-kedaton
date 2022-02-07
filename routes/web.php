@@ -48,7 +48,7 @@ Route::get('/user/delete/{id}', [UserController::class, 'delete'])->name('user.d
 Route::get('/user/edit/{id}', [UserController::class, 'edit'])->name('user.edit');
 Route::put('/user/update/{id}', [UserController::class, 'update'])->name('user.update');
 Route::get('/user/detail/{id}', [UserController::class, 'show'])->name('user.detail');
-// Route::get('/siswa', 'SiswaController@index');
+Route::get('/user/detail/rumah/{id}', [UserController::class, 'detail_rumah'])->name('user.rumah');
 Route::get('/user/export_excel', [UserController::class, 'export_excel'])->name('user.excel');
 
 

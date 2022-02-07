@@ -5,6 +5,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Models\User;
 use App\Exports\UserExport;
 use App\Models\Pembayaran;
+use App\Models\Properti;
 use App\Models\Riwayat;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
@@ -56,6 +57,9 @@ class UserController extends Controller
             $user->photo_identitas=$filename;
         }
         $user->save();
+        $properti = new Properti();
+        $properti->pemilik_id = $user->id;
+        $properti->save();
 
         if ($user) {
             Alert::success('Data berhasil disimpan');
@@ -144,8 +148,27 @@ class UserController extends Controller
 
     public function show($id)
     {
-        $user = Riwayat::where('user_id', 2)->get();
-       return view('pages.user.detail',[
+        if (Properti::where('pemilik_id',$id) == null) {
+            $user = Properti::where('penghuni_id',$id)->get();
+         } else {
+             $user = Properti::where('pemilik_id',$id)->get();
+         }
+        return view('pages.user.detail',[
+           "user" => $user
+       ]);
+    }
+
+    public function detail_rumah($id)
+    {
+        if (Properti::where('pemilik_id',$id) == null) {
+           $user = Properti::where('penghuni_id',$id)->with('penghuni')->get();
+        } else {
+            $user = Properti::where('pemilik_id',$id)->with('pemilik')->get();
+        }
+        
+        Properti::where('pemilik_id', $id)->get();
+        // dd($user[0]->alamat);
+       return view('pages.user.detail_rumah',[
            "user" => $user
        ]);
     }
