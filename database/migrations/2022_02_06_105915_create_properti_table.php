@@ -15,12 +15,22 @@ class CreatePropertiTable extends Migration
     {
         Schema::create('properti', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id');
+            $table->integer('pemilik_id');
             $table->integer('cluster_id');
             $table->string('no_rumah');
             $table->string('no_listrik');
             $table->string('no_pam_bsd');
             $table->integer('penghuni_id')->nullable();
+            $table->string('alamat')->nullable();;
+            $table->integer('RT')->nullable();;
+            $table->integer('RW')->nullable();;
+            $table->string('lantai')->nullable();;
+            $table->integer('jumlah_kamar')->nullable();
+            $table->string('luas_tanah')->nullable();;
+            $table->string('luas_bangunan')->nullable();
+            $table->integer('tarif_ipkl')->nullable();
+            $table->string('status')->nullable();
+            $table->string('harga')->nullable();
             $table->timestamps();
         });
     }

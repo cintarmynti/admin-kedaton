@@ -21,7 +21,7 @@
 
                     <div class="col">
                         <label for="no_rmh" class="form-label">Pilih No Rumah</label>
-                        <select class="form-select" name="rumah_id" id="no_rmh">
+                        <select class="form-select" name="properti_id" id="no_rmh">
                             <option value="" selected disabled>Pilih No Rumah</option>
                         </select>
                     </div>
@@ -132,7 +132,7 @@
                         dataType: "html",
                         success: function(data) {
                             $('#no_rmh').html(data);
-                            $('#no_rmh').trigger('change'); 
+                            $('#no_rmh').trigger('change');
                         }
                     });
                 } else {

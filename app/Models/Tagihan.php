@@ -12,13 +12,13 @@ class Tagihan extends Model
     protected $table = 'tagihan';
     protected $fillable = [
         'cluster_id',
-        'listing_id',
+        'properti_id',
         'periode_pembayaran',
         'jumlah_pembayaran'
     ];
 
      public function nomer(){
-        return $this->hasOne(Listing::class, 'id', 'listing_id');
+        return $this->hasOne(Properti::class, 'id', 'properti_id');
     }
 
     public function cluster(){
@@ -26,5 +26,8 @@ class Tagihan extends Model
     }
 
 
+    public function properti(){
+        return $this->hasOne(Properti::class, 'id', 'user_id');
+    }
 
 }

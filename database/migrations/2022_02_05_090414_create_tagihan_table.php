@@ -16,7 +16,7 @@ class CreateTagihanTable extends Migration
         Schema::create('tagihan', function (Blueprint $table) {
             $table->id();
             $table->integer('cluster_id');
-            $table->integer('listing_id');
+            $table->integer('properti_id');
             $table->date('periode_pembayaran');
             $table->integer('jumlah_pembayaran');
             $table->integer('status');

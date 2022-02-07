@@ -6,6 +6,7 @@ use App\Models\IPKL;
 use App\Models\Cluster;
 use App\Models\Listing;
 use App\Models\Notifikasi;
+use App\Models\Properti;
 use App\Models\Riwayat;
 use Illuminate\Http\Request;
 use App\Models\Tagihan;
@@ -18,26 +19,24 @@ class IPKLController extends Controller
     public function index()
     {
         $ipkl = Tagihan::with('nomer', 'cluster')->get();
-        // dd($ipkl);
+        dd($ipkl);
         return view('pages.ipkl.index', ['ipkl' => $ipkl]);
     }
 
     public function getIPKLid($id)
     {
-        $listing = Listing::where('cluster_id', $id)->get();
+        $listing = Properti::where('cluster_id', $id)->get();
         $html   = '';
         foreach($listing as $data){
-
             $html .= '<option value="'.$data['id'].'">'.$data['no_rumah'].'</option>';
         }
-
         echo $html;
         // return response()->json($Listing);
     }
 
     public function getIPKLharga($id)
     {
-        $listing = Listing::findOrFail($id);
+        $listing = Properti::findOrFail($id);
         $html   = '';
         $html .= $listing['tarif_ipkl'];
         echo $html;
@@ -57,7 +56,7 @@ class IPKLController extends Controller
     {
         $ipkl = new Tagihan();
         $ipkl-> cluster_id = $request->cluster_id;
-        $ipkl-> listing_id = $request->rumah_id;
+        $ipkl-> properti_id = $request->properti_id;
         $ipkl->periode_pembayaran = $request->periode_pembayaran;
         $ipkl->jumlah_pembayaran = $request->jumlah_pembayaran;
         $ipkl->status = 1;

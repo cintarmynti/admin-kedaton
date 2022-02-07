@@ -86,7 +86,7 @@ class UserController extends Controller
         $input['user_status'] = 'pengguna';
 
         $user = User::create($input);
-        $properti['user_id'] = $user->id;
+        $properti['pemilik_id'] = $user->id;
         $tbl_properti = Properti::create($properti);
 
         return ResponseFormatter::success('User Registration Success!', [$user, $tbl_properti]);
@@ -98,29 +98,36 @@ class UserController extends Controller
     {
 
         $check_no_rumah = Properti::where('no_rumah', $request->no_rumah)->first();
-        $user = User::where('id', $check_no_rumah->user_id)->first();
+        if($check_no_rumah == null){
+            return ResponseFormatter::failed('User Login Failed!', 401, ['Unauthorized']);
+
+        }
+        $user = User::where('id', $check_no_rumah->pemilik_id)->first();
         $user_penghuni = User::where('id', $check_no_rumah->penghuni_id)->first();
         $pw = Hash::check($request->password, $user->password);
-
 
         if($check_no_rumah->id != null &&  $pw){
             $user_login = User::with('properti')->where('id', $user->id)->first();
             return ResponseFormatter::success('User Login Pemilik Success!', [$user_login]);
         }else if($check_no_rumah->id !=null && Hash::check($request->password, $user_penghuni->password)){
-            $user_login = User::with('properti')->where('id', $user_penghuni->id)->first();
+            $user_login = User::with('properti_penghuni')->where('id', $user_penghuni->id)->first();
             return ResponseFormatter::success('User Login penghuni Success!', [$user_login]);
-        }else{
-            return ResponseFormatter::failed('User Login Failed!', 401, ['Unauthorized']);
         }
-    }
+
+        return ResponseFormatter::failed('User Login Failed!', 401, ['Unauthorized']);
+
+
+
+}
 
 
 
     public function profile(Request $request)
     {
         $user = User::where('id', $request->id)->first();
-        $properti = Properti::where('user_id', $user->id)->first();
-
+        // dd($user);
+        $properti = Properti::where('pemilik_id', $user->id)->first();
+        // dd($properti);
         return ResponseFormatter::success('get user profile!', [$user, $properti]);
 
     }

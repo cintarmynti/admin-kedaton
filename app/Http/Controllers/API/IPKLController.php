@@ -7,10 +7,13 @@ use App\Models\IPKL;
 use App\Models\Tagihan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use App\Models\Properti;
 
 class IPKLController extends Controller
 {
     public function store(Request $request){
+        // $cek_id_tagihan = Tagihan::where('id', $request->tagihan_id)->get();
+
         $ipkl = new IPKL();
         $ipkl -> user_id = $request->user_id;
         $ipkl->tagihan_id = $request->tagihan_id;
@@ -30,26 +33,37 @@ class IPKLController extends Controller
         $ipkl->save();
 
         return ResponseFormatter::success('successful payment!', $ipkl);
-
     }
 
     public function belomDibayar(Request $request){
-        $unpay = Tagihan::where('listing_id', $request->no_rumah_id)->where('status', 1)->get();
-        return ResponseFormatter::success('successful to get unpaid data!', $unpay);
+        $cek_properti = Properti::where('id', $request->no_rumah_id)->first();
 
+        if($cek_properti == null){
+            return ResponseFormatter::failed('tidak ada properti dengan dengan id yang di input!', 401);
+        }
+        $unpay = Tagihan::with('cluster')->where('properti_id', $request->no_rumah_id)->where('status', 1)->get();
+        return ResponseFormatter::success('successful to get unpaid data!', $unpay);
     }
 
     public function sudahDibayar(Request $request){
-        $unpay = Tagihan::where('listing_id', $request->no_rumah_id)->where('status', 2)->get();
+        $cek_properti = Properti::where('id', $request->no_rumah_id)->first();
+
+        if($cek_properti == null){
+            return ResponseFormatter::failed('tidak ada properti dengan dengan id yang di input!', 401);
+        }
+        $unpay = Tagihan::where('properti_id', $request->no_rumah_id)->where('status', 2)->get();
         return ResponseFormatter::success('successful to get paid data!', $unpay);
     }
 
     public function ipklAcc(Request $request)
     {
+        $cek_properti = Properti::where('id', $request->no_rumah_id)->first();
 
-        $riwayat_pembayaran = Tagihan::where('listing_id', $request->no_rumah_id)->where('status', 2)->get();
+        if($cek_properti == null){
+            return ResponseFormatter::failed('tidak ada properti dengan dengan id yang di input!', 401);
+        }
+        $riwayat_pembayaran = Tagihan::where('properti_id', $request->no_rumah_id)->where('status', 2)->get();
         return ResponseFormatter::success('successful to get IPKL accepted by user!', $riwayat_pembayaran);
-
     }
 
 
