@@ -28,5 +28,13 @@ class Properti extends Model
     'harga'
  ];
 
+ public function pemilik()
+    {
+        return $this->hasOne(User::class, 'id', 'pemilik_id');
+    }
 
+ public function penghuni()
+    {
+        return $this->hasOne(User::class, 'id', 'penghuni_id');
+    }
 }

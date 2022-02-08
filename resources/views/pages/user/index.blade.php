@@ -51,6 +51,9 @@
                                     data-nama="">
                                     <i data-feather="trash"></i>
                                 </button>
+
+                                <a class="btn btn-info" href="{{ route('user.detail', $user->id) }}"><i
+                                    data-feather="eye"></i></a>
                                 </div>
 
 
