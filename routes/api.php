@@ -40,6 +40,10 @@ Route::get('sudah-acc', [IPKLController::class, 'ipklAcc']);
 
 Route::get('belom-bayar-ipkl', [IPKLController::class, 'belomDibayar']);
 Route::get('sudah-bayar-ipkl', [IPKLController::class, 'sudahDibayar']);
+Route::get('total-bayar', [IPKLController::class, 'total_tagihan']);
+
+Route::get('riwayat-bayar', [IPKLController::class, 'riwayat_bayar']);
+
 
 
 Route::get('count-notif', [NotifikasiController::class, 'countNotif']);

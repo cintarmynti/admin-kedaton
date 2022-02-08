@@ -164,6 +164,8 @@ Route::get('/ipkl/pembayar/{id}', [IPKLController::class, 'pembayar'])->name('ip
 
 
 
+
+
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 Route::resource('/rumah-pengguna', RumahController::class);

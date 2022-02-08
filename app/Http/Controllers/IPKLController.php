@@ -19,7 +19,7 @@ class IPKLController extends Controller
     public function index()
     {
         $ipkl = Tagihan::with('nomer', 'cluster')->get();
-        dd($ipkl);
+        // dd($ipkl);
         return view('pages.ipkl.index', ['ipkl' => $ipkl]);
     }
 
@@ -47,7 +47,7 @@ class IPKLController extends Controller
 
     public function create()
     {
-        $nomer = Listing::all();
+        $nomer = Properti::all();
         $cluster = Cluster::all();
         return view('pages.ipkl.create', ['nomer' => $nomer, 'cluster' => $cluster]);
     }
@@ -63,8 +63,6 @@ class IPKLController extends Controller
         $ipkl->save();
 
         return redirect('/ipkl');
-
-
     }
 
     public function edit($id)
@@ -133,12 +131,10 @@ class IPKLController extends Controller
             IPKL::where('id', $request-> pembayaran_id)->update([
                 'status' => 2
             ]);
-
             Tagihan::where('id', $request->tagihan_id)->update([
                 'status' => 2
             ]);
         }
-
         return redirect()->back();
         // return redirect('/ipkl');
      }
