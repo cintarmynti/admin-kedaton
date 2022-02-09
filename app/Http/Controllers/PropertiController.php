@@ -15,31 +15,33 @@ use RealRashid\SweetAlert\Facades\Alert;
 use Symfony\Component\Console\Input\Input;
 
 
-class ListingController extends Controller
+class PropertiController extends Controller
 {
     public function index(){
-        $listing = Listing::all();
-        return view('pages.listing.index', ['listing' => $listing]);
+        $properti = Properti::all();
+        return view('pages.properti.index', ['properti' => $properti]);
     }
 
     public function create(){
         $cluster = Cluster::all();
         $user = User::where('user_status', 'pengguna')->get();
-        return view('pages.listing.create', ['user' => $user, 'cluster' => $cluster ]);
+        return view('pages.properti.create', ['user' => $user, 'cluster' => $cluster ]);
     }
 
     public function store(Request $request){
         $properti = new Properti();
-        $properti-> alamat = $request-> alamat;
-        $properti-> no_rumah = $request-> no;
-        $properti-> RT = $request-> RT;
-        $properti-> RW = $request-> RW;
-        $properti-> lantai = $request->lantai;
+        $properti->alamat = $request-> alamat;
+        $properti->no_rumah = $request-> no;
+        $properti->no_listrik = $request->listrik;
+        $properti->no_pam_bsd = $request->pam;
+        $properti->RT = $request-> RT;
+        $properti->RW = $request-> RW;
+        $properti->lantai = $request->lantai;
         $properti->jumlah_kamar = $request->jumlah_kamar;
-        $properti-> luas_tanah = $request->luas_tanah; //ini luas kavling
+        $properti->luas_tanah = $request->luas_tanah; //ini luas kavling
         $properti->luas_bangunan = $request->luas_bangunan;
-        $properti-> penghuni_id = $request->user_id_penghuni;
-        $properti->pemilik_id = $request->user_id_pemilik;
+        $properti->penghuni_id = $request->penghuni;
+        $properti->pemilik_id = $request->pemilik;
         $properti->status = $request->status;
         $properti->harga = $request->harga;
 
@@ -76,11 +78,11 @@ class ListingController extends Controller
 
             $properti->cluster_id = $clus->id;
 
-          } else {
+        } else {
             $cls = Cluster::where('name', '=', $request->cluster_id)->first();
             // dd($cls->id);
             $properti->cluster_id = $cls->id;
-          }
+        }
 
 
         $properti->save();
@@ -108,7 +110,7 @@ class ListingController extends Controller
             Alert::success('Data berhasil disimpan');
 
             return redirect()
-                ->route('listing')
+                ->route('properti')
                 ->with([
                     'success' => 'New post has been created successfully'
                 ]);
@@ -123,23 +125,23 @@ class ListingController extends Controller
     }
 
     public function detail($id){
-        $listing = Listing::with('user_penghuni', 'user_pemilik')->where('id', $id)->first();
-        $image = listing_image::where('listing_id', $id)->get();
+        $properti = Properti::with('penghuni', 'pemilik')->where('id', $id)->first();
+        $image = Properti_image::where('properti_id', $id)->get();
         // $listing = Listing::findOrFail($id);
         // dd($listing);
-        return view('pages.listing.detail',['listing' => $listing, 'image' =>$image]);
+        return view('pages.properti.detail',['properti' => $properti, 'image' =>$image]);
     }
 
     public function edit($id){
-        $listing = Listing::findOrFail($id);
+        $properti = Properti::findOrFail($id);
         $user = User::where('user_status', 'pengguna')->get();
         $cluster = Cluster::all();
-        $image = listing_image::where('listing_id', $id)->get();
-        return view('pages.listing.edit', ['listing' => $listing, 'user'=> $user, 'cluster' => $cluster, 'image' => $image]);
+        $image = properti_image::where('properti_id', $id)->get();
+        return view('pages.properti.edit', ['properti' => $properti, 'user'=> $user, 'cluster' => $cluster, 'image' => $image]);
     }
 
     public function imgdelete($id){
-        $image = Listing_image::findOrFail($id);
+        $image = Properti_image::findOrFail($id);
         // dd($image->image);
         // if(file_exists($image->image)){
             $image_path = public_path().'/files/'.$image->image;
@@ -150,27 +152,60 @@ class ListingController extends Controller
     }
 
     public function update(Request $request, $id){
-        $listing = Listing::findOrFail($id);
-        $listing-> alamat = $request-> alamat;
-        $listing-> no_rumah = $request-> no;
-        $listing-> RT = $request-> RT;
-        $listing-> RW = $request-> RW;
-        $listing-> lantai = $request->lantai;
-        $listing->jumlah_kamar = $request->jumlah_kamar;
-        $listing-> luas_tanah = $request->luas_tanah;
-        $listing->luas_bangunan = $request->luas_bangunan;
-        $listing-> user_id_penghuni = $request->penghuni;
-        $listing->user_id_pemilik = $request->pemilik;
-        $listing-> status = $request->status;
-        $listing->harga = $request->harga;
-        $listing->cluster_id = $request->cluster_id;
+        $properti = properti::findOrFail($id);
+        $properti-> alamat = $request-> alamat;
+        $properti-> no_rumah = $request-> no;
+        $properti->no_listrik = $request->listrik;
+        $properti->no_pam_bsd = $request->pam;
+        $properti-> RT = $request-> RT;
+        $properti-> RW = $request-> RW;
+        $properti-> lantai = $request->lantai;
+        $properti->jumlah_kamar = $request->jumlah_kamar;
+        $properti-> luas_tanah = $request->luas_tanah;
+        $properti->luas_bangunan = $request->luas_bangunan;
+        $properti->penghuni_id = $request->penghuni;
+        $properti->pemilik_id = $request->pemilik;
+        $properti-> status = $request->status;
+        $properti->harga = $request->harga;
 
-        $listing->update();
+        $cluster = Cluster::where('name', '=', $request->cluster_id)->first();
+        // dd($cluster);
+        if ($cluster === null) {
+            // User does not exist
+            $clus = new Cluster();
+            $clus->name = $request->cluster_id;
+            $clus->save();
 
-        if ($listing) {
+            $properti->cluster_id = $clus->id;
+
+        } else {
+            $cls = Cluster::where('name', '=', $request->cluster_id)->first();
+            // dd($cls->id);
+            $properti->cluster_id = $cls->id;
+        }
+
+        $properti->update();
+
+        $files = [];
+        if($request->hasfile('image'))
+         {
+            foreach($request->file('image') as $file)
+            {
+                $name = time().rand(1,100).'.'.$file->extension();
+                $file->move(public_path('files'), $name);
+                $files[] = $name;
+
+                $file= new Properti_image();
+                $file->properti_id = $properti->id;
+                $file->image = $name;
+                $file->save();
+            }
+         }
+
+        if ($properti) {
             Alert::success('Data berhasil diupdate');
             return redirect()
-                ->route('listing')
+                ->route('properti')
                 ->with([
                     'success' => 'New post has been created successfully'
                 ]);
@@ -185,8 +220,8 @@ class ListingController extends Controller
     }
 
     public function delete($id){
-        $post = Listing::findOrFail($id);
-        $image = listing_image::where('listing_id', $post->id)->get();
+        $post = Properti::findOrFail($id);
+        $image = Properti_image::where('properti_id', $post->id)->get();
 
         foreach($image as $img){
             $img->delete();
@@ -197,13 +232,13 @@ class ListingController extends Controller
 
         if ($post) {
             return redirect()
-                ->route('listing')
+                ->route('properti')
                 ->with([
                     'success' => 'Post has been deleted successfully'
                 ]);
         } else {
             return redirect()
-                ->route('listing')
+                ->route('properti')
                 ->with([
                     'error' => 'Some problem has occurred, please try again'
                 ]);

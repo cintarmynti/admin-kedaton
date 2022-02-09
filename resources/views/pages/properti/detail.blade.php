@@ -9,90 +9,106 @@
             <div class="row mt-4 border border-5 ">
                 <div class="col border-end">
                     <p><b>Alamat</b> </p>
-                    <p>{{ $listing->alamat }}</p>
+                    <p>{{ $properti->alamat }}</p>
                 </div>
 
                 <div class="col">
                     <p><b>No Rumah</b> </p>
-                    <p>{{ $listing->no_rumah }}</p>
+                    <p>{{ $properti->no_rumah }}</p>
+                </div>
+            </div>
+
+            <div class="row mt-4 border border-5">
+                <div class="col border-end">
+                    <p><b>No Listrik</b></p>
+                    <p>{{ $properti->no_listrik }}</p>
+                </div>
+
+                <div class="col">
+                    <p><b>No PAM</b></p>
+                    <p>{{ $properti->no_pam_bsd }}</p>
                 </div>
             </div>
 
             <div class="row mt-4 border border-5">
                 <div class="col border-end">
                     <p><b>RT</b></p>
-                    <p>{{ $listing->RT }}</p>
+                    <p>{{ $properti->RT }}</p>
                 </div>
 
                 <div class="col">
                     <p><b>RW</b></p>
-                    <p>{{ $listing->RW }}</p>
+                    <p>{{ $properti->RW }}</p>
                 </div>
             </div>
 
             <div class="row mt-4 border border-5">
                 <div class="col border-end">
                     <p><b>Lantai</b></p>
-                    <p>{{ $listing->lantai }}</p>
+                    <p>{{ $properti->lantai }}</p>
                 </div>
 
                 <div class="col">
                     <p><b>Jumlah Kamar</b></p>
-                    <p>{{ $listing->jumlah_kamar }}</p>
+                    <p>{{ $properti->jumlah_kamar }}</p>
                 </div>
             </div>
 
             <div class="row mt-4 border border-5">
                 <div class="col border-end">
                     <p><b>Luas Kavling</b></p>
-                    <p>{{ $listing->luas_tanah }}</p>
+                    <p>{{ $properti->luas_tanah }}</p>
                 </div>
 
                 <div class="col">
                     <p><b>Luas Bangunan</b></p>
-                    <p>{{ $listing->luas_bangunan }}</p>
+                    <p>{{ $properti->luas_bangunan }}</p>
                 </div>
             </div>
 
             <div class="row mt-4 border border-5">
                 <div class="col border-end">
                     <p><b>Penghuni</b></p>
-                    <p>{{ $listing->user_penghuni->name }}</p>
+                    <p>{{ $properti->penghuni != null ? $properti->penghuni->name : '' }}</p>
                 </div>
 
                 <div class="col">
                     <p><b>Pemilik</b></p>
-                    <p>{{ $listing->user_pemilik->name }}</p>
+                    <p>{{ $properti->pemilik != null ? $properti->pemilik->name : '' }}</p>
                 </div>
             </div>
 
             <div class="row mt-4 border border-5">
                 <div class="col border-end">
                     <p><b>Status</b></p>
-                    <p>{{ $listing->status }}</p>
+                    <p>{{ $properti->status }}</p>
                 </div>
 
                 <div class="col">
                     <p><b>Harga</b></p>
-                    <p>{{ $listing->harga }}</p>
+                    <p>{{ $properti->harga }}</p>
                 </div>
             </div>
 
             <div class="row mt-4 border border-5">
-                <div class="col">
-                    <p><b>Biaya IPKL</b></p>
-                    <p>Rp {{ number_format($listing->tarif_ipkl, 2, ',', '.') }}</p>
-
+                <div class="col border-end">
+                    <p><b>Cluster</b></p>
+                    <p>{{ $properti->cluster }}</p>
                 </div>
 
+                <div class="col">
+                    <p><b>Biaya IPKL</b></p>
+                    <p>Rp {{ number_format($properti->tarif_ipkl, 2, ',', '.') }}</p>
+
+                </div>
             </div>
 
             <div class="row mt-3" id="images">
                 @foreach ($image as $item)
-                    <div class="col wrapper" >
+                    <div class="col-md-3 wrapper mb-3" >
                         <img onclick="image()" src="{{ url('files/' . $item->image) }}" style="height: 100px; width:200px; object-fit:cover" alt="">
                         <div class="panjang">
-                            <a href="{{route('listingimg.delete', $item->id)}}" width="200px" class="btn btn-danger hapus mt-3">hapus gambar</a>
+                            <a href="{{route('propertiimg.delete', $item->id)}}" width="200px" class="btn btn-danger hapus mt-3">hapus gambar</a>
                         </div>
                     </div>
                 @endforeach
@@ -102,7 +118,7 @@
         </div>
 
         <div class="m-4">
-            <a href="{{ route('listing') }}" class="btn btn-warning mt-4">kembali</a>
+            <a href="{{ route('properti') }}" class="btn btn-warning mt-4">kembali</a>
 
         </div>
 

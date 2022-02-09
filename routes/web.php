@@ -1,24 +1,25 @@
 <?php
 
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\UserController;
+use App\Models\IPKL;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BlogController;
-use App\Http\Controllers\ListingController;
-use App\Http\Controllers\BannerController;
-use App\Http\Controllers\PromoController;
-use App\Http\Controllers\RenovasiController;
-use App\Http\Controllers\LaporanComplainController;
-use App\Http\Controllers\LaporanPanicButtonController;
-use App\Http\Controllers\PembayaranController;
-use App\Http\Controllers\IuranController;
-use App\Http\Controllers\ClusterController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\IPKLController;
-use App\Http\Controllers\NotifikasiController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\IuranController;
+use App\Http\Controllers\PromoController;
 use App\Http\Controllers\RumahController;
+use App\Http\Controllers\BannerController;
 use App\Http\Controllers\SplashController;
-use App\Models\IPKL;
+use App\Http\Controllers\ClusterController;
+use App\Http\Controllers\ListingController;
+use App\Http\Controllers\PropertiController;
+use App\Http\Controllers\RenovasiController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\NotifikasiController;
+use App\Http\Controllers\PembayaranController;
+use App\Http\Controllers\LaporanComplainController;
+use App\Http\Controllers\LaporanPanicButtonController;
 
 /*
 |--------------------------------------------------------------------------
@@ -61,7 +62,14 @@ Route::put('/blog/update/{id}', [BlogController::class, 'update'])->name('blog.u
 Route::get('/blog/detail/{id}', [BlogController::class, 'detail'])->name('blog.detail');
 Route::get('/blog-img/delete/{id}', [BlogController::class, 'imgdelete'])->name('blogimg.delete');
 
-
+Route::get('/properti', [PropertiController::class, 'index'])->name('properti');
+Route::get('/properti/create', [PropertiController::class, 'create'])->name('properti.create');
+Route::post('/properti/store', [PropertiController::class, 'store'])->name('properti.store');
+Route::get('/properti/detail/{id}', [PropertiController::class, 'detail'])->name('properti.detail');
+Route::get('/properti/delete/{id}', [PropertiController::class, 'delete'])->name('properti.delete');
+Route::get('/properti-img/delete/{id}', [PropertiController::class, 'imgdelete'])->name('propertiimg.delete');
+Route::get('/properti/edit/{id}', [PropertiController::class, 'edit'])->name('properti.edit');
+Route::put('/properti/update/{id}', [PropertiController::class, 'update'])->name('properti.update');
 
 Route::get('/listing', [ListingController::class, 'index'])->name('listing');
 Route::get('/listing/create', [ListingController::class, 'create'])->name('listing.create');

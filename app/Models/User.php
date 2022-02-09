@@ -27,22 +27,22 @@ class User extends Authenticatable
 
     ];
 
-    public function properti(){
-        return $this->hasOne(Properti::class, 'pemilik_id', 'id');
-    }
+    // public function properti(){
+    //     return $this->hasOne(Properti::class, 'pemilik_id', 'id');
+    // }
 
-    public function properti_penghuni(){
-        return $this->hasOne(Properti::class, 'penghuni_id', 'id');
-    }
+    // public function properti_penghuni(){
+    //     return $this->hasOne(Properti::class, 'penghuni_id', 'id');
+    // }
 
     public function pemilik()
     {
-        return $this->hasMany(Listing::class, 'user_id_pemilik', 'id');
+        return $this->hasMany(Properti::class, 'pemilik_id', 'id');
     }
 
     public function penghuni()
     {
-        return $this->hasMany(Listing::class, 'user_id_penghuni', 'id');
+        return $this->hasMany(Properti::class, 'penghuni_id', 'id');
     }
 
     public function complain(){

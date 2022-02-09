@@ -3,14 +3,14 @@
 @section('content')
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title">Daftar Listing</h5>
+            <h5 class="card-title">Daftar Properti</h5>
             <p class="card-description">
-                <a class="btn btn-primary" href="{{ route('listing.create') }}">Tambah Listing</a>
+                <a class="btn btn-primary" href="{{ route('properti.create') }}">Tambah Properti</a>
             </p>
             <table class="table" id="myTable">
                 <thead>
                     <tr>
-                        <th scope="col">id</th>
+                        <th scope="col">No</th>
                         <th scope="col">alamat</th>
                         <th scope="col">detail bangunan</th>
                         <th scope="col">aksi</th>
@@ -20,16 +20,16 @@
                     @php
                         $no = 1;
                     @endphp
-                    @foreach ($listing as $lis)
+                    @foreach ($properti as $p)
                         <tr>
                             <th scope="row">{{ $no++ }}</th>
-                            <td>{{ $lis->alamat }}</td>
-                            <td><a href="{{ route('listing.detail', $lis->id) }}">lihat detail</a></td>
+                            <td>{{ $p->alamat }}</td>
+                            <td><a href="{{ route('properti.detail', $p->id) }}">lihat detail</a></td>
                             <td class="d-flex">
-                                <a class="btn btn-warning" href="{{ route('listing.edit', $lis->id) }}"><i
+                                <a class="btn btn-warning" href="{{ route('properti.edit', $p->id) }}"><i
                                         data-feather="edit"></i></a>
 
-                                <button type="submit" class="btn btn-danger delete" data-id="{{ $lis->id }}">
+                                <button type="submit" class="btn btn-danger delete" data-id="{{ $p->id }}">
                                     <i data-feather="trash"></i>
                                 </button>
 
@@ -79,7 +79,7 @@
                 })
                 .then((willDelete) => {
                     if (willDelete) {
-                        window.location = "/listing/delete/" + userId;
+                        window.location = "/properti/delete/" + userId;
                         swal("Data berhasil dihapus!", {
                             icon: "success",
                         });

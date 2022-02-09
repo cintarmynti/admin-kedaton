@@ -24,11 +24,11 @@ class CreatePropertiTable extends Migration
             $table->string('alamat')->nullable();;
             $table->integer('RT')->nullable();;
             $table->integer('RW')->nullable();;
-            $table->string('lantai')->nullable();;
+            $table->integer('lantai')->nullable();;
             $table->integer('jumlah_kamar')->nullable();
             $table->string('luas_tanah')->nullable();;
             $table->string('luas_bangunan')->nullable();
-            $table->integer('tarif_ipkl')->nullable();
+            $table->bigInteger('tarif_ipkl')->nullable();
             $table->string('status')->nullable();
             $table->string('harga')->nullable();
             $table->timestamps();

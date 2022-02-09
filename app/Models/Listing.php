@@ -25,16 +25,6 @@ class Listing extends Model
         'harga'
     ];
 
-    public function user_penghuni(){
-        return $this->belongsTo(User::class, 'user_id_penghuni', 'id');
-
-    }
-
-    public function user_pemilik(){
-        return $this->belongsTo(User::class, 'user_id_pemilik', 'id');
-
-    }
-
     public function panic()
     {
         return $this->hasMany(PanicButton::class, 'id_rumah', 'id');
