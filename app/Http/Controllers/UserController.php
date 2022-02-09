@@ -1,14 +1,15 @@
 <?php
 
 namespace App\Http\Controllers;
-use Maatwebsite\Excel\Facades\Excel;
 use App\Models\User;
-use App\Exports\UserExport;
-use App\Models\Pembayaran;
-use App\Models\Properti;
+use App\Models\Cluster;
 use App\Models\Riwayat;
+use App\Models\Properti;
+use App\Models\Pembayaran;
+use App\Exports\UserExport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Maatwebsite\Excel\Facades\Excel;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class UserController extends Controller
@@ -23,7 +24,7 @@ class UserController extends Controller
     }
 
     public function create(){
-        return view('pages.user.create');
+        return view('pages.user.create', ['cluster' => $cluster = Cluster::all()]);
 
     }
 
@@ -36,7 +37,6 @@ class UserController extends Controller
             'email' => 'required|email',
             'alamat' => 'required',
             'phone' => 'required',
-
         ]);
 
 
@@ -165,7 +165,7 @@ class UserController extends Controller
         } else {
             $user = Properti::where('pemilik_id',$id)->with('pemilik')->get();
         }
-        
+
         Properti::where('pemilik_id', $id)->get();
         // dd($user[0]->alamat);
        return view('pages.user.detail_rumah',[

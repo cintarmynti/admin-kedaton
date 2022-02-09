@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use DB;
+use App\Models\User;
 use App\Models\Cluster;
 use App\Models\Listing;
-use App\Models\listing_image;
 use App\Models\Properti;
 use App\Models\tarif_ipkl;
-use App\Models\User;
 use Illuminate\Http\Request;
-use DB;
-use Symfony\Component\Console\Input\Input;
+use App\Models\listing_image;
+use App\Models\Properti_image;
 use RealRashid\SweetAlert\Facades\Alert;
+use Symfony\Component\Console\Input\Input;
 
 
 class ListingController extends Controller
@@ -28,19 +29,6 @@ class ListingController extends Controller
     }
 
     public function store(Request $request){
-        $listing = new Listing();
-        $listing-> alamat = $request-> alamat;
-        $listing-> no_rumah = $request-> no;
-        $listing-> RT = $request-> RT;
-        $listing-> RW = $request-> RW;
-        $listing-> lantai = $request->lantai;
-        $listing->jumlah_kamar = $request->jumlah_kamar;
-        $listing-> luas_tanah = $request->luas_tanah; //ini luas kavling
-        $listing->luas_bangunan = $request->luas_bangunan;
-        $listing-> user_id_penghuni = $request->penghuni;
-        $listing->user_id_pemilik = $request->pemilik;
-        $listing-> status = $request->status;
-        $listing->harga = $request->harga;
         $properti = new Properti();
         $properti-> alamat = $request-> alamat;
         $properti-> no_rumah = $request-> no;
@@ -52,7 +40,7 @@ class ListingController extends Controller
         $properti->luas_bangunan = $request->luas_bangunan;
         $properti-> penghuni_id = $request->user_id_penghuni;
         $properti->pemilik_id = $request->user_id_pemilik;
-        $properti-> status = $request->status;
+        $properti->status = $request->status;
         $properti->harga = $request->harga;
 
         $ipkl = tarif_ipkl::where('luas_kavling_awal', '<=', $request-> luas_tanah)->where('luas_kavling_akhir', '>=', $request-> luas_tanah)->first();
@@ -68,14 +56,11 @@ class ListingController extends Controller
 
         if($ipkl == null){
             if($request->luas_tanah <= $terbesar && $request->luas_tanah <= $terkecil){
-                $listing-> tarif_ipkl = $terkecil->tarif * $request->luas_tanah;
                 $properti-> tarif_ipkl = $terkecil->tarif * $request->luas_tanah;
             }else if($request->luas_tanah >= $terbesar && $request->luas_tanah >= $terkecil){
-                $listing-> tarif_ipkl = $terbesar->tarif * $request->luas_tanah;
                 $properti-> tarif_ipkl = $terbesar->tarif * $request->luas_tanah;
             }
         }else if($ipkl != null){
-            $listing->tarif_ipkl = $ipkl->tarif * $request-> luas_tanah;
             $properti->tarif_ipkl = $ipkl->tarif * $request-> luas_tanah;
         }
 
@@ -89,20 +74,18 @@ class ListingController extends Controller
             $clus->name = $request->cluster_id;
             $clus->save();
 
-            $listing->cluster_id = $clus->id;
             $properti->cluster_id = $clus->id;
 
           } else {
             $cls = Cluster::where('name', '=', $request->cluster_id)->first();
             // dd($cls->id);
-            $listing->cluster_id = $cls->id;
             $properti->cluster_id = $cls->id;
           }
 
 
-        $listing->save();
+        $properti->save();
         // $properti->update(); belum bisa
-        
+
 
         $files = [];
         if($request->hasfile('image'))
@@ -113,15 +96,15 @@ class ListingController extends Controller
                 $file->move(public_path('files'), $name);
                 $files[] = $name;
 
-                $file= new listing_image();
-                $file->listing_id = $listing->id;
+                $file= new Properti_image();
+                $file->properti_id = $properti->id;
                 $file->image = $name;
                 $file->save();
             }
          }
 
 
-        if ($listing) {
+        if ($properti) {
             Alert::success('Data berhasil disimpan');
 
             return redirect()

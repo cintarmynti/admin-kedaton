@@ -19,7 +19,7 @@
       </li> --}}
 
       <li class="{{ Request::is('listing*') ? 'active-page' : '' }}">
-        <a href="{{route('listing')}}"><i data-feather="calendar"></i>Listing</a>
+        <a href="{{route('listing')}}"><i data-feather="home"></i>Rumah</a>
       </li>
 
       <li class="{{ Request::is('splash-screen*') ? 'active-page' : '' }}">

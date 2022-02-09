@@ -9,41 +9,47 @@
             @csrf
             <div class="row">
                 <div class="col">
-                    <label for="formGroupExampleInput" class="form-label">Nama</label>
-                  <input type="text" required class="form-control" name="name"  aria-label="First name">
+                <label for="formGroupExampleInput" class="form-label">Nama</label>
+                <input value="{{ old('name') }}" type="text" required class="form-control" name="name"  aria-label="First name">
                 </div>
                 <div class="col">
-                    <label for="formGroupExampleInput" class="form-label">NIK</label>
-                  <input type="number" required class="form-control" name="nik"  aria-label="Last name">
+                <label for="formGroupExampleInput" class="form-label">NIK</label>
+                <input value="{{ old('nik') }}" type="number" required class="form-control" name="nik"  aria-label="Last name">
                 </div>
             </div>
 
             <div class="row mt-4">
                 <div class="col">
-                    <label for="formGroupExampleInput" class="form-label">Alamat</label>
-                  <input type="text" required class="form-control" name="alamat"  aria-label="First name">
+                <label for="formGroupExampleInput" class="form-label">Alamat</label>
+                <input value="{{ old('alamat') }}" type="text" required class="form-control" name="alamat"  aria-label="First name">
                 </div>
                 <div class="col">
-                    <label for="formGroupExampleInput" class="form-label">No Telp</label>
-                  <input type="text" required class="form-control" name="phone"  aria-label="Last name">
+                <label for="formGroupExampleInput" class="form-label">No Telp</label>
+                <input value="{{ old('phone') }}" type="text" required class="form-control" name="phone"  aria-label="Last name">
                 </div>
             </div>
 
             <div class="row mt-4">
                 <div class="col">
-                    <label for="formGroupExampleInput" class="form-label">Email</label>
-                  <input type="email" required class="form-control" name="email"  aria-label="First name">
+                <label for="formGroupExampleInput" class="form-label">Email</label>
+                <input value="{{ old('email') }}" type="email" required class="form-control" name="email"  aria-label="First name">
                 </div>
                 <div class="col">
-                    <label for="formGroupExampleInput" class="form-label">Password</label>
-                  <input type="password" required class="form-control" name="password"  aria-label="Last name">
+                <label for="formGroupExampleInput" class="form-label">Password</label>
+                <input value="{{ old('password') }}" type="password" required class="form-control" name="password"  aria-label="Last name">
                 </div>
             </div>
+
+
+
+
+
+
 
             <div class="row mt-4">
                 <div class="col-md-6">
                     <label for="formGroupExampleInput" class="form-label ">Foto Pengguna</label>
-                  <input type="file" id="filePhoto" required class="form-control" name="photo_identitas"  aria-label="First name">
+                  <input value="{{ old('photo_identitas') }}" type="file" id="filePhoto" required class="form-control" name="photo_identitas"  aria-label="First name">
                   <img id="output" class="mb-3" style="max-height: 200px; max-width: 300px">
                 </div>
                 {{-- <img id="preview-image" src=""
@@ -58,6 +64,9 @@
 @endsection
 
 @push('after-script')
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js" defer></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
 <script type="text/javascript">
    $(function() {
             $("#filePhoto").change(function(event) {
@@ -66,6 +75,25 @@
                 console.log(event);
             });
         });
+        $(document).ready(function() {
+            $(".btn-success").click(function() {
+                var lsthmtl = $(".clone").html();
+                $(".increment").after(lsthmtl);
+            });
+            $("body").on("click", ".btn-danger", function() {
+                $(this).parents(".realprocode").remove();
+            });
+
+            $('.select2').select2({
+                // placeholder: 'Select Cluster',
+                theme: 'bootstrap4',
+                tags: true
+            })
+        });
+        function onchange_comma(id, value) {
+            var x = numeral($("#" + id).val()).format('0,0');
+            $("#" + id).val(x);
+        }
   </script>
 @endpush
 
