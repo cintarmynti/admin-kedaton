@@ -57,9 +57,6 @@ class UserController extends Controller
             $user->photo_identitas=$filename;
         }
         $user->save();
-        $properti = new Properti();
-        $properti->pemilik_id = $user->id;
-        $properti->save();
 
         if ($user) {
             Alert::success('Data berhasil disimpan');
@@ -149,27 +146,24 @@ class UserController extends Controller
     public function show($id)
     {
         if (Properti::where('pemilik_id',$id) == null) {
-            $user = Properti::where('penghuni_id',$id)->get();
+            $properti = Properti::where('penghuni_id',$id)->get();
          } else {
-             $user = Properti::where('pemilik_id',$id)->get();
+            $properti = Properti::where('pemilik_id',$id)->get();
          }
         return view('pages.user.detail',[
-           "user" => $user
+           "properti" => $properti,
+           "user" => User::find($id)
        ]);
     }
 
     public function detail_rumah($id)
     {
-        if (Properti::where('pemilik_id',$id) == null) {
-           $user = Properti::where('penghuni_id',$id)->with('penghuni')->get();
-        } else {
-            $user = Properti::where('pemilik_id',$id)->with('pemilik')->get();
-        }
+        $properti = Properti::findOrFail($id)->with('penghuni', 'pemilik');
 
         Properti::where('pemilik_id', $id)->get();
         // dd($user[0]->alamat);
        return view('pages.user.detail_rumah',[
-           "user" => $user
+           "user" => $properti
        ]);
     }
 }

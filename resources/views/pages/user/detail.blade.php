@@ -3,7 +3,7 @@
 @section('content')
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title">Riwayat Pembayaran</h5>
+            <h5 class="card-title">Daftar Rumah {{ $user->name }}</h5>
             <p class="card-description">
                 {{-- <a class="btn btn-primary" href="{{ route('user.create') }}">Tambah Pengguna</a> --}}
                 {{-- <a href="/user/export_excel" class="btn btn-success my-3" target="_blank">EXPORT EXCEL</a> --}}
@@ -11,10 +11,9 @@
             <table class="table" id="myTable">
                 <thead>
                     <tr>
-                        <th scope="col">id</th>
-                        {{-- user id --}}
-                        <th scope="col">pengguna</th>
+                        <th scope="col">NO</th>
                         <th scope="col">NO RUMAH</th>
+                        <th scope="col">ALAMAT</th>
                         <th scope="col">DETAIL </th>
                     </tr>
                 </thead>
@@ -23,23 +22,12 @@
                         $no = 1;
                     @endphp
                     {{-- {{ $user }} --}}
-                    @foreach ($user as $us)
+                    @foreach ($properti as $us)
                         <tr>
                             <th scope="row">{{ $no++ }}</th>
-                            @if ($us->pemilik_id != null)
-                                <td>{{ $us->pemilik->name }}</td>
-                            @else
-                            <td>{{ $us->penghuni->name }}</td>
-                            @endif
-                            
                             <td>{{ $us->no_rumah }}</td>
-                            @if ($us->pemilik_id != null)
-                                <td><a href="/user/detail/rumah/{{ $us->pemilik_id }}">lihat detail</a></td>
-                                
-                            @else
-                                <td><a href="/user/detail/rumah/{{ $us->penghuni_id }}">lihat detail</a></td>
-                            @endif
-                            
+                            <td>{{ $us->alamat }}</td>
+                            <td><a href="/user/detail/rumah/{{ $us->id }}">lihat detail</a></td>
                         </tr>
                     @endforeach
 

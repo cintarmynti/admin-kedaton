@@ -113,7 +113,7 @@
                 </div>
                 <div class="col">
                     <label for="">Harga</label>
-                    <input type="text" value="{{old('harga', $properti->harga)}}" required class="form-control" name="harga"  aria-label="Last name">
+                    <input type="text" value="{{old('harga', $properti->harga)}}" required class="form-control" name="harga"  aria-label="Last name" onkeyup="onchange_comma(this.id, this.value)">
                 </div>
             </div>
 

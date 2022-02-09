@@ -83,7 +83,6 @@
                     <p><b>Status</b></p>
                     <p>{{ $properti->status }}</p>
                 </div>
-
                 <div class="col">
                     <p><b>Harga</b></p>
                     <p>{{ $properti->harga }}</p>
@@ -93,7 +92,7 @@
             <div class="row mt-4 border border-5">
                 <div class="col border-end">
                     <p><b>Cluster</b></p>
-                    <p>{{ $properti->cluster }}</p>
+                    <p>{{ $properti->cluster->name }}</p>
                 </div>
 
                 <div class="col">

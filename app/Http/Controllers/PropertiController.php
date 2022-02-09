@@ -68,7 +68,7 @@ class PropertiController extends Controller
 
 
 
-        $cluster = Cluster::where('name', '=', $request->cluster_id)->first();
+        $cluster = Cluster::where('id', $request->cluster_id)->first();
         // dd($cluster);
         if ($cluster === null) {
             // User does not exist
@@ -79,9 +79,7 @@ class PropertiController extends Controller
             $properti->cluster_id = $clus->id;
 
         } else {
-            $cls = Cluster::where('name', '=', $request->cluster_id)->first();
-            // dd($cls->id);
-            $properti->cluster_id = $cls->id;
+            $properti->cluster_id = $request->cluster_id;
         }
 
 
@@ -168,7 +166,7 @@ class PropertiController extends Controller
         $properti-> status = $request->status;
         $properti->harga = $request->harga;
 
-        $cluster = Cluster::where('name', '=', $request->cluster_id)->first();
+        $cluster = Cluster::where('id', $request->cluster_id)->first();
         // dd($cluster);
         if ($cluster === null) {
             // User does not exist
@@ -179,9 +177,7 @@ class PropertiController extends Controller
             $properti->cluster_id = $clus->id;
 
         } else {
-            $cls = Cluster::where('name', '=', $request->cluster_id)->first();
-            // dd($cls->id);
-            $properti->cluster_id = $cls->id;
+            $properti->cluster_id = $request->cluster_id;
         }
 
         $properti->update();
