@@ -12,7 +12,7 @@ class LayananController extends Controller
     public function pengajuan(Request $request)
     {
         $cek_layanan = layanan::where('id', $request->layanan_id)->first();
-        $cek_pengajuan_user = pengajuan_layanan::where('layanan_id', $request->layanan_id)->where('user_id', $request->user_id)->first();
+        $cek_pengajuan_user = pengajuan_layanan::where('tanggal', $request->tanggal)->where('user_id', $request->user_id)->first();
 
         if($cek_layanan == null){
             return ResponseFormatter::failed('layanan_id yang dimasukkan tidak ada!', 404);
@@ -24,7 +24,7 @@ class LayananController extends Controller
             'tanggal' => $request->tanggal,
             'jam' => $request->jam,
             'user_id' => $request->user_id,
-            'status' => 'diproses',
+            'status' => 'diajukan',
             'catatan' => $request->catatan
         ]);
         if($layanan){
@@ -36,13 +36,22 @@ class LayananController extends Controller
 
     public function ambilLayanan(Request $request)
     {
-        $cek_user = pengajuan_layanan::where('user_id',$request->user_id)->first();
+
+        $cek_user = pengajuan_layanan::where('user_id', $request->user_id)->get();
         // dd($cek_user);
         if($cek_user == null){
             return ResponseFormatter::failed('user ini belum melakukan pengajuan layanan apapun!', 404);
         }
-        $layanan = Pengajuan_layanan::where('user_id', $request->user_id)->get();
-        return ResponseFormatter::success('berhasil mengambil layanan user!', $layanan);
+        if($request->status){
+            $diproses = pengajuan_layanan::where('status', $request->status)->where('user_id', $request->user_id)->get();
+            return ResponseFormatter::success('berhasil mengambil layanan yang difilter!', $diproses);
+        }else{
+            $diproses = pengajuan_layanan::where('user_id', $request->user_id)->get();
+            return ResponseFormatter::success('berhasil mengambil semua layanan!', $diproses);
+        }
+        return ResponseFormatter::failed('gagal mengambil data!', 404);
+
+
 
     }
 

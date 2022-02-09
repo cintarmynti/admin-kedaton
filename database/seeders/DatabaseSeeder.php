@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Pembayaran;
+use App\Models\type_pembayaran;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -20,5 +22,10 @@ class DatabaseSeeder extends Seeder
         $this->call(ClusterTableSeeder::class);
         $this->call(PropertiTableSeeder::class);
         $this->call(LayananSeeder::class);
+        $this->call(typePembayaranSeeder::class);
+        $this->call(PembayaranTableSeeder::class);
+        $this->call(TagihanTableSeeder::class);
+        $this->call(typePembayaranSeeder::class);
+        $this->call(PengajuanLayananSeeder::class);
     }
 }
