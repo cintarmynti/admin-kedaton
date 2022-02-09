@@ -9,7 +9,7 @@ class IPKL extends Model
 {
     use HasFactory;
     protected $table = 'pembayaran_ipkl';
-    protected $fillable = ['user_id', 'tagihan_id', 'periode_pembayaran', 'bank', 'nominal', 'status', 'bukti_tf'];
+    protected $fillable = ['user_id', 'tagihan_id', 'periode_pembayaran', 'bank', 'nominal', 'status', 'bukti_tf', 'type'];
 
     // public function nomer(){
     //     return $this->hasOne(Listing::class, 'id', 'listing_id');

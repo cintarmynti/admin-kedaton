@@ -28,18 +28,28 @@ class IPKLController extends Controller
                 File::put('bukti_tf/' . $imageName, base64_decode($image));
             }
             foreach ($request->tagihan_id as $i) {
-                $tagihan = Tagihan::find($i);
-                if($tagihan){
-                    $ipkl[] = IPKL::create([
-                        'user_id' => $request->user_id,
-                        'bank' => $request->bank,
-                        'tagihan_id' => $tagihan->id,
-                        'nominal' => $tagihan->jumlah_pembayaran,
-                        'status' => 1,
-                        'periode_pembayaran' => Carbon::now(),
-                        'bukti_tf' => $imageName
-                    ]);
+                //cek gagal
+                $id_tagihan = Tagihan::where('id', $i)->first();
+                $pembayaran_id = IPKL::where('tagihan_id', $i)->first();
+                // dd($pembayaran_id);
+                if($id_tagihan == null){
+                    return ResponseFormatter::failed('tagihan id dengan user ini tidak ada!', 404);
+                }else if($pembayaran_id != null){
+                    return ResponseFormatter::failed('tagihan telah dibayar!', 404);
                 }
+                    $tagihan = Tagihan::find($i);
+                    if($tagihan){
+                        $ipkl[] = IPKL::create([
+                            'user_id' => $request->user_id,
+                            'bank' => $request->bank,
+                            'tagihan_id' => $tagihan->id,
+                            'nominal' => $tagihan->jumlah_pembayaran,
+                            'status' => 1,
+                            'periode_pembayaran' => Carbon::now(),
+                            'type' => 1,
+                            'bukti_tf' => $imageName
+                        ]);
+                    }
             }
 
             // DB::commit();

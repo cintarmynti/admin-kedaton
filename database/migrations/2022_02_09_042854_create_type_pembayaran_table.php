@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateRevListingTable extends Migration
+class CreateTypePembayaranTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,10 @@ class CreateRevListingTable extends Migration
      */
     public function up()
     {
-        Schema::create('rev_listing', function (Blueprint $table) {
+        Schema::create('type_pembayaran', function (Blueprint $table) {
             $table->id();
-
-            $table->integer('status');
-            $table->string('harga');
+            $table->string('name');
             $table->timestamps();
-            //harga, diskon (opsional), status(sewa/dijual), properti_id
         });
     }
 
@@ -30,6 +27,6 @@ class CreateRevListingTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('rev_listing');
+        Schema::dropIfExists('type_pembayaran');
     }
 }

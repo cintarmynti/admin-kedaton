@@ -35,12 +35,12 @@
 
                             <td><span
                                     class="badge @if ($i->status == 1)
-                                        bg-danger
+                                        bg-warning
                                     @else
                                         bg-success
                                     @endif ">
                                     @if ($i->status == 1)
-                                        belum dibayar
+                                         pending
                                     @else
                                         sudah dibayar
                                     @endif

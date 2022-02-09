@@ -3,6 +3,7 @@
 use App\Http\Controllers\API\RenovasiController;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\API\IPKLController;
+use App\Http\Controllers\API\LayananController;
 use App\Http\Controllers\API\NotifikasiController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -44,12 +45,12 @@ Route::get('total-bayar', [IPKLController::class, 'total_tagihan']);
 
 Route::get('riwayat-bayar', [IPKLController::class, 'riwayat_bayar']);
 
-
-
 Route::get('count-notif', [NotifikasiController::class, 'countNotif']);
 Route::get('semua-notif', [NotifikasiController::class, 'notif']);
 
-
+Route::post('pengajuan-layanan', [LayananController::class, 'pengajuan']);
+Route::get('get-layanan', [LayananController::class, 'ambilLayanan']);
+Route::get('daftar-layanan', [LayananController::class, 'daftarLayanan']);
 
 
 
