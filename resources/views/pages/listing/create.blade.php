@@ -10,12 +10,12 @@
                 <div class="row">
                     <div class="col">
                         <label for="formGroupExampleInput" class="form-label">Alamat</label>
-                        <input type="text" required class="form-control" name="alamat"
+                        <input value="{{ old('alamat') }}" type="text" required class="form-control" name="alamat"
                             aria-label="First name">
                     </div>
                     <div class="col">
                         <label for="formGroupExampleInput" class="form-label">No Rumah</label>
-                        <input type="text" required class="form-control" name="no"
+                        <input value="{{ old('no') }}" type="text" required class="form-control" name="no"
                             aria-label="Last name">
                     </div>
                 </div>
@@ -23,12 +23,12 @@
                 <div class="row mt-4">
                     <div class="col">
                         <label for="formGroupExampleInput" class="form-label">RT</label>
-                        <input type="text" required class="form-control" name="RT"
+                        <input value="{{ old('RT') }}" type="text" required class="form-control" name="RT"
                             aria-label="First name">
                     </div>
                     <div class="col">
                         <label for="formGroupExampleInput" class="form-label">RW</label>
-                        <input type="text" required class="form-control" name="RW"
+                        <input value="{{ old('RW') }}" type="text" required class="form-control" name="RW"
                             aria-label="Last name">
                     </div>
                 </div>
@@ -36,12 +36,12 @@
                 <div class="row mt-4">
                     <div class="col">
                         <label for="formGroupExampleInput" class="form-label">Jumlah Lantai</label>
-                        <input type="text" required class="form-control" name="lantai"
+                        <input value="{{ old('lantai') }}" type="text" required class="form-control" name="lantai"
                             aria-label="First name">
                     </div>
                     <div class="col">
                         <label for="formGroupExampleInput" class="form-label">Jumlah Kamar</label>
-                        <input type="text" required class="form-control" name="jumlah_kamar"
+                        <input value="{{ old('jumlah_kamar') }}" type="text" required class="form-control" name="jumlah_kamar"
                             aria-label="Last name">
                     </div>
                 </div>
@@ -51,7 +51,7 @@
                     <div class="col">
                         <label for="formGroupExampleInput" class="form-label">Luas Kavling</label>
                         <div class="input-group mb-3">
-                            <input type="number" min="0" required name="luas_tanah"
+                            <input value="{{ old('luas_tanah') }}" type="number" min="0" required name="luas_tanah"
                                 class="form-control"  aria-label="Recipient's username"
                                 aria-describedby="basic-addon2">
                             <span class="input-group-text" id="basic-addon2">m2</span>
@@ -62,7 +62,7 @@
                     <div class="col">
                         <label for="formGroupExampleInput" class="form-label">Luas Bangunan</label>
                         <div class="input-group mb-3">
-                            <input type="number" min="0" required name="luas_bangunan"
+                            <input value="{{ old('luas_bangunan') }}" type="number" min="0" required name="luas_bangunan"
                                 class="form-control"  aria-label="Recipient's username"
                                 aria-describedby="basic-addon2">
                             <span class="input-group-text" id="basic-addon2">m2</span>
@@ -107,7 +107,7 @@
                     <div class="col">
                         <label for="formGroupExampleInput" class="form-label">Harga</label>
 
-                        <input type="text" required class="form-control money" id="harga" onkeyup="onchange_comma(this.id, this.value)" name="harga">
+                        <input value="{{ old('harga') }}" type="text" required class="form-control money" id="harga" onkeyup="onchange_comma(this.id, this.value)" name="harga">
                     </div>
                 </div>
 
@@ -154,7 +154,7 @@
             });
         });
     </script>
-     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js" defer></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
 

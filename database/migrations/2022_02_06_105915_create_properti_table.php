@@ -16,10 +16,10 @@ class CreatePropertiTable extends Migration
         Schema::create('properti', function (Blueprint $table) {
             $table->id();
             $table->integer('pemilik_id')->nullable();
-            $table->integer('cluster_id');
-            $table->string('no_rumah');
-            $table->string('no_listrik');
-            $table->string('no_pam_bsd');
+            $table->integer('cluster_id')->nullable();
+            $table->string('no_rumah')->nullable();
+            $table->string('no_listrik')->nullable();
+            $table->string('no_pam_bsd')->nullable();
             $table->integer('penghuni_id')->nullable();
             $table->string('alamat')->nullable();;
             $table->integer('RT')->nullable();;
