@@ -15,12 +15,12 @@ class typePembayaranSeeder extends Seeder
     public function run()
     {
         type_pembayaran::create([
-
+            // 'id' => 1,
             'name' => 'IPKL'
         ]);
 
         type_pembayaran::create([
-
+            // 'id' => 2,
             'name' => 'layanan'
         ]);
     }
