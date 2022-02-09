@@ -50,7 +50,7 @@
                 <div class="col-md-6">
                     <label for="formGroupExampleInput" class="form-label ">Foto Pengguna</label>
                   <input value="{{ old('photo_identitas') }}" type="file" id="filePhoto" required class="form-control" name="photo_identitas"  aria-label="First name">
-                  <img id="output" class="mb-3" style="max-height: 200px; max-width: 300px">
+                  <img id="output" class="mt-3" style="max-height: 200px; max-width: 300px">
                 </div>
                 {{-- <img id="preview-image" src=""
                       alt="preview image" style="max-height: 250px;"> --}}

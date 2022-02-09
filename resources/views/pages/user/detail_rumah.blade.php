@@ -1,93 +1,125 @@
 @extends('layouts.default')
-
 @section('content')
     <div class="card">
         <div class="card-body">
-            @if ($user[0]->pemilik_id != null)
-                
-            <h5 class="card-title">Detail Rumah {{ $user[0]->pemilik->name }}</h5>
+            @if ($properti->pemilik_id != null)
+
+            <h5 class="card-title">Detail Rumah {{ $properti->pemilik->name }}</h5>
             @else
-                
-            <h5 class="card-title">Detail Rumah {{ $user[0]->penghuni->name }}</h5>
+
+            <h5 class="card-title">Detail Rumah {{ $properti->penghuni->name }}</h5>
             @endif
-            <p class="card-description"></p> 
+            <p class="card-description"></p>
             <div class="row mt-4 border border-5 ">
                 <div class="col border-end">
                     <p><b>Alamat</b> </p>
-                    <p>{{ $user[0]->alamat }}</p>
+                    <p>{{ $properti->alamat }}</p>
                 </div>
 
-            <div class="col">
-               <p><b>No Rumah</b> </p>
-               <p>{{ $user[0]->no_rumah }}</p>
-           </div>
-          
-               
-           
-       </div>
+                <div class="col">
+                    <p><b>No Rumah</b> </p>
+                    <p>{{ $properti->no_rumah }}</p>
+                </div>
+            </div>
 
-       <div class="row mt-4 border border-5">
-           <div class="col border-end">
-               <p><b>RT</b></p>
-               <p>{{ $user[0]->RT }}</p>
-           </div>
+            <div class="row mt-4 border border-5">
+                <div class="col border-end">
+                    <p><b>No Listrik</b></p>
+                    <p>{{ $properti->no_listrik }}</p>
+                </div>
 
-           <div class="col">
-               <p><b>RW</b></p>
-               <p>{{ $user[0]->RW }}</p>
-           </div>
-       </div>
+                <div class="col">
+                    <p><b>No PAM</b></p>
+                    <p>{{ $properti->no_pam_bsd }}</p>
+                </div>
+            </div>
 
-       <div class="row mt-4 border border-5">
-           <div class="col border-end">
-               <p><b>Lantai</b></p>
-               <p>{{ $user[0]->lantai }}</p>
-           </div>
+            <div class="row mt-4 border border-5">
+                <div class="col border-end">
+                    <p><b>RT</b></p>
+                    <p>{{ $properti->RT }}</p>
+                </div>
 
-           <div class="col">
-               <p><b>Jumlah Kamar</b></p>
-               <p>{{ $user[0]->jumlah_kamar }}</p>
-           </div>
-       </div>
+                <div class="col">
+                    <p><b>RW</b></p>
+                    <p>{{ $properti->RW }}</p>
+                </div>
+            </div>
 
-       <div class="row mt-4 border border-5">
-           <div class="col border-end">
-               <p><b>Luas Kavling</b></p>
-               <p>{{ $user[0]->luas_tanah }}</p>
+            <div class="row mt-4 border border-5">
+                <div class="col border-end">
+                    <p><b>Lantai</b></p>
+                    <p>{{ $properti->lantai }}</p>
+                </div>
 
-           </div>
+                <div class="col">
+                    <p><b>Jumlah Kamar</b></p>
+                    <p>{{ $properti->jumlah_kamar }}</p>
+                </div>
+            </div>
 
-           <div class="col">
-               <p><b>Luas Bangunan</b></p>
-               <p>{{ $user[0]->luas_bangunan }}</p>
-           </div>
-        </div>
+            <div class="row mt-4 border border-5">
+                <div class="col border-end">
+                    <p><b>Luas Kavling</b></p>
+                    <p>{{ $properti->luas_tanah }}</p>
+                </div>
 
-       <div class="row mt-4 border border-5">
-           <div class="col border-end">
-               <p><b>Status</b></p>
-               <p>{{ $user[0]->status }}</p>
-           </div>
+                <div class="col">
+                    <p><b>Luas Bangunan</b></p>
+                    <p>{{ $properti->luas_bangunan }}</p>
+                </div>
+            </div>
 
-           <div class="col">
-               <p><b>Harga</b></p>
-               <p>{{ $user[0]->harga }}</p>
-           </div>
-       </div>
+            <div class="row mt-4 border border-5">
+                <div class="col border-end">
+                    <p><b>Penghuni</b></p>
+                    <p>{{ $properti->penghuni != null ? $properti->penghuni->name : '' }}</p>
+                </div>
 
-       <div class="row mt-4 border border-5">
-           <div class="col">
-               <p><b>Biaya IPKL</b></p>
-               <p>Rp {{ number_format($user[0]->tarif_ipkl, 2, ',', '.') }}</p>
+                <div class="col">
+                    <p><b>Pemilik</b></p>
+                    <p>{{ $properti->pemilik != null ? $properti->pemilik->name : '' }}</p>
+                </div>
+            </div>
 
-           </div>
+            <div class="row mt-4 border border-5">
+                <div class="col border-end">
+                    <p><b>Status</b></p>
+                    <p>{{ $properti->status }}</p>
+                </div>
+                <div class="col">
+                    <p><b>Harga</b></p>
+                    <p>{{ $properti->harga }}</p>
+                </div>
+            </div>
+
+            <div class="row mt-4 border border-5">
+                <div class="col border-end">
+                    <p><b>Cluster</b></p>
+                    <p>{{ $properti->cluster->name }}</p>
+                </div>
+
+                <div class="col">
+                    <p><b>Biaya IPKL</b></p>
+                    <p>Rp {{ number_format($properti->tarif_ipkl, 2, ',', '.') }}</p>
+
+                </div>
+            </div>
+
+            <div class="row mt-3" id="images">
+                @foreach ($image as $item)
+                    <div class="col-md-3 wrapper mb-3" >
+                        <img onclick="image()" src="{{ url('files/' . $item->image) }}" style="height: 100px; width:200px; object-fit:cover" alt="">
+                        <div class="panjang">
+                            <a href="{{route('propertiimg.delete', $item->id)}}" width="200px" class="btn btn-danger hapus mt-3">hapus gambar</a>
+                        </div>
+                    </div>
+                @endforeach
 
             </div>
 
-        </div>
-
         <div class="m-4">
-            <a href="/user" class="btn btn-warning mt-4">kembali</a>
+            <a href="{{ url()->previous() }}" class="btn btn-warning mt-4">kembali</a>
 
         </div>
 

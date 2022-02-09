@@ -8,6 +8,7 @@ use App\Models\Properti;
 use App\Models\Pembayaran;
 use App\Exports\UserExport;
 use Illuminate\Http\Request;
+use App\Models\Properti_image;
 use Illuminate\Support\Facades\File;
 use Maatwebsite\Excel\Facades\Excel;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -158,12 +159,10 @@ class UserController extends Controller
 
     public function detail_rumah($id)
     {
-        $properti = Properti::findOrFail($id)->with('penghuni', 'pemilik');
-
-        Properti::where('pemilik_id', $id)->get();
-        // dd($user[0]->alamat);
-       return view('pages.user.detail_rumah',[
-           "user" => $properti
-       ]);
+        $properti = Properti::with('penghuni', 'pemilik')->where('id', $id)->first();
+        $image = Properti_image::where('properti_id', $id)->get();
+        // $listing = Listing::findOrFail($id);
+        // dd($listing);
+        return view('pages.properti.detail',['properti' => $properti, 'image' =>$image]);
     }
 }
