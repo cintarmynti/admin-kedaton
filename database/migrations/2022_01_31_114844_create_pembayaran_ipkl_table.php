@@ -19,8 +19,9 @@ class CreatePembayaranIpklTable extends Migration
             $table->integer('tagihan_id');
             $table->date('periode_pembayaran');
             $table->string('bank');
-            $table->string('bukti_tf');
+            $table->string('bukti_tf')->nullable();
             $table->string('nominal');
+            $table->string('type');
             $table->integer('status')->default(1);
             $table->timestamps();
         });

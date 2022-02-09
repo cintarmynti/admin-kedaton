@@ -39,12 +39,12 @@
 
                             <td><span
                                     class="badge @if ($i->status == 1)
-                                        bg-danger
+                                        bg-warning
                                     @else
                                         bg-success
                                     @endif ">
                                     @if ($i->status == 1)
-                                        belum dibayar
+                                        pending
                                     @else
                                         sudah dibayar
                                     @endif
@@ -90,9 +90,9 @@
                                 @csrf
                                 @method('patch')
                                 <img src="" width="400" height="300" id="bukti_tf" alt="">
-                                <input type="text" name="user_id" id="user_id">
-                                <input type="text" name="tagihan_id" id="tagihan_id">
-                                <input type="text" name="pembayaran_id" id="pembayaran_id">
+                                <input type="hidden" name="user_id" id="user_id">
+                                <input type="hidden" name="tagihan_id" id="tagihan_id">
+                                <input type="hidden" name="pembayaran_id" id="pembayaran_id">
 
                         </div>
                         <div class="modal-footer">

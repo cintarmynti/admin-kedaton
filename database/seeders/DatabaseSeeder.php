@@ -19,5 +19,6 @@ class DatabaseSeeder extends Seeder
         $this->call(ListingTableSeeder::class);
         $this->call(ClusterTableSeeder::class);
         $this->call(PropertiTableSeeder::class);
+        $this->call(LayananSeeder::class);
     }
 }
