@@ -91,7 +91,7 @@ class UserController extends Controller
 
             $destination = public_path().'/user_photo/'.$user->photo_identitas;
             $identitas = $user->photo_identitas;
-
+            dd($identitas);
             if($identitas == null){
                 $file = $request->file('photo_identitas');
                 $extention = $file->getClientOriginalExtension();
