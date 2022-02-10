@@ -10,4 +10,11 @@ class Banner extends Model
     use HasFactory;
     protected $table = 'banner';
     protected $fillable = ['foto', 'link', 'judul'];
+
+    public function getPhotoAttribute($value){
+        return url('banner_photo/'.$value);
+    }
 }
+
+
+

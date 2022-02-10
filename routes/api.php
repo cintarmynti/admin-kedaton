@@ -1,10 +1,12 @@
 <?php
 
+use App\Http\Controllers\API\BannerController;
 use App\Http\Controllers\API\RenovasiController;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\API\IPKLController;
 use App\Http\Controllers\API\LayananController;
 use App\Http\Controllers\API\NotifikasiController;
+use App\Http\Controllers\API\ListingController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -52,5 +54,9 @@ Route::post('pengajuan-layanan', [LayananController::class, 'pengajuan']);
 Route::get('get-layanan', [LayananController::class, 'ambilLayanan']);
 Route::get('daftar-layanan', [LayananController::class, 'daftarLayanan']);
 
+Route::get('get-banner', [BannerController::class, 'getBanner']);
 
+Route::post('create-listing', [ListingController::class, 'create_listing']);
+Route::get('get-properti', [ListingController::class, 'getProperti']);
 
+Route::post('create-image', [ListingController::class, 'createImage']);

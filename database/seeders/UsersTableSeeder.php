@@ -100,5 +100,13 @@ class UsersTableSeeder extends Seeder
             'photo_identitas' => null,
             'password'    => bcrypt('password'),
         ]);
+
+        User::create([
+            'id' => 8,
+            'name'    => 'admin kedaton',
+            'email'    => 'admin@kedaton.com',
+            'password'    => bcrypt('kedatonjaya'),
+            'user_status' => 'admin'
+        ]);
     }
 }

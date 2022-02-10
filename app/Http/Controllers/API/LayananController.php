@@ -27,6 +27,7 @@ class LayananController extends Controller
             'status' => 'diajukan',
             'catatan' => $request->catatan
         ]);
+        
         if($layanan){
             return ResponseFormatter::success('berhasil melakukan pengajuan !', $layanan);
         }else{

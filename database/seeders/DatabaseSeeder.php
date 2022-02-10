@@ -25,7 +25,7 @@ class DatabaseSeeder extends Seeder
         $this->call(typePembayaranSeeder::class);
         $this->call(PembayaranTableSeeder::class);
         $this->call(TagihanTableSeeder::class);
-        // $this->call(typePembayaranSeeder::class);
         $this->call(PengajuanLayananSeeder::class);
+        $this->call(revListingSeeder::class);
     }
 }

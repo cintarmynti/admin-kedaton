@@ -15,9 +15,13 @@ class CreateRevListingTable extends Migration
     {
         Schema::create('rev_listing', function (Blueprint $table) {
             $table->id();
-
-            $table->integer('status');
+            $table->string('diskon')->nullable();
+            $table->string('status');
+            $table->integer('properti_id');
             $table->string('harga');
+            $table->string('name');
+            $table->string('image')->nullable();
+            $table->string('setelah_diskon');
             $table->timestamps();
             //harga, diskon (opsional), status(sewa/dijual), properti_id
         });
