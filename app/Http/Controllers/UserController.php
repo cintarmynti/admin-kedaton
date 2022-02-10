@@ -63,7 +63,6 @@ class UserController extends Controller
             {
                 $constraint->aspectRatio();
             });
-
             $filename = time().'.'.$request->file('photo_identitas')->getClientOriginalExtension();
             $img_path = 'user_photo/'.$filename;
             Storage::put($img_path, $img->encode());
@@ -129,7 +128,7 @@ class UserController extends Controller
             {
                 $constraint->aspectRatio();
             });
-
+            // dd($img);
             $filename = time().'.'.$request->file('photo_identitas')->getClientOriginalExtension();
             $img_path = 'user_photo/'.$filename;
             Storage::put($img_path, $img->encode());

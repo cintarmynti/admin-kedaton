@@ -29,7 +29,7 @@
                             <td>{{ $user->judul}}</td>
                             <td>{{substr(strip_tags($user->desc) , 0, 40)}}..</td>
                             <td >
-                                <img src="{{ url('splash_photo/' . $user->gambar) }}" id="image" onclick="image()" style="height: 100px; width:200px; object-fit:cover" alt=""></td>
+                                <img src="{{ asset('storage/' . $user->gambar) }}" id="image" onclick="image()" style="height: 100px; width:200px; object-fit:cover" alt=""></td>
                             <td >
                                 <div class="d-flex">
                                     <a class="btn btn-warning" href="splash-screen/{{ $user->id }}/edit"><i

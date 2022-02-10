@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Banner;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Storage;
 use RealRashid\SweetAlert\Facades\Alert;
 
 
@@ -25,11 +27,11 @@ class BannerController extends Controller
         $banner->link = $request->link;
         if($request->hasFile('photo'))
         {
-            $file = $request->file('photo');
-            $extention = $file->getClientOriginalExtension();
-            $filename=time().'.'.$extention;
-            $file->move('banner_photo',$filename);
-            $banner->foto=$filename;
+            $img = Image::make($request->file('photo'));
+            $filename = time().rand(1,100).'.'. $request->file('photo')->getClientOriginalExtension();
+            $img_path = 'banner_photo/'.$filename;
+            Storage::put($img_path, $img->encode());
+            $banner->foto=$img_path;
         }
         $banner->save();
 
@@ -61,17 +63,12 @@ class BannerController extends Controller
         $banner->link = $request->link;
         if($request->hasFile('photo'))
         {
-            $destination = public_path().'/banner_photo/'.$banner->foto;
-            // dd($destination);
-            if(File::exists($destination))
-            {
-                unlink($destination);
-            }
-            $file = $request->file('photo');
-            $extention = $file->getClientOriginalExtension();
-            $filename=time().'.'.$extention;
-            $file->move('banner_photo',$filename);
-            $banner->foto=$filename;
+            Storage::disk('public')->delete($banner->foto);
+            $img = Image::make($request->file('photo'));
+            $filename = time().rand(1,100).'.'. $request->file('photo')->getClientOriginalExtension();
+            $img_path = 'banner_photo/'.$filename;
+            Storage::put($img_path, $img->encode());
+            $banner->foto=$img_path;
         }
         $banner->update();
 

@@ -27,7 +27,7 @@
                             <th scope="row">{{ $no++ }}</th>
                             <td>{{ $bnr->judul }}</td>
                             <td>{{ substr($bnr->link , 0, 40) }}</td>
-                            <td><img id="images" onclick="image()" src="{{ url('banner_photo/' . $bnr->foto) }}"
+                            <td><img id="images" onclick="image()" src="{{ asset('storage/' . $bnr->foto) }}"
                                 style="height: 100px; width:200px; object-fit:cover" alt=""></td>
                             <td >
                                 <div class="d-flex">

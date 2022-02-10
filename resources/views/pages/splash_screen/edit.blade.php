@@ -16,7 +16,7 @@
                 <div class="col">
                     <label class="form-label" for="" >Foto</label>
                 <input type="file" class="form-control" id="filePhoto" name="gambar"  aria-label="First name">
-                <img id="output" src="{{ asset('splash_photo/' . $sp->gambar) }}" class="mt-3" style="max-height: 200px; max-width: 300px">
+                <img id="output" src="{{ asset('storage/' . $sp->gambar) }}" class="mt-3" style="max-height: 200px; max-width: 300px">
                 </div>
 
             </div>

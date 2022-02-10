@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Splash;
 use Illuminate\Http\Request;
+use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Storage;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class SplashController extends Controller
@@ -41,23 +43,26 @@ class SplashController extends Controller
         $rule = [
             "judul" => "required|max:120",
             "gambar" => "required|image|file",
-            "desc" => "required|max:255",
         ];
         $validated = $request->validate($rule);
 
         if($request->hasFile('gambar'))
         {
-            $file = $request->file('gambar');
-            $extention = $file->getClientOriginalExtension();
-            $filename=time().'.'.$extention;
-            $file->move('splash_photo',$filename);
-            $validated['gambar']=$filename;
+            // $filename = time().'.'.$request->file('gambar')->getClientOriginalExtension();
+            // $img_path = 'splash_photo/'.$filename;
+            // Storage::put($img_path, $$filename->encode());
+            // $validated['gambar']=$img_path;
+            $img = Image::make($request->file('gambar'));
+            $filename = time().rand(1,100).'.'. $request->file('gambar')->getClientOriginalExtension();
+            $img_path = 'splash_photo/'.$filename;
+            Storage::put($img_path, $img->encode());
+            $validated['gambar']=$img_path;
         }
 
         Splash::create($validated);
         Alert::success('Data berhasil disimpan');
         return redirect('/splash-screen');
-   
+
     }
 
     /**
@@ -97,20 +102,20 @@ class SplashController extends Controller
         $rule = [
             "judul" => "required|max:120",
             "gambar" => "image|file",
-            "desc" => "required|max:255",
         ];
         $validated = $request->validate($rule);
-
+        $splash = Splash::findOrFail($id);
         if($request->hasFile('gambar'))
         {
-            $file = $request->file('gambar');
-            $extention = $file->getClientOriginalExtension();
-            $filename=time().'.'.$extention;
-            $file->move('splash_photo',$filename);
-            $validated['gambar']=$filename;
+            Storage::disk('public')->delete($splash->gambar);
+            $img = Image::make($request->file('gambar'));
+            $filename = time().'.'. $request->file('gambar')->getClientOriginalExtension();
+            $img_path = 'splash_photo/'.$filename;
+            Storage::put($img_path, $img->encode());
+            $validated['gambar'] = $img_path;
         }
 
-        Splash::where('id',$id)->update($validated);
+        $splash->update($validated);
         Alert::success('Data berhasil diupdate');
         return redirect('/splash-screen');
     }
@@ -123,8 +128,9 @@ class SplashController extends Controller
      */
     public function delete($id)
     {
-        $ipkl = Splash::find($id);
-        $ipkl->delete();
+        $splash = Splash::find($id);
+        Storage::disk('public')->delete($splash->gambar);
+        $splash->delete();
         return redirect('/splash-screen');
     }
 }
