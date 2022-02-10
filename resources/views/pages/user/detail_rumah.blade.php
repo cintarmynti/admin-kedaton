@@ -109,7 +109,7 @@
             <div class="row mt-3" id="images">
                 @foreach ($image as $item)
                     <div class="col-md-3 wrapper mb-3" >
-                        <img onclick="image()" src="{{ url('files/' . $item->image) }}" style="height: 100px; width:200px; object-fit:cover" alt="">
+                        <img onclick="image()" src="{{ asset('storage/' . $item->image) }}" style="height: 100px; width:200px; object-fit:cover" alt="">
                         <div class="panjang">
                             <a href="{{route('propertiimg.delete', $item->id)}}" width="200px" class="btn btn-danger hapus mt-3">hapus gambar</a>
                         </div>

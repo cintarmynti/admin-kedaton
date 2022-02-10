@@ -11,6 +11,8 @@ use App\Models\tarif_ipkl;
 use Illuminate\Http\Request;
 use App\Models\listing_image;
 use App\Models\Properti_image;
+use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Storage;
 use RealRashid\SweetAlert\Facades\Alert;
 use Symfony\Component\Console\Input\Input;
 
@@ -87,18 +89,27 @@ class PropertiController extends Controller
         // $properti->update(); belum bisa
 
 
-        $files = [];
+        // $files = [];
         if($request->hasfile('image'))
          {
             foreach($request->file('image') as $file)
             {
-                $name = time().rand(1,100).'.'.$file->extension();
-                $file->move(public_path('files'), $name);
-                $files[] = $name;
+                // $name = time().rand(1,100).'.'.$file->extension();
+                // $file->move(public_path('files'), $name);
+                // $files[] = $name;
+                $img = Image::make($file);
+                $img->resize(521, null,  function ($constraint)
+                {
+                    $constraint->aspectRatio();
+                });
+
+                $filename = time().rand(1,100).'.'.$file->getClientOriginalExtension();
+                $img_path = 'properti_photo/'.$filename;
+                Storage::put($img_path, $img->encode());
 
                 $file= new Properti_image();
                 $file->properti_id = $properti->id;
-                $file->image = $name;
+                $file->image = $img_path;
                 $file->save();
             }
          }
@@ -140,11 +151,7 @@ class PropertiController extends Controller
 
     public function imgdelete($id){
         $image = Properti_image::findOrFail($id);
-        // dd($image->image);
-        // if(file_exists($image->image)){
-            $image_path = public_path().'/files/'.$image->image;
-            unlink($image_path);
-        // }
+        Storage::delete($image->image);
         $image->delete();
         return redirect()->back();
     }
@@ -187,13 +194,22 @@ class PropertiController extends Controller
          {
             foreach($request->file('image') as $file)
             {
-                $name = time().rand(1,100).'.'.$file->extension();
-                $file->move(public_path('files'), $name);
-                $files[] = $name;
+                // $name = time().rand(1,100).'.'.$file->extension();
+                // $file->move(public_path('files'), $name);
+                // $files[] = $name;
+                $img = Image::make($file);
+                $img->resize(521, null,  function ($constraint)
+                {
+                    $constraint->aspectRatio();
+                });
+
+                $filename = time().rand(1,100).'.'.$file->getClientOriginalExtension();
+                $img_path = 'properti_photo/'.$filename;
+                Storage::put($img_path, $img->encode());
 
                 $file= new Properti_image();
                 $file->properti_id = $properti->id;
-                $file->image = $name;
+                $file->image = $img_path;
                 $file->save();
             }
          }
@@ -216,21 +232,20 @@ class PropertiController extends Controller
     }
 
     public function delete($id){
-        $post = Properti::findOrFail($id);
-        $image = Properti_image::where('properti_id', $post->id)->get();
+        $properti = Properti::findOrFail($id);
+        $image = Properti_image::where('properti_id', $properti->id)->get();
 
         foreach($image as $img){
             $img->delete();
-            $image_path = public_path().'/files/'.$img->image;
-            unlink($image_path);
+            Storage::delete($img->image);
         }
-        $post->delete();
+        $properti->delete();
 
-        if ($post) {
+        if ($properti) {
             return redirect()
                 ->route('properti')
                 ->with([
-                    'success' => 'Post has been deleted successfully'
+                    'success' => 'Properti has been deleted successfully'
                 ]);
         } else {
             return redirect()

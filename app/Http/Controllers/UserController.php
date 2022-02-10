@@ -11,6 +11,8 @@ use Illuminate\Http\Request;
 use App\Models\Properti_image;
 use Illuminate\Support\Facades\File;
 use Maatwebsite\Excel\Facades\Excel;
+use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Storage;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class UserController extends Controller
@@ -51,11 +53,21 @@ class UserController extends Controller
         $user->user_status = 'pengguna';
         if($request->hasFile('photo_identitas'))
         {
-            $file = $request->file('photo_identitas');
-            $extention = $file->getClientOriginalExtension();
-            $filename=time().'.'.$extention;
-            $file->move('user_photo',$filename);
-            $user->photo_identitas=$filename;
+            // $file = $request->file('photo_identitas');
+            // $extention = $file->getClientOriginalExtension();
+            // $filename=time().'.'.$extention;
+            // $file->move('user_photo',$filename);
+            // $user->photo_identitas=$filename;
+            $img = Image::make($request->file('photo_identitas'));
+            $img->resize(521, null,  function ($constraint)
+            {
+                $constraint->aspectRatio();
+            });
+
+            $filename = time().'.'.$request->file('photo_identitas')->getClientOriginalExtension();
+            $img_path = 'user_photo/'.$filename;
+            Storage::put($img_path, $img->encode());
+            $user->photo_identitas = $img_path;
         }
         $user->save();
 
@@ -86,30 +98,42 @@ class UserController extends Controller
         $user->email = $request->email;
         $user-> password = bcrypt($request->password);
         $user->user_status = 'pengguna';
-        if($request->hasFile('photo_identitas'))
-        {
+        // if($request->hasFile('photo_identitas'))
+        // {
 
-            $destination = public_path().'/user_photo/'.$user->photo_identitas;
-            $identitas = $user->photo_identitas;
-            dd($identitas);
-            if($identitas == null){
-                $file = $request->file('photo_identitas');
-                $extention = $file->getClientOriginalExtension();
-                $filename=time().'.'.$extention;
-                $file->move('user_photo',$filename);
-                $user->photo_identitas=$filename;
-            }
-            else if(File::exists($destination))
+        //     $destination = public_path().'/user_photo/'.$user->photo_identitas;
+        //     $identitas = $user->photo_identitas;
+        //     dd($identitas);
+        //     if($identitas == null){
+        //         $file = $request->file('photo_identitas');
+        //         $extention = $file->getClientOriginalExtension();
+        //         $filename=time().'.'.$extention;
+        //         $file->move('user_photo',$filename);
+        //         $user->photo_identitas=$filename;
+        //     }
+        //     else if(File::exists($destination))
+        //     {
+        //         unlink($destination);
+
+        //     }
+        //     $file = $request->file('photo_identitas');
+        //         $extention = $file->getClientOriginalExtension();
+        //         $filename=time().'.'.$extention;
+        //         $file->move('user_photo',$filename);
+        //         $user->photo_identitas=$filename;
+        // }
+        if ($request->hasFile('photo_identitas')) {
+            Storage::disk('public')->delete($user->photo_identitas);
+            $img = Image::make($request->file('photo_identitas'));
+            $img->resize(521, null,  function ($constraint)
             {
-                unlink($destination);
+                $constraint->aspectRatio();
+            });
 
-            }
-            $file = $request->file('photo_identitas');
-                $extention = $file->getClientOriginalExtension();
-                $filename=time().'.'.$extention;
-                $file->move('user_photo',$filename);
-                $user->photo_identitas=$filename;
-
+            $filename = time().'.'.$request->file('photo_identitas')->getClientOriginalExtension();
+            $img_path = 'user_photo/'.$filename;
+            Storage::put($img_path, $img->encode());
+            $user->photo_identitas = $img_path;
         }
         $user->update();
 
@@ -135,9 +159,9 @@ class UserController extends Controller
         $user = User::find($id);
         // dd($user->photo_identitas);
         if($user->photo_identitas != null){
-            $image_path = public_path().'/user_photo/'.$user->photo_identitas;
-            unlink($image_path);
-            $user->delete();
+            // $image_path = public_path().'/user_photo/'.$user->photo_identitas;
+            // unlink($image_path);
+            Storage::delete($user->photo_identitas);
         }
 
         $user->delete();

@@ -34,13 +34,10 @@
                             <td>{{ $user->alamat }}</td>
                             <td>{{ $user->phone }}</td>
                             <td >
-                                @if ($user->photo_identitas == null)
-
-                                @else
-                                    <img src="{{ url('user_photo/' . $user->photo_identitas) }}" id="image" onclick="image()" style="height: 100px; width:150px; object-fit:cover" alt="">
+                                @if ($user->photo_identitas != null)
+                                    <img src="{{ url('storage/' . $user->photo_identitas) }}" id="image" onclick="image()" style="height: 100px; width:150px; object-fit:cover" alt="">
                                 @endif
-
-                          </td>
+                            </td>
                             {{-- <td><a href="/user/detail/{{ $user->id }}">lihat detail</a></td> --}}
                             <td >
                                 <div class="d-flex">
