@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+use function PHPSTORM_META\type;
+
 class Tagihan extends Model
 {
     use HasFactory;
@@ -28,6 +30,10 @@ class Tagihan extends Model
 
     public function properti(){
         return $this->hasOne(Properti::class, 'id', 'user_id');
+    }
+
+    public function type(){
+        return $this->hasOne(type_ipkl::class, 'id', 'type_id');
     }
 
 }

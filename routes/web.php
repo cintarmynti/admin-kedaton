@@ -12,6 +12,7 @@ use App\Http\Controllers\RumahController;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\SplashController;
 use App\Http\Controllers\ClusterController;
+use App\Http\Controllers\LayananController;
 use App\Http\Controllers\ListingController;
 use App\Http\Controllers\PropertiController;
 use App\Http\Controllers\RenovasiController;
@@ -169,6 +170,18 @@ Route::get('/ipkl/riwayat/{id}', [IPKLController::class, 'get_riwayat']);
 Route::patch('/ipkl/riwayat-create', [IPKLController::class, 'create_riwayat']);
 Route::get('/ipkl/pembayar/{id}', [IPKLController::class, 'pembayar'])->name('ipkl.pembayar');
 
+Route::get('/layanan', [LayananController::class, 'index'])->name('layanan');
+Route::get('/layanan/status/{id}', [LayananController::class, 'status'])->name('layanan.status');
+Route::get('/layanan/create', [LayananController::class, 'create'])->name('layanan.create');
+Route::post('/layanan/store', [LayananController::class, 'store'])->name('layanan.store');
+Route::get('/layanan/delete/{id}', [LayananController::class, 'delete'])->name('layanan.delete');
+Route::get('/layanan/edit/{id}', [LayananController::class, 'edit'])->name('layanan.edit');
+Route::put('/layanan/update/{id}', [LayananController::class, 'update'])->name('layanan.update');
+Route::get('/layanan/cluster/{id}', [LayananController::class, 'getlayananid'])->name('layanan.cluster');
+Route::get('/layanan/harga/{id}', [LayananController::class, 'getlayananharga'])->name('layanan.harga');
+Route::get('/layanan/riwayat/{id}', [LayananController::class, 'get_riwayat']);
+Route::patch('/layanan/riwayat-create', [LayananController::class, 'create_riwayat']);
+Route::get('/layanan/pembayar/{id}', [LayananController::class, 'pembayar'])->name('layanan.pembayar');
 
 
 

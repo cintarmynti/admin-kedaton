@@ -10,4 +10,9 @@ class type_pembayaran extends Model
     use HasFactory;
     protected $table = 'type_pembayaran';
     protected $fillable = ['name'];
+
+    public function tagihan()
+    {
+        $this->hasMany(Tagihan::class, 'type_id', 'id');
+    }
 }
