@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 use App\Models\Blog;
 use App\Models\blog_image;
 use Illuminate\Http\Request;
+use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Storage;
 use RealRashid\SweetAlert\Facades\Alert;
 
 
@@ -24,26 +26,35 @@ class BlogController extends Controller
         $blog-> desc = $request-> desc;
         if($request->hasFile('photo_header'))
         {
-            $file = $request->file('photo_header');
-            $extention = $file->getClientOriginalExtension();
-            $filename=time().'.'.$extention;
-            $file->move('blog_image',$filename);
-            $blog->gambar=$filename;
+            $img = Image::make($request->file('photo_header'));
+            $img->resize(521, null,  function ($constraint)
+            {
+                $constraint->aspectRatio();
+            });
+            $filename = time().'.'.$request->file('photo_header')->getClientOriginalExtension();
+            $img_path = 'blog_photo/'.$filename;
+            Storage::put($img_path, $img->encode());
+            $blog->gambar = $img_path;
         }
         $blog->save();
 
-        $files = [];
         if($request->hasfile('image'))
          {
             foreach($request->file('image') as $file)
             {
-                $name = time().rand(1,100).'.'.$file->extension();
-                $file->move(public_path('blog_image'), $name);
-                $files[] = $name;
+                $img = Image::make($file);
+                $img->resize(521, null,  function ($constraint)
+                {
+                    $constraint->aspectRatio();
+                });
+
+                $filename = time().rand(1,100).'.'.$file->getClientOriginalExtension();
+                $img_path = 'blog_photo/'.$filename;
+                Storage::put($img_path, $img->encode());
 
                 $file= new blog_image();
                 $file->blog_id = $blog->id;
-                $file->image = $name;
+                $file->image = $img_path;
                 $file->save();
             }
          }
@@ -78,7 +89,44 @@ class BlogController extends Controller
         $blog = Blog::findOrFail($id);
         $blog-> judul = $request-> judul;
         $blog-> desc = $request-> desc;
+        if ($request->hasFile('photo_header')) {
+            Storage::disk('public')->delete($blog->photo_identitas);
+            $img = Image::make($request->file('photo_identitas'));
+            $img->resize(521, null,  function ($constraint)
+            {
+                $constraint->aspectRatio();
+            });
+            // dd($img);
+            $filename = time().'.'.$request->file('photo_identitas')->getClientOriginalExtension();
+            $img_path = 'blog_photo/'.$filename;
+            Storage::put($img_path, $img->encode());
+            $blog->photo_identitas = $img_path;
+        }
         $blog->update();
+
+        if($request->hasfile('image'))
+        {
+            foreach($request->file('image') as $file)
+            {
+                // $name = time().rand(1,100).'.'.$file->extension();
+                // $file->move(public_path('files'), $name);
+                // $files[] = $name;
+                $img = Image::make($file);
+                $img->resize(521, null,  function ($constraint)
+                {
+                    $constraint->aspectRatio();
+                });
+
+                $filename = time().rand(1,100).'.'.$file->getClientOriginalExtension();
+                $img_path = 'blog_photo/'.$filename;
+                Storage::put($img_path, $img->encode());
+
+                $file= new blog_image();
+                $file->blog_id = $blog->id;
+                $file->image = $img_path;
+                $file->save();
+            }
+        }
 
         if ($blog) {
             Alert::success('Data berhasil diupdate');
@@ -100,30 +148,25 @@ class BlogController extends Controller
     public function imgdelete($id){
         $image = blog_image::findOrFail($id);
         // dd($image->image);
-
-            $image_path = public_path().'/blog_image/'.$image->image;
-            unlink($image_path);
-
+        Storage::delete($image->image);
         $image->delete();
         return redirect()->back();
     }
 
     public function delete($id){
-        $post = Blog::findOrFail($id);
+        $blog = Blog::findOrFail($id);
 
-        $image_path = public_path().'/blog_image/'.$post->gambar;
-        unlink($image_path);
+        Storage::delete($blog->gambar);
 
-        $image = blog_image::where('blog_id', $post->id)->get();
+        $image = blog_image::where('blog_id', $blog->id)->get();
 
         foreach($image as $img){
+            Storage::delete($img->image);
             $img->delete();
-            $image_path = public_path().'/blog_image/'.$img->image;
-            unlink($image_path);
         }
-        $post->delete();
+        $blog->delete();
 
-        if ($post) {
+        if ($blog) {
             return redirect()
                 ->route('blog')
                 ->with([

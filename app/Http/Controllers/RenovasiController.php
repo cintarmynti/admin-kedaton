@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Listing;
 use App\Models\Renovasi;
-use App\Models\renovasi_image;
-use App\Models\User;
 use Illuminate\Http\Request;
-use RealRashid\SweetAlert\Facades\Alert;
+use App\Models\renovasi_image;
 use App\Exports\RenovasiExport;
 use Maatwebsite\Excel\Facades\Excel;
+use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Storage;
+use RealRashid\SweetAlert\Facades\Alert;
 
 
 
@@ -45,21 +47,26 @@ class RenovasiController extends Controller
 
         $renovasi->save();
 
-        $files = [];
         if($request->hasfile('image'))
-         {
+        {
             foreach($request->file('image') as $file)
             {
-                $name = time().rand(1,100).'.'.$file->extension();
-                $file->move(public_path('renovasi_Image'), $name);
-                $files[] = $name;
+                $img = Image::make($file);
+                $img->resize(521, null,  function ($constraint)
+                {
+                    $constraint->aspectRatio();
+                });
+
+                $filename = time().rand(1,100).'.'.$file->getClientOriginalExtension();
+                $img_path = 'renovasi_photo/'.$filename;
+                Storage::put($img_path, $img->encode());
 
                 $file= new renovasi_image();
                 $file->renovasi_id = $renovasi->id;
-                $file->image = $name;
+                $file->image = $img_path;
                 $file->save();
             }
-         }
+        }
 
         if ($renovasi) {
             Alert::success('Data berhasil disimpan');
@@ -82,8 +89,7 @@ class RenovasiController extends Controller
         $image = renovasi_image::findOrFail($id);
         // dd($image->image);
 
-            $image_path = public_path().'/renovasi_image/'.$image->image;
-            unlink($image_path);
+        Storage::delete($image->image);
 
         $image->delete();
         return redirect()->back();
@@ -108,7 +114,26 @@ class RenovasiController extends Controller
         $renovasi-> catatan_renovasi = $request-> catatan_renovasi;
         $renovasi-> catatan_biasa = $request->catatan_biasa;
         $renovasi-> rumah_id = $request->rumah_id;
+        if($request->hasfile('image'))
+        {
+            foreach($request->file('image') as $file)
+            {
+                $img = Image::make($file);
+                $img->resize(521, null,  function ($constraint)
+                {
+                    $constraint->aspectRatio();
+                });
 
+                $filename = time().rand(1,100).'.'.$file->getClientOriginalExtension();
+                $img_path = 'renovasi_photo/'.$filename;
+                Storage::put($img_path, $img->encode());
+
+                $file= new renovasi_image();
+                $file->renovasi_id = $renovasi->id;
+                $file->image = $img_path;
+                $file->save();
+            }
+        }
 
         $renovasi->update();
 
@@ -134,9 +159,8 @@ class RenovasiController extends Controller
         $image = renovasi_image::where('renovasi_id', $post->id)->get();
 
         foreach($image as $img){
+            Storage::delete($img->image);
             $img->delete();
-            $image_path = public_path().'/renovasi_image/'.$img->image;
-            unlink($image_path);
         }
         $post->delete();
 
