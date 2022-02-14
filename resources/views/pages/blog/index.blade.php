@@ -99,3 +99,18 @@
 
     </script>
 @endpush
+
+@push('before-style')
+    <style>
+        #hidden{
+            overflow: hidden;
+        }
+
+        #konten{
+            width: 100px;
+            height: 70px;
+            /* border: 1px solid red; */
+            overflow: hidden;
+        }
+    </style>
+@endpush

@@ -36,12 +36,12 @@
                 <h5 class="card-title">Complain</h5>
                 <h2>{{$complain}}</h2>
                 <p>Orders in waitlist</p>
-               
+
             </div>
         </div>
     </div>
 </div>
-<div class="row">
+{{-- <div class="row">
     <div class="col-sm-6 col-xl-8">
         <div class="card">
             <div class="card-body">
@@ -392,6 +392,6 @@
             </div>
         </div>
     </div>
-</div>
+</div> --}}
 
 @endsection

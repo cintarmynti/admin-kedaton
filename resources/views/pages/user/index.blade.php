@@ -6,7 +6,7 @@
             <h5 class="card-title">Daftar Penggguna</h5>
             <p class="card-description">
                 <a class="btn btn-primary" href="{{ route('user.create') }}">Tambah Pengguna</a>
-                {{-- <a href="/user/export_excel" class="btn btn-success my-3" target="_blank">EXPORT EXCEL</a> --}}
+                <a href="/user/export_excel" class="btn btn-success my-3" target="_blank">EXPORT EXCEL</a>
             </p>
             <table class="table" id="myTable">
                 <thead>

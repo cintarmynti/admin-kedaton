@@ -27,11 +27,19 @@ class BannerController extends Controller
         $banner->link = $request->link;
         if($request->hasFile('photo'))
         {
+<<<<<<< HEAD
             $img = Image::make($request->file('photo'));
             $filename = time().rand(1,100).'.'. $request->file('photo')->getClientOriginalExtension();
             $img_path = 'banner_photo/'.$filename;
             Storage::put($img_path, $img->encode());
             $banner->foto=$img_path;
+=======
+            $file = $request->file('photo');
+            $extention = $file->getClientOriginalExtension();
+            $filename=time().'.'.$extention;
+            $file->move('banner_photo',$filename);
+            $banner->foto='/banner_photo/'.$filename;
+>>>>>>> 77037f2bdd383315449a0e5ab7ed07e4f2c85de3
         }
         $banner->save();
 
@@ -63,12 +71,26 @@ class BannerController extends Controller
         $banner->link = $request->link;
         if($request->hasFile('photo'))
         {
+<<<<<<< HEAD
             Storage::disk('public')->delete($banner->foto);
             $img = Image::make($request->file('photo'));
             $filename = time().rand(1,100).'.'. $request->file('photo')->getClientOriginalExtension();
             $img_path = 'banner_photo/'.$filename;
             Storage::put($img_path, $img->encode());
             $banner->foto=$img_path;
+=======
+            $destination = public_path().$banner->foto;
+            // dd($destination);
+            if(File::exists($destination))
+            {
+                unlink($destination);
+            }
+            $file = $request->file('photo');
+            $extention = $file->getClientOriginalExtension();
+            $filename=time().'.'.$extention;
+            $file->move('banner_photo',$filename);
+            $banner->foto='/banner_photo/'.$filename;
+>>>>>>> 77037f2bdd383315449a0e5ab7ed07e4f2c85de3
         }
         $banner->update();
 
@@ -91,7 +113,7 @@ class BannerController extends Controller
 
     public function delete($id){
         $banner = Banner::find($id);
-        $image_path = public_path().'/banner_photo/'.$banner->foto;
+        $image_path = public_path().'/'.$banner->foto;
         unlink($image_path);
         $banner->delete();
         return redirect('/banner');

@@ -71,6 +71,7 @@ Route::get('/properti/delete/{id}', [PropertiController::class, 'delete'])->name
 Route::get('/properti-img/delete/{id}', [PropertiController::class, 'imgdelete'])->name('propertiimg.delete');
 Route::get('/properti/edit/{id}', [PropertiController::class, 'edit'])->name('properti.edit');
 Route::put('/properti/update/{id}', [PropertiController::class, 'update'])->name('properti.update');
+Route::get('/properti/export_excel', [PropertiController::class, 'export_excel'])->name('properti.excel');
 
 Route::get('/listing', [ListingController::class, 'index'])->name('listing');
 Route::get('/listing/create', [ListingController::class, 'create'])->name('listing.create');
@@ -124,9 +125,6 @@ Route::put('/complain/update/{id}', [LaporanComplainController::class, 'update']
 Route::get('/complain/detail/{id}', [LaporanComplainController::class, 'detail'])->name('complain.detail');
 Route::get('/complain-img/delete/{id}', [LaporanComplainController::class, 'imgdelete'])->name('complainimg.delete');
 Route::get('/complain/export_excel', [LaporanComplainController::class, 'export_excel'])->name('complain.excel');
-
-
-
 
 Route::get('/panic-button', [LaporanPanicButtonController::class, 'index'])->name('panic');
 Route::get('/panic-button/create', [LaporanPanicButtonController::class, 'create'])->name('panic.create');

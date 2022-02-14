@@ -10,53 +10,47 @@
             <div class="row">
                 <div class="col">
                 <label for="formGroupExampleInput" class="form-label">Nama</label>
-                <input value="{{ old('name') }}" type="text" required class="form-control" name="name"  aria-label="First name">
+                <input value="" type="text" required class="form-control" name="name"  aria-label="First name">
                 </div>
                 <div class="col">
                 <label for="formGroupExampleInput" class="form-label">NIK</label>
-                <input value="{{ old('nik') }}" type="number" required class="form-control" name="nik"  aria-label="Last name">
-                </div>
-            </div>
-
-            <div class="row mt-4">
-                <div class="col">
-                <label for="formGroupExampleInput" class="form-label">Alamat</label>
-                <input value="{{ old('alamat') }}" type="text" required class="form-control" name="alamat"  aria-label="First name">
+                <input value="" type="number" required class="form-control" name="nik"  aria-label="Last name">
                 </div>
                 <div class="col">
                 <label for="formGroupExampleInput" class="form-label">No Telp</label>
-                <input value="{{ old('phone') }}" type="text" required class="form-control" name="phone"  aria-label="Last name">
+                <input value="" type="text" required class="form-control" name="phone"  aria-label="Last name">
                 </div>
             </div>
 
             <div class="row mt-4">
                 <div class="col">
                 <label for="formGroupExampleInput" class="form-label">Email</label>
-                <input value="{{ old('email') }}" type="email" required class="form-control" name="email"  aria-label="First name">
+                <input value="" type="email" required class="form-control" name="email"  aria-label="First name">
                 </div>
                 <div class="col">
                 <label for="formGroupExampleInput" class="form-label">Password</label>
-                <input value="{{ old('password') }}" type="password" required class="form-control" name="password"  aria-label="Last name">
+                <input value="" type="password" required class="form-control" name="password"  aria-label="Last name">
                 </div>
-            </div>
-
-
-
-
-
-
-
-            <div class="row mt-4">
-                <div class="col-md-6">
+                <div class="col">
                     <label for="formGroupExampleInput" class="form-label ">Foto Pengguna</label>
-                  <input value="{{ old('photo_identitas') }}" type="file" id="filePhoto" required class="form-control" name="photo_identitas"  aria-label="First name">
+                  <input value="" type="file" id="filePhoto" required class="form-control" name="photo_identitas"  aria-label="First name">
                   <img id="output" class="mt-3" style="max-height: 200px; max-width: 300px">
                 </div>
-                {{-- <img id="preview-image" src=""
-                      alt="preview image" style="max-height: 250px;"> --}}
             </div>
+
+            <div class="row mt-2 mb-4">
+                <div class="col-md-4">
+                <label for="formGroupExampleInput" class="form-label">Alamat</label>
+                <input value="" type="text" required class="form-control" name="alamat"  aria-label="First name">
+                </div>
+
+            </div>
+
+
                 <a href="{{route('user')}}" class="btn btn-warning mt-4">kembali</a>
                 <button type="submit"  class="btn btn-primary ml-4 mt-4">Simpan</a>
+
+
         </form>
 
     </div>
