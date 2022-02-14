@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Validator;
 use App\Models\Listing;
 use App\Models\Properti;
+use Illuminate\Support\Facades\File;
 use Hash;
 
 class UserController extends Controller
@@ -129,6 +130,40 @@ class UserController extends Controller
         $properti = Properti::where('pemilik_id', $user->id)->first();
         // dd($properti);
         return ResponseFormatter::success('get user profile!', [$user, $properti]);
+
+    }
+
+
+    public function update(Request $request, $id)
+    {
+        $user = User::where('id', $id)->first();
+        if ($request->photo_identitas) {
+            $image = $request->photo_identitas;  // your base64 encoded
+            $image = str_replace('data:image/png;base64,', '', $image);
+            $image = str_replace(' ', '+', $image);
+            $imageName =  time().rand(0,2000).'.'.'png';
+            File::put('user_photo/' . $imageName, base64_decode($image));
+        }else{
+            $imageName = $user->photo_identitas;;
+        }
+
+        $user -> name = $request->name;
+        $user -> email = $request -> email;
+        $user -> nik = $request -> nik;
+        $user -> alamat = $request -> alamat;
+        $user -> phone = $request -> phone;
+        $user -> photo_identitas = $imageName;
+        $user->update();
+
+
+        if($user){
+            return ResponseFormatter::success('successful to update user profile!', $user);
+        }else{
+            return ResponseFormatter::failed('failed to update profile!', 401);
+        }
+
+
+
 
     }
 

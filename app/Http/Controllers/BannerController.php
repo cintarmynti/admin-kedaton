@@ -29,7 +29,7 @@ class BannerController extends Controller
             $extention = $file->getClientOriginalExtension();
             $filename=time().'.'.$extention;
             $file->move('banner_photo',$filename);
-            $banner->foto=$filename;
+            $banner->foto='/banner_photo/'.$filename;
         }
         $banner->save();
 
@@ -61,7 +61,7 @@ class BannerController extends Controller
         $banner->link = $request->link;
         if($request->hasFile('photo'))
         {
-            $destination = public_path().'/banner_photo/'.$banner->foto;
+            $destination = public_path().$banner->foto;
             // dd($destination);
             if(File::exists($destination))
             {
@@ -71,7 +71,7 @@ class BannerController extends Controller
             $extention = $file->getClientOriginalExtension();
             $filename=time().'.'.$extention;
             $file->move('banner_photo',$filename);
-            $banner->foto=$filename;
+            $banner->foto='/banner_photo/'.$filename;
         }
         $banner->update();
 
@@ -94,7 +94,7 @@ class BannerController extends Controller
 
     public function delete($id){
         $banner = Banner::find($id);
-        $image_path = public_path().'/banner_photo/'.$banner->foto;
+        $image_path = public_path().'/'.$banner->foto;
         unlink($image_path);
         $banner->delete();
         return redirect('/banner');

@@ -60,7 +60,7 @@ class IPKLController extends Controller
         $ipkl->periode_pembayaran = $request->periode_pembayaran;
         $ipkl->jumlah_pembayaran = $request->jumlah_pembayaran;
         $ipkl->status = 1;
-        $ipkl->type = 
+        $ipkl->type =
         $ipkl->save();
 
         return redirect('/ipkl');
@@ -96,7 +96,7 @@ class IPKLController extends Controller
             ]);
         }
 
-        return redirect('ipkl');
+        return redirect('/ipkl');
     }
 
     public function delete($id)
@@ -136,7 +136,7 @@ class IPKLController extends Controller
                 'status' => 2
             ]);
         }
-        return redirect()->back();
+        return redirect('/ipkl');
         // return redirect('/ipkl');
      }
 

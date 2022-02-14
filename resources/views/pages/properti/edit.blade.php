@@ -9,53 +9,42 @@
             @csrf
             @method('put')
             <div class="row">
-                <div class="col">
+                <div class="col-md-9">
                     <label for="">Alamat</label>
                   <input type="text" value="{{old('alamat', $properti->alamat)}}" required class="form-control" name="alamat"  aria-label="First name">
                 </div>
-                <div class="col">
+                <div class="col-md-3">
                     <label for="">No Rumah</label>
                   <input type="text" value="{{old('no_rumah', $properti->no_rumah)}}" required class="form-control" name="no"  aria-label="Last name">
                 </div>
             </div>
 
-            <div class="row mt-4">
-                <div class="col">
-                    <label for="formGroupExampleInput" class="form-label">No Listrik</label>
-                    <input value="{{ old('listrik', $properti->no_listrik) }}" type="number" required class="form-control" name="listrik"
-                        aria-label="First name">
-                </div>
-                <div class="col">
-                    <label for="formGroupExampleInput" class="form-label">No PAM</label>
-                    <input value="{{ old('pam', $properti->no_pam_bsd) }}" type="number" required class="form-control" name="pam"
-                        aria-label="Last name">
-                </div>
-            </div>
-
-            <div class="row mt-4">
-                <div class="col">
+            <div class="row mt-3">
+                <div class="col-md-3">
                     <label for="">RT</label>
                   <input type="number" value="{{old('RT', $properti->RT)}}" required class="form-control" name="RT" aria-label="First name">
                 </div>
-                <div class="col">
+                <div class="col-md-3">
                     <label for="">RW</label>
                   <input type="number" value="{{old('RW', $properti->RW)}}" required class="form-control" name="RW" aria-label="Last name">
                 </div>
-            </div>
-
-            <div class="row mt-4">
-                <div class="col">
+                <div class="col-md-3">
                     <label for="">Jumlah Lantai</label>
                   <input type="number" value="{{old('lantai', $properti->lantai)}}" required class="form-control" name="lantai"  aria-label="First name">
                 </div>
-                <div class="col">
+                <div class="col-md-3">
                     <label for="">Jumlah Kamar</label>
                   <input type="number" value="{{old('jumlah_kamar', $properti->jumlah_kamar)}}" required class="form-control" name="jumlah_kamar"  aria-label="Last name">
                 </div>
             </div>
 
             <div class="row mt-4">
-                <div class="col">
+                <div class="col-md-8">
+                    <label for="formGroupExampleInput" class="form-label">No Listrik</label>
+                    <input value="{{ old('listrik', $properti->no_listrik) }}" type="number" required class="form-control" name="listrik"
+                        aria-label="First name">
+                </div>
+                <div class="col-md-4">
                     <label for="">Luas Kavling</label>
 
                     <div class="input-group mb-3">
@@ -63,7 +52,17 @@
                         <span class="input-group-text" id="basic-addon2">m2</span>
                       </div>
                 </div>
-                <div class="col">
+
+            </div>
+
+
+            <div class="row mt-4">
+                <div class="col-md-8">
+                    <label for="formGroupExampleInput" class="form-label">No PAM</label>
+                    <input value="{{ old('pam', $properti->no_pam_bsd) }}" type="number" required class="form-control" name="pam"
+                        aria-label="Last name">
+                </div>
+                <div class="col-md-4">
                     <label for="">Luas Bangunan</label>
                     <div class="input-group mb-3">
                         <input type="number" value="{{old('luas_bangunan', $properti->luas_bangunan)}}" min="0" required name="luas_bangunan"  class="form-control"  aria-label="Recipient's username" aria-describedby="basic-addon2">
@@ -99,6 +98,17 @@
                         @endforeach
                       </select>
                 </div>
+                <div class="col">
+                    <label for="">Pilih Cluster</label>
+                    <select class="form-select select2" name="cluster_id" aria-label="Default select example">
+                        <option disabled selected="">Pilih Cluster</option>
+                        @foreach($cluster as $clu)
+                        <option value="{{ $clu->id }}" {{ $clu->id == $properti->cluster_id ? 'selected' : '' }}>
+                            {{ $clu->name }}
+                        </option>
+                        @endforeach
+                      </select>
+                </div>
             </div>
 
             <div class="row mt-4">
@@ -113,27 +123,18 @@
                 </div>
                 <div class="col">
                     <label for="">Harga</label>
-                    <input type="text" value="{{old('harga', $properti->harga)}}" required class="form-control" name="harga"  aria-label="Last name" onkeyup="onchange_comma(this.id, this.value)">
+                    <input type="text" value="{{old('harga', $properti->harga)}}"  class="form-control" name="harga"  aria-label="Last name" onkeyup="onchange_comma(this.id, this.value)">
                 </div>
-            </div>
-
-            <div class="row mt-4">
-                <div class="col-md-6">
-                    <label for="">Pilih Cluster</label>
-                    <select class="form-select select2" name="cluster_id" aria-label="Default select example">
-                        <option disabled selected="">Pilih Cluster</option>
-                        @foreach($cluster as $clu)
-                        <option value="{{ $clu->id }}" {{ $clu->id == $properti->cluster_id ? 'selected' : '' }}>
-                            {{ $clu->name }}
-                        </option>
-                        @endforeach
-                      </select>
-                </div>
-                <div class="col-md-6">
+                <div class="col">
                     <label for="" class="form-label">Masukkan Gambar(bisa lebih dari 1)</label>
                     <input type="file" class="form-control" name="image[]" placeholder="address" multiple>
 
                 </div>
+            </div>
+
+            <div class="row mt-4">
+
+
             </div>
 
             <div class="row mt-4" id="images">

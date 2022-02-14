@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\PropertiExport;
 use DB;
 use App\Models\User;
 use App\Models\Cluster;
@@ -13,6 +14,7 @@ use App\Models\listing_image;
 use App\Models\Properti_image;
 use RealRashid\SweetAlert\Facades\Alert;
 use Symfony\Component\Console\Input\Input;
+use Maatwebsite\Excel\Facades\Excel;
 
 
 class PropertiController extends Controller
@@ -27,6 +29,11 @@ class PropertiController extends Controller
         $user = User::where('user_status', 'pengguna')->get();
         return view('pages.properti.create', ['user' => $user, 'cluster' => $cluster ]);
     }
+
+    public function export_excel()
+	{
+		return Excel::download(new PropertiExport, 'properti.xlsx');
+	}
 
     public function store(Request $request){
         $properti = new Properti();
@@ -123,7 +130,8 @@ class PropertiController extends Controller
     }
 
     public function detail($id){
-        $properti = Properti::with('penghuni', 'pemilik')->where('id', $id)->first();
+        $properti = Properti::with('penghuni', 'pemilik', 'cluster')->where('id', $id)->first();
+        // dd($properti);
         $image = Properti_image::where('properti_id', $id)->get();
         // $listing = Listing::findOrFail($id);
         // dd($listing);

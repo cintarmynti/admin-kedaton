@@ -25,7 +25,7 @@
                     <div class="col-md-6">
                         <input type="file" id="filePhoto"  class="form-control" name="photo"  aria-label="First name">
 
-                  <img id="output" src="{{ asset('banner_photo/' . $banner->foto) }}" class="mb-3" style="max-height: 200px; max-width: 300px">
+                  <img id="output" src="{{ asset($banner->foto) }}" class="mb-3" style="max-height: 200px; max-width: 300px">
                     </div>
                 </div>
 

@@ -16,7 +16,7 @@
                 <div class="col-md-6">
                     <label for="">Foto Header</label>
                     <input type="file" id="filePhoto" class="form-control" name="photo_identitas" placeholder="photo identitas" aria-label="First name">
-                    <img id="output" src="{{ asset('blog_image/' . $blog->gambar) }}" alt="{{ $blog->gambar }}" class="mt-2" style="max-height: 200px; max-width: 300px">
+                    <img id="output" src="{{ asset($blog->gambar) }}" alt="{{ $blog->gambar }}" class="mt-2" style="max-height: 200px; max-width: 300px">
                 </div>
             </div>
 
@@ -32,7 +32,7 @@
             <div class="row mt-4" id="images">
                 @foreach ($image as $item)
                     <div class="col wrapper" >
-                        <img onclick="image()" src="{{ url('blog_image/' . $item->image) }}" style="height: 100px; width:200px; object-fit:cover" alt="">
+                        <img onclick="image()" src="{{ url($item->image) }}" style="height: 100px; width:200px; object-fit:cover" alt="">
                         <div class="panjang">
                             <a href="{{route('blogimg.delete', $item->id)}}" class="btn btn-danger hapus mt-3">hapus gambar</a>
                         </div>

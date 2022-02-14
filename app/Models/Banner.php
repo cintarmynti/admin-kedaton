@@ -11,9 +11,7 @@ class Banner extends Model
     protected $table = 'banner';
     protected $fillable = ['foto', 'link', 'judul'];
 
-    public function getPhotoAttribute($value){
-        return url('banner_photo/'.$value);
-    }
+    
 }
 
 

@@ -21,7 +21,7 @@ class CreateRevListingTable extends Migration
             $table->string('harga');
             $table->string('name');
             $table->string('image')->nullable();
-            $table->string('setelah_diskon');
+            $table->string('setelah_diskon')->nullable();
             $table->timestamps();
             //harga, diskon (opsional), status(sewa/dijual), properti_id
         });

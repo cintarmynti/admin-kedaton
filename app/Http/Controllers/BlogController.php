@@ -28,7 +28,7 @@ class BlogController extends Controller
             $extention = $file->getClientOriginalExtension();
             $filename=time().'.'.$extention;
             $file->move('blog_image',$filename);
-            $blog->gambar=$filename;
+            $blog->gambar='/blog_image/'.$filename;
         }
         $blog->save();
 
@@ -43,7 +43,7 @@ class BlogController extends Controller
 
                 $file= new blog_image();
                 $file->blog_id = $blog->id;
-                $file->image = $name;
+                $file->image = '/blog_image/'.$name;
                 $file->save();
             }
          }
@@ -101,7 +101,7 @@ class BlogController extends Controller
         $image = blog_image::findOrFail($id);
         // dd($image->image);
 
-            $image_path = public_path().'/blog_image/'.$image->image;
+            $image_path = public_path().'/'.$image->image;
             unlink($image_path);
 
         $image->delete();
@@ -111,14 +111,14 @@ class BlogController extends Controller
     public function delete($id){
         $post = Blog::findOrFail($id);
 
-        $image_path = public_path().'/blog_image/'.$post->gambar;
+        $image_path = public_path().'/'.$post->gambar;
         unlink($image_path);
 
         $image = blog_image::where('blog_id', $post->id)->get();
 
         foreach($image as $img){
             $img->delete();
-            $image_path = public_path().'/blog_image/'.$img->image;
+            $image_path = public_path().'/'.$img->image;
             unlink($image_path);
         }
         $post->delete();

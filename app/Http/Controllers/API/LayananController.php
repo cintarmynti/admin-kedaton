@@ -27,7 +27,7 @@ class LayananController extends Controller
             'status' => 'diajukan',
             'catatan' => $request->catatan
         ]);
-        
+
         if($layanan){
             return ResponseFormatter::success('berhasil melakukan pengajuan !', $layanan);
         }else{
@@ -51,8 +51,6 @@ class LayananController extends Controller
             return ResponseFormatter::success('berhasil mengambil semua layanan!', $diproses);
         }
         return ResponseFormatter::failed('gagal mengambil data!', 404);
-
-
 
     }
 
