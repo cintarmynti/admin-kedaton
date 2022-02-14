@@ -58,10 +58,10 @@
             <div class="row mt-4">
 
                     <label for="">Catatan Renovasi</label>
-                    <textarea class="post" class="form-control"  name="catatan_renovasi" aria-label="With textarea"></textarea>
+                    <textarea id="blog" class="form-control"  name="catatan_renovasi" aria-label="With textarea"></textarea>
 
                     <label for="">Catatan Biasa</label>
-                    <textarea class="post"  name="catatan_biasa"  aria-label="With textarea"></textarea>
+                    <textarea id="blog2"  name="catatan_biasa"  aria-label="With textarea"></textarea>
 
             </div>
 
@@ -78,6 +78,24 @@
 @endsection
 
 @push('after-script')
+<script src="{{asset('assets/ckeditor/ckeditor.js')}}"></script>
+
+<script>
+    var konten = document.getElementById("blog");
+      CKEDITOR.replace(konten,{
+      language:'en-gb'
+    });
+    CKEDITOR.config.allowedContent = true;
+ </script>
+
+<script>
+    var konten = document.getElementById("blog2");
+      CKEDITOR.replace(konten,{
+      language:'en-gb'
+    });
+    CKEDITOR.config.allowedContent = true;
+ </script>
+
 <script type="text/javascript">
     $(document).ready(function() {
       $(".btn-success").click(function(){

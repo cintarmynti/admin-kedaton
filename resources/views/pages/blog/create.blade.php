@@ -31,7 +31,8 @@
             <div class="row mt-1">
                 <div class="col">
                     <label class="form-label" for="">Deskripsi</label>
-                    <textarea class="form-control" id="post" rows="12"  name="desc" aria-label="With textarea"></textarea>
+                    {{-- <textarea class="form-control" id="post" rows="12"  name="desc" aria-label="With textarea"></textarea> --}}
+                    <textarea id="konten" class="form-control" name="desc" rows="10" cols="50"></textarea>
 
                 </div>
 
@@ -48,13 +49,15 @@
 
 @push('after-script')
 
+
+
+<script src="{{asset('assets/ckeditor/ckeditor.js')}}"></script>
 <script>
-    $(document).ready(function() {
-        $('#post').summernote({
-            placeholder: "Ketikan sesuatu disini . . .",
-            height: '200'
-        });
-    });
+   var konten = document.getElementById("konten");
+     CKEDITOR.replace(konten,{
+     language:'en-gb'
+   });
+   CKEDITOR.config.allowedContent = true;
 </script>
 
 <script type="text/javascript">

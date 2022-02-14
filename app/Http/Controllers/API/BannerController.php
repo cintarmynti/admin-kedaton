@@ -35,8 +35,9 @@ class BannerController extends Controller
     {
         $article = Blog::with('banner_image')->where('id', $id)->get();
         // dd($article);
+        $article_rekomendation = Blog::inRandomOrder(3)->get();
         if($article){
-            return ResponseFormatter::success('berhasil mengembil banner!', $article);
+            return ResponseFormatter::success('berhasil mengambil banner!', [$article, $article_rekomendation]);
         }else{
             return ResponseFormatter::failed('gagal mengambil banner!', 404);
         }

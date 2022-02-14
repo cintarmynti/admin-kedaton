@@ -24,7 +24,9 @@
 
                 <div class="col">
                     <label for="">Deskripsi</label>
-                    <textarea id="post" class="form-control"  name="desc" aria-label="With textarea">{{old('desc', $blog->desc)}}</textarea>
+                    {{-- <textarea id="post" class="form-control"  name="desc" aria-label="With textarea">{{old('desc', $blog->desc)}}</textarea> --}}
+                    <textarea id="konten" class="form-control" name="desc" rows="10" cols="50">{{old('desc', $blog -> desc)}}</textarea>
+
 
                 </div>
             </div>
@@ -53,6 +55,7 @@
 
 
 @push('after-script')
+
 <script type="text/javascript">
     $(document).ready(function() {
       $(".btn-success").click(function(){
@@ -64,13 +67,17 @@
       });
     });
 </script>
+<script src="{{asset('assets/ckeditor/ckeditor.js')}}"></script>
+
 <script>
-    $(document).ready(function() {
-        $('#post').summernote({
-            placeholder: "Ketikan sesuatu disini . . .",
-            height: '200'
-        });
+    var konten = document.getElementById("konten");
+      CKEDITOR.replace(konten,{
+      language:'en-gb'
     });
+    CKEDITOR.config.allowedContent = true;
+ </script>
+<script>
+
 
     function image() {
             const viewer = new Viewer(document.getElementById('images'), {

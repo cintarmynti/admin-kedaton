@@ -95,7 +95,10 @@ class BannerController extends Controller
     public function delete($id){
         $banner = Banner::find($id);
         $image_path = public_path().'/'.$banner->foto;
-        unlink($image_path);
+        if(is_file($image_path)){
+            unlink($image_path);
+        }
+
         $banner->delete();
         return redirect('/banner');
     }

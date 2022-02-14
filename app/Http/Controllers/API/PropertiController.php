@@ -17,20 +17,19 @@ class PropertiController extends Controller
    {
     $properti = new Properti();
     $properti->alamat = $request-> alamat;
-    $properti->no_rumah = $request-> no;
-    $properti->no_listrik = $request->listrik;
-    $properti->no_pam_bsd = $request->pam;
+    $properti->no_rumah = $request-> no_rumah;
+    $properti->no_listrik = $request->no_listrik;
+    $properti->no_pam_bsd = $request->no_pam_bsd;
     $properti->RT = $request-> RT;
     $properti->RW = $request-> RW;
     $properti->lantai = $request->lantai;
     $properti->jumlah_kamar = $request->jumlah_kamar;
     $properti->luas_tanah = $request->luas_tanah; //ini luas kavling
     $properti->luas_bangunan = $request->luas_bangunan;
-    $properti->penghuni_id = $request->penghuni;
-    $properti->pemilik_id = $request->pemilik;
+    $properti->penghuni_id = $request->penghuni_id;
+    $properti->pemilik_id = $request->pemilik_id;
     $properti->status = $request->status;
     $properti->harga = $request->harga;
-    $properti->cluster_id = $request->cluster_id;
 
     $ipkl = tarif_ipkl::where('luas_kavling_awal', '<=', $request-> luas_tanah)->where('luas_kavling_akhir', '>=', $request-> luas_tanah)->first();
 
@@ -61,15 +60,21 @@ class PropertiController extends Controller
         $properti->cluster_id = $request->cluster_id;
     }
 
+    $properti->save();
 
-    if($request->hasfile('image'))
+    if($request->image)
      {
-        foreach($request->file('image') as $file)
+        foreach($request->image as $file)
         {
-            $image = $request->photo_identitas;  // your base64 encoded
+            // dd($request->image);
+
+            $image = $request->image;
+            // dd($image);  // your base64 encoded
             $image = str_replace('data:image/png;base64,', '', $image);
             $image = str_replace(' ', '+', $image);
+            // dd($image);
             $imageName =  time().rand(0,2000).'.'.'png';
+            // dd($imageName);
             File::put('properti_photo/' . $imageName, base64_decode($image));
 
             $file= new Properti_image();
@@ -79,11 +84,13 @@ class PropertiController extends Controller
         }
      }
 
-     $properti->save();
+
 
      if($properti){
-         
-     }
+        return ResponseFormatter::success('successful to create new prop!', $properti);
+    }else{
+        return ResponseFormatter::failed('failed to create new prop!', 401);
+    }
 
    }
 }
