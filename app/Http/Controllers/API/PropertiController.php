@@ -68,7 +68,7 @@ class PropertiController extends Controller
         {
             // dd($request->image);
 
-            $image = $request->image;
+            $image = $file;
             // dd($image);  // your base64 encoded
             $image = str_replace('data:image/png;base64,', '', $image);
             $image = str_replace(' ', '+', $image);
