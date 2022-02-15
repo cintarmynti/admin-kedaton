@@ -42,6 +42,7 @@ Route::get('profile', [UserController::class, 'profile']);
 Route::post('profile-update/{id}', [UserController::class, 'update']);
 
 Route::post('create-properti', [PropertiController::class, 'store']);
+Route::post('edit-properti/{id}', [PropertiController::class, 'edit']);
 Route::get('get-properti-user', [PropertiController::class, 'index']);
 Route::post('create-penghuni', [PropertiController::class, 'addPenghuni']);
 
