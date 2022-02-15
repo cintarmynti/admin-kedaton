@@ -9,9 +9,9 @@ use Illuminate\Http\Request;
 use App\Models\Properti;
 use App\Models\Properti_image;
 use App\Models\tarif_ipkl;
-use App\Models\User;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
+use App\Models\User;
 
 class PropertiController extends Controller
 {
