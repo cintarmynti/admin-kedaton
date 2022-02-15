@@ -22,6 +22,10 @@
         <a href="{{route('properti')}}"><i data-feather="home"></i>Rumah</a>
       </li>
 
+      <li class="{{ Request::is('listing*') ? 'active-page' : '' }}">
+        <a href="{{route('listing')}}"><i data-feather="book-open"></i>Listing</a>
+      </li>
+
       <li class="{{ Request::is('splash-screen*') ? 'active-page' : '' }}">
         <a href="/splash-screen"><i data-feather="repeat"></i>Splash Screen</a>
       </li>
