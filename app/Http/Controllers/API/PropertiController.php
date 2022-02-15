@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use Validator;
 use App\Models\Cluster;
 use Illuminate\Http\Request;
 use App\Models\Properti;
@@ -10,7 +11,7 @@ use App\Models\Properti_image;
 use App\Models\tarif_ipkl;
 use App\Models\User;
 use Illuminate\Support\Facades\File;
-
+use Illuminate\Support\Facades\Storage;
 
 class PropertiController extends Controller
 {
@@ -109,10 +110,51 @@ class PropertiController extends Controller
        }else if($pemilik == null && $penghuni == null){
             return ResponseFormatter::failed('user ini tidak memiliki properti!', 401);
        }
-
    }
 
+   private function checkEmailExists($email)
+   {
+       return User::where('email', $email)->first();
+   }
+
+   private function checkUsernameExists($name)
+   {
+       return User::where('name', $name)->first();
+   }
+
+   private function checkNikExists($nik)
+   {
+       return User::where('nik', $nik)->first();
+   }
+
+
    public function addPenghuni(Request $request){
+       $user = $request->all();
+        $validator = Validator::make($user, [
+            'nik' => 'required',
+            'name' => 'required',
+            'alamat' => 'required',
+            'phone' => 'required',
+            'email' => 'required|email',
+        ]);
+
+        if ($validator->fails()) {
+            return ResponseFormatter::failed('User Registration Failed!', 401, $validator->errors());
+        }
+
+        if ($this->checkNikExists($user['nik'])) {
+            return ResponseFormatter::failed('User nik Already Exists!', 409, $validator->errors());
+        }
+
+        if ($this->checkUsernameExists($user['name'])) {
+            return ResponseFormatter::failed('User name Already Exists!', 409, $validator->errors());
+        }
+
+        if ($this->checkEmailExists($user['email'])) {
+            return ResponseFormatter::failed('User Email Already Exists!', 409, $validator->errors());
+        }
+
+
         $user = new User();
         $user -> name = $request->name;
         $user -> email = $request->email;
@@ -120,6 +162,21 @@ class PropertiController extends Controller
         $user -> alamat = $request -> alamat;
         $user -> user_status = 'pengguna';
         $user -> phone = $request -> phone;
+
+        if($request->photo_identitas){
+            $image = $request->photo_identitas;  // your base64 encoded
+            $image = str_replace('data:image/png;base64,', '', $image);
+            $image = str_replace(' ', '+', $image);
+            $imageName =  time().rand(0,2000).'.'.'png';
+            File::put('user_photo/' . $imageName, base64_decode($image));
+            $user->photo_identitas = '/user_photo/'.$imageName;
+        }
         $user->save();
+
+        if($user){
+            return ResponseFormatter::success('berhasil menambah penghuni!', $user);
+        }else{
+            return ResponseFormatter::failed('gagal menambah penghuni!', 401);
+        }
    }
 }
