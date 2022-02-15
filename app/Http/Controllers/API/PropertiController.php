@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Properti;
 use App\Models\Properti_image;
 use App\Models\tarif_ipkl;
+use App\Models\User;
 use Illuminate\Support\Facades\File;
 
 
@@ -92,5 +93,33 @@ class PropertiController extends Controller
         return ResponseFormatter::failed('failed to create new prop!', 401);
     }
 
+   }
+
+   public function index(Request $request)
+   {
+       $pemilik = Properti::where('pemilik_id', $request->user_id)->first();
+       $penghuni = Properti::where('penghuni_id', $request->user_id)->first();
+
+       if($pemilik != null){
+            $rumah_pemilik = Properti::where('pemilik_id', $request->user_id)->get();
+            return ResponseFormatter::success('successful to create new prop!', $rumah_pemilik);
+       }else if($penghuni != null){
+            $rumah_penghuni = Properti::where('penghuni_id', $request->user_id)->get();
+            return ResponseFormatter::success('successful to create new prop!', $rumah_penghuni);
+       }else if($pemilik == null && $penghuni == null){
+            return ResponseFormatter::failed('user ini tidak memiliki properti!', 401);
+       }
+
+   }
+
+   public function addPenghuni(Request $request){
+        $user = new User();
+        $user -> name = $request->name;
+        $user -> email = $request->email;
+        $user -> nik = $request->nik;
+        $user -> alamat = $request -> alamat;
+        $user -> user_status = 'pengguna';
+        $user -> phone = $request -> phone;
+        $user->save();
    }
 }
