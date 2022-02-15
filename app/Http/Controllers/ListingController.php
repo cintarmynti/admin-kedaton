@@ -46,6 +46,7 @@ class ListingController extends Controller
         if ($request->diskon != null) {
             $harga = str_replace( ',', '', $request->harga);
             $setelah_diskon = intval($harga) * intval($request->diskon) / 100;
+            $setelah_diskon = $harga - $setelah_diskon;
             $listing->setelah_diskon = $setelah_diskon;
         }
 
@@ -94,81 +95,42 @@ class ListingController extends Controller
     }
 
     public function edit($id){
-        $properti = Properti::findOrFail($id);
-        $user = User::where('user_status', 'pengguna')->get();
-        $cluster = Cluster::all();
-        $image = properti_image::where('properti_id', $id)->get();
-        return view('pages.listing.edit', ['properti' => $properti, 'user'=> $user, 'cluster' => $cluster, 'image' => $image]);
-    }
-
-    public function imgdelete($id){
-        $image = Properti_image::findOrFail($id);
-        Storage::delete($image->image);
-        $image->delete();
-        return redirect()->back();
+        return view('pages.listing.edit', ['properti' => Properti::all(), 'listing'=> rev_listing::find($id)]);
     }
 
     public function update(Request $request, $id){
-        $properti = properti::findOrFail($id);
-        $properti-> alamat = $request-> alamat;
-        $properti-> no_rumah = $request-> no;
-        $properti->no_listrik = $request->listrik;
-        $properti->no_pam_bsd = $request->pam;
-        $properti-> RT = $request-> RT;
-        $properti-> RW = $request-> RW;
-        $properti-> lantai = $request->lantai;
-        $properti->jumlah_kamar = $request->jumlah_kamar;
-        $properti-> luas_tanah = $request->luas_tanah;
-        $properti->luas_bangunan = $request->luas_bangunan;
-        $properti->penghuni_id = $request->penghuni;
-        $properti->pemilik_id = $request->pemilik;
-        $properti-> status = $request->status;
-        $properti->harga = $request->harga;
-
-        $cluster = Cluster::where('id', $request->cluster_id)->first();
-        // dd($cluster);
-        if ($cluster === null) {
-            // User does not exist
-            $clus = new Cluster();
-            $clus->name = $request->cluster_id;
-            $clus->save();
-
-            $properti->cluster_id = $clus->id;
-
-        } else {
-            $properti->cluster_id = $request->cluster_id;
+        $listing = rev_listing::findOrFail($id);
+        $listing->harga = $request->harga;
+        $listing->name = $request->name;
+        $listing->diskon = $request->diskon;
+        $listing->status = $request->status;
+        $listing->properti_id = $request->properti_id;
+        // dd($request->harga);
+        if ($request->diskon != null) {
+            $harga = str_replace( ',', '', $request->harga);
+            $setelah_diskon = intval($harga) * intval($request->diskon) / 100;
+            $setelah_diskon = $harga - $setelah_diskon;
+            $listing->setelah_diskon = $setelah_diskon;
         }
 
-        $properti->update();
-
-        if($request->hasfile('image'))
-         {
-            foreach($request->file('image') as $file)
+        if ($request->hasFile('image')) {
+            $img = Image::make($request->file('image'));
+            $img->resize(521, null,  function ($constraint)
             {
-                // $name = time().rand(1,100).'.'.$file->extension();
-                // $file->move(public_path('files'), $name);
-                // $files[] = $name;
-                $img = Image::make($file);
-                $img->resize(521, null,  function ($constraint)
-                {
-                    $constraint->aspectRatio();
-                });
+                $constraint->aspectRatio();
+            });
+            $filename = time().'.'.$request->file('image')->getClientOriginalExtension();
+            $img_path = 'rev_listing_photo/'.$filename;
+            Storage::put($img_path, $img->encode());
+            $listing->image = $img_path;
+        }
 
-                $filename = time().rand(1,100).'.'.$file->getClientOriginalExtension();
-                $img_path = 'properti_photo/'.$filename;
-                Storage::put($img_path, $img->encode());
+        $listing->update();
 
-                $file= new Properti_image();
-                $file->properti_id = $properti->id;
-                $file->image = $img_path;
-                $file->save();
-            }
-         }
-
-        if ($properti) {
+        if ($listing) {
             Alert::success('Data berhasil diupdate');
             return redirect()
-                ->route('properti')
+                ->route('listing')
                 ->with([
                     'success' => 'New post has been created successfully'
                 ]);
@@ -183,18 +145,12 @@ class ListingController extends Controller
     }
 
     public function delete($id){
-        $properti = Properti::findOrFail($id);
-        $image = Properti_image::where('properti_id', $properti->id)->get();
+        $listing = rev_listing::findOrFail($id);
+        $listing->delete();
 
-        foreach($image as $img){
-            $img->delete();
-            Storage::delete($img->image);
-        }
-        $properti->delete();
-
-        if ($properti) {
+        if ($listing) {
             return redirect()
-                ->route('properti')
+                ->route('listing')
                 ->with([
                     'success' => 'Properti has been deleted successfully'
                 ]);

@@ -15,8 +15,8 @@
                     </div>
                     <div class="col">
                         <label for="" class="form-label">Masukkan Gambar</label>
-                        <input required type="file" class="form-control" name="image" placeholder="address">
-
+                        <input id="filePhoto" required type="file" class="form-control" name="image" placeholder="address">
+                        <img id="output" src="" alt="">
                     </div>
                 </div>
 
@@ -93,6 +93,13 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
 
     <script>
+        $(function() {
+            $("#filePhoto").change(function(event) {
+                var x = URL.createObjectURL(event.target.files[0]);
+                $("#output").attr("src", x);
+                console.log(event);
+            });
+        });
         $(document).ready(function() {
             $('.select2').select2({
                 // placeholder: 'Select Cluster',
