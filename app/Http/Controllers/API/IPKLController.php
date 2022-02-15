@@ -60,8 +60,6 @@ class IPKLController extends Controller
             throw $th;
             return ResponseFormatter::failed('gagal pay data!', 404);
         }
-
-
     }
 
     public function belomDibayar(Request $request)

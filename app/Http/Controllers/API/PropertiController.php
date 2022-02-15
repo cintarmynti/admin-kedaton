@@ -177,12 +177,12 @@ class PropertiController extends Controller
    {
        $pemilik = Properti::where('pemilik_id', $request->user_id)->first();
        $penghuni = Properti::where('penghuni_id', $request->user_id)->first();
-        dd($pemilik);
+        // dd($pemilik);
        if($pemilik != null){
-            $rumah_pemilik = Properti::where('pemilik_id', $request->user_id)->get();
+            $rumah_pemilik = Properti::with('cluster', 'penghuni', 'pemilik')->where('pemilik_id', $request->user_id)->get();
             return ResponseFormatter::success('successful to create new prop!', $rumah_pemilik);
        }else if($penghuni != null){
-            $rumah_penghuni = Properti::where('penghuni_id', $request->user_id)->get();
+            $rumah_penghuni = Properti::with('cluster', 'penghuni', 'pemilik')->where('penghuni_id', $request->user_id)->get();
             return ResponseFormatter::success('successful to create new prop!', $rumah_penghuni);
        }else if($pemilik == null && $penghuni == null){
             return ResponseFormatter::failed('user ini tidak memiliki properti!', 401);
