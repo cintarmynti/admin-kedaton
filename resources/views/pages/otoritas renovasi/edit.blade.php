@@ -59,11 +59,11 @@
             <div class="row mt-4">
                 <div class="col">
                     <label for="">Catatan Renovasi</label>
-                    <textarea class="form-control post" name="catatan_renovasi" aria-label="With textarea">{{old('catatan_renovasi', $renovasi->catatan_renovasi)}}</textarea>
+                    <textarea class="form-control" id="blog" name="catatan_renovasi" aria-label="With textarea">{{old('catatan_renovasi', $renovasi->catatan_renovasi)}}</textarea>
                   </div>
                 <div class="col">
                     <label for="">Catatan Deskripsi</label>
-                    <textarea class="form-control post"  name="catatan_biasa"  aria-label="With textarea">{{old('catatan_biasa', $renovasi->catatan_biasa)}}</textarea>
+                    <textarea class="form-control" id="blog2"  name="catatan_biasa"  aria-label="With textarea">{{old('catatan_biasa', $renovasi->catatan_biasa)}}</textarea>
                 </div>
             </div>
 
@@ -114,6 +114,20 @@
         });
     }
 </script>
+<script>
+    var konten = document.getElementById("blog");
+      CKEDITOR.replace(konten,{
+      language:'en-gb'
+    });
+    CKEDITOR.config.allowedContent = true;
+ </script>
+ <script>
+    var konten = document.getElementById("blog2");
+      CKEDITOR.replace(konten,{
+      language:'en-gb'
+    });
+    CKEDITOR.config.allowedContent = true;
+ </script>
 
 <script>
     $(document).ready(function() {

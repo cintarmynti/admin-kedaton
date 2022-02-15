@@ -33,13 +33,10 @@
                 <td>
                     <div class="d-flex">
                         <a class="btn btn-warning" href="{{route('blog.edit',$com->id)}}"><i data-feather="edit"></i></a>
-
                         <button type="submit" data-id="{{$com->id}}" class="btn btn-danger delete">
                             <i data-feather="trash"></i>
                         </button>
-
                     </div>
-
                 </td>
               </tr>
               @endforeach
@@ -98,4 +95,19 @@
         });
 
     </script>
+@endpush
+
+@push('before-style')
+    <style>
+        #hidden{
+            overflow: hidden;
+        }
+
+        #konten{
+            width: 100px;
+            height: 70px;
+            /* border: 1px solid red; */
+            overflow: hidden;
+        }
+    </style>
 @endpush

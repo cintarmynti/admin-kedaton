@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Banner;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
-use Intervention\Image\Facades\Image;
+use Image;
 use Illuminate\Support\Facades\Storage;
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -91,8 +91,11 @@ class BannerController extends Controller
 
     public function delete($id){
         $banner = Banner::find($id);
-        $image_path = public_path().'/banner_photo/'.$banner->foto;
-        unlink($image_path);
+        $image_path = public_path().'/'.$banner->foto;
+        if(is_file($image_path)){
+            unlink($image_path);
+        }
+
         $banner->delete();
         return redirect('/banner');
     }

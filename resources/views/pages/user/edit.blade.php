@@ -17,38 +17,44 @@
                     <label for="formGroupExampleInput" class="form-label">NIK</label>
                   <input type="text" value="{{old('nik', $user->nik)}}"  class="form-control" name="nik" aria-label="Last name">
                 </div>
-            </div>
-
-            <div class="row mt-4">
-                <div class="col">
-                    <label for="formGroupExampleInput" class="form-label">Alamat</label>
-                  <input type="text" value="{{old('alamat', $user->alamat)}}"  class="form-control" name="alamat"  aria-label="First name">
-                </div>
                 <div class="col">
                     <label for="formGroupExampleInput" class="form-label">No Telp</label>
                   <input type="text" value="{{old('phone', $user->phone)}}"  class="form-control" name="phone"  aria-label="Last name">
                 </div>
+
+
             </div>
 
             <div class="row mt-4">
+
                 <div class="col">
                     <label for="formGroupExampleInput" class="form-label">Email</label>
                   <input type="email" value="{{old('email', $user->email)}}"  class="form-control" name="email"  aria-label="First name">
                 </div>
                 <div class="col">
-
                     <label for="formGroupExampleInput" class="form-label">Password</label>
                   <input type="password"   class="form-control" name="password"  aria-label="Last name">
+                </div>
+                <div class="col">
+                    <label for="formGroupExampleInput" class="form-label">Foto Pengguna</label>
+                  <input type="file" id="filePhoto"  class="form-control" name="photo_identitas"  aria-label="First name">
+                    @if ($user->photo_identitas == null)
+
+                    @else
+                    <img id="output"  src="{{ asset('user_photo/' . $user->photo_identitas) }}" class="mt-3 " style="max-height: 200px; max-width: 300px">
+                    @endif
+
                 </div>
             </div>
 
             <div class="row mt-4">
-                <div class="col-md-6">
-                    <label for="formGroupExampleInput" class="form-label">Foto Pengguna</label>
-                  <input type="file" id="filePhoto"  class="form-control" name="photo_identitas"  aria-label="First name">
-                  <img id="output" src="{{ asset('user_photo/' . $user->photo_identitas) }}" class="mt-3" style="max-height: 200px; max-width: 300px">
+                <div class="col-md-4">
+                    <label for="formGroupExampleInput" class="form-label">Alamat</label>
+                  <input type="text" value="{{old('alamat', $user->alamat)}}"  class="form-control" name="alamat"  aria-label="First name">
                 </div>
             </div>
+
+
                 <a href="{{route('user')}}" class="btn btn-warning mt-4">kembali</a>
                 <button type="submit"  class="btn btn-primary ml-4 mt-4">Simpan</a>
         </form>
