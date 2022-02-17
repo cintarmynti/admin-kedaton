@@ -27,7 +27,9 @@ class UserController extends Controller
     }
 
     public function create(){
-        return view('pages.user.create', ['cluster' => $cluster = Cluster::all()]);
+        $cluster = Cluster::all();
+        $user = User::where('user_status', 'pengguna')->get();
+        return view('pages.user.create', ['cluster' => $cluster, 'user' => $user]);
 
     }
 
@@ -50,6 +52,7 @@ class UserController extends Controller
         $user->phone = $request->phone;
         $user->email = $request->email;
         $user-> password = bcrypt($request->password);
+        $user->status_penghuni = $request->status_penghuni;
         $user->user_status = 'pengguna';
         if($request->hasFile('photo_identitas'))
         {
@@ -67,6 +70,24 @@ class UserController extends Controller
             $img_path = 'user_photo/'.$filename;
             Storage::put($img_path, $img->encode());
             $user->photo_identitas = $img_path;
+        }
+
+        if($request->hasFile('photo_ktp'))
+        {
+            // $file = $request->file('photo_identitas');
+            // $extention = $file->getClientOriginalExtension();
+            // $filename=time().'.'.$extention;
+            // $file->move('user_photo',$filename);
+            // $user->photo_identitas=$filename;
+            $img = Image::make($request->file('photo_ktp'));
+            $img->resize(521, null,  function ($constraint)
+            {
+                $constraint->aspectRatio();
+            });
+            $filename = time().'.'.$request->file('photo_ktp')->getClientOriginalExtension();
+            $img_path = 'user_photo/'.$filename;
+            Storage::put($img_path, $img->encode());
+            $user->photo_ktp = $img_path;
         }
         $user->save();
 

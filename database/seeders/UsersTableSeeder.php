@@ -32,6 +32,8 @@ class UsersTableSeeder extends Seeder
             'phone' => 12872910,
             'photo_identitas' => null,
             'password'    => bcrypt('password123'),
+            'photo_ktp' => null,
+            'status_penghuni' => 'pemilik'
 
         ]);
 
@@ -45,6 +47,8 @@ class UsersTableSeeder extends Seeder
             'user_status' => 'pengguna',
             'photo_identitas' => null,
             'password'    => bcrypt('password456'),
+            'photo_ktp' => null,
+            'status_penghuni' => 'pemilik'
         ]);
 
 
@@ -58,6 +62,8 @@ class UsersTableSeeder extends Seeder
             'phone' => 3338383,
             'photo_identitas' => null,
             'password'    => bcrypt('password789'),
+            'photo_ktp' => null,
+            'status_penghuni' => 'pemilik'
 
         ]);
 
@@ -71,6 +77,8 @@ class UsersTableSeeder extends Seeder
             'phone' => 12872323,
             'photo_identitas' => null,
             'password'    => bcrypt('password10'),
+            'photo_ktp' => null,
+            'status_penghuni' => 'penghuni'
         ]);
 
 
@@ -79,12 +87,13 @@ class UsersTableSeeder extends Seeder
             'name'    => 'marcella arlistia',
             'email'    => 'marcella.ramayanti@gmail.com',
             'alamat' => 'sawahan',
-
             'nik'    =>  '093284723',
             'user_status' => 'pengguna',
             'phone' => 19327429,
             'photo_identitas' => null,
             'password'    => bcrypt('password'),
+            'photo_ktp' => null,
+            'status_penghuni' => 'penghuni'
 
         ]);
 
@@ -92,13 +101,14 @@ class UsersTableSeeder extends Seeder
             'id' => 7,
             'name'    => 'benedict zefanya',
             'alamat' => 'wonokromo',
-
             'email'    => 'benedicta.ramayanti@gmail.com',
             'nik'    => '84772934',
             'user_status' => 'pengguna',
             'phone' => 84327493,
             'photo_identitas' => null,
             'password'    => bcrypt('password'),
+            'photo_ktp' => null,
+            'status_penghuni' => 'pemilik'
         ]);
 
         User::create([

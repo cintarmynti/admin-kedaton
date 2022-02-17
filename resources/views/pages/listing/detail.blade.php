@@ -117,7 +117,7 @@
         </div>
 
         <div class="m-4">
-            <a href="{{ route('properti') }}" class="btn btn-warning mt-4">kembali</a>
+            <a href="{{ route('listing') }}" class="btn btn-warning mt-4">kembali</a>
 
         </div>
 

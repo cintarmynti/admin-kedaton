@@ -13,11 +13,12 @@
                     <tr>
                         <th scope="col">id</th>
                         {{-- user id --}}
-                        <th scope="col">pengguna</th>
+                        <th scope="col">Nama</th>
                         <th scope="col">nik</th>
-                        <th scope="col">alamat</th>
+                        <th scope="col">status penghuni</th>
+                        {{-- <th scope="col">alamat</th>
                         <th scope="col">No telp</th>
-                        <th scope="col">detail Photo</th>
+                        <th scope="col">detail Photo</th> --}}
                         {{-- <th scope="col">Riwayat pembayaran</th> --}}
                         <th scope="col">aksi</th>
                     </tr>
@@ -31,13 +32,14 @@
                             <th scope="row">{{ $no++ }}</th>
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->nik }}</td>
-                            <td>{{ $user->alamat }}</td>
+                            <td>{{$user->status_penghuni}}</td>
+                            {{-- <td>{{ $user->alamat }}</td>
                             <td>{{ $user->phone }}</td>
                             <td >
                                 @if ($user->photo_identitas != null)
-                                    <img src="{{ url($user->photo_identitas) }}" id="image" onclick="image()" style="height: 100px; width:150px; object-fit:cover" alt="">
+                                    <img   src="{{ url('storage/' .$user->photo_identitas) }}" id="image" onclick="image()" style="height: 100px; width:150px; object-fit:cover" alt="">
                                 @endif
-                            </td>
+                            </td> --}}
                             {{-- <td><a href="/user/detail/{{ $user->id }}">lihat detail</a></td> --}}
                             <td >
                                 <div class="d-flex">
