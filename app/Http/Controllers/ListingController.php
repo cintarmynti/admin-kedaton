@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ListingExport;
 use DB;
 use App\Models\User;
 use App\Models\Cluster;
@@ -30,10 +31,10 @@ class ListingController extends Controller
         return view('pages.listing.create', ['properti' => Properti::all() ]);
     }
 
-    public function export_excel()
-	{
-		return Excel::download(new PropertiExport, 'properti.xlsx');
-	}
+    // public function export_excel()
+	// {
+	// 	return Excel::download(new PropertiExport, 'properti.xlsx');
+	// }
 
     public function store(Request $request){
         $listing = new rev_listing();
@@ -162,4 +163,9 @@ class ListingController extends Controller
                 ]);
         }
     }
+
+    public function export_excel()
+	{
+		return Excel::download(new ListingExport, 'Listing.xlsx');
+	}
 }

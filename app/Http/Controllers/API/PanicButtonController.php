@@ -21,4 +21,17 @@ class PanicButtonController extends Controller
             return ResponseFormatter::failed('gagal menambah penghuni!', 401);
         }
     }
+
+    // public function status($id){
+    //     $data = PanicButton::findOrFail($id);
+    //     // dd($status_id);
+    //     $status_sekarang = $data->status_keterangan;
+    //     if($status_sekarang == 1){
+    //         PanicButton::where('id', $id)->update([
+    //             'status_keterangan' => 'checked'
+    //         ]);
+    //     }
+
+    //     return redirect('/ipkl');
+    }
 }

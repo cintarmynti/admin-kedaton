@@ -6,7 +6,36 @@
             <h5 class="card-title">Daftar Tagihan IPKL</h5>
             <p class="card-description">
                 <a class="btn btn-primary" href="{{ route('ipkl.create') }}">Tambah IPKL</a>
+                <a href="/ipkl/export_excel" class="btn btn-success my-3" target="_blank">EXPORT EXCEL</a>
+                <form action="/ipkl" method="GET">
+                    <div class="row">
+                            <div class="col-md-4">
+                                <input type="date" class="form-control" name="start_date">
+                            </div>
+                            <div class="col-md-4">
+                                <input type="date" class="form-control" name="end_date">
+                            </div>
+                            <div class="col-md-4">
+                                <button class="btn btn-primary" type="submit">GET</button>
+                                <a href="/ipkl" class="btn btn-primary" type="button">Refresh</a>
+
+                            </div>
+                    </div>
+                    </form>
+                    <form action="/ipkl" method="GET">
+                        <div class="row">
+                                <div class="col-md-4">
+                                    <input type="date" class="form-control" name="start_date">
+                                </div>
+                                <div class="col-md-4">
+                                    <button class="btn btn-primary" type="submit">GET</button>
+                                    <a href="/ipkl" class="btn btn-primary" type="button">Refresh</a>
+
+                                </div>
+                        </div>
+                        </form>
             </p>
+
             <table class="table" id="myTable">
                 <thead>
                     <tr>
@@ -31,7 +60,7 @@
                             <td>{{ $i->cluster->name }}</td>
                             <td>{{ $i->nomer->no_rumah }}</td>
                             <td>{{ $i->periode_pembayaran }}</td>
-                            <td>{{ $i->jumlah_pembayaran }}</td>
+                            <td>Rp.{{ number_format($i->jumlah_pembayaran )}}</td>
 
                             <td><span
                                     class="badge @if ($i->status == 1)

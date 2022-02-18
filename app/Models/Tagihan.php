@@ -28,12 +28,12 @@ class Tagihan extends Model
     }
 
 
-    public function properti(){
-        return $this->hasOne(Properti::class, 'id', 'user_id');
-    }
+    // public function properti(){
+    //     return $this->hasOne(Properti::class, 'id', 'user_id');
+    // }
 
     public function type(){
-        return $this->hasOne(type_ipkl::class, 'id', 'type_id');
+        return $this->hasOne(type_pembayaran::class, 'id', 'type_id');
     }
 
 }

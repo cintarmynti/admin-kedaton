@@ -27,5 +27,6 @@ class DatabaseSeeder extends Seeder
         $this->call(TagihanTableSeeder::class);
         $this->call(PengajuanLayananSeeder::class);
         $this->call(revListingSeeder::class);
+        $this->call(PanicButtonTableSeeder::class);
     }
 }

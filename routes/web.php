@@ -81,6 +81,8 @@ Route::get('/listing/delete/{id}', [ListingController::class, 'delete'])->name('
 Route::get('/listing-img/delete/{id}', [ListingController::class, 'imgdelete'])->name('listingimg.delete');
 Route::get('/listing/edit/{id}', [ListingController::class, 'edit'])->name('listing.edit');
 Route::put('/listing/update/{id}', [ListingController::class, 'update'])->name('listing.update');
+Route::get('/listing/export_excel', [ListingController::class, 'export_excel']);
+
 
 Route::get('/banner', [BannerController::class, 'index'])->name('banner');
 Route::get('/banner/create', [BannerController::class, 'create'])->name('banner.create');
@@ -127,11 +129,9 @@ Route::get('/complain-img/delete/{id}', [LaporanComplainController::class, 'imgd
 Route::get('/complain/export_excel', [LaporanComplainController::class, 'export_excel'])->name('complain.excel');
 
 Route::get('/panic-button', [LaporanPanicButtonController::class, 'index'])->name('panic');
-Route::get('/panic-button/create', [LaporanPanicButtonController::class, 'create'])->name('panic.create');
-Route::post('/panic-button/store', [LaporanPanicButtonController::class, 'store'])->name('panic.store');
-Route::delete('/panic-button/delete/{id}', [LaporanPanicButtonController::class, 'delete'])->name('panic.delete');
-Route::get('/panic-button/edit/{id}', [LaporanPanicButtonController::class, 'edit'])->name('panic.edit');
-Route::put('/panic-button/update/{id}', [LaporanPanicButtonController::class, 'update'])->name('panic.update');
+Route::get('/panic-button/status/{id}', [LaporanPanicButtonController::class, 'status'])->name('panic.status');
+Route::get('/panic-button/export_excel', [LaporanPanicButtonController::class, 'export_excel']);
+
 
 Route::get('/iuran', [IuranController::class, 'index'])->name('iuran');
 Route::get('/iuran/create', [IuranController::class, 'create'])->name('iuran.create');
@@ -167,6 +167,7 @@ Route::get('/ipkl/harga/{id}', [IPKLController::class, 'getIPKLharga'])->name('i
 Route::get('/ipkl/riwayat/{id}', [IPKLController::class, 'get_riwayat']);
 Route::patch('/ipkl/riwayat-create', [IPKLController::class, 'create_riwayat']);
 Route::get('/ipkl/pembayar/{id}', [IPKLController::class, 'pembayar'])->name('ipkl.pembayar');
+Route::get('/ipkl/export_excel', [IPKLController::class, 'export_excel']);
 
 Route::get('/layanan', [LayananController::class, 'index'])->name('layanan');
 Route::get('/layanan/status/{id}', [LayananController::class, 'status'])->name('layanan.status');

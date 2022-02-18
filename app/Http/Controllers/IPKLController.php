@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\TagihanExport;
 use App\Models\IPKL;
 use App\Models\Cluster;
 use App\Models\Listing;
@@ -13,12 +14,24 @@ use App\Models\Tagihan;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Carbon;
 use App\Models\Rumah;
+use Maatwebsite\Excel\Facades\Excel;
 
 class IPKLController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $ipkl = Tagihan::with('nomer', 'cluster')->get();
+        if ($request->start_date ||$request->end_date) {
+            // dd($request->start_date);
+            $start_date = Carbon::parse($request->start_date);
+            // dd($start_date);
+            $end_date = Carbon::parse($request->end_date);
+            $ipkl = Tagihan::with('nomer', 'cluster')->whereBetween('periode_pembayaran',[$start_date,$end_date])->get();
+            // dd($panic);
+        } else {
+            $ipkl = Tagihan::with('nomer', 'cluster')->get();
+            // dd($panic);
+        }
+
         // dd($ipkl);
         return view('pages.ipkl.index', ['ipkl' => $ipkl]);
     }
@@ -41,6 +54,10 @@ class IPKLController extends Controller
         $html .= $listing['tarif_ipkl'];
         echo $html;
         // return response()->json($Listing);
+    }
+
+    public function export_excel(){
+        return Excel::download(new TagihanExport, 'Tagihan.xlsx');
     }
 
 

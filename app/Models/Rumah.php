@@ -16,6 +16,6 @@ class Rumah extends Model
     }
 
     public function nomer_rumah(){
-        return $this->hasOne(Listing::class, 'id', 'no_rumah');
+        return $this->hasOne(Properti ::class, 'id', 'no_rumah');
     }
 }

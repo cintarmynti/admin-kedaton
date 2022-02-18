@@ -25,7 +25,9 @@ class Properti extends Model
     'luas_bangunan',
     'tarif_ipkl',
     'status',
-    'harga'
+    'harga',
+    'kamar_mandi',
+    'carport'
  ];
 
     public function pemilik()

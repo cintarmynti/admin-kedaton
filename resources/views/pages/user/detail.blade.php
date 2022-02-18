@@ -35,6 +35,39 @@
             </table>
         </div>
     </div>
+
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Daftar Penghuni {{ $user->name }}</h5>
+            <p class="card-description">
+                {{-- <a class="btn btn-primary" href="{{ route('user.create') }}">Tambah Pengguna</a> --}}
+                {{-- <a href="/user/export_excel" class="btn btn-success my-3" target="_blank">EXPORT EXCEL</a> --}}
+            </p>
+            <table class="table" id="myTable">
+                <thead>
+                    <tr>
+                        <th scope="col">NO</th>
+                        <th scope="col">NAMA</th>
+                        <th scope="col">DETAIL</th>
+                    </tr>
+                </thead>
+                <tbody id="images">
+                    @php
+                        $no = 1;
+                    @endphp
+                    {{-- {{ $user }} --}}
+                    @foreach ($properti as $us)
+                        <tr>
+                            <th scope="row">{{ $no++ }}</th>
+                            <td>{{ $us->no_rumah }}</td>
+                            <td><a href="/user/detail/rumah/{{ $us->id }}">lihat detail</a></td>
+                        </tr>
+                    @endforeach
+
+                </tbody>
+            </table>
+        </div>
+    </div>
 @endsection
 
 @push('before-style')
