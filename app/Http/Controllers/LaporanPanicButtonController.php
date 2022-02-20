@@ -11,27 +11,39 @@ use Maatwebsite\Excel\Facades\Excel;
 class LaporanPanicButtonController extends Controller
 {
     public function index(Request $request){
-        if ($request->start_date ||$request->end_date) {
-            // dd($request->start_date);
-            $start_date = Carbon::parse($request->start_date)->toDateTimeString();
-            // dd($start_date);
-            $end_date = Carbon::parse($request->end_date)->toDateTimeString();
-            $panic = PanicButton::with('user', 'properti')->whereBetween('created_at',[$start_date,$end_date])->get();
 
-            // dd($panic);
-        } else {
-            $panic = PanicButton::with('user', 'properti')->get();
-            // dd($panic);
+        $start_date = Carbon::parse($request->start_date);
+        $end_date = Carbon::parse($request->end_date);
+        $query = PanicButton::with('user', 'properti');
+        // dd($start_date);
+
+        if($request -> start_date){
+            $query->whereBetween('created_at',[$start_date,$end_date]);
         }
 
-        // $panic = PanicButton::with('user', 'properti')->get();
-        // dd($panic);
-        return view('pages.laporan panic button.index', ['panic' => $panic]);
+        if($request -> status){
+            $query -> where('status_keterangan', $request->status);
+        }
+
+
+        return view('pages.laporan panic button.index', ['panic' => $query->get()]);
     }
 
-    public function export_excel()
+    public function export_excel(Request $request)
 	{
-		return Excel::download(new PanicButtonExport, 'panic-button.xlsx');
+        if(!$request->start_date){
+            $from = '';
+        }else{
+            $from = Carbon::parse($request->start_date);
+        }
+
+        if(!$request->end_date){
+            $to = '';
+        }else{
+            $to = Carbon::parse($request->end_date);
+        }
+        $status = $request->status;
+		return Excel::download(new PanicButtonExport($from, $to, $status), 'panic-button.xlsx');
 	}
 
     public function status($id, Request $request){
@@ -44,14 +56,7 @@ class LaporanPanicButtonController extends Controller
         $data->keterangan = $request->keterangan;
         $data->update();
 
-        // dd($data);
-        // $status_sekarang = $data->status_keterangan;
-        // // dd($data->status_keterangan);
-        // if($status_sekarang == 'not checked'){
-        //     PanicButton::where('id', $id)->update([
-        //         'status_keterangan' => 'checked'
-        //     ]);
-        // }
+
 
         return redirect('/panic-button');
     }

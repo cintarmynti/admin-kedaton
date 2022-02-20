@@ -57,8 +57,17 @@ class IPKLController extends Controller
     }
 
     public function export_excel(Request $request){
-        $from = Carbon::parse($request->start_date);
-        $to = Carbon::parse($request->end_date);
+        if(!$request->start_date){
+            $from = '';
+        }else{
+            $from = Carbon::parse($request->start_date);
+        }
+
+        if(!$request->end_date){
+            $to = '';
+        }else{
+            $to = Carbon::parse($request->end_date);
+        }
         $status = $request->status;
 
         return Excel::download(new TagihanExport($from, $to, $status), 'Tagihan.xlsx');

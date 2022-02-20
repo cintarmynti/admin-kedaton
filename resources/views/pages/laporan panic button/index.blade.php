@@ -5,23 +5,38 @@
         <div class="card-body">
             <h5 class="card-title">Laporan Panic Button</h5>
             <p class="card-description">
-                <a href="/panic-button/export_excel" class="btn btn-success my-3" target="_blank">EXPORT EXCEL</a>
+                <button type="button" onclick="excel()" class="btn btn-success my-3" target="_blank">EXPORT EXCEL</button>
                 {{-- <a class="btn btn-primary" href="{{route('complain.create')}}">Tambah <Complain></Complain></a> --}}
-            <form action="/panic-button" method="GET">
-                <div class="row">
-                    <div class="col-md-4">
-                        <input type="date" class="form-control" name="start_date">
-                    </div>
-                    <div class="col-md-4">
-                        <input type="date" class="form-control" name="end_date">
-                    </div>
-                    <div class="col-md-4">
-                        <button class="btn btn-primary" type="submit">GET</button>
-                        <a href="/panic-button" class="btn btn-primary" type="button">Refresh</a>
+                <form action="/panic-button" method="GET">
+                    <div class="row">
+                            <div class="col-md-3">
+                                <input type="date" id="from_date" class="form-control" value="{{request()->start_date}}" name="start_date">
+                            </div>
+                            <div class="col-md-3">
+                                <input type="date" id="to_date" class="form-control" value="{{request()->end_date}}" name="end_date">
+                            </div>
+                            <div class="col-md-3">
+                                <select class="form-select" name="status" id="status" value="{{request()->status}}" aria-label="Default select example">
+                                    <option selected="" value="" disabled>pilih status</option>
+                                    @if (request()->status == 'checked')
+                                    <option value="checked" selected>checked</option>
+                                    <option value="not checked">not checked</option>
+                                    @elseif (request()->status == 'not checked')
+                                    <option value="checked">checked</option>
+                                    <option value="not checked" selected>not checked</option>
+                                    @elseif (request()->status == null)
+                                    <option value="checked">checked</option>
+                                    <option value="not checked">not checked</option>
+                                    @endif
+                                  </select>
+                            </div>
+                            <div class="col-md-3">
+                                <button class="btn btn-primary" type="submit"><i data-feather="search"></i></button>
+                                <a href="/panic-button" class="btn btn-primary" type="button">Refresh</a>
 
+                            </div>
                     </div>
-                </div>
-            </form>
+                    </form>
             </p>
             <table class="table" id="myTable">
                 <thead>
@@ -73,11 +88,11 @@
                                                     @method('patch')
                                                     {{-- <p id="keterangan"></p> --}}
                                                     {{-- <img src="" width="400" height="300" id="bukti_tf" alt=""> --}}
-                                                    <input type="text" placeholder="rumah_id" id="id_rumah" name="id_rumah">
-                                                    <input type="text" placeholder="panic_id" id="panic_id" name="id">
+                                                    <input type="hidden" placeholder="rumah_id" id="id_rumah" name="id_rumah">
+                                                    <input type="hidden" placeholder="panic_id" id="panic_id" name="id">
 
-                                                    <input type="text" placeholder="user_id" id="user_id" name="user_id">
-                                                    <input type="text" name="keterangan">
+                                                    <input type="hidden" placeholder="user_id" id="user_id" name="user_id">
+                                                    <input type="text" class="form-control" placeholder="Keterangan" name="keterangan">
 
                                                     {{-- <input type="text" name=""> --}}
                                                     {{-- <input type="hidden" name="tagihan_id" id="tagihan_id">
@@ -186,5 +201,22 @@
             });
 
         })
+    </script>
+    <script>
+           var APP_URL = {!! json_encode(url('/')) !!}
+        console.log(APP_URL);
+
+        function excel(){
+
+            var fromDate = $('#from_date').val();
+            // alert('halo');
+            var toDate = $('#to_date').val();
+            var status = $('#status').val();
+            console.log(status);
+            if(status == null){
+                window.open(`${APP_URL}/panic-button/export_excel?start_date=${fromDate}&end_date=${toDate}`)
+            }
+            window.open(`${APP_URL}/panic-button/export_excel?start_date=${fromDate}&end_date=${toDate}&status=${status}`)
+        }
     </script>
 @endpush

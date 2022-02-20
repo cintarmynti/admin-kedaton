@@ -31,12 +31,12 @@ class TagihanExport implements FromCollection, WithHeadings, ShouldAutoSize, Wit
     {
 
         $query = Tagihan::with('nomer', 'cluster','type');
-        // dd($this->to);
+       
         if( $this->from){
             $query->whereBetween('periode_pembayaran',[ $this->from, $this->to]);
-            // return $query->get();
+
         }
-        // dd($query->get());
+
         if($this->status){
             $query -> where('status', $this->status);
         }

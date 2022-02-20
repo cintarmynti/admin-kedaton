@@ -168,7 +168,7 @@
             // alert('halo');
             var toDate = $('#to_date').val();
             var status = $('#status').val();
-            console.log(status);
+            console.log(toDate);
             if(status == null){
                 window.open(`${APP_URL}/ipkl/export_excel?start_date=${fromDate}&end_date=${toDate}`)
             }

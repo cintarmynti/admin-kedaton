@@ -13,10 +13,31 @@ class PanicButtonExport implements FromCollection, WithHeadings, ShouldAutoSize,
     /**
     * @return \Illuminate\Support\Collection
     */
+
+    public function __construct(String $from, String $to, $status) {
+
+        $this->from = $from;
+        $this->to = $to;
+        $this->status = $status;
+    }
+
     public function collection()
     {
-        return PanicButton::with('user', 'properti')->get();
+
+        $query = PanicButton::with('user', 'properti');
+        // dd($this->to);
+        if( $this->from){
+            $query->whereBetween('created_at',[ $this->from, $this->to]);
+            // return $query->get();
+        }
+        // dd($query->get());
+        if($this->status){
+            $query -> where('status_keterangan', $this->status);
+        }
+        // dd($query->get());
+        return $query->get();
     }
+
 
     public function map($panic) : array {
         return [

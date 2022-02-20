@@ -17,7 +17,7 @@ class CreatePanicButtonTable extends Migration
             $table->id();
             $table->integer('user_id');
             $table->integer('id_rumah');
-            $table->string('keterangan');
+            $table->string('keterangan')->nullable();
             $table->string('status_keterangan');
             $table->timestamps();
         });

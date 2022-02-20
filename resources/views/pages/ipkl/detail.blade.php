@@ -90,8 +90,8 @@
                                 @csrf
                                 @method('patch')
                                 <img src="" width="400" height="300" id="bukti_tf" alt="">
-                                <input type="hidden" name="user_id" id="user_id">
-                                <input type="hidden" name="tagihan_id" id="tagihan_id">
+                                <input type="text" name="user_id" id="user_id">
+                                <input type="text" name="tagihan_id" id="tagihan_id">
                                 <input type="hidden" name="pembayaran_id" id="pembayaran_id">
 
                         </div>

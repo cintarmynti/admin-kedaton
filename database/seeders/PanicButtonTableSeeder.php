@@ -27,5 +27,26 @@ class PanicButtonTableSeeder extends Seeder
             'keterangan' => 'maling',
             'status_keterangan' => 'not checked'
          ]);
+
+         PanicButton::create([
+            'user_id' => 2,
+            'id_rumah' => 2,
+            'keterangan' => null,
+            'status_keterangan' => 'not checked'
+         ]);
+
+         PanicButton::create([
+            'user_id' => 2,
+            'id_rumah' => 2,
+            'keterangan' => null,
+            'status_keterangan' => 'not checked'
+         ]);
+
+         PanicButton::create([
+            'user_id' => 2,
+            'id_rumah' => 2,
+            'keterangan' => null,
+            'status_keterangan' => 'not checked'
+         ]);
     }
 }
