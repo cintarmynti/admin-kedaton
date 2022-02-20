@@ -99,7 +99,7 @@ class PropertiTableSeeder extends Seeder
 
 
          Properti::create([
-             'pemilik_id' => 3,
+             'pemilik_id' => null,
              'cluster_id' => 1,
              'no_rumah' => 43,
              'no_listrik' => '38432874923',
@@ -161,7 +161,7 @@ class PropertiTableSeeder extends Seeder
 
 
          Properti::create([
-             'pemilik_id' => 6,
+             'pemilik_id' => null,
              'cluster_id' => 1,
              'no_rumah' => 64,
              'no_listrik' => '38432874923',
@@ -182,7 +182,7 @@ class PropertiTableSeeder extends Seeder
           ]);
 
           Properti::create([
-             'pemilik_id' => 5,
+             'pemilik_id' => null,
              'cluster_id' => 2,
              'no_rumah' => 55,
              'no_listrik' => '38432487523',
@@ -201,7 +201,7 @@ class PropertiTableSeeder extends Seeder
           ]);
 
           Properti::create([
-            'pemilik_id' => 4,
+            'pemilik_id' => null,
             'cluster_id' => 1,
             'no_rumah' => 17,
             'no_listrik' => '38432874923',

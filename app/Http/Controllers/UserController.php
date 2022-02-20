@@ -105,15 +105,7 @@ class UserController extends Controller
 
     public function store(Request $request){
 
-        $request->validate([
-            'name' => 'required',
-            'password' => 'required|min:8',
-            'nik' => 'required',
-            'email' => 'required|email',
-            'alamat' => 'required',
-            'phone' => 'required',
-        ]);
-
+        // dd($request->all());
 
         $user = new User();
         $user-> name = $request->name;
@@ -125,6 +117,8 @@ class UserController extends Controller
         $user->status_penghuni = $request->status_penghuni;
         $user->user_status = 'pengguna';
         $user->status_penghuni = 'pemilik';
+
+
 
         if($request->hasFile('photo_identitas'))
         {
@@ -163,89 +157,15 @@ class UserController extends Controller
         }
         $user->save();
 
-        $properti = new Properti();
-        $properti->alamat = $request-> alamat;
-        $properti->no_rumah = $request-> no;
-        $properti->no_listrik = $request->listrik;
-        $properti->no_pam_bsd = $request->pam;
-        $properti->RT = $request-> RT;
-        $properti->RW = $request-> RW;
-        $properti->lantai = $request->lantai;
-        $properti->jumlah_kamar = $request->jumlah_kamar;
-        $properti->luas_tanah = $request->luas_tanah; //ini luas kavling
-        $properti->luas_bangunan = $request->luas_bangunan;
-        // $properti->penghuni_id = $user->id;
-        $properti->pemilik_id =  $user->id;
-        $properti->status = $request->status;
-        $properti->harga = $request->harga;
-
-        $ipkl = tarif_ipkl::where('luas_kavling_awal', '<=', $request-> luas_tanah)->where('luas_kavling_akhir', '>=', $request-> luas_tanah)->first();
-        // dd($ipkl);
-
-        // $ipkl = tarif_ipkl::where('luas_kavling_awal', '<=', 12)->where('luas_kavling_akhir', '>=', 12)->first();
-
-
-        $terkecil = tarif_ipkl::orderBy('luas_kavling_awal', 'asc')->first();
-        $terbesar = tarif_ipkl::orderBy('luas_kavling_akhir', 'desc')->first();
-
-        // dd($terbesar);
-
-        if($ipkl == null){
-            if($request->luas_tanah <= $terbesar && $request->luas_tanah <= $terkecil){
-                $properti-> tarif_ipkl = $terkecil->tarif * $request->luas_tanah;
-            }else if($request->luas_tanah >= $terbesar && $request->luas_tanah >= $terkecil){
-                $properti-> tarif_ipkl = $terbesar->tarif * $request->luas_tanah;
+        if(is_iterable($request->properti_id)){
+            foreach($request->properti_id as $prop){
+                // dd($prop);
+                $properti = Properti::findOrFail($prop);
+                $properti->pemilik_id = $user -> id;
+                $properti->save();
             }
-        }else if($ipkl != null){
-            $properti->tarif_ipkl = $ipkl->tarif * $request-> luas_tanah;
         }
-
-
-
-        $cluster = Cluster::where('id', $request->cluster_id)->first();
-        // dd($cluster);
-        if ($cluster === null) {
-            // User does not exist
-            $clus = new Cluster();
-            $clus->name = $request->cluster_id;
-            $clus->save();
-
-            $properti->cluster_id = $clus->id;
-
-        } else {
-            $properti->cluster_id = $request->cluster_id;
-        }
-
-
-        $properti->save();
-        // $properti->update(); belum bisa
-
-
-        // $files = [];
-        if($request->hasfile('image'))
-         {
-            foreach($request->file('image') as $file)
-            {
-                // $name = time().rand(1,100).'.'.$file->extension();
-                // $file->move(public_path('files'), $name);
-                // $files[] = $name;
-                $img = Image::make($file);
-                $img->resize(521, null,  function ($constraint)
-                {
-                    $constraint->aspectRatio();
-                });
-
-                $filename = time().rand(1,100).'.'.$file->getClientOriginalExtension();
-                $img_path = 'properti_photo/'.$filename;
-                Storage::put($img_path, $img->encode());
-
-                $file= new Properti_image();
-                $file->properti_id = $properti->id;
-                $file->image = $img_path;
-                $file->save();
-            }
-         }
-
+        // dd($request->properti_id);
 
 
         if ($user) {
@@ -377,6 +297,7 @@ class UserController extends Controller
     {
         $properti = Properti::with('penghuni', 'pemilik')->where('id', $id)->first();
         $image = Properti_image::where('properti_id', $id)->get();
+
         // $penghuni = PenghuniDetail::with('user')->where('properti_id', $id)->first();
         // dd($penghuni);
         // $listing = Listing::findOrFail($id);
@@ -396,7 +317,8 @@ class UserController extends Controller
 
     public function getNomerid($id)
     {
-        $nomer = Properti::where('cluster_id', $id)->get();
+        $nomer = Properti::where('cluster_id', $id)->where('pemilik_id', null)->get();
+        // dd($nomer);
         $html   = '';
         foreach($nomer as $data){
             $html .= '<option value="'.$data['id'].'">'.$data['no_rumah'].'</option>';

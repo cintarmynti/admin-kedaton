@@ -73,56 +73,49 @@
                 {{-- </form> --}}
 
 
+                <div class="card-body">
+                    <h5 class="card-title">Tambahkan Properti</h5>
 
-        </div>
+                    <div class="row control-group">
+                        <div class="col">
 
-        <div class="card-body">
-            <h5 class="card-title">Tambahkan Properti</h5>
+                            <label for="">Pilih Cluster</label>
+                            <select class="form-select cluster" name="cluster_id">
+                                <option hidden>Pilih Cluster</option>
+                                @foreach ($cluster as $item)
+                                    <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
 
-                <div class="row control-group">
-                    <div class="col">
-
-                        <label for="">Pilih Cluster</label>
-                        <select class="form-select cluster" name="cluster_id">
-                            <option hidden>Pilih Cluster</option>
-                            @foreach ($cluster as $item)
-                                <option value="{{ $item->id }}">{{ $item->name }}</option>
-                            @endforeach
-                        </select>
+                        <div class="col">
+                            <label for="no_rmh" class="form-label">Pilih No Rumah</label>
+                            <select class="form-select" name="properti_id" id="no_rmh">
+                                <option value="" selected disabled>Pilih No Rumah</option>
+                            </select>
+                        </div>
+                        <div class="col">
+                            {{-- <label for=""></label> --}}
+                            <br>
+                            <button onclick="tambahRumah()" class="btn btn-success mt-2" type="button"><i
+                                    class="glyphicon glyphicon-remove"></i>
+                                Tambah</button>
+                        </div>
                     </div>
 
-                    <div class="col">
-                        <label for="no_rmh" class="form-label">Pilih No Rumah</label>
-                        <select class="form-select" name="properti_id" id="no_rmh">
-                            <option value="" selected disabled>Pilih No Rumah</option>
-                        </select>
+
+
+                    <div id="data-detail">
+
                     </div>
-                    <div class="col">
-                        {{-- <label for=""></label> --}}
-                        <br>
-                        <button  onclick="tambahRumah()" class="btn btn-success mt-2" type="button"><i class="glyphicon glyphicon-remove"></i>
-                            Tambah</button>
-                    </div>
-
-
-
+                    <a href="{{ route('properti') }}" class="btn btn-warning mt-4">kembali</a>
+                    <button type="submit" class="btn btn-primary ml-4 mt-4">Simpan</button>
                 </div>
-
-            {{-- <input type="text" id="no_rumah" >
-            <button onclick="tambahRumah()">Tambah</button> --}}
-
-            <div id="data-detail">
-
-            </div>
-            <a href="{{ route('properti') }}" class="btn btn-warning mt-4">kembali</a>
-            <button type="submit" class="btn btn-primary ml-4 mt-4">Simpan</a>
 
             </form>
 
         </div>
     </div>
-
-
 @endsection
 
 @push('after-script')
@@ -143,18 +136,23 @@
 
         function tambahRumah() {
             var noRumah = $("#no_rmh").val();
+            var nomer = $("#no_rmh option:selected").text();
             var html =
-                ` <div class="row">
-                    <div class="col">
-                        <div id="row${inc}"><input class="form-control" type="text" value="${noRumah}">
+                ` <div id="row${inc}" class="row">
+                    <div  class="col-md-4">
+                        <div><input class="form-control"  class="mt-3"  readonly type="text" value="${nomer}">
+                        <input type="hidden" name="properti_id[]" readonly value="${noRumah}">
                     </div>
-                    <div class="col">
-                        <button class="btn btn-danger" onclick="deleteRumah(${inc})">Hapus</button></div>
+
+                    </div>
+                    <div class="col-md-4">
+                        <button class="btn btn-danger"  onclick="deleteRumah(${inc})">Hapus</button>
                     </div>
                 </div>
                 `;
 
             $('#data-detail').append(html);
+
         }
 
         function deleteRumah(id) {

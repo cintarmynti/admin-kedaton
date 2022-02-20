@@ -29,7 +29,7 @@
                         <tr>
                             <th scope="row">{{ $no++ }}</th>
                             <td>{{ $us->no_rumah }}</td>
-
+                            {{-- {{dd($us->alamat)}} --}}
                             <td>{{ $us->alamat }}</td>
                             <td>@if (isset($us->penghuni->name))
                                 {{$us->penghuni->name}}
