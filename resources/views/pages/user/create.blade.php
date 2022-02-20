@@ -8,46 +8,37 @@
             <form action="{{ route('user.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="row">
-                    <div class="col">
-                        <label for="formGroupExampleInput" class="form-label">Nama</label>
-                        <input value="" type="text" required class="form-control" name="name" aria-label="First name">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="" class="form-label">NIK</label>
+                            <input value="" type="number" required class="form-control" name="nik">
+                        </div>
                     </div>
-                    <div class="col">
-                        <label for="formGroupExampleInput" class="form-label">NIK</label>
-                        <input value="" type="number" required class="form-control" name="nik" aria-label="Last name">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="" class="form-label">Nama</label>
+                            <input value="" type="text" required class="form-control" name="name">
+                        </div>
                     </div>
-                    <div class="col">
-                        <label for="formGroupExampleInput" class="form-label">No Telp</label>
-                        <input value="" type="text" required class="form-control" name="phone" aria-label="Last name">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="" class="form-label">No. Telp</label>
+                            <input value="" type="text" required class="form-control" name="phone">
+                        </div>
                     </div>
-                </div>
-
-                <div class="row mt-4">
-                    {{-- <div class="col">
-                        <label for="formGroupExampleInput" class="form-label">Email</label>
-                        <input value="" type="email" required class="form-control" name="email" aria-label="First name">
-                    </div> --}}
-                    <div class="col">
-                        <label for="formGroupExampleInput" class="form-label">Password</label>
-                        <input value="" type="password" required class="form-control" name="password"
-                            aria-label="Last name">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="" class="form-label">Password</label>
+                            <input value="" type="password" required class="form-control" name="password">
+                        </div>
                     </div>
-                    <div class="col">
-                        <label for="formGroupExampleInput" class="form-label">Alamat</label>
-                        <input value="" type="text" required class="form-control" name="alamat" aria-label="First name">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="" class="form-label">Alamat</label>
+                            <textarea rows="5" required class="form-control" name="alamat"></textarea>
+                        </div>
                     </div>
-                </div>
-
-                <div class="row mt-4 mb-4">
-                    {{-- <div class="col">
-                    <label for="formGroupExampleInput" class="form-label ">Status Kepemilikan</label>
-                    <select class="form-select" name="status_penghuni" aria-label="Default select example">
-                        <option disabled="" selected="">Pilih Status Kepemilikan</option>
-                        <option value="dihuni">pemilik</option>
-                        <option value="disewakan">penghuni</option>
-                    </select>
-                </div> --}}
-
+                    <div class="col-md-12"></div>
                     <div class="col-md-4">
                         <label for="formGroupExampleInput" class="form-label ">Foto Pengguna</label>
                         <input value="" type="file" id="" required class="form-control" name="photo_identitas"
@@ -61,24 +52,85 @@
                             aria-label="First name">
                         <img id="output2" class="mt-3" style="max-height: 200px; max-width: 300px">
                     </div>
+                    <div class="col-md-12 mt-3 mb-2">
+                        <hr>
+                        <h5>Tambahkan Properti</h5>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Pilih Cluster</label>
+                                    <select class="form-select cluster" id="cluster_id">
+                                        <option value="">Pilih Cluster</option>
+                                        @foreach ($cluster as $item)
+                                            <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
 
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="no_rmh" class="form-label">Pilih No Rumah</label>
+                                    <select class="form-select" name="properti_id" id="no_rmh">
+                                        <option value="" selected disabled>Pilih No Rumah</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2">
+                                <label for="formGroupExampleInput" class="form-label">RT</label>
+                                <input value="{{ old('RT') }}" type="number" required class="form-control" id="RT"
+                                    readonly>
+                            </div>
+                            <div class="col-md-2">
+                                <label for="formGroupExampleInput" class="form-label">RW</label>
+                                <input value="{{ old('RW') }}" type="number" required class="form-control" id="RW"
+                                    readonly>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="formGroupExampleInput" class="form-label">Alamat</label>
+                                    <input rows="5" type="text" required class="form-control" id="alamat" readonly>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <br>
+                                    <button onclick="tambahRumah()" class="btn btn-success mt-2" type="button"><i
+                                            class="glyphicon glyphicon-remove"></i>
+                                        Tambah</button>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <table class="table table-stripped">
+                                    <thead>
+                                        <th>Cluster</th>
+                                        <th>No. Rumah</th>
+                                        <th>RT</th>
+                                        <th>RW</th>
+                                        <th>Alamat</th>
+                                        <th></th>
+                                    </thead>
+                                    <tbody id="data-detail">
 
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <a href="{{ route('properti') }}" class="btn btn-warning mt-4">kembali</a>
+                        <button type="submit" class="btn btn-primary ml-4 mt-4">Simpan</button>
+                    </div>
                 </div>
+                {{-- <div class="card-body">
 
-
-                {{-- <a href="{{ route('user') }}" class="btn btn-warning mt-4">kembali</a>
-                <button type="submit" class="btn btn-primary ml-4 mt-4">Simpan</a> --}}
-
-
-                {{-- </form> --}}
-
-
-                <div class="card-body">
-                    <h5 class="card-title">Tambahkan Properti</h5>
 
                     <div class="row control-group">
                         <div class="col">
-
                             <label for="">Pilih Cluster</label>
                             <select class="form-select cluster" name="cluster_id">
                                 <option hidden>Pilih Cluster</option>
@@ -95,7 +147,7 @@
                             </select>
                         </div>
                         <div class="col">
-                            {{-- <label for=""></label> --}}
+                            <label for=""></label>
                             <br>
                             <button onclick="tambahRumah()" class="btn btn-success mt-2" type="button"><i
                                     class="glyphicon glyphicon-remove"></i>
@@ -110,7 +162,7 @@
                     </div>
                     <a href="{{ route('properti') }}" class="btn btn-warning mt-4">kembali</a>
                     <button type="submit" class="btn btn-primary ml-4 mt-4">Simpan</button>
-                </div>
+                </div> --}}
 
             </form>
 
@@ -135,23 +187,32 @@
         var inc = 0;
 
         function tambahRumah() {
-            var noRumah = $("#no_rmh").val();
+            var id = $("#no_rmh").val();
             var nomer = $("#no_rmh option:selected").text();
-            var html =
-                ` <div id="row${inc}" class="row">
-                    <div  class="col-md-4">
-                        <div><input class="form-control"  class="mt-3"  readonly type="text" value="${nomer}">
-                        <input type="hidden" name="properti_id[]" readonly value="${noRumah}">
-                    </div>
+            var cluster = $("#cluster_id option:selected").text();
+            var rt = $('#RT').val();
+            var rw = $('#RW').val();
+            var alamat = $('#alamat').val();
 
-                    </div>
-                    <div class="col-md-4">
-                        <button class="btn btn-danger"  onclick="deleteRumah(${inc})">Hapus</button>
-                    </div>
-                </div>
+            var html =
+                `<tr id="row${inc}">
+                    <input type="hidden" name="properti_id[]" value="${id}">
+                    <td>${cluster}</td>
+                    <td>${nomer}</td>
+                    <td>${rt}</td>
+                    <td>${rw}</td>
+                    <td>${alamat}</td>
+                    <td>
+                        <button class="btn btn-danger" onclick="deleteRumah(${inc})">Hapus</button>
+                    </td>
+                </tr>
                 `;
 
             $('#data-detail').append(html);
+
+            $('#RT').val('');
+            $('#RW').val('');
+            $('#alamat').val('');
 
         }
 
@@ -177,8 +238,6 @@
 
     <script>
         $(document).ready(function() {
-
-
             $('.cluster').on('change', function() {
                 var clusterID = $(this).val();
                 if (clusterID) {
@@ -192,6 +251,27 @@
                         success: function(data) {
                             $('#no_rmh').html(data);
                             $('#no_rmh').trigger('change');
+                        }
+                    });
+                } else {
+                    $('#no_rmh').empty();
+                }
+            });
+
+            $('#no_rmh').on('change', function() {
+                var no_rmh = $(this).val();
+                if (no_rmh) {
+                    $.ajax({
+                        url: '/properti-detail-json/' + no_rmh,
+                        type: "GET",
+                        data: {
+                            "_token": "{{ csrf_token() }}"
+                        },
+                        dataType: "json",
+                        success: function(data) {
+                            $('#RT').val(data.properti.RT);
+                            $('#RW').val(data.properti.RW);
+                            $('#alamat').val(data.properti.alamat);
                         }
                     });
                 } else {

@@ -12,8 +12,12 @@
                 <thead>
                     <tr>
                         <th scope="col">No</th>
+                        <th scope="col">Kluster</th>
+                        <th scope="col">No Rumah</th>
                         <th scope="col">alamat</th>
                         <th scope="col">detail bangunan</th>
+                        <th scope="col">pemilik</th>
+                        <th scope="col">penghuni</th>
                         <th scope="col">aksi</th>
                     </tr>
                 </thead>
@@ -24,8 +28,12 @@
                     @foreach ($properti as $p)
                         <tr>
                             <th scope="row">{{ $no++ }}</th>
+                            <td>{{ $p->cluster->name }}</td>
+                            <td>{{ $p->no_rumah }}</td>
                             <td>{{ $p->alamat }}</td>
                             <td><a href="{{ route('properti.detail', $p->id) }}">lihat detail</a></td>
+                            <td>{{ $p->pemilik ? $p->pemilik->name : '-' }}</td>
+                            <td>{{ $p->penghuni ? $p->penghuni->name : '-' }}</td>
                             <td class="d-flex">
                                 <a class="btn btn-warning" href="{{ route('properti.edit', $p->id) }}"><i
                                         data-feather="edit"></i></a>
@@ -89,8 +97,5 @@
                     }
                 });
         });
-
-
     </script>
-
 @endpush
