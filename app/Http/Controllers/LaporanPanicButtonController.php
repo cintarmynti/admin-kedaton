@@ -34,16 +34,24 @@ class LaporanPanicButtonController extends Controller
 		return Excel::download(new PanicButtonExport, 'panic-button.xlsx');
 	}
 
-    public function status($id){
-        $data = PanicButton::findOrFail($id);
+    public function status($id, Request $request){
+        $data = PanicButton::where('id', $request->id)->first();
+        // dd($data)
         // dd($status_id);
-        $status_sekarang = $data->status_keterangan;
-        // dd($data->status_keterangan);
-        if($status_sekarang == 'not checked'){
-            PanicButton::where('id', $id)->update([
-                'status_keterangan' => 'checked'
-            ]);
-        }
+        $data->user_id = $request->user_id;
+        $data->id_rumah = $request->id_rumah;
+        $data->status_keterangan = 'checked';
+        $data->keterangan = $request->keterangan;
+        $data->update();
+
+        // dd($data);
+        // $status_sekarang = $data->status_keterangan;
+        // // dd($data->status_keterangan);
+        // if($status_sekarang == 'not checked'){
+        //     PanicButton::where('id', $id)->update([
+        //         'status_keterangan' => 'checked'
+        //     ]);
+        // }
 
         return redirect('/panic-button');
     }
@@ -71,4 +79,6 @@ class LaporanPanicButtonController extends Controller
         $panic = PanicButton::findOrFail($id);
         return response()->json($panic);
     }
+
+
 }

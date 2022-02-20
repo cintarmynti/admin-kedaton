@@ -136,7 +136,7 @@ Route::get('/complain-img/delete/{id}', [LaporanComplainController::class, 'imgd
 Route::get('/complain/export_excel', [LaporanComplainController::class, 'export_excel'])->name('complain.excel');
 
 Route::get('/panic-button', [LaporanPanicButtonController::class, 'index'])->name('panic');
-Route::get('/panic-button/status/{id}', [LaporanPanicButtonController::class, 'status'])->name('panic.status');
+Route::patch('/panic-button/status/{id}', [LaporanPanicButtonController::class, 'status'])->name('panic.status');
 Route::get('/panic-button/export_excel', [LaporanPanicButtonController::class, 'export_excel']);
 Route::get('/panic-button/detail/{id}', [LaporanPanicButtonController::class, 'get_detail']);
 

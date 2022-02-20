@@ -44,7 +44,8 @@
                     @foreach ($panic as $pan)
                         <tr>
                             <th scope="row">{{ $no++ }}</th>
-                            <td>{{ $pan->properti->no_rumah }}</td>
+                            <td>{{ $pan->properti->no_rumah }}
+                            </td>
                             <td>{{ $pan->user->name }}</td>
                             <td>{{ $pan->keterangan }}</td>
 
@@ -55,16 +56,50 @@
                                     <span class="badge bg-danger">not checked</span>
                                 @endif
                             </td>
+                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Alasan Pemanggilan</h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form action="{{ route('panic.status', $pan->id) }}" method="POST">
+                                                    @csrf
+                                                    @method('patch')
+                                                    {{-- <p id="keterangan"></p> --}}
+                                                    {{-- <img src="" width="400" height="300" id="bukti_tf" alt=""> --}}
+                                                    <input type="text" placeholder="rumah_id" id="id_rumah" name="id_rumah">
+                                                    <input type="text" placeholder="panic_id" id="panic_id" name="id">
+
+                                                    <input type="text" placeholder="user_id" id="user_id" name="user_id">
+                                                    <input type="text" name="keterangan">
+
+                                                    {{-- <input type="text" name=""> --}}
+                                                    {{-- <input type="hidden" name="tagihan_id" id="tagihan_id">
+                                                <input type="hidden" name="pembayaran_id" id="pembayaran_id"> --}}
+                                                    {{-- </form> --}}
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-dismiss="modal">Close</button>
+                                                <button type="submit" class="btn btn-primary">Save changes</button>
+                                            </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
                             <td>{{ $pan->created_at }}</td>
 
 
                             <td>
                                 @if ($pan->status_keterangan == 'not checked')
-                                    <a class="btn btn-success"
-                                         data-toggle="modal"
-                                         data-riwayat_id="{{ $pan->id }}"
-                                         data-keterangan="{{ $pan->keterangan }}"
-                                        data-target="#exampleModal"><i
+                                    <a class="btn btn-success" data-toggle="modal" data-riwayat_id="{{ $pan->id }}"
+                                        data-keterangan="{{ $pan->keterangan }}" data-target="#exampleModal"><i
                                             data-feather="check"></i></a>
                                 @else
                                 @endif
@@ -89,6 +124,7 @@
                         </button>
                     </form> --}}
                             </td>
+
                         </tr>
                     @endforeach
 
@@ -96,36 +132,8 @@
                 </tbody>
             </table>
 
-              <!-- Modal -->
-              <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-              aria-hidden="true">
-              <div class="modal-dialog" role="document">
-                  <div class="modal-content">
-                      <div class="modal-header">
-                          <h5 class="modal-title" id="exampleModalLabel">Alasan Pemanggilan</h5>
-                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                              <span aria-hidden="true">&times;</span>
-                          </button>
-                      </div>
-                      <div class="modal-body">
-                          {{-- <form action="{{route('panic.status', )}}" method="POST"> --}}
-                              @csrf
-                              @method('patch')
-                              <p id="keterangan"></p>
-                              {{-- <img src="" width="400" height="300" id="bukti_tf" alt="">
-                              <input type="hidden" name="user_id" id="user_id">
-                              <input type="hidden" name="tagihan_id" id="tagihan_id">
-                              <input type="hidden" name="pembayaran_id" id="pembayaran_id"> --}}
+            <!-- Modal -->
 
-                      </div>
-                      <div class="modal-footer">
-                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                          <button type="submit" class="btn btn-primary">Save changes</button>
-                      </div>
-                      </form>
-                  </div>
-              </div>
-          </div>
         </div>
     </div>
 @endsection
@@ -138,7 +146,7 @@
 
 @push('after-script')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
-integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     {{-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
     </script> --}}
@@ -154,7 +162,7 @@ integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="ano
             $('#myTable').DataTable();
         });
     </script>
-     <script>
+    <script>
         var APP_URL = {!! json_encode(url('/')) !!}
         console.log(APP_URL);
         $('#exampleModal').on('show.bs.modal', function(event) {
@@ -168,7 +176,9 @@ integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="ano
                 success: function(response) {
                     console.log(response);
 
-                    $('#keterangan').html(response.keterangan);
+                    $('#user_id').val(response.user_id);
+                    $('#id_rumah').val(response.id_rumah);
+                    $('#panic_id').val(response.id);
 
 
 
