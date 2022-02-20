@@ -3,8 +3,8 @@
 @section('content')
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title">Tambahkan Pengguna</h5>
-            <p class="card-description">Pengguna yang telah ditambahkan akan muncul di halaman pengguna</p>
+            <h5 class="card-title">Tambahkan Penghuni</h5>
+            {{-- <p class="card-description">Pengguna yang telah ditambahkan akan muncul di halaman pengguna</p> --}}
             <form action="{{ route('user.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="row">
@@ -180,8 +180,8 @@
                         @endforeach
 
                     </select>
-                </div>
-                <div class="col">
+                </div> --}}
+                {{-- <div class="col">
                     <label for="formGroupExampleInput" class="form-label">Pemilik</label>
                     <select class="form-select multiple2" name="pemilik" aria-label="Default select example">
                         <option disabled selected="">Pilih Pemilik</option>
@@ -203,7 +203,7 @@
 
                         </select>
                     </div>
-                    {{-- <div class="col">
+                    <div class="col">
                     <label for="formGroupExampleInput" class="form-label">Status Kepemilikan</label>
 
                     <select class="form-select" name="status" aria-label="Default select example">
@@ -212,7 +212,7 @@
                         <option value="disewakan">disewakan</option>
                         <option value="dijual">dijual</option>
                     </select>
-                </div> --}}
+                </div>
                     <div class="col">
                         <label for="formGroupExampleInput" class="form-label">Harga</label>
 

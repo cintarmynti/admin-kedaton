@@ -20,7 +20,7 @@ class CreatePropertiTable extends Migration
             $table->string('no_rumah')->nullable();
             $table->string('no_listrik')->nullable();
             $table->string('no_pam_bsd')->nullable();
-            // $table->integer('penghuni_id')->nullable();
+            $table->integer('penghuni_id')->nullable();
             $table->string('alamat')->nullable();;
             $table->integer('RT')->nullable();;
             $table->integer('RW')->nullable();;

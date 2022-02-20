@@ -35,7 +35,7 @@
                             <td>{{ $i->periode_pembayaran }}</td>
                             <td>{{ $i->bank }}</td>
                             <td><img src="{{ url('bukti_tf/' . $i->bukti_tf) }}" width="100" alt=""></td>
-                            <td>{{ $i->nominal }}</td>
+                            <td>Rp.{{ number_format($i->nominal )}}</td>
 
                             <td><span
                                     class="badge @if ($i->status == 1)

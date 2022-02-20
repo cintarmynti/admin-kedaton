@@ -72,6 +72,20 @@
 
             <div class="row mt-4 border border-5">
                 <div class="col border-end">
+                    <p><b>Kamar Mandi</b></p>
+                    <p>{{ $properti->kamar_mandi }}</p>
+                </div>
+
+                <div class="col">
+                    <p><b>Carport</b></p>
+                    <p>{{ $properti->carport }}</p>
+                </p>
+
+                </div>
+            </div>
+
+            <div class="row mt-4 border border-5">
+                <div class="col border-end">
                     <p><b>Penghuni</b></p>
                     <p>{{ $properti->penghuni != null ? $properti->penghuni->name : '' }}</p>
                 </div>
@@ -101,10 +115,12 @@
 
                 <div class="col">
                     <p><b>Biaya IPKL</b></p>
-                    <p>Rp {{ number_format($properti->tarif_ipkl, 2, ',', '.') }}</p>
+                    <p>Rp {{ number_format($properti->tarif_ipkl, 2, ',', '.') }} / bulan </p>
 
                 </div>
             </div>
+
+
 
             <div class="row mt-3" id="images">
                 @foreach ($image as $item)
@@ -119,7 +135,7 @@
             </div>
 
         <div class="m-4">
-            <a href="{{ url()->previous() }}" class="btn btn-warning mt-4">kembali</a>
+            <a href="/user" class="btn btn-warning mt-4">kembali</a>
 
         </div>
 

@@ -33,5 +33,5 @@ class PanicButtonController extends Controller
     //     }
 
     //     return redirect('/ipkl');
-    }
 }
+

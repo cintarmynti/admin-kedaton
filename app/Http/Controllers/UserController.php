@@ -7,6 +7,7 @@ use App\Models\Riwayat;
 use App\Models\Properti;
 use App\Models\Pembayaran;
 use App\Exports\UserExport;
+use App\Models\PenghuniDetail;
 use Illuminate\Http\Request;
 use App\Models\Properti_image;
 use App\Models\tarif_ipkl;
@@ -20,6 +21,7 @@ class UserController extends Controller
 {
     public function index(){
         $users = User::where('user_status', 'pengguna')->get();
+        // $properti = Properti::where()
         return view('pages.user.index', ['users' => $users]);
     }
 
@@ -32,6 +34,73 @@ class UserController extends Controller
         $user = User::where('user_status', 'pengguna')->get();
         return view('pages.user.create', ['cluster' => $cluster, 'user' => $user]);
 
+    }
+
+    public function storePenghuni(Request $request){
+        $request->validate([
+            'name' => 'required',
+            'password' => 'required|min:8',
+            'nik' => 'required',
+            'email' => 'required|email',
+            'alamat' => 'required',
+            'phone' => 'required',
+        ]);
+
+
+        $user = new User();
+        $user-> name = $request->name;
+        $user->nik = $request->nik;
+        $user->alamat= $request->alamat;
+        $user->phone = $request->phone;
+        $user->email = $request->email;
+        $user-> password = bcrypt($request->password);
+        $user->status_penghuni = $request->status_penghuni;
+        $user->user_status = 'pengguna';
+        $user->status_penghuni = 'penghuni';
+        if($request->hasFile('photo_identitas'))
+        {
+            // $file = $request->file('photo_identitas');
+            // $extention = $file->getClientOriginalExtension();
+            // $filename=time().'.'.$extention;
+            // $file->move('user_photo',$filename);
+            // $user->photo_identitas=$filename;
+            $img = Image::make($request->file('photo_identitas'));
+            $img->resize(521, null,  function ($constraint)
+            {
+                $constraint->aspectRatio();
+            });
+            $filename = time().'.'.$request->file('photo_identitas')->getClientOriginalExtension();
+            $img_path = 'user_photo/'.$filename;
+            Storage::put($img_path, $img->encode());
+            $user->photo_identitas = $img_path;
+        }
+
+        if($request->hasFile('photo_ktp'))
+        {
+            // $file = $request->file('photo_identitas');
+            // $extention = $file->getClientOriginalExtension();
+            // $filename=time().'.'.$extention;
+            // $file->move('user_photo',$filename);
+            // $user->photo_identitas=$filename;
+            $img = Image::make($request->file('photo_ktp'));
+            $img->resize(521, null,  function ($constraint)
+            {
+                $constraint->aspectRatio();
+            });
+            $filename = time().'.'.$request->file('photo_ktp')->getClientOriginalExtension();
+            $img_path = 'user_photo/'.$filename;
+            Storage::put($img_path, $img->encode());
+            $user->photo_ktp = $img_path;
+        }
+
+
+        $user->save();
+        $properti_id = Properti::where('id', $request->properti_id)->first();
+        if($properti_id){
+            $properti_id -> penghuni_id = $user->id;
+            $properti_id -> save();
+        }
+        return redirect()->route('user');
     }
 
     public function store(Request $request){
@@ -55,6 +124,8 @@ class UserController extends Controller
         $user-> password = bcrypt($request->password);
         $user->status_penghuni = $request->status_penghuni;
         $user->user_status = 'pengguna';
+        $user->status_penghuni = 'pemilik';
+
         if($request->hasFile('photo_identitas'))
         {
             // $file = $request->file('photo_identitas');
@@ -242,6 +313,20 @@ class UserController extends Controller
             Storage::put($img_path, $img->encode());
             $user->photo_identitas = $img_path;
         }
+
+        if ($request->hasFile('photo_ktp')) {
+            Storage::disk('public')->delete($user->photo_ktp);
+            $img = Image::make($request->file('photo_ktp'));
+            $img->resize(521, null,  function ($constraint)
+            {
+                $constraint->aspectRatio();
+            });
+            // dd($img);
+            $filename = time().'.'.$request->file('photo_ktp')->getClientOriginalExtension();
+            $img_path = 'user_photo/'.$filename;
+            Storage::put($img_path, $img->encode());
+            $user->photo_ktp = $img_path;
+        }
         $user->update();
 
         if ($user) {
@@ -292,8 +377,19 @@ class UserController extends Controller
     {
         $properti = Properti::with('penghuni', 'pemilik')->where('id', $id)->first();
         $image = Properti_image::where('properti_id', $id)->get();
+        // $penghuni = PenghuniDetail::with('user')->where('properti_id', $id)->first();
+        // dd($penghuni);
         // $listing = Listing::findOrFail($id);
         // dd($listing);
         return view('pages.properti.detail',['properti' => $properti, 'image' =>$image]);
+    }
+
+    public function addPenghuni(){
+        return view('pages.user.addpenghuni');
+    }
+
+    public function profile($id){
+        $user = User::findOrFail($id);
+        return view('pages.user.profile', ['user' => $user]);
     }
 }

@@ -52,6 +52,11 @@ Route::put('/user/update/{id}', [UserController::class, 'update'])->name('user.u
 Route::get('/user/detail/{id}', [UserController::class, 'show'])->name('user.detail');
 Route::get('/user/detail/rumah/{id}', [UserController::class, 'detail_rumah'])->name('user.rumah');
 Route::get('/user/export_excel', [UserController::class, 'export_excel'])->name('user.excel');
+Route::get('/user/profile/{id}', [UserController::class, 'profile'])->name('user.profile');
+Route::get('/user/addpenghuni/{id}', [UserController::class, 'addPenghuni'])->name('user.addPenghuni');
+Route::post('/user/storepenghuni', [UserController::class, 'storePenghuni'])->name('user.storePenghuni');
+
+
 
 
 Route::get('/blog', [BlogController::class, 'index'])->name('blog');
@@ -63,6 +68,7 @@ Route::put('/blog/update/{id}', [BlogController::class, 'update'])->name('blog.u
 Route::get('/blog/detail/{id}', [BlogController::class, 'detail'])->name('blog.detail');
 Route::get('/blog-img/delete/{id}', [BlogController::class, 'imgdelete'])->name('blogimg.delete');
 
+
 Route::get('/properti', [PropertiController::class, 'index'])->name('properti');
 Route::get('/properti/create', [PropertiController::class, 'create'])->name('properti.create');
 Route::post('/properti/store', [PropertiController::class, 'store'])->name('properti.store');
@@ -72,6 +78,7 @@ Route::get('/properti-img/delete/{id}', [PropertiController::class, 'imgdelete']
 Route::get('/properti/edit/{id}', [PropertiController::class, 'edit'])->name('properti.edit');
 Route::put('/properti/update/{id}', [PropertiController::class, 'update'])->name('properti.update');
 Route::get('/properti/export_excel', [PropertiController::class, 'export_excel'])->name('properti.excel');
+Route::get('/properti/riwayat/{id}', [PropertiController::class, 'riwayat'])->name('properti.riwayat');
 
 Route::get('/listing', [ListingController::class, 'index'])->name('listing');
 Route::get('/listing/create', [ListingController::class, 'create'])->name('listing.create');
@@ -131,6 +138,8 @@ Route::get('/complain/export_excel', [LaporanComplainController::class, 'export_
 Route::get('/panic-button', [LaporanPanicButtonController::class, 'index'])->name('panic');
 Route::get('/panic-button/status/{id}', [LaporanPanicButtonController::class, 'status'])->name('panic.status');
 Route::get('/panic-button/export_excel', [LaporanPanicButtonController::class, 'export_excel']);
+Route::get('/panic-button/detail/{id}', [LaporanPanicButtonController::class, 'get_detail']);
+
 
 
 Route::get('/iuran', [IuranController::class, 'index'])->name('iuran');

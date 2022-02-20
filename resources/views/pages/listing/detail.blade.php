@@ -56,6 +56,18 @@
 
             <div class="row mt-4 border border-5">
                 <div class="col border-end">
+                    <p><b>Kamar Mandi</b></p>
+                    <p>{{ $properti->kamar_mandi }}</p>
+                </div>
+
+                <div class="col">
+                    <p><b>Jumlah Kamar</b></p>
+                    <p>{{ $properti->carport }}</p>
+                </div>
+            </div>
+
+            <div class="row mt-4 border border-5">
+                <div class="col border-end">
                     <p><b>Luas Kavling</b></p>
                     <p>{{ $properti->luas_tanah }}</p>
                 </div>

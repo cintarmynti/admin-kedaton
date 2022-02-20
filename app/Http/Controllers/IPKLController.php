@@ -20,20 +20,20 @@ class IPKLController extends Controller
 {
     public function index(Request $request)
     {
-        if ($request->start_date ||$request->end_date) {
-            // dd($request->start_date);
-            $start_date = Carbon::parse($request->start_date);
-            // dd($start_date);
-            $end_date = Carbon::parse($request->end_date);
-            $ipkl = Tagihan::with('nomer', 'cluster')->whereBetween('periode_pembayaran',[$start_date,$end_date])->get();
-            // dd($panic);
-        } else {
-            $ipkl = Tagihan::with('nomer', 'cluster')->get();
-            // dd($panic);
+        $start_date = Carbon::parse($request->start_date);
+        $end_date = Carbon::parse($request->end_date);
+        $query = Tagihan::with('nomer', 'cluster');
+        // dd($start_date);
+
+        if($request -> start_date){
+            $query->whereBetween('periode_pembayaran',[$start_date,$end_date]);
         }
 
-        // dd($ipkl);
-        return view('pages.ipkl.index', ['ipkl' => $ipkl]);
+        if($request -> status){
+            $query -> where('status', $request->status);
+        }
+
+        return view('pages.ipkl.index', ['ipkl' => $query->get()]);
     }
 
     public function getIPKLid($id)
@@ -56,11 +56,13 @@ class IPKLController extends Controller
         // return response()->json($Listing);
     }
 
-    public function export_excel(){
-        return Excel::download(new TagihanExport, 'Tagihan.xlsx');
+    public function export_excel(Request $request){
+        $from = Carbon::parse($request->start_date);
+        $to = Carbon::parse($request->end_date);
+        $status = $request->status;
+
+        return Excel::download(new TagihanExport($from, $to, $status), 'Tagihan.xlsx');
     }
-
-
 
     public function create()
     {
@@ -112,7 +114,6 @@ class IPKLController extends Controller
                 'status' => 2
             ]);
         }
-
         return redirect('/ipkl');
     }
 

@@ -19,6 +19,10 @@ class Tagihan extends Model
         'jumlah_pembayaran'
     ];
 
+    public function ipkl(){
+        return $this->hasMany(IPKL::class, 'tagihan_id', 'id');
+    }
+
      public function nomer(){
         return $this->hasOne(Properti::class, 'id', 'properti_id');
     }

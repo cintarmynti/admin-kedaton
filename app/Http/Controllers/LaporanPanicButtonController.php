@@ -66,4 +66,9 @@ class LaporanPanicButtonController extends Controller
                 ]);
         }
     }
+
+    public function get_detail($id){
+        $panic = PanicButton::findOrFail($id);
+        return response()->json($panic);
+    }
 }

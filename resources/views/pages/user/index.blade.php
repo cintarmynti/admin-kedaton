@@ -3,9 +3,9 @@
 @section('content')
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title">Daftar Penggguna</h5>
+            <h5 class="card-title">Daftar Penghuni</h5>
             <p class="card-description">
-                <a class="btn btn-primary" href="{{ route('user.create') }}">Tambah Pengguna</a>
+                <a class="btn btn-primary" href="{{ route('user.create') }}">Tambah Penghuni dan Properti</a>
                 <a href="/user/export_excel" class="btn btn-success my-3" target="_blank">EXPORT EXCEL</a>
             </p>
             <table class="table" id="myTable">
@@ -15,7 +15,8 @@
                         {{-- user id --}}
                         <th scope="col">Nama</th>
                         <th scope="col">nik</th>
-                        <th scope="col">status penghuni</th>
+                        {{-- <th scope="col">rumah</th> --}}
+                        <th scope="col">status </th>
                         {{-- <th scope="col">alamat</th>
                         <th scope="col">No telp</th>
                         <th scope="col">detail Photo</th> --}}
@@ -32,6 +33,9 @@
                             <th scope="row">{{ $no++ }}</th>
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->nik }}</td>
+                            {{-- <td>
+
+                            </td> --}}
                             <td>{{$user->status_penghuni}}</td>
                             {{-- <td>{{ $user->alamat }}</td>
                             <td>{{ $user->phone }}</td>
@@ -43,16 +47,17 @@
                             {{-- <td><a href="/user/detail/{{ $user->id }}">lihat detail</a></td> --}}
                             <td >
                                 <div class="d-flex">
-                                    <a class="btn btn-warning" href="{{ route('user.edit', $user->id) }}"><i
-                                        data-feather="edit"></i></a>
+                                    {{-- <a class="mx-1" href="{{ route('user.edit', $user->id) }}"><i
+                                        data-feather="edit"></i></a> --}}
 
-                                <button type="submit" class="btn btn-danger delete" data-id="{{ $user->id }}"
+                                {{-- <button type="submit" class="mx-1 btn-danger delete" data-id="{{ $user->id }}"
                                     data-nama="">
                                     <i data-feather="trash"></i>
-                                </button>
+                                </button> --}}
 
-                                <a class="btn btn-info" href="{{ route('user.detail', $user->id) }}"><i
-                                    data-feather="eye"></i></a>
+                                <a class="mx-1" href="{{route('user.profile',$user -> id)}}"><i data-feather="user"></i></a>
+
+                                <a class="mx-1" href="{{ route('user.detail', $user->id) }}"><i data-feather="eye"></i></a>
                                 </div>
 
 

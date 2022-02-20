@@ -36,8 +36,8 @@
                   <input type="password"   class="form-control" name="password"  aria-label="Last name">
                 </div>
                 <div class="col">
-                    <label for="formGroupExampleInput" class="form-label">Foto Pengguna</label>
-                  <input type="file" id="filePhoto"  class="form-control" name="photo_identitas"  aria-label="First name">
+                    <label for="formGroupExampleInput" class="form-label">Alamat</label>
+                    <input type="text" value="{{old('alamat', $user->alamat)}}"  class="form-control" name="alamat"  aria-label="First name">
                     @if ($user->photo_identitas == null)
 
                     @else
@@ -48,14 +48,21 @@
             </div>
 
             <div class="row mt-4">
+
                 <div class="col-md-4">
-                    <label for="formGroupExampleInput" class="form-label">Alamat</label>
-                  <input type="text" value="{{old('alamat', $user->alamat)}}"  class="form-control" name="alamat"  aria-label="First name">
+                    <label for="formGroupExampleInput" class="form-label">Foto Pengguna</label>
+                    <input type="file" id="filePhoto"  class="form-control" name="photo_identitas"  aria-label="First name">
+                </div>
+                <div class="col-md-4">
+                    <label for="formGroupExampleInput" class="form-label">Foto KTP</label>
+                    <input type="file" id="filePhoto"  class="form-control" name="photo_ktp"  aria-label="First name">
                 </div>
             </div>
 
 
-                <a href="{{route('user')}}" class="btn btn-warning mt-4">kembali</a>
+
+            <a href="{{ url()->previous() }}" class="btn btn-warning mt-4">kembali</a>
+
                 <button type="submit"  class="btn btn-primary ml-4 mt-4">Simpan</a>
         </form>
 

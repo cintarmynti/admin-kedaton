@@ -18,9 +18,9 @@
         <a href="/rumah-pengguna"><i data-feather="user-check"></i>Rumah Pengguna</a>
       </li> --}}
 
-      <li class="{{ Request::is('properti*') ? 'active-page' : '' }}">
+      {{-- <li class="{{ Request::is('properti*') ? 'active-page' : '' }}">
         <a href="{{route('properti')}}"><i data-feather="home"></i>Rumah</a>
-      </li>
+      </li> --}}
 
       <li class="{{ Request::is('listing*') ? 'active-page' : '' }}">
         <a href="{{route('listing')}}"><i data-feather="book-open"></i>Listing</a>

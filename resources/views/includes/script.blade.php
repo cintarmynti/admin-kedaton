@@ -3,6 +3,6 @@
 <script src="{{asset('assets/plugins/bootstrap/js/bootstrap.min.js')}}"></script>
 <script src="https://unpkg.com/feather-icons"></script>
 <script src="{{asset('assets/plugins/perfectscroll/perfect-scrollbar.min.js')}}"></script>
-<script src="{{asset('assets/plugins/apexcharts/apexcharts.min.js')}}"></script>
+{{-- <script src="{{asset('assets/plugins/apexcharts/apexcharts.min.js')}}"></script> --}}
 <script src="{{asset('assets/js/main.min.js')}}"></script>
 <script src="{{asset('assets/js/pages/dashboard.js')}}"></script>

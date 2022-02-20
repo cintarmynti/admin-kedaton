@@ -6,12 +6,15 @@ use App\Exports\PropertiExport;
 use DB;
 use App\Models\User;
 use App\Models\Cluster;
+use App\Models\IPKL;
 use App\Models\Listing;
 use App\Models\Properti;
 use App\Models\tarif_ipkl;
 use Illuminate\Http\Request;
 use App\Models\listing_image;
+use App\Models\PenghuniDetail;
 use App\Models\Properti_image;
+use App\Models\Tagihan;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Storage;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -261,5 +264,11 @@ class PropertiController extends Controller
                     'error' => 'Some problem has occurred, please try again'
                 ]);
         }
+    }
+
+    public function riwayat($id){
+       $properti= Tagihan::with('ipkl')->where('properti_id', $id)->where('status', 2)->get();
+    //    dd($properti);
+        return view('pages.properti.riwayat',  ['riwayat_ipkl' => $properti]);
     }
 }
