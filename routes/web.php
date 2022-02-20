@@ -55,6 +55,9 @@ Route::get('/user/export_excel', [UserController::class, 'export_excel'])->name(
 Route::get('/user/profile/{id}', [UserController::class, 'profile'])->name('user.profile');
 Route::get('/user/addpenghuni/{id}', [UserController::class, 'addPenghuni'])->name('user.addPenghuni');
 Route::post('/user/storepenghuni', [UserController::class, 'storePenghuni'])->name('user.storePenghuni');
+Route::get('/user/nomer/{id}', [UserController::class, 'getNomerid'])->name('user.nomer');
+Route::get('/user/daftarUser', [UserController::class, 'daftarUser'])->name('user.daftarUser');
+Route::patch('/user/updatePenghuni/{id}', [UserController::class, 'updatePenghuni'])->name('user.updatePenghuni');
 
 
 

@@ -92,16 +92,6 @@
                 </div>
             </div>
 
-            <div class="row mt-4 border border-5">
-                <div class="col border-end">
-                    <p><b>Status</b></p>
-                    <p>{{ $properti->status }}</p>
-                </div>
-                <div class="col">
-                    <p><b>Harga</b></p>
-                    <p>{{ $properti->harga }}</p>
-                </div>
-            </div>
 
             <div class="row mt-4 border border-5">
                 <div class="col border-end">
@@ -128,8 +118,57 @@
 
             </div>
 
+
+
             <a href="{{ url()->previous() }}" class="btn btn-warning mt-4">kembali</a>
 
+
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Riwayat Penghuni</h5>
+                    {{-- <p class="card-description">
+                        <a class="btn btn-primary" href="{{ route('banner.create') }}">Tambah Banner</a>
+                    </p> --}}
+                    <table class="table" id="myTable">
+                        <thead>
+                            <tr>
+                                <th scope="col">id</th>
+                                <th scope="col">Nama</th>
+                                <th scope="col">tanggal</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @php
+                                $no = 1;
+                            @endphp
+                            {{-- @foreach ($banner as $bnr)
+                                <tr>
+                                    <th scope="row">{{ $no++ }}</th>
+                                    <td>{{ $bnr->judul }}</td>
+                                    <td>{{ substr($bnr->link , 0, 40) }}</td>
+                                    <td><img id="images" onclick="image()" src="{{ asset('storage/' . $bnr->foto) }}"
+                                        style="height: 100px; width:200px; object-fit:cover" alt=""></td>
+                                    <td >
+                                        <div class="d-flex">
+                                            <a class="btn btn-warning" href="{{ route('banner.edit', $bnr->id) }}"><i
+                                                data-feather="edit"></i></a>
+
+                                            <button type="submit" data-id="{{$bnr-> id}}" class="btn btn-danger delete">
+                                                <i data-feather="trash"></i>
+                                            </button>
+                                        </div>
+
+
+                                    </td>
+                                </tr>
+                            @endforeach --}}
+
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
 
 

@@ -15,6 +15,7 @@
                         {{-- user id --}}
                         <th scope="col">Nama</th>
                         <th scope="col">nik</th>
+                        <th scope="col">Tanggal</th>
                         {{-- <th scope="col">rumah</th> --}}
                         <th scope="col">status </th>
                         {{-- <th scope="col">alamat</th>
@@ -33,6 +34,7 @@
                             <th scope="row">{{ $no++ }}</th>
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->nik }}</td>
+                            <td>{{$user -> created_at}}</td>
                             {{-- <td>
 
                             </td> --}}

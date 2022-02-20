@@ -52,10 +52,13 @@ class PropertiController extends Controller
         $properti->jumlah_kamar = $request->jumlah_kamar;
         $properti->luas_tanah = $request->luas_tanah; //ini luas kavling
         $properti->luas_bangunan = $request->luas_bangunan;
+        $properti->kamar_mandi = $request->kamar_mandi;
+        $properti->carport = $request->carport;
+
         // $properti->penghuni_id = $request->penghuni;
-        $properti->pemilik_id = $request->pemilik;
+        // $properti->pemilik_id = $request->pemilik;
         $properti->status = $request->status;
-        $properti->harga = $request->harga;
+        // $properti->harga = $request->harga;
 
         $ipkl = tarif_ipkl::where('luas_kavling_awal', '<=', $request-> luas_tanah)->where('luas_kavling_akhir', '>=', $request-> luas_tanah)->first();
         // dd($ipkl);

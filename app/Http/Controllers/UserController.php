@@ -392,4 +392,31 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         return view('pages.user.profile', ['user' => $user]);
     }
+
+
+    public function getNomerid($id)
+    {
+        $nomer = Properti::where('cluster_id', $id)->get();
+        $html   = '';
+        foreach($nomer as $data){
+            $html .= '<option value="'.$data['id'].'">'.$data['no_rumah'].'</option>';
+        }
+        echo $html;
+        // return response()->json($Listing);
+    }
+
+    public function daftarUser(){
+        $user= User::where('user_status', 'pengguna')->get();
+        return response()->json($user);
+    }
+
+    public function updatePenghuni($id, Request $request){
+        $properti = Properti::where('id', $id)->first();
+        // dd($request->all());
+        $properti->penghuni_id = $request-> user_id;
+        $properti->save();
+        // dd($properti);
+        return redirect('/properti/detail/'.$id);
+    //    dd( $properti->penghuni_id);
+    }
 }

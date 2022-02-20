@@ -141,7 +141,7 @@ class IPKLController extends Controller
 
      public function create_riwayat(Request $request)
      {
-
+        // dd($request->all());
 
         $riwayat = new Notifikasi();
         $riwayat -> user_id = $request->user_id;

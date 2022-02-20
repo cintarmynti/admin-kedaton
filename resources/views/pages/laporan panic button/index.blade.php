@@ -10,12 +10,15 @@
                 <form action="/panic-button" method="GET">
                     <div class="row">
                             <div class="col-md-3">
+                                <label for="">Mulai Tanggal</label>
                                 <input type="date" id="from_date" class="form-control" value="{{request()->start_date}}" name="start_date">
                             </div>
                             <div class="col-md-3">
+                                <label for="">Sampai Tanggal</label>
                                 <input type="date" id="to_date" class="form-control" value="{{request()->end_date}}" name="end_date">
                             </div>
                             <div class="col-md-3">
+                                <label for="">Status</label>
                                 <select class="form-select" name="status" id="status" value="{{request()->status}}" aria-label="Default select example">
                                     <option selected="" value="" disabled>pilih status</option>
                                     @if (request()->status == 'checked')
@@ -31,6 +34,7 @@
                                   </select>
                             </div>
                             <div class="col-md-3">
+                                <br>
                                 <button class="btn btn-primary" type="submit"><i data-feather="search"></i></button>
                                 <a href="/panic-button" class="btn btn-primary" type="button">Refresh</a>
 

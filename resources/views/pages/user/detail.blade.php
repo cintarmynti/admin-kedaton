@@ -14,10 +14,10 @@
                         <th scope="col">NO</th>
                         <th scope="col">NO RUMAH</th>
                         <th scope="col">ALAMAT</th>
-                        <th scope="col">TAMBAH PENGHUNI</th>
+                        <th scope="col">NAMA penghuni</th>
+                        <th scope="col">Update PENGHUNI</th>
                         <th scope="col">RIWAYAT PEMBAYARAN</th>
-
-                        <th scope="col">DETAIL </th>
+                        <th scope="col">DETAIL PROPERTI</th>
                     </tr>
                 </thead>
                 <tbody id="images">
@@ -29,11 +29,53 @@
                         <tr>
                             <th scope="row">{{ $no++ }}</th>
                             <td>{{ $us->no_rumah }}</td>
+
                             <td>{{ $us->alamat }}</td>
-                            <td><a href="{{route('user.addPenghuni', $us -> id)}}"><i data-feather="user-plus"></i></a></td>
+                            <td>@if (isset($us->penghuni->name))
+                                {{$us->penghuni->name}}
+                                @elseif ($us->penghuni_id == null)
+                                <p>tidak ada penghuni</p>
+                            @endif
+
+                               </td>
+                            <td><a href="{{route('user.addPenghuni', $us -> id)}}" data-toggle="modal" data-target="#exampleModal"><i data-feather="user-plus"></i></a></td>
                             <td><a href="{{route('properti.riwayat', $us -> id)}}">lihat detail</a> </td>T
                             <td><a href="/user/detail/rumah/{{ $us->id }}">lihat detail</a></td>
+                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Tambah Penghuni</h5>
+                                        <button type="button" class="close" data-dismiss="modal"
+                                            aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="{{route('user.updatePenghuni', $us -> id)}}" method="POST">
+                                            @csrf
+                                            @method('patch')
+                                            <label for="">Pilih User</label>
+                                            <select class="form-select" id="countries" name="user_id" class="form_input required">
+
+                                            </select>
+                                            <div class="mt-4">
+                                                <a  href="{{route('user.addPenghuni', $us -> id)}}">Tambah Penghuni Baru</a>
+                                            </div>
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary">Save changes</button>
+                                    </div>
+                                    </form>
+                                </div>
+                            </div>
                         </tr>
+
+                    </div>
                     @endforeach
 
                 </tbody>
@@ -53,9 +95,8 @@
 @endpush
 
 @push('after-script')
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
-    </script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
         integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
     </script>
@@ -100,6 +141,33 @@
                         },
                     });
         }
+
+        $('#exampleModal').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget)
+            var id = button.data('riwayat_id')
+
+            $.ajax({
+                type: 'get',
+                url: "/user/daftarUser",
+                dataType: 'json',
+                success: function(response) {
+                    var data = response
+                    console.log(response);
+                    var formoption = "";
+                    // $('#user_id').val(response.user_id);
+                    $.each(data, function(v, data) {
+                        var val = data[v]
+                        console.log(data);
+                        formoption += "<option value='" + data.id + "'>" + data.name + "</option>";
+                    });
+                    $('#countries').html(formoption);
+
+
+
+                }
+            });
+
+        })
     </script>
 
 

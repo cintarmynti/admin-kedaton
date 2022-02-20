@@ -3,7 +3,7 @@
 @section('content')
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title">Tambahkan Listing</h5>
+            <h5 class="card-title">Tambahkan Properti</h5>
             <p class="card-description">Listing yang telah ditambahkan akan muncul di halaman listing</p>
             <form action="{{ route('properti.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
@@ -23,25 +23,39 @@
 
                 <div class="row mt-4">
 
-                    <div class="col-md-3">
+                    <div class="col">
                         <label for="formGroupExampleInput" class="form-label">RT</label>
                         <input value="{{ old('RT') }}" type="number" required class="form-control" name="RT"
                             aria-label="First name">
                     </div>
-                    <div class="col-md-3">
+                    <div class="col">
                         <label for="formGroupExampleInput" class="form-label">RW</label>
                         <input value="{{ old('RW') }}" type="number" required class="form-control" name="RW"
                             aria-label="Last name">
                     </div>
-                    <div class="col-md-3">
+                    <div class="col">
                         <label for="formGroupExampleInput" class="form-label">Jumlah Lantai</label>
                         <input value="{{ old('lantai') }}" type="number" required class="form-control" name="lantai"
                             aria-label="First name">
                     </div>
-                    <div class="col-md-3">
+
+                </div>
+
+                <div class="row mt-4">
+                    <div class="col-md-4">
                         <label for="formGroupExampleInput" class="form-label">Jumlah Kamar</label>
-                        <input value="{{ old('jumlah_kamar') }}" type="number" required class="form-control" name="jumlah_kamar"
-                            aria-label="Last name">
+                        <input value="{{ old('jumlah_kamar') }}" type="number" required class="form-control"
+                            name="jumlah_kamar" aria-label="Last name">
+                    </div>
+                    <div class="col-md-4">
+                        <label for="formGroupExampleInput" class="form-label">Jumlah Kamar Mandi</label>
+                        <input value="{{ old('jumlah_kamar') }}" type="number" required class="form-control"
+                            name="kamar_mandi" aria-label="Last name">
+                    </div>
+                    <div class="col-md-4">
+                        <label for="formGroupExampleInput" class="form-label">Carport</label>
+                        <input value="{{ old('jumlah_kamar') }}" type="number" required class="form-control"
+                            name="carport" aria-label="Last name">
                     </div>
                 </div>
 
@@ -85,7 +99,7 @@
 
 
                 <div class="row mt-4">
-                    <div class="col">
+                    {{-- <div class="col">
                         <label for="formGroupExampleInput" class="form-label">Penghuni</label>
                         <select class="form-select multiple2" name="penghuni" aria-label="Default select example">
                             <option disabled selected="">Pilih Penghuni</option>
@@ -103,24 +117,13 @@
                                 <option value="{{ $role->id }}">{{ $role->name }}</option>
                             @endforeach
                         </select>
-                    </div>
+                    </div> --}}
 
-                    <div class="col">
-                        <label for="formGroupExampleInput" class="form-label">Pilih Cluster</label>
 
-                        <select id="category" class="form-control select2" name="cluster_id"
-                            aria-label="Default select example">
-                            <option disabled selected="">Pilih Cluster</option>
-                            @foreach ($cluster as $item)
-                                <option value="{{ $item->name }}">{{ $item->name }}</option>
-                            @endforeach
-
-                        </select>
-                    </div>
                 </div>
 
-                <div class="row mt-5 mb-4">
-                    <div class="col">
+                <div class="row mt-3 mb-4">
+                    {{-- <div class="col">
                         <label for="formGroupExampleInput" class="form-label">Status Kepemilikan</label>
 
                         <select class="form-select" name="status" aria-label="Default select example">
@@ -129,11 +132,18 @@
                             <option value="disewakan">disewakan</option>
                             <option value="dijual">dijual</option>
                         </select>
-                    </div>
+                    </div> --}}
                     <div class="col">
-                        <label for="formGroupExampleInput" class="form-label">Harga</label>
+                        <label for="formGroupExampleInput" class="form-label">Pilih Cluster</label>
 
-                        <input value="{{ old('harga') }}" type="text" required class="form-control money" id="harga" onkeyup="onchange_comma(this.id, this.value)" name="harga">
+                        <select id="category" class="form-control select2" name="cluster_id"
+                            aria-label="Default select example">
+                            <option disabled selected="">Pilih Cluster</option>
+                            @foreach ($cluster as $item)
+                                <option value="{{ $item->id }}">{{ $item->name }}</option>
+                            @endforeach
+
+                        </select>
                     </div>
 
                     <div class="col">
