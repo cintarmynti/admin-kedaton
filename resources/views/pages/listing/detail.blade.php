@@ -109,7 +109,7 @@
 
                 <div class="col">
                     <p><b>Biaya IPKL</b></p>
-                    <p>Rp {{ number_format($properti->tarif_ipkl, 2, ',', '.') }}</p>
+                    <p>Rp {{ number_format($properti->tarif_ipkl, 2, ',', '.') }} / Bulan</p>
 
                 </div>
             </div>

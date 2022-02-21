@@ -12,7 +12,7 @@ use App\Models\Properti;
 use App\Models\tarif_ipkl;
 use Illuminate\Http\Request;
 use App\Models\listing_image;
-use App\Models\PenghuniDetail;
+use App\Models\penghuniDetail;
 use App\Models\Properti_image;
 use App\Models\Tagihan;
 use Intervention\Image\Facades\Image;
@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Storage;
 use RealRashid\SweetAlert\Facades\Alert;
 use Symfony\Component\Console\Input\Input;
 use Maatwebsite\Excel\Facades\Excel;
+
 
 
 class PropertiController extends Controller
@@ -152,9 +153,9 @@ class PropertiController extends Controller
         $image = Properti_image::where('properti_id', $id)->get();
         // $listing = Listing::findOrFail($id);
         // dd($listing);
-      
+        $riwayat_penghuni = penghuniDetail::where('properti_id', $id)->get();
         // dd($riwayat_penghuni);
-        return view('pages.properti.detail', ['properti' => $properti, 'image' => $image]);
+        return view('pages.properti.detail', ['properti' => $properti, 'image' => $image, 'penghuni' => $riwayat_penghuni]);
     }
 
     public function detailJson($id)

@@ -14,7 +14,7 @@
                         {{-- user id --}}
                         <th scope="col">dibayar oleh</th>
                         {{-- <th scope="col">tagihan</th> --}}
-                        <th scope="col"> tagihan IPKL periode </th>
+                        <th scope="col">pada tanggal</th>
                         <th scope="col">bank</th>
                         <th scope="col">bukti tf</th>
                         <th scope="col">nominal</th>
@@ -32,7 +32,7 @@
                             <td>{{ $no++ }}</td>
                             <td>{{ $i->user->name }}</td>
                             {{-- <td>{{ $i->user_id }}</td> --}}
-                            <td>{{ $i->periode_pembayaran }}</td>
+                            <td>{{ $i->created_at }}</td>
                             <td>{{ $i->bank }}</td>
                             <td><img src="{{ url('bukti_tf/' . $i->bukti_tf) }}" width="100" alt=""></td>
                             <td>Rp.{{ number_format($i->nominal )}}</td>

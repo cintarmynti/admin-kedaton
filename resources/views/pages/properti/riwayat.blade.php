@@ -13,7 +13,7 @@
               <th scope="col">id</th>
               <th scope="col">Nama</th>
               {{-- <th scope="col">tagihan_id</th> --}}
-              <th scope="col">periode pembayaran</th>
+              <th scope="col">pada tanggal</th>
               <th scope="col">bank</th>
               <th scope="col">bukti tf</th>
               <th scope="col">nominal</th>
@@ -36,7 +36,7 @@
                     <td>{{$item->periode_pembayaran}}</td>
                     <td>{{$item->bank}}</td>
                     <td>{{$item->bukti_tf}}</td>
-                    <td>{{$item->nominal}}</td>
+                    <td>Rp.{{ number_format($item->nominal )}}</td>
 
                     {{-- <td><img onclick="image()" src="{{url('promo_photo/'.$item->foto)}}" style="height: 100px; width:200px; object-fit:cover" alt=""></td> --}}
                     <td >
@@ -59,7 +59,7 @@
 
 
         <a href="{{ url()->previous() }}" class="btn btn-warning mt-4">kembali</a>
-        
+
     </div>
 </div>
 @endsection

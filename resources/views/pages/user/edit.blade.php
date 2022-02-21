@@ -58,9 +58,9 @@
                     <div class="col-md-4">
                         <label for="formGroupExampleInput" class="form-label">Foto KTP</label>
                         <br>
-                        <img id="output" src="{{ asset('storage/' . $user->photo_identitas) }}" class="mt-3 mb-2"
+                        <img id="output2" src="{{ asset('storage/' . $user->photo_ktp) }}" class="mt-3 mb-2"
                             style="height: 200px; width: 300px;object-fit:cover">
-                        <input type="file" id="filePhoto" class="form-control" name="photo_ktp" aria-label="First name">
+                        <input type="file" id="filePhoto2" class="form-control" name="photo_ktp" aria-label="First name">
                     </div>
                 </div>
 
@@ -90,6 +90,15 @@
             $("#filePhoto").change(function(event) {
                 var x = URL.createObjectURL(event.target.files[0]);
                 $("#output").attr("src", x);
+                console.log(event);
+            });
+        });
+    </script>
+     <script>
+        $(function() {
+            $("#filePhoto2").change(function(event) {
+                var x = URL.createObjectURL(event.target.files[0]);
+                $("#output2").attr("src", x);
                 console.log(event);
             });
         });

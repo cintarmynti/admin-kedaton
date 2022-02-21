@@ -8,7 +8,7 @@ use App\Models\Riwayat;
 use App\Models\Properti;
 use App\Models\Pembayaran;
 use App\Exports\UserExport;
-use App\Models\PenghuniDetail;
+use App\Models\penghuniDetail;
 use Illuminate\Http\Request;
 use App\Models\Properti_image;
 use App\Models\tarif_ipkl;
@@ -96,7 +96,7 @@ class UserController extends Controller
             $properti_id->save();
         }
 
-        $penghuni_detail = new PenghuniDetail();
+        $penghuni_detail = new penghuniDetail();
         $penghuni_detail->penghuni_id = $user->id;
         $penghuni_detail->properti_id = $properti_id->id;
         $penghuni_detail->save();
@@ -185,6 +185,7 @@ class UserController extends Controller
         $user->password = bcrypt($request->password);
         $user->user_status = 'pengguna';
 
+
         if ($request->hasFile('photo_identitas')) {
             Storage::disk('public')->delete($user->photo_identitas);
             $img = Image::make($request->file('photo_identitas'));
@@ -209,6 +210,7 @@ class UserController extends Controller
             $img_path = 'user_photo/' . $filename;
             Storage::put($img_path, $img->encode());
             $user->photo_ktp = $img_path;
+            // dd($img_path);
         }
         $user->update();
 
@@ -246,8 +248,10 @@ class UserController extends Controller
 
     public function show($id)
     {
-        if (Properti::where('pemilik_id', $id) == null) {
+        $properti = Properti::where('pemilik_id', $id)->first();
+        if ($properti == null) {
             $properti = Properti::where('penghuni_id', $id)->get();
+            // dd($properti);
         } else {
             $properti = Properti::where('pemilik_id', $id)->get();
         }
@@ -261,7 +265,7 @@ class UserController extends Controller
     {
         $properti = Properti::with('penghuni', 'pemilik')->where('id', $id)->first();
         $image = Properti_image::where('properti_id', $id)->get();
-        $riwayat_penghuni = PenghuniDetail::where('properti_id', $id)->get();
+        $riwayat_penghuni = penghuniDetail::where('properti_id', $id)->get();
         // $penghuni = PenghuniDetail::with('user')->where('properti_id', $id)->first();
         // dd($penghuni);
         // $listing = Listing::findOrFail($id);

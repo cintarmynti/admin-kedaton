@@ -30,9 +30,11 @@
                             <th scope="row">{{ $no++ }}</th>
                             <td>{{ $p->name }}</td>
                             <td>{{ $p->status }}</td>
-                            <td>{{ $p->diskon }}</td>
-                            <td>{{ $p->harga }}</td>
-                            <td>{{ $p->setelah_diskon }}</td>
+                            <td>{{ $p->diskon ?  $p->diskon  : '-'}}
+
+                            </td>
+                            <td>Rp.{{ number_format($p->harga )}}</td>
+                            <td>Rp.{{ number_format($p->setelah_diskon )}}</td>
                             <td><a href="{{ route('listing.detail', $p->properti_id) }}">lihat detail</a></td>
                             <td class="d-flex">
                                 <a class="btn btn-warning" href="{{ route('listing.edit', $p->id) }}"><i
