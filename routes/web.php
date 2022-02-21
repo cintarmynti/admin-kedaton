@@ -60,9 +60,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::patch('/user/updatePenghuni/{id}', [UserController::class, 'updatePenghuni'])->name('user.updatePenghuni');
     Route::get('/user-detail-json/{id}', [UserController::class, 'detailJson'])->name('user.detail.json');
 
-
-
-
+    
     Route::get('/blog', [BlogController::class, 'index'])->name('blog');
     Route::get('/blog/create', [BlogController::class, 'create'])->name('blog.create');
     Route::post('/blog/store', [BlogController::class, 'store'])->name('blog.store');

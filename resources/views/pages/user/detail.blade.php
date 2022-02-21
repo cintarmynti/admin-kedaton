@@ -3,13 +3,22 @@
 @section('content')
     <div class="card">
         <div class="card-body">
+            <div class="row mb-3">
+                <div class="col-8">
+                    <a class="btn btn-primary" href="{{ route('user.edit', $user->id) }}">Edit Profile</a>
+                    <span class="badge bg-danger">Belum Terdaftar Mobile</span>
+                </div>
+                <div class="col-4">
+
+                </div>
+            </div>
             <p class="card-description">
                 {{-- <a class="btn btn-primary" href="{{ route('user.create') }}">Tambah Pengguna</a> --}}
                 {{-- <a href="/user/export_excel" class="btn btn-success my-3" target="_blank">EXPORT EXCEL</a> --}}
             </p>
             <div class="row mb-3">
                 <div class="col-md-3">
-                    <a class="btn btn-primary" href="{{ route('user.edit', $user->id) }}">Edit Profile</a>
+
                 </div>
                 <div class="col-md-12 mb-3"></div>
                 <div class="col-md-3">

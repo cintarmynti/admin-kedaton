@@ -86,6 +86,8 @@ class UserController extends Controller
                 $user->photo_ktp = $img_path;
             }
             $user->save();
+
+
         }
 
         $properti_id = Properti::where('id', $request->properti_id)->first();
@@ -94,7 +96,12 @@ class UserController extends Controller
             $properti_id->save();
         }
 
-        return redirect()->route('user');
+        $penghuni_detail = new PenghuniDetail();
+        $penghuni_detail->penghuni_id = $user->id;
+        $penghuni_detail->properti_id = $properti_id->id;
+        $penghuni_detail->save();
+
+        return redirect()->route('user.rumah', $properti_id->id);
     }
 
     public function store(Request $request)
@@ -254,12 +261,12 @@ class UserController extends Controller
     {
         $properti = Properti::with('penghuni', 'pemilik')->where('id', $id)->first();
         $image = Properti_image::where('properti_id', $id)->get();
-
+        $riwayat_penghuni = PenghuniDetail::where('properti_id', $id)->get();
         // $penghuni = PenghuniDetail::with('user')->where('properti_id', $id)->first();
         // dd($penghuni);
         // $listing = Listing::findOrFail($id);
         // dd($listing);
-        return view('pages.properti.detail', ['properti' => $properti, 'image' => $image]);
+        return view('pages.properti.detail', ['properti' => $properti, 'image' => $image, 'penghuni'  => $riwayat_penghuni]);
     }
 
     public function addPenghuni($id)

@@ -15,8 +15,8 @@ class CreatePenghuniDetailTable extends Migration
     {
         Schema::create('penghuni_detail', function (Blueprint $table) {
             $table->id();
-            $table->integer('penghuni_id');
-            $table->integer('properti_id');
+            $table->integer('penghuni_id')->nullable();
+            $table->integer('properti_id')->nullable();
             $table->timestamps();
         });
     }

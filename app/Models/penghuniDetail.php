@@ -10,4 +10,9 @@ class penghuniDetail extends Model
     use HasFactory;
     protected $table = 'penghuni_detail';
     protected $fillable = ['penghuni_id', 'properti_id'];
+
+    public function penghuni()
+    {
+        return $this->hasOne(User::class, 'id', 'penghuni_id');
+    }
 }

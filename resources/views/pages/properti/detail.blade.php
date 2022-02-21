@@ -142,27 +142,13 @@
                             @php
                                 $no = 1;
                             @endphp
-                            {{-- @foreach ($banner as $bnr)
+                            @foreach ($penghuni as $bnr)
                                 <tr>
                                     <th scope="row">{{ $no++ }}</th>
-                                    <td>{{ $bnr->judul }}</td>
-                                    <td>{{ substr($bnr->link , 0, 40) }}</td>
-                                    <td><img id="images" onclick="image()" src="{{ asset('storage/' . $bnr->foto) }}"
-                                        style="height: 100px; width:200px; object-fit:cover" alt=""></td>
-                                    <td >
-                                        <div class="d-flex">
-                                            <a class="btn btn-warning" href="{{ route('banner.edit', $bnr->id) }}"><i
-                                                data-feather="edit"></i></a>
-
-                                            <button type="submit" data-id="{{$bnr-> id}}" class="btn btn-danger delete">
-                                                <i data-feather="trash"></i>
-                                            </button>
-                                        </div>
-
-
-                                    </td>
+                                    <td>{{ $bnr->penghuni->name }}</td>
+                                    <td>{{ $bnr->created_at }}</td>
                                 </tr>
-                            @endforeach --}}
+                            @endforeach
 
 
                         </tbody>
