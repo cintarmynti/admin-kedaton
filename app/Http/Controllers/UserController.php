@@ -12,6 +12,7 @@ use App\Models\PenghuniDetail;
 use Illuminate\Http\Request;
 use App\Models\Properti_image;
 use App\Models\tarif_ipkl;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\File;
 use Maatwebsite\Excel\Facades\Excel;
 use Intervention\Image\Facades\Image;
@@ -27,6 +28,23 @@ class UserController extends Controller
             ->get();
         // $properti = Properti::where()
         return view('pages.user.index', ['users' => $users]);
+    }
+
+    public function datatable(Request $request)
+    {
+        $query = User::where('user_status', 'pengguna');
+
+        return datatables($query)
+            ->addColumn('action', function ($row) {
+                $link = route('user.detail', $row->id);
+                return '<a class="mx-1" href="' . $link . '"><i data-feather="eye"></i></a>';
+            })
+            ->addColumn('created_at', function ($row) {
+                return Carbon::parse($row->created_at)->format('d F Y');
+            })
+            ->rawColumns(['action'])
+            ->escapeColumns([])
+            ->make();
     }
 
     public function export_excel()

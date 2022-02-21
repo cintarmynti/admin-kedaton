@@ -44,6 +44,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 
     Route::get('/user', [UserController::class, 'index'])->name('user');
+    Route::post('user-datatable', [UserController::class, 'datatable'])->name('user.datatable');
     Route::get('/user/create', [UserController::class, 'create'])->name('user.create');
     Route::post('/user/store', [UserController::class, 'store'])->name('user.store');
     Route::get('/user/delete/{id}', [UserController::class, 'delete'])->name('user.delete');

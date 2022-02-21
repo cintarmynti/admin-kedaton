@@ -8,7 +8,7 @@
                 <a class="btn btn-primary" href="{{ route('user.create') }}">Tambah Penghuni dan Properti</a>
                 <a href="/user/export_excel" class="btn btn-success my-3" target="_blank">EXPORT EXCEL</a>
             </p>
-            <table class="table" id="myTable">
+            <table class="table datatable-config" id="myTable">
                 <thead>
                     <tr>
                         <th scope="col">id</th>
@@ -26,48 +26,7 @@
                     </tr>
                 </thead>
                 <tbody id="images">
-                    @php
-                        $no = 1;
-                    @endphp
-                    @foreach ($users as $user)
-                        <tr>
-                            <th scope="row">{{ $no++ }}</th>
-                            <td>{{ $user->name }}</td>
-                            <td>{{ $user->nik }}</td>
-                            <td>{{ $user->created_at }}</td>
-                            {{-- <td>
 
-                            </td> --}}
-                            {{-- <td>{{$user->status_penghuni}}</td> --}}
-                            {{-- <td>{{ $user->alamat }}</td>
-                            <td>{{ $user->phone }}</td>
-                            <td >
-                                @if ($user->photo_identitas != null)
-                                    <img   src="{{ url('storage/' .$user->photo_identitas) }}" id="image" onclick="image()" style="height: 100px; width:150px; object-fit:cover" alt="">
-                                @endif
-                            </td> --}}
-                            {{-- <td><a href="/user/detail/{{ $user->id }}">lihat detail</a></td> --}}
-                            <td>
-                                <div class="d-flex">
-                                    {{-- <a class="mx-1" href="{{ route('user.edit', $user->id) }}"><i
-                                        data-feather="edit"></i></a> --}}
-
-                                    {{-- <button type="submit" class="mx-1 btn-danger delete" data-id="{{ $user->id }}"
-                                    data-nama="">
-                                    <i data-feather="trash"></i>
-                                </button> --}}
-
-                                    {{-- <a class="mx-1" href="{{ route('user.profile', $user->id) }}"><i
-                                            data-feather="user"></i></a> --}}
-
-                                    <a class="mx-1" href="{{ route('user.detail', $user->id) }}"><i
-                                            data-feather="eye"></i></a>
-                                </div>
-
-
-                            </td>
-                        </tr>
-                    @endforeach
 
 
                 </tbody>
@@ -83,23 +42,19 @@
 @endpush
 
 @push('after-script')
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
-    </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
         integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
     </script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
     </script>
-    <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.11.3/datatables.min.js"></script>
+    <script type="text/javascript" src="{{ asset('assets/plugins/DataTables/datatables.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/js/user/datatable.js') }}"></script>
 
     <script>
-        $(document).ready(function() {
-            $('#myTable').DataTable();
-        });
-    </script>
-    <script>
+        $(document).ready(function() {});
+        setTable();
+
         $('.delete').click(function() {
             var userId = $(this).attr('data-id')
             swal({
