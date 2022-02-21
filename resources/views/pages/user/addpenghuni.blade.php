@@ -10,13 +10,16 @@
                 @csrf
                 <div class="row">
                     <div class="col">
-                        <label for="formGroupExampleInput" class="form-label">NIK</label>
-                        <select id="nik" class="form-control select2" name="nik" data-tags="true" onchange="getUserDetail()">
+                        <label for="formGroupExampleInput">NIK</label>
+
+                        <input type="text" class="form-control" id="nik" name="nik" onkeydown="getUserDetail(this.value)"
+                            onkeyup="getUserDetail(this.value)">
+                        {{-- <select id="nik" class="form-control select2" name="nik" data-tags="true" onchange="getUserDetail()">
                             <option disabled selected="">Pilih NIK</option>
                             @foreach ($users as $user)
                                 <option value="{{ $user->nik }}">{{ $user->nik }}</option>
                             @endforeach
-                        </select>
+                        </select> --}}
                     </div>
                     <div class="col">
                         <label for="formGroupExampleInput" class="form-label">Nama</label>
@@ -88,6 +91,22 @@
         <script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
 
         <script>
+            $(function() {
+                $("#filePhoto2").change(function(event) {
+                    var x = URL.createObjectURL(event.target.files[0]);
+                    $("#output2").attr("src", x);
+                    console.log(event);
+                });
+            });
+
+            $(function() {
+                $("#filePhoto").change(function(event) {
+                    var x = URL.createObjectURL(event.target.files[0]);
+                    $("#output").attr("src", x);
+                    console.log(event);
+                });
+            });
+
             $(document).ready(function() {
                 $('.select2').select2({
                     placeholder: 'Pilih NIK',
@@ -97,7 +116,8 @@
 
             });
 
-            function getUserDetail() {
+            function getUserDetail(nik) {
+                const base = new URL('/', location.href).href;
                 var name = $('#name');
                 var phone = $('#phone');
                 var email = $('#email');
@@ -105,17 +125,25 @@
                 var alamat = $('#alamat');
                 var photo_identitas = $('#photo_identitas');
                 var photo_ktp = $('#photo_ktp');
-                var nik = $("#nik");
+                var photoImg = $('#output');
+                var ktpImg = $('#output2');
+                // var nik = $("#nik");
+
+                // $('#nik').on('keyup', function() {
+                //     search();
+                // });
+
+
 
                 $.ajax({
-                    url: '/user-detail-json/' + nik.val(),
+                    url: '/user-detail-json/' + nik,
                     type: "GET",
                     data: {
                         "_token": "{{ csrf_token() }}"
                     },
                     dataType: "json",
                     success: function(data) {
-                        console.log(data);
+                        // console.log(data);
                         if (jQuery.isEmptyObject(data)) {
                             name.attr('disabled', false).val('');
                             phone.attr('disabled', false).val('');
@@ -125,14 +153,17 @@
                             photo_identitas.attr('disabled', false);
                             photo_ktp.attr('disabled', false);
                         } else {
-                            name.attr('disabled', true).val(data.name);
-                            phone.attr('disabled', true).val(data.phone);
-                            email.attr('disabled', true).val(data.email);
-                            alamat.attr('disabled', true).val(data.alamat);
+                            console.log(data);
+                            console.log(data[0].name);
+                            name.attr('disabled', true).val(data[0].name);
+                            phone.attr('disabled', true).val(data[0].phone);
+                            email.attr('disabled', true).val(data[0].email);
+                            alamat.attr('disabled', true).val(data[0].alamat);
                             password.attr('disabled', true);
                             photo_identitas.attr('disabled', true);
                             photo_ktp.attr('disabled', true);
-
+                            photoImg.attr("src",base+'storage/'+data[0].photo_identitas);
+                            ktpImg.attr("src", base+'storage/'+data[0].photo_ktp);
                         }
                     }
                 });

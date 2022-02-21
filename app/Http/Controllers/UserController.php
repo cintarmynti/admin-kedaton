@@ -166,9 +166,10 @@ class UserController extends Controller
         return view('pages.user.edit', ['user' => $user]);
     }
 
-    public function detailJson($id)
+    public function detailJson($name)
     {
-        $user = User::whereNik($id)->first();
+        // $user = User::whereNik($id)->first();
+        $user=User::where('nik', $name)->get();
 
         return response()->json($user);
     }

@@ -184,7 +184,7 @@
                     $('#user_id').val(response.user_id);
                     $('#pembayaran_id').val(response.id);
                     $('#tagihan_id').val(response.tagihan_id);
-                    $('#bukti_tf').attr('src', APP_URL + '/bukti_tf/' + response.bukti_tf);
+                    $('#bukti_tf').attr('src', APP_URL + '/' +response.bukti_tf);
 
 
                 }

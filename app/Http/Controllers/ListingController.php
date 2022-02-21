@@ -23,12 +23,14 @@ use Symfony\Component\Console\Input\Input;
 class ListingController extends Controller
 {
     public function index(){
-        $listing = rev_listing::all();
+        $listing = rev_listing::orderby('created_at', 'desc')->get();
         return view('pages.listing.index', ['listing' => $listing]);
     }
 
     public function create(){
-        return view('pages.listing.create', ['properti' => Properti::all() ]);
+        $nomer = Properti::all();
+        $cluster = Cluster::all();
+        return view('pages.listing.create', ['properti' => Properti::all(), 'cluster' => $cluster ]);
     }
 
     // public function export_excel()
@@ -37,6 +39,7 @@ class ListingController extends Controller
 	// }
 
     public function store(Request $request){
+        // dd($request->all());
         $listing = new rev_listing();
         $listing->harga = $request->harga;
         $listing->name = $request->name;
@@ -96,7 +99,10 @@ class ListingController extends Controller
     }
 
     public function edit($id){
-        return view('pages.listing.edit', ['properti' => Properti::all(), 'listing'=> rev_listing::find($id)]);
+        $cluster = Cluster::all();
+        $properti = Properti::all();
+        $listing = rev_listing::with('properti')->find($id);
+        return view('pages.listing.edit', ['properti' => $properti, 'listing'=> $listing, 'cluster' => $cluster]);
     }
 
     public function update(Request $request, $id){

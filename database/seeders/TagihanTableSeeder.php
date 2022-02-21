@@ -21,7 +21,7 @@ class TagihanTableSeeder extends Seeder
             'properti_id' => 1,
             'periode_pembayaran' => Carbon::now(),
             'jumlah_pembayaran' => '286750',
-            'status' => 1,
+            'status' => 2,
             'type_id' => 1
         ]);
 
@@ -31,7 +31,7 @@ class TagihanTableSeeder extends Seeder
             'properti_id' => 1,
             'periode_pembayaran' => Carbon::now(),
             'jumlah_pembayaran' => '286750',
-            'status' => 1,
+            'status' => 2,
             'type_id' => 1
         ]);
 

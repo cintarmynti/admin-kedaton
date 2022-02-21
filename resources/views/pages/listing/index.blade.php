@@ -14,8 +14,8 @@
                         <th scope="col">No</th>
                         <th scope="col">name</th>
                         <th scope="col">status</th>
-                        <th scope="col">diskon</th>
                         <th scope="col">harga</th>
+                        <th scope="col">diskon</th>
                         <th scope="col">setelah diskons</th>
                         <th scope="col">detail bangunan</th>
                         <th scope="col">aksi</th>
@@ -30,10 +30,11 @@
                             <th scope="row">{{ $no++ }}</th>
                             <td>{{ $p->name }}</td>
                             <td>{{ $p->status }}</td>
-                            <td>{{ $p->diskon ?  $p->diskon  : '-'}}
+                              <td>Rp.{{$p->harga}}</td>
+                            <td>{{ $p->diskon ?  $p->diskon  : '-'}}%
 
                             </td>
-                            <td>Rp.{{ number_format($p->harga )}}</td>
+
                             <td>Rp.{{ number_format($p->setelah_diskon )}}</td>
                             <td><a href="{{ route('listing.detail', $p->properti_id) }}">lihat detail</a></td>
                             <td class="d-flex">

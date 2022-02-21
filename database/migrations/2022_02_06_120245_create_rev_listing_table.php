@@ -18,6 +18,7 @@ class CreateRevListingTable extends Migration
             $table->string('diskon')->nullable();
             $table->string('status');
             $table->integer('properti_id');
+            $table->integer('cluster_id')->nullable();
             $table->string('harga');
             $table->string('name');
             $table->string('image')->nullable();

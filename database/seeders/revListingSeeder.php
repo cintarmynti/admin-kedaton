@@ -17,6 +17,7 @@ class revListingSeeder extends Seeder
     {
         rev_listing::create([
             'id' => 1,
+            'cluster_id' => 2,
             'name' => 'Lukbre House',
             'diskon' => null,
             'status' => 'dijual',
@@ -28,6 +29,7 @@ class revListingSeeder extends Seeder
 
         rev_listing::create([
             'id' => 2,
+            'cluster_id' => 1,
             'name' => 'Lukbre House',
             'diskon' => null,
             'status' => 'disewa',
@@ -39,6 +41,7 @@ class revListingSeeder extends Seeder
 
         rev_listing::create([
             'id' => 3,
+            'cluster_id' => 1,
             'name' => 'Likey House',
             'diskon' => null,
             'status' => 'dijual',
@@ -50,6 +53,7 @@ class revListingSeeder extends Seeder
 
         rev_listing::create([
             'id' => 4,
+            'cluster_id' => 3,
             'name' => 'Twice House',
             'diskon' => '15',
             'status' => 'dijual',
@@ -61,6 +65,7 @@ class revListingSeeder extends Seeder
 
         rev_listing::create([
             'id' => 5,
+            'cluster_id' => 3,
             'name' => 'Fancy House',
             'diskon' => '20',
             'status' => 'dijual',
@@ -72,6 +77,7 @@ class revListingSeeder extends Seeder
 
         rev_listing::create([
             'id' => 6,
+            'cluster_id' => 2,
             'name' => 'Vanila House',
             'diskon' => '20',
             'status' => 'dijual',
@@ -83,6 +89,7 @@ class revListingSeeder extends Seeder
 
         rev_listing::create([
             'id' => 7,
+            'cluster_id' => 3,
             'name' => 'Taro House',
             'diskon' => '5',
             'status' => 'disewa',
@@ -95,6 +102,7 @@ class revListingSeeder extends Seeder
 
         rev_listing::create([
             'id' => 8,
+            'cluster_id' => 2,
             'name' => 'Taro House',
             'diskon' => '5',
             'status' => 'disewa',
@@ -106,6 +114,7 @@ class revListingSeeder extends Seeder
 
         rev_listing::create([
             'id' => 9,
+            'cluster_id' => 1,
             'name' => 'Sky House',
             'diskon' => null,
             'status' => 'dijual',
@@ -117,6 +126,7 @@ class revListingSeeder extends Seeder
 
         rev_listing::create([
             'id' => 10,
+            'cluster_id' => 1,
             'name' => 'blue House',
             'diskon' => null,
             'status' => 'dijual',
@@ -129,7 +139,7 @@ class revListingSeeder extends Seeder
 
         // rev_listing::create([
         //     'id' => 11,
-        //     'name' => 'charlie House', 
+        //     'name' => 'charlie House',
         //     'diskon' => null,
         //     'status' => 'disewa',
         //     'properti_id' => 11,

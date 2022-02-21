@@ -8,64 +8,76 @@
         <form action="{{route('listing.update', $listing->id)}}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('put')
+
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-5">
                     <label for="formGroupExampleInput" class="form-label">Name</label>
                     <input value="{{ old('name', $listing->name) }}" type="text" required class="form-control" name="name"
                         aria-label="First name">
                 </div>
-                <div class="col">
-                    <label for="" class="form-label">Masukkan Gambar</label>
-                    <input id="filePhoto" type="file" class="form-control" name="image" placeholder="address">
-                    <img class="mt-3" id="output" src="{{ asset('storage/' . $listing->image ) }}" style="max-width: 100px; max-height:100px" >
+                <div class="col-md-5">
+                    <label for="formGroupExampleInput" class="form-label">Harga</label>
+
+                    <input value="{{ old('harga', $listing->harga) }}" type="text" required class="form-control money" id="harga"
+                        onkeyup="onchange_comma(this.id, this.value)" name="harga">
                 </div>
             </div>
 
 
-            <div class="row mt-4">
-
-                <div class="col">
-                    <label for="formGroupExampleInput" class="form-label">Properti</label>
-                    <select class="form-select multiple2" name="properti_id" aria-label="Default select example">
-                        <option disabled selected="">Pilih Properti</option>
-                        @foreach ($properti as $p)
-                            <option value="{{ $p->id }}" {{ $p->id == $listing->properti_id ? 'selected' : '' }}>{{ $p->alamat }}</option>
+            <div class="row mt-3">
+                <div class="col-md-4">
+                    <label for="">Pilih Cluster</label>
+                    <select class="form-select" name="cluster_id" id="cluster">
+                        <option hidden>Pilih Cluster</option>
+                        @foreach ($cluster as $item)
+                            <option value="{{ $item->id }}" {{$item->id == $listing->cluster_id ? 'selected' : ''}}>{{ $item->name }}</option>
                         @endforeach
+                    </select>
 
+                </div>
+
+                <div class="col-md-3">
+                    <label for="no_rmh" class="form-label">Pilih No Rumah</label>
+                    <select class="form-select" name="properti_id" id="no_rmh">
+                        <option value="{{$listing->properti_id}}" selected >{{$listing->properti->no_rumah}}</option>
                     </select>
                 </div>
-                <div class="col">
+                <div class="col-md-3">
                     <label for="formGroupExampleInput" class="form-label">Status Kepemilikan</label>
 
                     <select class="form-select" name="status" aria-label="Default select example">
                         <option disabled selected="">Pilih Status Kepemilikan</option>
-                        <option value="dihuni" {{ "dihuni" == $listing->status ? 'selected' : '' }}>dihuni</option>
-                        <option value="disewakan" {{ "disewakan" == $listing->status ? 'selected' : '' }}>disewakan</option>
-                        <option value="dijual" {{ "dijual" == $listing->status ? 'selected' : '' }}>dijual</option>
+                        @if ($listing->status = 'desewakan')
+                        <option value="disewakan" selected>disewakan</option>
+                        <option value="dijual">dijual</option>
+                        @elseif($listing->status = 'dijual')
+                        <option value="disewakan" >disewakan</option>
+                        <option value="dijual" selected>dijual</option>
+                        @endif
+                        <option value="disewakan">disewakan</option>
+                        <option value="dijual">dijual</option>
                     </select>
                 </div>
             </div>
 
-            <div class="row mt-4">
-                <div class="col">
-                    <label for="formGroupExampleInput" class="form-label">Harga</label>
+            <div class="row mt-3">
 
-                    <input value="{{ old('harga', $listing->harga) }}" type="text" required class="form-control money"
-                     id="harga" onkeyup="onchange_comma(this.id, this.value)" name="harga">
-                </div>
 
                 <div class="col-md-4">
                     <label for="formGroupExampleInput" class="form-label">Diskon</label>
-                    <div class="input-group mb-3">
+                    <div class="input-group">
                         <input value="{{ old('diskon', $listing->diskon) }}" type="number" min="0" required name="diskon"
-                            class="form-control"  aria-label="Recipient's username"
-                            aria-describedby="basic-addon2">
+                            class="form-control" aria-label="Recipient's username" aria-describedby="basic-addon2">
                         <span class="input-group-text" id="basic-addon2">%</span>
                     </div>
                 </div>
+                <div class="col-md-6">
+                    <label for="" class="form-label">Masukkan Gambar</label>
+                    <input id="filePhoto" type="file" class="form-control" name="image" placeholder="address">
+                    <img class="mt-3" id="output" src="{{ asset('storage/' . $listing->image ) }}" style="max-width: 200px; max-height:200px" >
+                </div>
 
             </div>
-
 
 
             <a href="{{ route('listing') }}" class="btn btn-warning mt-4">kembali</a>
@@ -115,6 +127,56 @@
             $("#" + id).val(x);
         }
     </script>
+
+<script>
+    $(document).ready(function() {
+        $('#cluster').on('change', function() {
+            var clusterID = $(this).val();
+            if (clusterID) {
+                $.ajax({
+                    url: '/ipkl/cluster/' + clusterID,
+                    type: "GET",
+                    data: {
+                        "_token": "{{ csrf_token() }}"
+                    },
+                    dataType: "html",
+                    success: function(data) {
+                        $('#no_rmh').html(data);
+                        $('#no_rmh').trigger('change');
+                    }
+                });
+            } else {
+                $('#no_rmh').empty();
+            }
+        });
+    });
+
+    $(function() {
+        $("#filePhoto").change(function(event) {
+            var x = URL.createObjectURL(event.target.files[0]);
+            $("#output").attr("src", x);
+            console.log(event);
+        });
+    });
+    $(document).ready(function() {
+        $('.select2').select2({
+            // placeholder: 'Select Cluster',
+            theme: 'bootstrap4',
+            tags: true
+        })
+
+        $('.multiple2').select2({
+            // placeholder: 'Select Cluster',
+            theme: 'bootstrap4',
+        })
+        // alert('halo');
+    })
+
+    function onchange_comma(id, value) {
+        var x = numeral($("#" + id).val()).format('0,0');
+        $("#" + id).val(x);
+    }
+</script>
 @endpush
 
 @push('before-style')

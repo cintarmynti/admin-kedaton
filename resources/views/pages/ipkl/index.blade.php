@@ -22,14 +22,21 @@
                                 <select class="form-select" name="status" id="status" value="{{request()->status}}" aria-label="Default select example">
                                     <option selected="" value="" disabled>pilih status pembayaran</option>
                                     @if (request()->status == 1)
-                                    <option value="1" selected>Pending</option>
-                                    <option value="2">Sudah Dibayar</option> --}}
+                                    <option value="1" selected>Belum Dibayar</option>
+                                    <option value="2">Pending</option>
+                                    <option value="3">Sudah Dibayar</option>
                                     @elseif (request()->status == 2)
-                                    <option value="1">Pending</option>
-                                    <option value="2" selected>Sudah Dibayar</option>
+                                    <option value="1" >Belum Dibayar</option>
+                                    <option value="2" selected>Pending</option>
+                                    <option value="3">Sudah Dibayar</option>
+                                    @elseif (request()->status == 3)
+                                    <option value="1">Belum Dibayar</option>
+                                    <option value="2">Pending</option>
+                                    <option value="3" selected>Sudah Dibayar</option>
                                     @elseif (request()->status == null)
-                                    <option value="1">Pending</option>
-                                    <option value="2">Sudah Dibayar</option>
+                                    <option value="1">Belum Dibayar</option>
+                                    <option value="2">Pending</option>
+                                    <option value="3">Sudah Dibayar</option>
                                     @endif
                                   </select>
                             </div>
@@ -87,15 +94,21 @@
 
                             <td><span
                                     class="badge @if ($i->status == 1)
+                                        bg-danger
+                                    @elseif($i->status == 2)
                                         bg-warning
                                     @else
                                         bg-success
-                                    @endif ">
+                                    @endif
+                                    "/>
                                     @if ($i->status == 1)
+                                         belum dibayar
+                                    @elseif($i->status == 2)
                                          pending
                                     @else
-                                        sudah dibayar
+                                        success
                                     @endif
+
                                 </span>
                             </td>
                             <td><a href="{{route('ipkl.pembayar', $i->id)}}">lihat</a></td>

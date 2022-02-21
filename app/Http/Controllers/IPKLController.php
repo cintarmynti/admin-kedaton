@@ -22,7 +22,7 @@ class IPKLController extends Controller
     {
         $start_date = Carbon::parse($request->start_date);
         $end_date = Carbon::parse($request->end_date);
-        $query = Tagihan::with('nomer', 'cluster');
+        $query = Tagihan::with('nomer', 'cluster')->orderby('created_at', 'desc');
         // dd($start_date);
 
         if($request -> start_date){
@@ -160,7 +160,7 @@ class IPKLController extends Controller
                 'status' => 2
             ]);
             Tagihan::where('id', $request->tagihan_id)->update([
-                'status' => 2
+                'status' => 3
             ]);
         }
         return redirect('/ipkl');

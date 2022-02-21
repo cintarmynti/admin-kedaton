@@ -31,7 +31,7 @@ class TagihanExport implements FromCollection, WithHeadings, ShouldAutoSize, Wit
     {
 
         $query = Tagihan::with('nomer', 'cluster','type');
-       
+
         if( $this->from){
             $query->whereBetween('periode_pembayaran',[ $this->from, $this->to]);
 
@@ -45,6 +45,14 @@ class TagihanExport implements FromCollection, WithHeadings, ShouldAutoSize, Wit
     }
 
     public function map($tagihan) : array {
+         if($tagihan->status == 1){
+            $status = 'belum membayar';
+        }else if($tagihan->status == 2){
+            $status = 'pending';
+        }else{
+            $status = 'sudah membayar';
+        }
+
         return [
             $tagihan->id,
             $tagihan->cluster->name,
@@ -52,7 +60,8 @@ class TagihanExport implements FromCollection, WithHeadings, ShouldAutoSize, Wit
             $tagihan->periode_pembayaran,
             $tagihan->jumlah_pembayaran,
             $tagihan->type->name,
-            $tagihan->status == 2  ? 'Sudah dibayar' : 'pending',
+            $status
+            // $tagihan->status == 2  ? 'Sudah dibayar' : 'pending',
         ];
     }
 
