@@ -106,8 +106,8 @@
 
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary ml-4 mt-4">Simpan</button>
                 <a href="{{ route('properti') }}" class="btn btn-warning mt-4">Kembali</a>
+                <button type="submit" class="btn btn-primary ml-4 mt-4">Simpan</button>
             </form>
         </div>
     </div>

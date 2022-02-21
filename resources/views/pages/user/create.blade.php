@@ -41,7 +41,7 @@
                     <div class="col-md-12"></div>
                     <div class="col-md-4">
                         <label for="formGroupExampleInput" class="form-label ">Foto Pengguna</label>
-                        <input value="" type="file" id="" required class="form-control" name="photo_identitas"
+                        <input value="" type="file" id="filePhoto" required class="form-control" name="photo_identitas"
                             aria-label="First name">
                         <img id="output" class="mt-3" style="max-height: 200px; max-width: 300px">
                     </div>
@@ -122,7 +122,7 @@
                         </div>
                     </div>
                     <div class="col-md-12">
-                        <a href="{{ route('properti') }}" class="btn btn-warning mt-4">kembali</a>
+                        <a href="{{ route('user') }}" class="btn btn-warning mt-4">kembali</a>
                         <button type="submit" class="btn btn-primary ml-4 mt-4">Simpan</button>
                     </div>
                 </div>
@@ -182,6 +182,11 @@
                 console.log(event);
             });
 
+            $("#filePhoto2").change(function(event) {
+                var x = URL.createObjectURL(event.target.files[0]);
+                $("#output2").attr("src", x);
+                console.log(event);
+            });
         });
 
         var inc = 0;
