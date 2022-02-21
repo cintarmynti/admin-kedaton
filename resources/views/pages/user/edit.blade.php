@@ -41,7 +41,7 @@
                     @if ($user->photo_identitas == null)
 
                     @else
-                    <img id="output"  src="{{ asset('user_photo/' . $user->photo_identitas) }}" class="mt-3 " style="max-height: 200px; max-width: 300px">
+                    <img id="output"  src="{{ asset('storage/' . $user->photo_identitas) }}" class="mt-3 " style="max-height: 200px; max-width: 300px">
                     @endif
 
                 </div>
