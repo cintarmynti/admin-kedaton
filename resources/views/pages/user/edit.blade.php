@@ -63,6 +63,24 @@
                         <input type="file" id="filePhoto2" class="form-control" name="photo_ktp" aria-label="First name">
                     </div>
                 </div>
+                {{-- <div class="col">
+                    <label for="formGroupExampleInput" class="form-label">Foto Pengguna</label>
+                  <input type="file" id="filePhoto"  class="form-control" name="photo_identitas"  aria-label="First name">
+                    @if ($user->photo_identitas == null)
+
+                    @else
+                    <img id="output"  src="{{ asset('storage/' . $user->photo_identitas) }}" class="mt-3 " style="max-height: 200px; max-width: 300px">
+                    @endif
+
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-md-4">
+                    <label for="formGroupExampleInput" class="form-label">Alamat</label>
+                  <input type="text" value="{{old('alamat', $user->alamat)}}"  class="form-control" name="alamat"  aria-label="First name">
+                </div>
+            </div> --}}
 
 
 
@@ -90,6 +108,11 @@
             $("#filePhoto").change(function(event) {
                 var x = URL.createObjectURL(event.target.files[0]);
                 $("#output").attr("src", x);
+                console.log(event);
+            });
+            $("#filePhoto2").change(function(event) {
+                var x = URL.createObjectURL(event.target.files[0]);
+                $("#output2").attr("src", x);
                 console.log(event);
             });
         });

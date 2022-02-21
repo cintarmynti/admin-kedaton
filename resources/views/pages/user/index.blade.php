@@ -43,7 +43,7 @@
                             <td>{{ $user->phone }}</td>
                             <td >
                                 @if ($user->photo_identitas != null)
-                                    <img   src="{{ url('storage/' .$user->photo_identitas) }}" id="image" onclick="image()" style="height: 100px; width:150px; object-fit:cover" alt="">
+                                    <img src="{{ asset('storage/' . $user->photo_identitas) }}" id="image" onclick="image()" style="height: 100px; width:150px; object-fit:cover" alt="">
                                 @endif
                             </td> --}}
                             {{-- <td><a href="/user/detail/{{ $user->id }}">lihat detail</a></td> --}}

@@ -27,7 +27,7 @@ class PropertiController extends Controller
 {
     public function index()
     {
-        $properti = Properti::all();
+        $properti = Properti::orderBy('id', 'desc')->get();
         return view('pages.properti.index', ['properti' => $properti]);
     }
 
