@@ -26,7 +26,7 @@ class PropertiController extends Controller
 {
     public function index()
     {
-        $properti = Properti::all();
+        $properti = Properti::orderBy('id', 'desc')->get();
         return view('pages.properti.index', ['properti' => $properti]);
     }
 
@@ -152,7 +152,7 @@ class PropertiController extends Controller
         $image = Properti_image::where('properti_id', $id)->get();
         // $listing = Listing::findOrFail($id);
         // dd($listing);
-      
+
         // dd($riwayat_penghuni);
         return view('pages.properti.detail', ['properti' => $properti, 'image' => $image]);
     }
