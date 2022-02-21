@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\TagihanExport;
 use App\Models\IPKL;
 use App\Models\Cluster;
 use App\Models\Listing;
@@ -13,14 +14,26 @@ use App\Models\Tagihan;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Carbon;
 use App\Models\Rumah;
+use Maatwebsite\Excel\Facades\Excel;
 
 class IPKLController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $ipkl = Tagihan::with('nomer', 'cluster')->get();
-        // dd($ipkl);
-        return view('pages.ipkl.index', ['ipkl' => $ipkl]);
+        $start_date = Carbon::parse($request->start_date);
+        $end_date = Carbon::parse($request->end_date);
+        $query = Tagihan::with('nomer', 'cluster');
+        // dd($start_date);
+
+        if($request -> start_date){
+            $query->whereBetween('periode_pembayaran',[$start_date,$end_date]);
+        }
+
+        if($request -> status){
+            $query -> where('status', $request->status);
+        }
+
+        return view('pages.ipkl.index', ['ipkl' => $query->get()]);
     }
 
     public function getIPKLid($id)
@@ -43,7 +56,22 @@ class IPKLController extends Controller
         // return response()->json($Listing);
     }
 
+    public function export_excel(Request $request){
+        if(!$request->start_date){
+            $from = '';
+        }else{
+            $from = Carbon::parse($request->start_date);
+        }
 
+        if(!$request->end_date){
+            $to = '';
+        }else{
+            $to = Carbon::parse($request->end_date);
+        }
+        $status = $request->status;
+
+        return Excel::download(new TagihanExport($from, $to, $status), 'Tagihan.xlsx');
+    }
 
     public function create()
     {
@@ -95,7 +123,6 @@ class IPKLController extends Controller
                 'status' => 2
             ]);
         }
-
         return redirect('/ipkl');
     }
 
@@ -114,7 +141,7 @@ class IPKLController extends Controller
 
      public function create_riwayat(Request $request)
      {
-
+        // dd($request->all());
 
         $riwayat = new Notifikasi();
         $riwayat -> user_id = $request->user_id;

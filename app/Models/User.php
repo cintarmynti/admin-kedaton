@@ -22,8 +22,10 @@ class User extends Authenticatable
         'alamat',
         'phone',
         'photo_identitas',
+        'photo_ktp',
         'user_status',
-        'password'
+        'password',
+        'status_penghuni',
 
     ];
 

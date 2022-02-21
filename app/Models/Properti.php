@@ -10,23 +10,26 @@ class Properti extends Model
     use HasFactory;
     protected $table = 'properti';
     protected $fillable = [
-    'pemilik_id',
-    'cluster_id',
-    'no_rumah',
-    'no_listrik',
-    'no_pam_bsd',
-    'penghuni_id',
-    'alamat',
-    'RT',
-    'RW',
-    'lantai',
-    'jumlah_kamar',
-    'luas_tanah',
-    'luas_bangunan',
-    'tarif_ipkl',
-    'status',
-    'harga'
- ];
+        'pemilik_id',
+        'cluster_id',
+        'no_rumah',
+        'no_listrik',
+        'no_pam_bsd',
+        'penghuni_id',
+        'alamat',
+        'RT',
+        'RW',
+        'lantai',
+        'jumlah_kamar',
+        'luas_tanah',
+        'luas_bangunan',
+        'tarif_ipkl',
+        'status',
+        'harga',
+        'kamar_mandi',
+        'carport'
+    ];
+
 
     public function pemilik()
     {
@@ -41,5 +44,4 @@ class Properti extends Model
     {
         return $this->hasOne(Cluster::class, 'id', 'cluster_id');
     }
-
 }

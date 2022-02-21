@@ -11,7 +11,7 @@
       </li> --}}
 
       <li class="{{ Request::is('user*') ? 'active-page' : '' }}">
-        <a href="{{route('user')}}"><i data-feather="user"></i>Pengguna</a>
+        <a href="{{route('user')}}"><i data-feather="user"></i>Penghuni</a>
       </li>
 {{--
       <li class="{{ Request::is('rumah-pengguna*') ? 'active-page' : '' }}">
@@ -19,7 +19,7 @@
       </li> --}}
 
       <li class="{{ Request::is('properti*') ? 'active-page' : '' }}">
-        <a href="{{route('properti')}}"><i data-feather="home"></i>Rumah</a>
+        <a href="{{route('properti')}}"><i data-feather="home"></i>Properti</a>
       </li>
 
       <li class="{{ Request::is('listing*') ? 'active-page' : '' }}">

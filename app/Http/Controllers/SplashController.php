@@ -43,6 +43,7 @@ class SplashController extends Controller
         $rule = [
             "judul" => "required|max:120",
             "gambar" => "required|image|file",
+            "desc" => "required"
         ];
         $validated = $request->validate($rule);
 
@@ -102,6 +103,8 @@ class SplashController extends Controller
         $rule = [
             "judul" => "required|max:120",
             "gambar" => "image|file",
+            "desc" => "required"
+        
         ];
         $validated = $request->validate($rule);
         $splash = Splash::findOrFail($id);

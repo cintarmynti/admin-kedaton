@@ -6,8 +6,60 @@
             <h5 class="card-title">Daftar Tagihan IPKL</h5>
             <p class="card-description">
                 <a class="btn btn-primary" href="{{ route('ipkl.create') }}">Tambah IPKL</a>
+                <button type="button" onclick="excel()" class="btn btn-success my-3" target="_blank">EXPORT EXCEL</button>
+                <form action="/ipkl" method="GET">
+                    <div class="row">
+                            <div class="col-md-3">
+                                <label for="">Mulai Tanggal</label>
+                                <input type="date" id="from_date" class="form-control" value="{{request()->start_date}}" name="start_date">
+                            </div>
+                            <div class="col-md-3">
+                                <label for="">Sampai Tanggal</label>
+                                <input type="date" id="to_date" class="form-control" value="{{request()->end_date}}" name="end_date">
+                            </div>
+                            <div class="col-md-3">
+                                <label for="">Status Pembayaran</label>
+                                <select class="form-select" name="status" id="status" value="{{request()->status}}" aria-label="Default select example">
+                                    <option selected="" value="" disabled>pilih status pembayaran</option>
+                                    @if (request()->status == 1)
+                                    <option value="1" selected>Pending</option>
+                                    <option value="2">Sudah Dibayar</option> --}}
+                                    @elseif (request()->status == 2)
+                                    <option value="1">Pending</option>
+                                    <option value="2" selected>Sudah Dibayar</option>
+                                    @elseif (request()->status == null)
+                                    <option value="1">Pending</option>
+                                    <option value="2">Sudah Dibayar</option>
+                                    @endif
+                                  </select>
+                            </div>
+                            <div class="col-md-3">
+                                <br>
+                                <button class="btn btn-primary" type="submit"><i data-feather="search"></i></button>
+                                <a href="/ipkl" class="btn btn-primary" type="button">Refresh</a>
+
+                            </div>
+                    </div>
+                    </form>
+                    {{-- <form action="/ipkl" method="GET">
+                        <div class="row">
+                                <div class="col-md-4">
+                                    <select class="form-select" name="status" aria-label="Default select example">
+                                        <option selected="">pilih status pembayaran</option>
+                                        <option value="1">Pending</option>
+                                        <option value="2">Sudah Dibayar</option>
+                                      </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <button class="btn btn-primary" type="submit">GET</button>
+                                    <a href="/ipkl" class="btn btn-primary" type="button">Refresh</a>
+
+                                </div>
+                        </div>
+                        </form> --}}
             </p>
-            <table class="table" id="myTable">
+
+            <table class="table mt-5" id="myTable">
                 <thead>
                     <tr>
                         <th scope="col">id</th>
@@ -31,7 +83,7 @@
                             <td>{{ $i->cluster->name }}</td>
                             <td>{{ $i->nomer->no_rumah }}</td>
                             <td>{{ $i->periode_pembayaran }}</td>
-                            <td>{{ $i->jumlah_pembayaran }}</td>
+                            <td>Rp.{{ number_format($i->jumlah_pembayaran )}}</td>
 
                             <td><span
                                     class="badge @if ($i->status == 1)
@@ -94,12 +146,11 @@
 @endpush
 
 @push('after-script')
+    <script>
+        console.log('halo');
+    </script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-    {{-- <script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script> --}}
-    {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script> --}}
-    {{-- <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script> --}}
-    {{-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script> --}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
         integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
     </script>
@@ -111,6 +162,22 @@
         $(document).ready(function() {
             $('#myTable').DataTable();
         });
+
+        var APP_URL = {!! json_encode(url('/')) !!}
+        console.log(APP_URL);
+
+        function excel(){
+
+            var fromDate = $('#from_date').val();
+            // alert('halo');
+            var toDate = $('#to_date').val();
+            var status = $('#status').val();
+            console.log(toDate);
+            if(status == null){
+                window.open(`${APP_URL}/ipkl/export_excel?start_date=${fromDate}&end_date=${toDate}`)
+            }
+            window.open(`${APP_URL}/ipkl/export_excel?start_date=${fromDate}&end_date=${toDate}&status=${status}`)
+        }
     </script>
     <script>
         // console.log(APP_URL);
@@ -126,51 +193,9 @@
             });
         }
 
-        $('.delete').click(function() {
-            var userId = $(this).attr('data-id')
-            swal({
-                    title: "Yakin Menghapus?",
-                    text: "Data yang sudah dihapus tidak akan ditampilkan!",
-                    icon: "warning",
-                    buttons: true,
-                    dangerMode: true,
-                })
-                .then((willDelete) => {
-                    if (willDelete) {
-                        window.location = "/ipkl/delete/" + userId;
-                        swal("Data berhasil dihapus!", {
-                            icon: "success",
-                        });
-                    } else {
-                        swal("Data anda batal dihapus!");
-                    }
-                });
-        });
+
     </script>
-    <script>
-        var APP_URL = {!! json_encode(url('/')) !!}
-        console.log(APP_URL);
-        $('#exampleModal').on('show.bs.modal', function(event) {
-            var button = $(event.relatedTarget)
-            var id = button.data('riwayat_id')
 
-            $.ajax({
-                type: 'get',
-                url: "/ipkl/riwayat/" + id,
-                dataType: 'json',
-                success: function(response) {
-                    console.log(response);
-
-                    $('#tagihan_id').val(response.id);
-                    $('#no_rumah').val(response.rumah_id);
-                    $('#bukti_tf').attr('src', APP_URL + '/bukti_tf/' + response.bukti_tf);
-
-
-                }
-            });
-
-        })
-    </script>
 @endpush
 
 @push('before-style')

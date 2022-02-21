@@ -56,6 +56,20 @@
 
             <div class="row mt-4 border border-5">
                 <div class="col border-end">
+                    <p><b>Kamar Mandi</b></p>
+                    <p>{{ $properti->kamar_mandi }}</p>
+                </div>
+
+                <div class="col">
+                    <p><b>Carport</b></p>
+                    <p>{{ $properti->carport }}</p>
+                </p>
+
+                </div>
+            </div>
+
+            <div class="row mt-4 border border-5">
+                <div class="col border-end">
                     <p><b>Luas Kavling</b></p>
                     <p>{{ $properti->luas_tanah }}</p>
                 </div>
@@ -78,16 +92,6 @@
                 </div>
             </div>
 
-            <div class="row mt-4 border border-5">
-                <div class="col border-end">
-                    <p><b>Status</b></p>
-                    <p>{{ $properti->status }}</p>
-                </div>
-                <div class="col">
-                    <p><b>Harga</b></p>
-                    <p>{{ $properti->harga }}</p>
-                </div>
-            </div>
 
             <div class="row mt-4 border border-5">
                 <div class="col border-end">
@@ -97,7 +101,7 @@
 
                 <div class="col">
                     <p><b>Biaya IPKL</b></p>
-                    <p>Rp {{ number_format($properti->tarif_ipkl, 2, ',', '.') }}</p>
+                    <p>Rp {{ number_format($properti->tarif_ipkl, 2, ',', '.') }} / Bulan</p>
 
                 </div>
             </div>
@@ -114,12 +118,47 @@
 
             </div>
 
+
+
+            <a href="{{ url()->previous() }}" class="btn btn-warning mt-4">kembali</a>
+
+
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Riwayat Penghuni</h5>
+                    {{-- <p class="card-description">
+                        <a class="btn btn-primary" href="{{ route('banner.create') }}">Tambah Banner</a>
+                    </p> --}}
+                    <table class="table" id="myTable">
+                        <thead>
+                            <tr>
+                                <th scope="col">id</th>
+                                <th scope="col">Nama</th>
+                                <th scope="col">tanggal</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @php
+                                $no = 1;
+                            @endphp
+                            @foreach ($penghuni as $bnr)
+                                <tr>
+                                    <th scope="row">{{ $no++ }}</th>
+                                    <td>{{ $bnr->penghuni->name }}</td>
+                                    <td>{{ $bnr->created_at }}</td>
+                                </tr>
+                            @endforeach
+
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
 
-        <div class="m-4">
-            <a href="{{ route('properti') }}" class="btn btn-warning mt-4">kembali</a>
 
-        </div>
+
 
 
     </div>

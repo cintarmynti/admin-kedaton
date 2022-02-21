@@ -151,6 +151,7 @@ class UserController extends Controller
         $user -> email = $request -> email;
         $user -> nik = $request -> nik;
         $user -> alamat = $request -> alamat;
+        $user-> password = bcrypt($request->password);  
         $user -> phone = $request -> phone;
         $user -> photo_identitas = $imageName;
         $user->update();

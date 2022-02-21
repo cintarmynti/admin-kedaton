@@ -7,6 +7,7 @@ use App\Http\Controllers\API\IPKLController;
 use App\Http\Controllers\API\LayananController;
 use App\Http\Controllers\API\NotifikasiController;
 use App\Http\Controllers\API\ListingController;
+use App\Http\Controllers\API\PanicButtonController;
 use App\Http\Controllers\API\PropertiController;
 use App\Models\Properti;
 use Illuminate\Http\Request;
@@ -41,9 +42,12 @@ Route::post('register', [UserController::class, 'register']);
 Route::get('profile', [UserController::class, 'profile']);
 Route::post('profile-update/{id}', [UserController::class, 'update']);
 
+Route::post('panic-button', [PanicButtonController::class, 'store']);
+
 Route::post('create-properti', [PropertiController::class, 'store']);
 Route::post('edit-properti/{id}', [PropertiController::class, 'edit']);
 Route::get('get-properti-user', [PropertiController::class, 'index']);
+Route::post('create-penghuni', [PropertiController::class, 'addPenghuni']);
 
 Route::post('bayar-ipkl', [IPKLController::class, 'store']);
 Route::get('sudah-acc', [IPKLController::class, 'ipklAcc']);

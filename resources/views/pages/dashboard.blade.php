@@ -7,7 +7,7 @@
                 <div class="card-body">
                     <h5 class="card-title">Jumlah Pengguna</h5>
                     <h2>{{ $customer }}</h2>
-                    <p>pengguna</p>
+                    <p><a href="{{route('user')}}">pengguna</a> </p>
                 </div>
             </div>
         </div>
@@ -16,7 +16,7 @@
                 <div class="card-body">
                     <h5 class="card-title">Listing disewakan</h5>
                     <h2>{{ $disewakan }}</h2>
-                    <p>Orders in waitlist</p>
+                    <p><a href="{{route('listing')}}">listing</a></p>
                 </div>
             </div>
         </div>
@@ -25,7 +25,7 @@
                 <div class="card-body">
                     <h5 class="card-title">Listing dijual</h5>
                     <h2>{{ $dijual }}</h2>
-                    <p>Orders in waitlist</p>
+                    <p><a href="{{route('listing')}}">listing</a></p>
 
                 </div>
             </div>
@@ -35,7 +35,7 @@
                 <div class="card-body">
                     <h5 class="card-title">Complain</h5>
                     <h2>{{ $complain }}</h2>
-                    <p>Orders in waitlist</p>
+                    <p><a href="{{route('complain')}}">Complain</a></p>
 
                 </div>
             </div>

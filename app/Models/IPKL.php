@@ -15,6 +15,10 @@ class IPKL extends Model
     //     return $this->hasOne(Listing::class, 'id', 'listing_id');
     // }
 
+    public function tagihan(){
+        return $this->hasOne(Tagihan::class, 'id', 'tagihan_id');
+    }
+
     public function user(){
         return $this->hasOne(User::class, 'id', 'user_id');
     }

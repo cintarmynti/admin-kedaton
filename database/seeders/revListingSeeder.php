@@ -127,15 +127,15 @@ class revListingSeeder extends Seeder
         ]);
 
 
-        rev_listing::create([
-            'id' => 11,
-            'name' => 'charlie House',
-            'diskon' => null,
-            'status' => 'disewa',
-            'properti_id' => 11,
-            'harga' => 21000000,
-            'image' => '/properti_photo/'.'1644407816205.png',
-            'setelah_diskon' => null
-        ]);
+        // rev_listing::create([
+        //     'id' => 11,
+        //     'name' => 'charlie House', 
+        //     'diskon' => null,
+        //     'status' => 'disewa',
+        //     'properti_id' => 11,
+        //     'harga' => 21000000,
+        //     'image' => '/properti_photo/'.'1644407816205.png',
+        //     'setelah_diskon' => null
+        // ]);
     }
 }
