@@ -33,7 +33,7 @@
                     <th scope="row">{{$no++}}</th>
                     <td>{{$item->user->name}}</td>
                     {{-- <td>{{$item->tagihan_id}}</td> --}}
-                    <td>{{$item->periode_pembayaran}}</td>
+                    <td>{{$item->created_at}}</td>
                     <td>{{$item->bank}}</td>
                     <td>{{$item->bukti_tf}}</td>
                     <td>Rp.{{ number_format($item->nominal )}}</td>

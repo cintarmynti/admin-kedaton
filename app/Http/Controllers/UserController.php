@@ -199,6 +199,8 @@ class UserController extends Controller
             $user->photo_identitas = $img_path;
         }
 
+        // dd($user->photo_identitas);
+
         if ($request->hasFile('photo_ktp')) {
             Storage::disk('public')->delete($user->photo_ktp);
             $img = Image::make($request->file('photo_ktp'));
@@ -212,7 +214,12 @@ class UserController extends Controller
             $user->photo_ktp = $img_path;
             // dd($img_path);
         }
-        $user->update();
+
+        // dd($user->photo_ktp);
+        // dd($user);
+
+        $user->save();
+
 
         if ($user) {
             Alert::success('Data berhasil diupdate');

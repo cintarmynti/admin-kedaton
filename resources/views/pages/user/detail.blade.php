@@ -54,6 +54,8 @@
                 <div class="col-md-2">
                     <label for="formGroupExampleInput" class="form-label ">Foto KTP</label>
                     <br>
+                    {{-- {{dd($user->photo_identitas)}} --}}
+                    {{-- {{dd($user->photo_ktp)}} --}}
                     <img id="output2" class="mt-3 w-100" src="{{ asset('storage/' . $user->photo_ktp) }}">
                 </div>
             </div>
