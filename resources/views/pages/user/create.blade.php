@@ -175,6 +175,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js" defer></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
     <script type="text/javascript">
+
         $(function() {
             $("#filePhoto").change(function(event) {
                 var x = URL.createObjectURL(event.target.files[0]);
@@ -189,7 +190,15 @@
             });
         });
 
-        $(function() {
+vent) {
+                var x = URL.createObjectURL(event.target.files[0]);
+                $("#output2").attr("src", x);
+                console.log(event);
+            });
+
+        });
+
+ter        $(function() {
             $("#filePhoto2").change(function(event) {
                 var x = URL.createObjectURL(event.target.files[0]);
                 $("#output2").attr("src", x);
@@ -198,12 +207,7 @@
 
         });
 
-        var inc = 0;
-
-        function tambahRumah() {
-            var id = $("#no_rmh").val();
-            var nomer = $("#no_rmh option:selected").text();
-            var cluster = $("#cluster_id option:selected").text();
+_id option:selected").text();
             var rt = $('#RT').val();
             var rw = $('#RW').val();
             var alamat = $('#alamat').val();

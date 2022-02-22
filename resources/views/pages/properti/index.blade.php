@@ -35,11 +35,8 @@
                             <td>{{ $p->pemilik ? $p->pemilik->name : '-' }}</td>
                             <td>{{ $p->penghuni ? $p->penghuni->name : '-' }}</td>
                             <td class="d-flex">
-                                <a class="btn btn-warning" href="{{ route('properti.edit', $p->id) }}"><i
-                                        data-feather="edit"></i></a>
-
-                                <button type="submit" class="btn btn-danger delete" data-id="{{ $p->id }}">
-                                    <i data-feather="trash"></i>
+                                <a href="{{ route('properti.edit', $p->id) }}" class="btn btn-warning fa-regular fa-pen-to-square" data-toggle="tooltip" data-placement="top" title="edit properti"></a>
+                                <button type="submit" class="btn btn-danger delete fa-solid fa-trash-can" data-id="{{ $p->id }}" data-toggle="tooltip" data-placement="top" title="delete properti">
                                 </button>
 
                             </td>
@@ -74,9 +71,11 @@
     <script>
         $(document).ready(function() {
             $('#myTable').DataTable();
+            $(function() {
+                $('[data-toggle="tooltip"]').tooltip()
+            })
         });
-    </script>
-    <script>
+
         $('.delete').click(function() {
             var userId = $(this).attr('data-id')
             swal({

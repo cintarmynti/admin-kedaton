@@ -4,6 +4,9 @@
     <div class="card">
         <div class="card-body">
             <h5 class="card-title">Daftar Penghuni</h5>
+            <a type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="top" title="Tooltip on top">
+                Tooltip on top
+            </a>
             <p class="card-description">
                 <a class="btn btn-primary" href="{{ route('user.create') }}">Tambah Penghuni dan Properti</a>
                 <a href="/user/export_excel" class="btn btn-success my-3" target="_blank">EXPORT EXCEL</a>
@@ -31,6 +34,7 @@
                     @endphp
                     @foreach ($users as $user)
                         <tr>
+                            {{-- @dd($user->pemilik) --}}
                             <th scope="row">{{ $no++ }}</th>
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->nik }}</td>
@@ -59,9 +63,10 @@
 
                                     {{-- <a class="mx-1" href="{{ route('user.profile', $user->id) }}"><i
                                             data-feather="user"></i></a> --}}
+                                            {{-- <a type="button" class="btn btn-primary fa-solid fa-eye" data-bs-toggle="tooltip" data-bs-placement="top" title="Tooltip on top">
 
-                                    <a class="mx-1" href="{{ route('user.detail', $user->id) }}"><i
-                                            data-feather="eye"></i></a>
+                                            </a> --}}
+                                    <a class="mx-1 btn btn-primary fa-solid fa-eye" type="button" href="{{ route('user.detail', $user->id) }}" data-toggle="tooltip" data-placement="top" title="detail user"></a>
                                 </div>
 
 
@@ -93,13 +98,16 @@
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
     </script>
     <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.11.3/datatables.min.js"></script>
-
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
     <script>
         $(document).ready(function() {
             $('#myTable').DataTable();
+            $(function() {
+                $('[data-toggle="tooltip"]').tooltip()
+            })
         });
-    </script>
-    <script>
+
+
         $('.delete').click(function() {
             var userId = $(this).attr('data-id')
             swal({

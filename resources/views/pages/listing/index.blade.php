@@ -38,12 +38,9 @@
                             <td>Rp.{{ number_format($p->setelah_diskon )}}</td>
                             <td><a href="{{ route('listing.detail', $p->properti_id) }}">lihat detail</a></td>
                             <td class="d-flex">
-                                <a class="btn btn-warning" href="{{ route('listing.edit', $p->id) }}"><i
-                                        data-feather="edit"></i></a>
+                                <a href="{{ route('listing.edit', $p->id) }}" class="btn btn-warning fa-regular fa-pen-to-square" data-toggle="tooltip" data-placement="top" title="edit listing"></a>
 
-                                <button type="submit" class="btn btn-danger delete" data-id="{{ $p->id }}">
-                                    <i data-feather="trash"></i>
-                                </button>
+                                <button type="submit" class="btn btn-danger delete fa-solid fa-trash-can" data-id="{{ $p->id }}" data-toggle="tooltip" data-placement="top" title="delete listing"></button>
 
                             </td>
                         </tr>
@@ -77,9 +74,11 @@
     <script>
         $(document).ready(function() {
             $('#myTable').DataTable();
+            $(function() {
+                $('[data-toggle="tooltip"]').tooltip()
+            })
         });
-    </script>
-    <script>
+
         $('.delete').click(function() {
             var userId = $(this).attr('data-id')
             swal({

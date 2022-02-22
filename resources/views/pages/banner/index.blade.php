@@ -31,12 +31,10 @@
                                 style="height: 100px; width:200px; object-fit:cover" alt=""></td>
                             <td >
                                 <div class="d-flex">
-                                    <a class="btn btn-warning" href="{{ route('banner.edit', $bnr->id) }}"><i
-                                        data-feather="edit"></i></a>
+                                    <a href="{{ route('banner.edit', $bnr->id) }}" class="btn btn-warning fa-regular fa-pen-to-square" data-toggle="tooltip" data-placement="top" title="edit banner"></a>
 
-                                    <button type="submit" data-id="{{$bnr-> id}}" class="btn btn-danger delete">
-                                        <i data-feather="trash"></i>
-                                    </button>
+                                    <button type="submit" class="btn btn-danger delete fa-solid fa-trash-can" data-id="{{ $bnr->id }}" data-toggle="tooltip" data-placement="top" title="delete banner"></button>
+
                                 </div>
 
 
@@ -71,9 +69,11 @@
     <script>
         $(document).ready(function() {
             $('#myTable').DataTable();
+            $(function() {
+                $('[data-toggle="tooltip"]').tooltip()
+            })
         });
-    </script>
-    <script>
+
         $('.delete').click(function() {
             var userId = $(this).attr('data-id')
             swal({

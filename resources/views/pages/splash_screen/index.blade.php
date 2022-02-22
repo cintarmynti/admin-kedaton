@@ -32,13 +32,10 @@
                                 <img src="{{ asset('storage/' . $user->gambar) }}" id="image" onclick="image()" style="height: 100px; width:200px; object-fit:cover" alt=""></td>
                             <td >
                                 <div class="d-flex">
-                                    <a class="btn btn-warning" href="splash-screen/{{ $user->id }}/edit"><i
-                                        data-feather="edit"></i></a>
+                                    <a  href="splash-screen/{{ $user->id }}/edit" class="btn btn-warning fa-regular fa-pen-to-square" data-toggle="tooltip" data-placement="top" title="edit splash screen"></a>
 
-                                <button type="submit" class="btn btn-danger delete" data-id="{{ $user->id }}"
-                                    data-nama="">
-                                    <i data-feather="trash"></i>
-                                </button>
+                                    <button type="submit" class="btn btn-danger delete fa-solid fa-trash-can" data-id="{{ $user->id }}" data-toggle="tooltip" data-placement="top" title="delete splash screen"></button>
+
                                 </div>
 
 
@@ -74,9 +71,11 @@
     <script>
         $(document).ready(function() {
             $('#myTable').DataTable();
+            $(function() {
+                $('[data-toggle="tooltip"]').tooltip()
+            })
         });
-    </script>
-    <script>
+
         $('.delete').click(function() {
             var userId = $(this).attr('data-id')
             swal({

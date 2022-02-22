@@ -12,8 +12,8 @@
             <p class="card-description"></p>
             <div class="row mt-4 border border-5 ">
                 <div class="col border-end">
-                    <p><b>Alamat</b> </p>
-                    <p>{{ $properti->alamat }}</p>
+                    <p><b>Cluster</b></p>
+                    <p>{{ $properti->cluster->name }}</p>
                 </div>
 
                 <div class="col">
@@ -109,8 +109,8 @@
 
             <div class="row mt-4 border border-5">
                 <div class="col border-end">
-                    <p><b>Cluster</b></p>
-                    <p>{{ $properti->cluster->name }}</p>
+                    <p><b>Alamat</b> </p>
+                    <p>{{ $properti->alamat }}</p>
                 </div>
 
                 <div class="col">

@@ -34,11 +34,10 @@
                 <td><a href="{{route('complain.detail', $com->id)}}">lihat detail</a></td>
                 <td >
                     <div class="d-flex">
-                        <a class="btn btn-warning" href="{{route('complain.edit',$com->id)}}"><i data-feather="edit"></i></a>
+                        <a href="{{route('complain.edit',$com->id)}}" class="btn btn-warning fa-regular fa-pen-to-square" data-toggle="tooltip" data-placement="top" title="edit laporan complain"></a>
 
-                        <button type="submit" data-id="{{$com->id}}" class="btn btn-danger delete">
-                            <i data-feather="trash"></i>
-                        </button>
+                        <button type="submit" class="btn btn-danger delete fa-solid fa-trash-can" data-id="{{ $com->id }}" data-toggle="tooltip" data-placement="top" title="delete laporan complain"></button>
+
 
                     </div>
 
@@ -64,9 +63,12 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.11.3/datatables.min.js"></script>
     <script>
-      $(document).ready( function () {
-        $('#myTable').DataTable();
-      });
+      $(document).ready(function() {
+            $('#myTable').DataTable();
+            $(function() {
+                $('[data-toggle="tooltip"]').tooltip()
+            })
+        });
 
       $('.delete').click(function() {
             var userId = $(this).attr('data-id')
