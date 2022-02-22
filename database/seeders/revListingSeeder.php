@@ -22,9 +22,9 @@ class revListingSeeder extends Seeder
             'diskon' => null,
             'status' => 'dijual',
             'properti_id' => 1,
-            'harga' => 12500000,
+            'harga' => number_format(12500000,2,',','.'),
             'image' => '/properti_photo/'.'16444074491056.png',
-            'setelah_diskon' => 12000000
+            'setelah_diskon' => 12000000,
         ]);
 
         rev_listing::create([
@@ -34,9 +34,9 @@ class revListingSeeder extends Seeder
             'diskon' => null,
             'status' => 'disewa',
             'properti_id' => 2,
-            'harga' => 5000000,
+            'harga' => number_format(43500000,2,',','.'),
             'image' => '/properti_photo/'.'16444075261251.png',
-            'setelah_diskon' => 45000000
+            'setelah_diskon' => 39000000,
         ]);
 
         rev_listing::create([
@@ -46,9 +46,9 @@ class revListingSeeder extends Seeder
             'diskon' => null,
             'status' => 'dijual',
             'properti_id' => 3,
-            'harga' => 4000000,
+            'harga' => number_format(70000000,2,',','.'),
             'image' => '/properti_photo/'.'16444075851990.png',
-            'setelah_diskon' => 3000000
+            'setelah_diskon' => 40500000,
         ]);
 
         rev_listing::create([
@@ -58,9 +58,9 @@ class revListingSeeder extends Seeder
             'diskon' => '15',
             'status' => 'dijual',
             'properti_id' => 4,
-            'harga' => 600000,
+            'harga' => number_format(8200000,2,',','.'),
             'image' => '/properti_photo/'.'1644407727401.png',
-            'setelah_diskon' => 5000000
+            'setelah_diskon' => 8000000,
         ]);
 
         rev_listing::create([
@@ -70,9 +70,9 @@ class revListingSeeder extends Seeder
             'diskon' => '20',
             'status' => 'dijual',
             'properti_id' => 5,
-            'harga' => 236000,
+            'harga' => number_format(37200000,2,',','.'),
             'image' => '/properti_photo/'.'1644407816205.png',
-            'setelah_diskon' => 2120000
+            'setelah_diskon' => 32000000,
         ]);
 
         rev_listing::create([
@@ -82,9 +82,9 @@ class revListingSeeder extends Seeder
             'diskon' => '20',
             'status' => 'dijual',
             'properti_id' => 6,
-            'harga' => 800000000,
+            'harga' => number_format(8200000,2,',','.'),
             'image' => '/properti_photo/'.'16445153461612.png',
-            'setelah_diskon' => 704590000
+            'setelah_diskon' => 72500000,
         ]);
 
         rev_listing::create([
@@ -94,9 +94,9 @@ class revListingSeeder extends Seeder
             'diskon' => '5',
             'status' => 'disewa',
             'properti_id' => 7,
-            'harga' => 1000000,
+            'harga' => number_format(13200000,2,',','.'),
             'image' => '/properti_photo/'.'16445154421213.png',
-            'setelah_diskon' => 9800000
+            'setelah_diskon' => 13000000,
         ]);
 
 
@@ -107,9 +107,9 @@ class revListingSeeder extends Seeder
             'diskon' => '5',
             'status' => 'disewa',
             'properti_id' => 8,
-            'harga' => 1000000,
+            'harga' => number_format(1100000,2,',','.'),
             'image' => '/properti_photo/'.'1644407816205.png',
-            'setelah_diskon' => 9800000
+            'setelah_diskon' => 10500000,
         ]);
 
         rev_listing::create([
@@ -119,7 +119,7 @@ class revListingSeeder extends Seeder
             'diskon' => null,
             'status' => 'dijual',
             'properti_id' => 9,
-            'harga' => 1000000,
+            'harga' => number_format(1500000,2,',','.'),
             'image' => '/properti_photo/'.'1644515768439.png',
             'setelah_diskon' => null
         ]);
@@ -149,3 +149,4 @@ class revListingSeeder extends Seeder
         // ]);
     }
 }
+

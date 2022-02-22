@@ -92,7 +92,7 @@
                                 @endif
 
                             </td>
-                            <td><a href="{{ route('user.addPenghuni', $us->id) }}"><i data-feather="user-plus"></i></a>
+                            <td><a data-toggle="tooltip" class="btn btn-primary" type="button" data-placement="top" title="tambah penhuni/penyewa" href="{{ route('user.addPenghuni', $us->id) }}"><i class="fa-solid fa-user-plus"></i></a>
                             </td>
                             <td><a href="{{ route('properti.riwayat', $us->id) }}">lihat detail</a> </td>
                             <td><a href="/user/detail/rumah/{{ $us->id }}">lihat detail</a></td>

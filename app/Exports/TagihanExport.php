@@ -68,9 +68,9 @@ class TagihanExport implements FromCollection, WithHeadings, ShouldAutoSize, Wit
     public function headings(): array
     {
         return [
-           'id',
-           'cluster',
-           'no rumah',
+            'id',
+            'cluster',
+            'no rumah',
             'periode pembayaran',
             'jumlah pembayaran',
             'type',

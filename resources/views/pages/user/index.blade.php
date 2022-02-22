@@ -4,9 +4,9 @@
     <div class="card">
         <div class="card-body">
             <h5 class="card-title">Daftar Penghuni</h5>
-            <a type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="top" title="Tooltip on top">
+            {{-- <a type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="top" title="Tooltip on top">
                 Tooltip on top
-            </a>
+            </a> --}}
             <p class="card-description">
                 <a class="btn btn-primary" href="{{ route('user.create') }}">Tambah Penghuni dan Properti</a>
                 <a href="/user/export_excel" class="btn btn-success my-3" target="_blank">EXPORT EXCEL</a>

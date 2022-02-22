@@ -14,84 +14,24 @@ use Illuminate\Support\Facades\File;
 use Hash;
 
 class UserController extends Controller
-{
-
-
-
-    private function checkEmailExists($email)
-    {
-        return User::where('email', $email)->first();
-    }
-
-    private function checkUsernameExists($name)
-    {
-        return User::where('name', $name)->first();
-    }
-
-    private function checkNikExists($nik)
-    {
-        return User::where('nik', $nik)->first();
-    }
-
-       public function register(Request $request)
-    {
-        $input = $request->all();
-        $properti = $request->all();
-
-
-        $validator = Validator::make($input, [
-            'nik' => 'required',
-            'name' => 'required',
-            'alamat' => 'required',
-            'phone' => 'required',
-            'email' => 'required|email',
-        ]);
-
-        $validator = Validator::make($properti, [
-            'cluster_id' => 'required',
-            'no_rumah' => 'required',
-            'no_listrik' => 'required',
-            'no_pam_bsd' => 'required',
-        ]);
-
-
-
-
-        if ($validator->fails()) {
-            return ResponseFormatter::failed('User Registration Failed!', 401, $validator->errors());
+{       
+    public function getNik(Request $request){
+    
+        $user_detail = User::where('nik', $request->nik)->first();
+        if($request->nik == null){
+            return ResponseFormatter::failed('mohon masukkan nik terlebih dahulu!');
         }
 
-        if ($this->checkNikExists($input['nik'])) {
-            return ResponseFormatter::failed('User nik Already Exists!', 409, $validator->errors());
+        if($user_detail == null){
+            return ResponseFormatter::failed('tidak ada user dengan nik tersebut!');
         }
+        return ResponseFormatter::success('sukses mengambil detail user!', [$user_detail]);
 
-        if ($this->checkUsernameExists($input['name'])) {
-            return ResponseFormatter::failed('User name Already Exists!', 409, $validator->errors());
-        }
+    } 
 
-        if ($this->checkEmailExists($input['email'])) {
-            return ResponseFormatter::failed('User Email Already Exists!', 409, $validator->errors());
-        }
+    // public function register(Request $reques){
 
-      //   $user->user_status = 'pengguna';
-          if($request->hasFile('photo_identitas'))
-          {
-              $file = $request->file('photo_identitas');
-              $extention = $file->getClientOriginalExtension();
-              $filename=time().'.'.$extention;
-              $file->move('user_photo',$filename);
-              $input['photo_identitas']=$filename;
-          }
-
-
-        $input['user_status'] = 'pengguna';
-
-        $user = User::create($input);
-        $properti['pemilik_id'] = $user->id;
-        $tbl_properti = Properti::create($properti);
-
-        return ResponseFormatter::success('User Registration Success!', [$user, $tbl_properti]);
-    }
+    // }
 
 
 
@@ -151,7 +91,7 @@ class UserController extends Controller
         $user -> email = $request -> email;
         $user -> nik = $request -> nik;
         $user -> alamat = $request -> alamat;
-        $user-> password = bcrypt($request->password);  
+        $user-> password = bcrypt($request->password);
         $user -> phone = $request -> phone;
         $user -> photo_identitas = $imageName;
         $user->update();

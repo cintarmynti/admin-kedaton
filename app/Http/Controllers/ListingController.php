@@ -33,6 +33,11 @@ class ListingController extends Controller
         return view('pages.listing.create', ['properti' => Properti::all(), 'cluster' => $cluster ]);
     }
 
+    public function getProperti($id){
+        $properti = Properti::findOrFail($id);
+        return response()->json($properti);
+    }
+
     // public function export_excel()
 	// {
 	// 	return Excel::download(new PropertiExport, 'properti.xlsx');

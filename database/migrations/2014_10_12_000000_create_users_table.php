@@ -21,6 +21,7 @@ class CreateUsersTable extends Migration
             $table->string('alamat')->nullable();
             // $table->string('listing_id')->nullable();
             $table->string('user_status');
+            $table->integer('snk')->default(0);
             $table->string('phone')->unique()->nullable();
             $table->string('photo_identitas')->nullable();
             $table->string('photo_ktp')->nullable();

@@ -41,6 +41,7 @@ Route::post('login', [UserController::class, 'login']);
 Route::post('register', [UserController::class, 'register']);
 Route::get('profile', [UserController::class, 'profile']);
 Route::post('profile-update/{id}', [UserController::class, 'update']);
+Route::get('get-nik', [UserController::class, 'getNik']);
 
 Route::post('panic-button', [PanicButtonController::class, 'store']);
 

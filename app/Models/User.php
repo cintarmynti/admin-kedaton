@@ -26,6 +26,7 @@ class User extends Authenticatable
         'user_status',
         'password',
         'status_penghuni',
+        'snk'
 
     ];
 

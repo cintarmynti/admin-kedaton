@@ -9,22 +9,33 @@
                 @csrf
                 <div class="row">
                     <div class="col-md-5">
-                        <label for="formGroupExampleInput" class="form-label">Name</label>
+                        <label for="formGroupExampleInput" class="form-label">Judul Listing</label>
                         <input value="{{ old('name') }}" type="text" required class="form-control" name="name"
                             aria-label="First name">
                     </div>
+                    <div class="col-md-4">
+                        <label for="" class="form-label">Masukkan Gambar</label>
+                        <input id="filePhoto" required type="file" class="form-control" name="image" placeholder="address">
+                        <img id="output" src="" alt="" width="300">
+                    </div>
+                   
+                </div>
+                <div class="row">
                     <div class="col-md-5">
-                        <label for="formGroupExampleInput" class="form-label">Harga</label>
+                        <label for="formGroupExampleInput" class="form-label">Tujuan Listing</label>
 
-                        <input value="{{ old('harga') }}" type="text" required class="form-control money" id="harga"
-                            onkeyup="onchange_comma(this.id, this.value)" name="harga">
+                        <select class="form-select" name="status" aria-label="Default select example">
+                            <option disabled selected="">Pilih Tujuan Listing</option>
+                            <option value="disewakan">disewakan</option>
+                            <option value="dijual">dijual</option>
+                        </select>
                     </div>
                 </div>
 
 
                 <div class="row mt-3">
-                    <div class="col-md-4">
-                        <label for="">Pilih Cluster</label>
+                    <div class="col-md-5">
+                        <label for=" " class="form-label">Pilih Cluster</label>
                         <select class="form-select" name="cluster_id" id="cluster">
                             <option hidden>Pilih Cluster</option>
                             @foreach ($cluster as $item)
@@ -34,40 +45,41 @@
 
                     </div>
 
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <label for="no_rmh" class="form-label">Pilih No Rumah</label>
                         <select class="form-select" name="properti_id" id="no_rmh">
                             <option value="" selected disabled>Pilih No Rumah</option>
                         </select>
                     </div>
-                    <div class="col-md-3">
-                        <label for="formGroupExampleInput" class="form-label">Status Kepemilikan</label>
-
-                        <select class="form-select" name="status" aria-label="Default select example">
-                            <option disabled selected="">Pilih Status Kepemilikan</option>
-                            <option value="disewakan">disewakan</option>
-                            <option value="dijual">dijual</option>
-                        </select>
-                    </div>
+                   
                 </div>
 
                 <div class="row mt-3">
 
+                    <div class="col-md-3">
+                        <label for="formGroupExampleInput" class="form-label">Harga</label>
+
+                        <input value="{{ old('harga') }}" id="harga" type="text" required class="form-control money" id="harga"
+                            onkeyup="onchange_comma(this.id, this.value); count();" name="harga">
+                    </div>
 
                     <div class="col-md-3">
                         <label for="formGroupExampleInput" class="form-label">Diskon</label>
                         <div class="input-group">
-                            <input value="{{ old('diskon') }}" type="number" min="0" required name="diskon"
+                            <input value="{{ old('diskon') }}" id="diskon" type="number" min="0" required name="diskon"
+                                class="form-control" aria-label="Recipient's username" aria-describedby="basic-addon2" onkeyup="count()">
+                            <span class="input-group-text" id="basic-addon2">%</span>
+                        </div>
+                    </div>
+                   
+                    <div class="col-md-3">
+                        <label for="formGroupExampleInput" class="form-label">Setelah Diskon</label>
+                        <div class="input-group">
+                            <input id="setelahDiskon" type="number" min="0" required 
                                 class="form-control" aria-label="Recipient's username" aria-describedby="basic-addon2">
                             <span class="input-group-text" id="basic-addon2">%</span>
                         </div>
                     </div>
-                    <div class="col-md-5">
-                        <label for="" class="form-label">Masukkan Gambar</label>
-                        <input id="filePhoto" required type="file" class="form-control" name="image" placeholder="address">
-                        <img id="output" src="" alt="" width="300">
-                    </div>
-
                 </div>
 
 
@@ -93,10 +105,40 @@
             });
         });
     </script> --}}
+
+   
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js" defer></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
+    {{-- <script>
+        var harga = parseFloat($("#harga").val());
+        console.log(harga);
+        var diskon = parseFloat($("#diskon").val());
+        var hargaDiskon = harga * diskon / 100;
+        var hargaAkhir = harga - hargaDiskon;   
 
+        $("#setelahDiskon").val(parseFloat(hargaAkhir));
+
+    </script> --}}
+    <script>
+        function count() {
+            var harga=$("#harga").val();
+            harga=harga.replace(/\,/g,''); // 1125, but a string, so convert it to number
+            harga=parseInt(harga,10);
+
+            var diskon=$("#diskon").val();
+            diskon=diskon.replace(/\,/g,''); // 1125, but a string, so convert it to number
+            diskon=parseInt(diskon,10);
+        // console.log(harga);
+            // var diskon = ($("#diskon").val());
+            var hargaDiskon = harga * diskon / 100;
+            var hargaAkhir = harga - hargaDiskon;   
+
+            $("#setelahDiskon").val(parseInt(hargaAkhir));
+            // alert(harga);
+        }
+    </script>
+    
     <script>
         $(document).ready(function() {
             $('#cluster').on('change', function() {
@@ -116,6 +158,27 @@
                     });
                 } else {
                     $('#no_rmh').empty();
+                }
+            });
+        });
+
+        $(document).ready(function() {
+            $('#no_rmh').on('change', function() {
+                var harga_id = $(this).val();
+                if (harga_id) {
+                    $.ajax({
+                        url: '/listing/properti/' + properti_id,
+                        type: "GET",
+                        data: {
+                            "_token": "{{ csrf_token() }}"
+                        },
+                        dataType: "html",
+                        success: function(data) {
+                            $('#jumlah').val(data);
+                        }
+                    });
+                } else {
+                    $('#jumlah').val('');
                 }
             });
         });
