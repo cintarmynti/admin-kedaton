@@ -11,7 +11,9 @@ use Validator;
 use App\Models\Listing;
 use App\Models\Properti;
 use Illuminate\Support\Facades\File;
-use Hash;
+// use Hash;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {       
@@ -19,19 +21,30 @@ class UserController extends Controller
     
         $user_detail = User::where('nik', $request->nik)->first();
         if($request->nik == null){
-            return ResponseFormatter::failed('mohon masukkan nik terlebih dahulu!');
+            return ResponseFormatter::failed('mohon masukkan nik terlebih dahulu!', 404);
         }
 
         if($user_detail == null){
-            return ResponseFormatter::failed('tidak ada user dengan nik tersebut!');
+            return ResponseFormatter::failed('tidak ada user dengan nik tersebut!', 404);
         }
         return ResponseFormatter::success('sukses mengambil detail user!', [$user_detail]);
 
     } 
 
-    // public function register(Request $reques){
-
-    // }
+    public function register(Request $request){
+            $cekNik = User::where('nik', $request->nik)->first();
+            if($cekNik != null && $request->snk == 1){
+                $pw = Str::random(8);
+                dd($pw);
+                $hashed_random_password = Hash::make($pw);
+                $cekNik->password = $hashed_random_password;
+                $cekNik->snk = 1;
+                $cekNik->save();
+                // dd(Hash::check($cekNik->password ));
+                return ResponseFormatter::success('anda telah sukses regristasi!', 200, $pw);
+            }
+            // dd($cekNik != null);  
+    }
 
 
 

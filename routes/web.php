@@ -92,7 +92,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/listing/edit/{id}', [ListingController::class, 'edit'])->name('listing.edit');
     Route::put('/listing/update/{id}', [ListingController::class, 'update'])->name('listing.update');
     Route::get('/listing/export_excel', [ListingController::class, 'export_excel']);
-    Route::get('/liting/properti/{id}', [ListingController::class, 'getProperti']);
+    Route::get('/listing/properti/{id}', [ListingController::class, 'getProperti']);
 
 
     Route::get('/banner', [BannerController::class, 'index'])->name('banner');

@@ -19,6 +19,7 @@
                         <th scope="col">Nama</th>
                         <th scope="col">nik</th>
                         <th scope="col">Tanggal Masuk</th>
+                        <th scope="col">Total Properti</th>
                         {{-- <th scope="col">rumah</th> --}}
                         {{-- <th scope="col">status </th> --}}
                         {{-- <th scope="col">alamat</th>

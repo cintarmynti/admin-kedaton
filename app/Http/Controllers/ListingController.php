@@ -34,8 +34,12 @@ class ListingController extends Controller
     }
 
     public function getProperti($id){
-        $properti = Properti::findOrFail($id);
-        return response()->json($properti);
+        $listing = Properti::find($id);
+        // dd($listing);   
+        return response()->json($listing);
+        // $html   = '';
+        // $html .= $listing['tarif_ipkl'];
+        // echo $html;
     }
 
     // public function export_excel()

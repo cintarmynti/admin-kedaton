@@ -144,10 +144,10 @@
 
         $(document).ready(function() {
             $('#no_rmh').on('change', function() {
-                var properti_id = $(this).val();
-                if (properti_id) {
+                var harga_id = $(this).val();
+                if (harga_id) {
                     $.ajax({
-                        url: '/liting/properti/' + properti_id,
+                        url: '/ipkl/harga/' + harga_id,
                         type: "GET",
                         data: {
                             "_token": "{{ csrf_token() }}"
@@ -155,6 +155,7 @@
                         dataType: "html",
                         success: function(data) {
                             console.log(data);
+                            $('#jumlah').val(data);
                         }
                     });
                 } else {

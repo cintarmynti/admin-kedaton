@@ -22,9 +22,11 @@ class UserController extends Controller
 {
     public function index()
     {
-        $users = User::where('user_status', 'pengguna')
+        $users = User::with('penghuni', 'pemilik')->where('user_status', 'pengguna')
             ->orderBy('id', 'desc')
             ->get();
+
+         
         // $properti = Properti::where()
         return view('pages.user.index', ['users' => $users]);
     }

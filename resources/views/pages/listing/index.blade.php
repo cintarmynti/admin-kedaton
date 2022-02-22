@@ -40,7 +40,7 @@
                             <td class="d-flex">
                                 <a href="{{ route('listing.edit', $p->id) }}" class="btn btn-warning fa-regular fa-pen-to-square" data-toggle="tooltip" data-placement="top" title="edit listing"></a>
 
-                                <button type="submit" class="btn btn-danger delete fa-solid fa-trash-can" data-id="{{ $p->id }}" data-toggle="tooltip" data-placement="top" title="delete listing"></button>
+                                {{-- <button type="submit" class="btn btn-danger delete fa-solid fa-trash-can" data-id="{{ $p->id }}" data-toggle="tooltip" data-placement="top" title="delete listing"></button> --}}
 
                             </td>
                         </tr>
