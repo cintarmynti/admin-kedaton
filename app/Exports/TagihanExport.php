@@ -11,12 +11,13 @@ use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\FromView;
 
-class TagihanExport implements FromCollection, WithHeadings, ShouldAutoSize, WithMapping
+class TagihanExport implements FromView
 {
     /**
     * @return \Illuminate\Support\Collection
     */
     use Exportable;
+
 
     protected $from, $to;
 
@@ -25,6 +26,30 @@ class TagihanExport implements FromCollection, WithHeadings, ShouldAutoSize, Wit
         $this->from = $from;
         $this->to = $to;
         $this->status = $status;
+    }
+
+    public function view(): View
+    {
+        // if($tagihan->status == 1){
+        //     $status = 'belum membayar';
+        // }else if($tagihan->status == 2){
+        //     $status = 'pending';
+        // }else{
+        //     $status = 'sudah membayar';
+        // }
+        $tagihan = Tagihan::with('nomer', 'cluster','type')->get();
+
+        if( $this->from){
+            $tagihan->whereBetween('periode_pembayaran',[ $this->from, $this->to]);
+
+        }
+
+        if($this->status){
+            $tagihan -> where('status', $this->status);
+        }
+        return view('pages.ipkl.excel', [
+            'pembayaran' => $tagihan
+        ]);
     }
 
     public function collection()
