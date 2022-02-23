@@ -48,7 +48,11 @@ class UserController extends Controller
                 return ResponseFormatter::failed('tidak ada user dengan nik tersebut!', 404);
             }
 
-            
+            if ($this->checkEmailExists($request->email)) {
+                return ResponseFormatter::failed('User name Already Exists!', 409);
+            }
+
+
 
             // dd($cekNik != null);
             if($cekNik != null && $request->snk == 1){
@@ -60,7 +64,7 @@ class UserController extends Controller
                 $cekNik->snk = 1;
                 $cekNik->save();
 
-            dd($cekNik);
+            // dd($cekNik);
 
                 $details = [
                     'recipient' => $request->email,
@@ -71,7 +75,7 @@ class UserController extends Controller
 
                 Mail::to($details['recipient'])->send(new MyTestMail($details));
 
-                dd("Email sudah terkirim.");
+                // dd("Email sudah terkirim.");
 
                 return ResponseFormatter::success('anda telah sukses regristasi! password dikirim melalui email', $pw);
 

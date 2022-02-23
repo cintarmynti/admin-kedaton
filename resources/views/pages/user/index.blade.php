@@ -37,9 +37,17 @@
                         <tr>
                             {{-- @dd($user->pemilik) --}}
                             <th scope="row">{{ $no++ }}</th>
-                            <td>{{ $user->name }}</td>
+                            <td>{{ $user->name }}
+                                @if ($user->snk == 1)
+                                {{-- <a class="mx-1 bg-success fa-solid fa-user" type="button" href="" data-toggle="tooltip" data-placement="top" title="terdaftar mobile"></a> --}}
+
+                                <i class="fa-solid fa-mobile fa-2x" style="color: #6BCAC2" data-toggle="tooltip" data-placement="top" title="pengguna mobile"></i>
+
+                                @endif
+                            </td>
                             <td>{{ $user->nik }}</td>
                             <td>{{ $user->created_at }}</td>
+                            <td></td>
                             {{-- <td>
 
                             </td> --}}
