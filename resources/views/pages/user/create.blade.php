@@ -26,12 +26,12 @@
                             <input value="" type="text" required class="form-control" name="phone">
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    {{-- <div class="col-md-3">
                         <div class="form-group">
                             <label for="" class="form-label">Password</label>
                             <input value="" type="password" required class="form-control" name="password">
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="col-6">
                         <div class="form-group">
                             <label for="" class="form-label">Alamat</label>

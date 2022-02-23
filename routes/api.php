@@ -37,6 +37,7 @@ Route::get('/renovasi/update/{id}', [RenovasiController::class, 'update']);
 Route::get('/renovasi/delete/{id}', [RenovasiController::class, 'delete']);
 
 
+
 Route::post('login', [UserController::class, 'login']);
 Route::post('register', [UserController::class, 'register']);
 Route::get('profile', [UserController::class, 'profile']);
