@@ -11,7 +11,7 @@ use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\FromView;
 
-class TagihanExport implements FromView
+class TagihanExport implements FromView, FromCollection
 {
     /**
     * @return \Illuminate\Support\Collection
@@ -47,6 +47,7 @@ class TagihanExport implements FromView
         if($this->status){
             $tagihan -> where('status', $this->status);
         }
+        dd($tagihan);
         return view('pages.ipkl.excel', [
             'pembayaran' => $tagihan
         ]);

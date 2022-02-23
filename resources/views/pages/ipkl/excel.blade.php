@@ -2,16 +2,19 @@
 <table>
     <thead>
     <tr>
-        <th style="border: 1px solid #000000">No</th>
-        <th style="border: 1px solid #000000">Cluster</th>
-        <th style="border: 1px solid #000000">No Rumah</th>
-        <th style="border: 1px solid #000000" colspan="2">Periode Pembayaran</th>
-        <th style="border: 1px solid #000000" colspan="2">Jumlah Pembayaran</th>
-        <th style="border: 1px solid #000000">Type</th>
-        <th style="border: 1px solid #000000" colspan="2">Status Tagihan</th>
+        <th colspan="10" style="text-align: center"><b>Daftar Tagihan IPKL</b></th>
     </tr>
     </thead>
     <tbody>
+        <tr>
+            <td style="border: 1px solid #000000; width: 25px;">No</td>
+            <td style="border: 1px solid #000000">Cluster</td>
+            <td style="border: 1px solid #000000; width: 75px;">No Rumah</td>
+            <td style="border: 1px solid #000000" colspan="2">Periode Pembayaran</td>
+            <td style="border: 1px solid #000000" colspan="2">Jumlah Pembayaran</td>
+            <td style="border: 1px solid #000000">Type</td>
+            <td style="border: 1px solid #000000" colspan="2">Status Tagihan</td>
+        </tr>
         <tr>
             <td></td>
             <td></td>
@@ -23,11 +26,11 @@
         </tr>
     @foreach($pembayaran as $index => $t)
         <tr class="body">
-            <td style="border: 1px solid #000000">{{ $index }}</td>
+            <td style="border: 1px solid #000000; text-align: center;">{{ $index }}</td>
             <td style="border: 1px solid #000000">{{ $t->cluster->name }}</td>
-            <td style="border: 1px solid #000000">{{ $t->nomer->no_rumah }}</td>
+            <td style="border: 1px solid #000000; text-align: left;">{{ $t->nomer->no_rumah }}</td>
             <td style="border: 1px solid #000000" colspan="2">{{ $t->periode_pembayaran }}</td>
-            <td style="border: 1px solid #000000" colspan="2">{{ $t->jumlah_pembayaran }}</td>
+            <td style="border: 1px solid #000000" colspan="2">Rp {{ $t->jumlah_pembayaran }}</td>
             <td style="border: 1px solid #000000">{{ $t->type->name }}</td>
             <td style="border: 1px solid #000000" colspan="2">@if ($t->status == 1)
                 Belum dibayar
