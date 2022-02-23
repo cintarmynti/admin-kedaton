@@ -18,6 +18,7 @@
                         {{-- user id --}}
                         <th scope="col">Nama</th>
                         <th scope="col">nik</th>
+                        <th scope="col">Properti</th>
                         <th scope="col">Tanggal Masuk</th>
                         {{-- <th scope="col">rumah</th> --}}
                         {{-- <th scope="col">status </th> --}}
@@ -38,6 +39,26 @@
                             <th scope="row">{{ $no++ }}</th>
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->nik }}</td>
+                            @if ($user->pemilik->count() != 0)
+                            <td><?php if ($user->penghuni->count() !=0) {
+                                $milik = [];
+                                foreach ($user->pemilik as $key) {
+                                    array_push($milik, $key->id);
+                                }
+                                foreach ($user->penghuni as $key) {
+                                    $id = $key->id;
+                                    if (!in_array($id, $milik)) {
+                                        array_push($milik, $id);
+                                    }
+                                }
+                                echo count($milik);
+                            } else {
+                                echo $user->pemilik->count();
+                            }
+                             ?></td>
+                            @else
+                            <td>{{ $user->penghuni->count() }}</td>
+                            @endif
                             <td>{{ $user->created_at }}</td>
                             {{-- <td>
 
