@@ -43,12 +43,14 @@ class UserController extends Controller
     public function register(Request $request){
 
 
-            // if ($this->checkEmailExists($request->email)) {
-            //     return ResponseFormatter::failed('User email sudah ada!', 409);
-            // }
-
             $cekNik = User::where('nik', $request->nik)->first();
+            if($cekNik == null){
+                return ResponseFormatter::failed('tidak ada user dengan nik tersebut!', 404);
+            }
 
+            
+
+            // dd($cekNik != null);
             if($cekNik != null && $request->snk == 1){
                 $pw = Str::random(8);
                 // dd($pw);
@@ -58,55 +60,25 @@ class UserController extends Controller
                 $cekNik->snk = 1;
                 $cekNik->save();
 
-                if($this->isOnline()){
-                    // echo "connect";
-                //    $mail_data = [
-                //        'recipient' => 'cinta.ramayanti@gmail.com',
-                //        'fromEmail' => 'coba@gmail.com',
-                //        'subject' => $pw
-                //    ];
-
-                //    $data = ['name' => 'cinta', 'data' => 'halo bro'];
-                //    $user['to'] = 'ramayanticinta@gmail.com';
-                //    Mail::send('email.mail-password', $data, function($messages) use ($user){
-                //        $messages->to($user['to']);
-                //        $messages->subject('helo dev');
-                //    });
+            dd($cekNik);
 
                 $details = [
-                    'title' => 'Mail from websitepercobaan.com',
-                    'body' => 'This is for testing email using smtp'
-                    ];
+                    'recipient' => $request->email,
+                    'fromEmail' => 'coba@gmail.com',
+                    'nik' => $request->nik,
+                    'subject' => $pw
+                ];
 
-                    Mail::to('ramayanticinta@gmail.com')->send(new MyTestMail($details));
+                Mail::to($details['recipient'])->send(new MyTestMail($details));
 
-                    dd("Email sudah terkirim.");
+                dd("Email sudah terkirim.");
 
-                //    Mail::send ('email-template.blade.php', $mail_data, function($message) use ($mail_data){
-                //        $message->to($mail_data['recipient'])
-                //                 ->from($mail_data['fromEmail'])
-                //                 ->subject($mail_data['subject']);
-                //    });
-
-                    return ResponseFormatter::success('anda telah sukses regristasi! password dikirim melalui email', $pw);
-                }else{
-                    return "No Connect";
-                }
-                // dd(Hash::check($cekNik->password ));
+                return ResponseFormatter::success('anda telah sukses regristasi! password dikirim melalui email', $pw);
 
             }
-            // dd($cekNik != null);
-
-
     }
 
-    public function isOnline($site = "https://youtube.com/"){
-        if(@fopen($site, "r")){
-            return true;
-        }else{
-            return false;
-        }
-    }
+
 
     public function login(Request $request){
         $cekNik = User::where('nik', $request->nik)->first();

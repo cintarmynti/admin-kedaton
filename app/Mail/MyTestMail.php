@@ -30,6 +30,6 @@ class MyTestMail extends Mailable
      */
     public function build()
     {
-        return $this->markdown('');
+        return $this->view('pages.email.mail-password');
     }
 }
