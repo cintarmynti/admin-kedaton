@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Blog;
 use App\Models\blog_image;
 use Illuminate\Http\Request;
-use Image;
+use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Storage;
 use RealRashid\SweetAlert\Facades\Alert;
 
