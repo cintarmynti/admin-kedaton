@@ -8,6 +8,7 @@ use App\Models\Rumah;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use App\Mail\MyTestMail;
+use App\Mail\PasswordBaru;
 use Illuminate\Support\Facades\Mail;
 use Validator;
 use App\Models\Listing;
@@ -99,20 +100,36 @@ class UserController extends Controller
         }
     }
 
-
-
-
-
-
     public function profile(Request $request)
     {
         $user = User::where('id', $request->id)->first();
         // dd($user);
-        $properti = Properti::where('pemilik_id', $user->id)->get  ();
+        $properti = Properti::where('pemilik_id', $user->id)->get();
         // dd($properti);
         return ResponseFormatter::success('get user profile n properti!', [$user, $properti]);
 
     }
+
+    public function forget(Request $request){
+
+        $user = User::where('email', $request->email)->first();
+        $pw = Str::random(8);
+        $hashed_random_password = Hash::make($pw);
+        $user->password = $hashed_random_password;
+        $user->save();
+        $details = [
+            'recipient' => $request->email,
+            // 'fromEmail' => 'coba@gmail.com',
+            // 'nik' => $request->nik,
+            'subject' => $pw
+        ];
+
+        Mail::to($details['recipient'])->send(new PasswordBaru($details));
+
+        dd("Email sudah terkirim" .$pw);
+
+    }
+
 
 
     public function update(Request $request, $id)
@@ -145,6 +162,7 @@ class UserController extends Controller
         }
 
     }
+
 
 
 }

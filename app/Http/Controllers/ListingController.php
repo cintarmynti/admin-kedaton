@@ -35,7 +35,7 @@ class ListingController extends Controller
 
     public function getProperti($id){
         $listing = Properti::find($id);
-        // dd($listing);   
+        // dd($listing);
         return response()->json($listing);
         // $html   = '';
         // $html .= $listing['tarif_ipkl'];
@@ -55,13 +55,17 @@ class ListingController extends Controller
         $listing->diskon = $request->diskon;
         $listing->status = $request->status;
         $listing->properti_id = $request->properti_id;
+        $listing->cluster_id = $request->cluster_id;
+        $listing->setelah_diskon = $request->setelah_diskon;
+
+
         // dd($request->harga);
-        if ($request->diskon != null) {
-            $harga = str_replace( ',', '', $request->harga);
-            $setelah_diskon = intval($harga) * intval($request->diskon) / 100;
-            $setelah_diskon = $harga - $setelah_diskon;
-            $listing->setelah_diskon = $setelah_diskon;
-        }
+        // if ($request->diskon != null) {
+        //     $harga = str_replace( ',', '', $request->harga);
+        //     $setelah_diskon = intval($harga) * intval($request->diskon) / 100;
+        //     $setelah_diskon = $harga - $setelah_diskon;
+        //     $listing->setelah_diskon = $setelah_diskon;
+        // }
 
         if ($request->hasFile('image')) {
             $img = Image::make($request->file('image'));
@@ -121,13 +125,17 @@ class ListingController extends Controller
         $listing->diskon = $request->diskon;
         $listing->status = $request->status;
         $listing->properti_id = $request->properti_id;
+        $listing->cluster_id = $request->cluster_id;
+        $listing->setelah_diskon = $request->setelah_diskon;
+
+
         // dd($request->harga);
-        if ($request->diskon != null) {
-            $harga = str_replace( ',', '', $request->harga);
-            $setelah_diskon = intval($harga) * intval($request->diskon) / 100;
-            $setelah_diskon = $harga - $setelah_diskon;
-            $listing->setelah_diskon = $setelah_diskon;
-        }
+        // if ($request->diskon != null) {
+        //     $harga = str_replace( ',', '', $request->harga);
+        //     $setelah_diskon = intval($harga) * intval($request->diskon) / 100;
+        //     $setelah_diskon = $harga - $setelah_diskon;
+        //     $listing->setelah_diskon = $setelah_diskon;
+        // }
 
         if ($request->hasFile('image')) {
             $img = Image::make($request->file('image'));

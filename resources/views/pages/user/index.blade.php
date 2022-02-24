@@ -20,7 +20,7 @@
                         <th scope="col">nik</th>
                         <th scope="col">Properti</th>
                         <th scope="col">Tanggal Masuk</th>
-                        <th scope="col">Total Properti</th>
+                        {{-- <th scope="col">Total Properti</th> --}}
                         {{-- <th scope="col">rumah</th> --}}
                         {{-- <th scope="col">status </th> --}}
                         {{-- <th scope="col">alamat</th>
@@ -68,7 +68,7 @@
                             <td>{{ $user->penghuni->count() }}</td>
                             @endif
                             <td>{{ $user->created_at }}</td>
-                            <td></td>
+
                             {{-- <td>
 
                             </td> --}}

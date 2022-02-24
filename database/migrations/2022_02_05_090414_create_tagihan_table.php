@@ -19,7 +19,7 @@ class CreateTagihanTable extends Migration
             $table->integer('properti_id');
             $table->date('periode_pembayaran');
             $table->integer('jumlah_pembayaran');
-            $table->integer('type_id');
+            $table->integer('type_id')->nullable();
             $table->integer('status');
             $table->timestamps();
         });

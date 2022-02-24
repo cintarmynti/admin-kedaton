@@ -21,7 +21,7 @@
                </div>
 
                 <div class="row">
-                    <div class="col-md-5">
+                    <div class="col-md-3">
                         <label for="formGroupExampleInput" class="form-label">Tujuan Listing</label>
                         <select class="form-select" name="status" aria-label="Default select example">
                             <option disabled selected="">Pilih Tujuan Listing</option>
@@ -29,11 +29,7 @@
                             <option value="dijual">dijual</option>
                         </select>
                     </div>
-                </div>
-
-
-                <div class="row mt-3">
-                    <div class="col-md-5">
+                    <div class="col-md-3">
                         <label for=" " class="form-label">Pilih Cluster</label>
                         <select class="form-select" name="cluster_id" id="cluster">
                             <option hidden>Pilih Cluster</option>
@@ -44,13 +40,15 @@
 
                     </div>
 
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <label for="no_rmh" class="form-label">Pilih No Rumah</label>
                         <select class="form-select" name="properti_id" id="no_rmh">
                             <option value="" selected disabled>Pilih No Rumah</option>
                         </select>
                     </div>
                 </div>
+
+
 
                 <div class="row mt-3">
 
@@ -74,8 +72,8 @@
                     <div class="col-md-3">
                         <label for="formGroupExampleInput" class="form-label">Setelah Diskon</label>
                         <div class="input-group">
-                            <input id="setelahDiskon" type="number"  min="0" required class="form-control"
-                                aria-label="Recipient's username" aria-describedby="basic-addon2">
+                            <input id="setelahDiskon" readonly type="number"  min="0" required class="form-control"
+                                aria-label="Recipient's username" aria-describedby="basic-addon2" name="setelah_diskon">
                             {{-- <span class="input-group-text" id="basic-addon2">%</span> --}}
                         </div>
                     </div>
@@ -117,7 +115,7 @@
         console.log(harga);
         var diskon = parseFloat($("#diskon").val());
         var hargaDiskon = harga * diskon / 100;
-        var hargaAkhir = harga - hargaDiskon;   
+        var hargaAkhir = harga - hargaDiskon;
 
         $("#setelahDiskon").val(parseFloat(hargaAkhir));
 
@@ -188,7 +186,7 @@
                                                                 <th scope="col">No Rumah</th>
                                                                 <th scope="col">RT</th>
                                                                 <th scope="col">RW</th>
-                                        
+
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -196,20 +194,20 @@
                                                             <td>${data.no_rumah}</td>
                                                             <td>${data.RT}</td>
                                                             <td>${data.RW}</td>
-                                        
+
                                                         </tbody>
-                                                    </table> 
+                                                    </table>
                                             </div> `;
                              $("#dataProperti").html(text1);
                         }
 
-                        
+
                     });
                 } else {
                     $('#jumlah').val('');
                 }
             });
-            
+
         });
 
 
@@ -242,7 +240,7 @@
             $("#" + id).val(x);
         }
 
-       
+
     </script>
 @endpush
 

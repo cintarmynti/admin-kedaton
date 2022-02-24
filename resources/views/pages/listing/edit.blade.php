@@ -10,22 +10,39 @@
             @method('put')
 
             <div class="row">
-                <div class="col-md-5">
-                    <label for="formGroupExampleInput" class="form-label">Name</label>
+                <div class="col-md-4">
+                    <label for="formGroupExampleInput" class="form-label">Judul Listing</label>
                     <input value="{{ old('name', $listing->name) }}" type="text" required class="form-control" name="name"
                         aria-label="First name">
                 </div>
                 <div class="col-md-5">
-                    <label for="formGroupExampleInput" class="form-label">Harga</label>
-
-                    <input value="{{ old('harga', $listing->harga) }}" type="text" required class="form-control money" id="harga"
-                        onkeyup="onchange_comma(this.id, this.value)" name="harga">
+                    <label for="" class="form-label">Masukkan Gambar</label>
+                    <input id="filePhoto" type="file" class="form-control" name="image" placeholder="address">
+                    <img class="mt-3" id="output" src="{{ asset('storage/' . $listing->image ) }}" style="max-width: 200px; max-height:200px" >
                 </div>
+
+
             </div>
 
 
             <div class="row mt-3">
-                <div class="col-md-4">
+                <div class="col-md-3">
+                    <label for="formGroupExampleInput" class="form-label">Pilih Tujuan Listing</label>
+
+                    <select class="form-select" name="status" aria-label="Default select example">
+                        <option disabled selected="">Pilih Status Kepemilikan</option>
+                        @if ($listing->status = 'desewakan')
+                        <option value="disewakan" selected>disewakan</option>
+                        <option value="dijual">dijual</option>
+                        @elseif($listing->status = 'dijual')
+                        <option value="disewakan" >disewakan</option>
+                        <option value="dijual" selected>dijual</option>
+                        @endif
+                        <option value="disewakan">disewakan</option>
+                        <option value="dijual">dijual</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
                     <label for="">Pilih Cluster</label>
                     <select class="form-select" name="cluster_id" id="cluster">
                         <option hidden>Pilih Cluster</option>
@@ -42,41 +59,36 @@
                         <option value="{{$listing->properti_id}}" selected >{{$listing->properti->no_rumah}}</option>
                     </select>
                 </div>
-                <div class="col-md-3">
-                    <label for="formGroupExampleInput" class="form-label">Status Kepemilikan</label>
-
-                    <select class="form-select" name="status" aria-label="Default select example">
-                        <option disabled selected="">Pilih Status Kepemilikan</option>
-                        @if ($listing->status = 'desewakan')
-                        <option value="disewakan" selected>disewakan</option>
-                        <option value="dijual">dijual</option>
-                        @elseif($listing->status = 'dijual')
-                        <option value="disewakan" >disewakan</option>
-                        <option value="dijual" selected>dijual</option>
-                        @endif
-                        <option value="disewakan">disewakan</option>
-                        <option value="dijual">dijual</option>
-                    </select>
-                </div>
             </div>
 
+
+
             <div class="row mt-3">
+                <div class="col-md-3">
+                    <label for="formGroupExampleInput" class="form-label">Harga</label>
 
+                    <input value="{{ old('harga', $listing->harga) }}" onkeyup="onchange_comma(this.id, this.value); count();" type="text" required class="form-control money" id="harga"
+                        name="harga">
+                </div>
 
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <label for="formGroupExampleInput" class="form-label">Diskon</label>
                     <div class="input-group">
-                        <input value="{{ old('diskon', $listing->diskon) }}" type="number" min="0" required name="diskon"
-                            class="form-control" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                        <input value="{{ old('diskon', $listing->diskon) }}" id="diskon" type="number" min="0" required name="diskon"
+                        class="form-control" aria-label="Recipient's username" aria-describedby="basic-addon2"
+                        onkeyup="count()">
                         <span class="input-group-text" id="basic-addon2">%</span>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <label for="" class="form-label">Masukkan Gambar</label>
-                    <input id="filePhoto" type="file" class="form-control" name="image" placeholder="address">
-                    <img class="mt-3" id="output" src="{{ asset('storage/' . $listing->image ) }}" style="max-width: 200px; max-height:200px" >
-                </div>
 
+                <div class="col-md-3">
+                    <label for="formGroupExampleInput" class="form-label">Setelah Diskon</label>
+                    <div class="input-group">
+                        <input id="setelahDiskon" value="{{ old('diskon', $listing->setelah_diskon) }}" type="number" readonly  min="0" required class="form-control" name="setelah_diskon"
+                         aria-label="Recipient's username" aria-describedby="basic-addon2">
+                        {{-- <span class="input-group-text" id="basic-addon2">%</span> --}}
+                    </div>
+                </div>
             </div>
 
 
@@ -90,9 +102,28 @@
 @endsection
 
 @push('after-script')
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js" defer></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js" defer></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
+
+<script>
+    function count() {
+            var harga = $("#harga").val();
+            harga = harga.replace(/\,/g, ''); // 1125, but a string, so convert it to number
+            harga = parseInt(harga, 10);
+
+            var diskon = $("#diskon").val();
+            diskon = diskon.replace(/\,/g, ''); // 1125, but a string, so convert it to number
+            diskon = parseInt(diskon, 10);
+            // console.log(harga);
+            // var diskon = ($("#diskon").val());
+            var hargaDiskon = harga * diskon / 100;
+            var hargaAkhir = harga - hargaDiskon;
+
+            $("#setelahDiskon").val(parseInt(hargaAkhir));
+            // alert(harga);
+        }
+</script>
     <script>
         $(function() {
             $("#filePhoto").change(function(event) {
@@ -126,6 +157,10 @@
             var x = numeral($("#" + id).val()).format('0,0');
             $("#" + id).val(x);
         }
+
+
+
+
     </script>
 
 <script>
@@ -172,10 +207,8 @@
         // alert('halo');
     })
 
-    function onchange_comma(id, value) {
-        var x = numeral($("#" + id).val()).format('0,0');
-        $("#" + id).val(x);
-    }
+
+
 </script>
 @endpush
 

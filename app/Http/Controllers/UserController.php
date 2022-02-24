@@ -26,7 +26,7 @@ class UserController extends Controller
             ->orderBy('id', 'desc')
             ->get();
 
-         
+
         // $properti = Properti::where()
         return view('pages.user.index', ['users' => $users]);
     }
@@ -212,9 +212,9 @@ class UserController extends Controller
             });
             // dd($img);
             $filename = time() . '.' . $request->file('photo_ktp')->getClientOriginalExtension();
-            $img_path = 'user_photo/' . $filename;
-            Storage::put($img_path, $img->encode());
-            $user->photo_ktp = $img_path;
+            $img_ktp = 'user_photo/' . $filename;
+            Storage::put($img_ktp, $img->encode());
+            $user->photo_ktp = $img_ktp;
             // dd($img_path);
         }
 

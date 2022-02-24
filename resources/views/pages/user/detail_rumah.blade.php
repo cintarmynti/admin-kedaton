@@ -61,12 +61,12 @@
             <div class="row mt-4 border border-5">
                 <div class="col border-end">
                     <p><b>Luas Kavling</b></p>
-                    <p>{{ $properti->luas_tanah }}</p>
+                    <p>{{ $properti->luas_tanah }} m2</p>
                 </div>
 
                 <div class="col">
                     <p><b>Luas Bangunan</b></p>
-                    <p>{{ $properti->luas_bangunan }}</p>
+                    <p>{{ $properti->luas_bangunan }} m2</p>
                 </div>
             </div>
 

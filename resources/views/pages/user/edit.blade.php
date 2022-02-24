@@ -38,10 +38,13 @@
                         <label for="formGroupExampleInput" class="form-label">Password</label>
                         <input type="password" class="form-control" name="password" aria-label="Last name">
                     </div> --}}
-                    <div class="col">
+                    <div class="col-md-4">
                         <label for="formGroupExampleInput" class="form-label">Alamat</label>
-                        <input type="text" value="{{ old('alamat', $user->alamat) }}" class="form-control" name="alamat"
-                            aria-label="First name">
+                        <textarea name="" id="" cols="10" class="form-control" rows="5">
+                            {{ old('alamat', $user->alamat) }}
+                        </textarea>
+                        {{-- <input type="text" value="" class="form-control" name="alamat"
+                            aria-label="First name"> --}}
                     </div>
                 </div>
 
