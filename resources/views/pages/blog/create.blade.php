@@ -10,11 +10,11 @@
             <div class="row">
                 <div class="col">
                     <label class="form-label" for="">Judul</label>
-                  <input type="text" required class="form-control" name="judul"  aria-label="First name">
+                    <input type="text" required class="form-control" name="judul"  aria-label="First name">
                 </div>
                 <div class="col">
                     <label class="form-label" for="" >Foto Deskripsi(bisa lebih dari 1)</label>
-                    <input required type="file" name="image[]" class="form-control" name="images[]" placeholder="address" multiple>
+                    <input type="file" name="image[]" class="form-control" name="images[]" placeholder="address" multiple>
                 </div>
 
             </div>
@@ -22,7 +22,7 @@
             <div class="row mt-1">
                 <div class="col">
                         <label class="form-label" for="" >Foto Header</label>
-                  <input type="file" class="form-control" id="filePhoto" name="photo_header"  aria-label="First name">
+                  <input type="file" class="form-control" id="filePhoto" name="photo_header"  aria-label="First name" required>
                   <img id="output" class="mb-3" style="max-height: 200px; max-width: 300px">
                 </div>
 
