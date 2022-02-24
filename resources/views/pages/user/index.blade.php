@@ -97,6 +97,7 @@
 
                                             </a> --}}
                                     <a class="mx-1 btn btn-primary fa-solid fa-eye" type="button" href="{{ route('user.detail', $user->id) }}" data-toggle="tooltip" data-placement="top" title="detail user"></a>
+                                    <a class="mx-1 btn btn-primary" type="button" href="{{ route('user.newProp', $user->id) }}" data-toggle="tooltip" data-placement="top" title="Tambah Properti"><i class="fa-solid fa-house"></i></a>
                                 </div>
 
 

@@ -31,6 +31,25 @@ class UserController extends Controller
         return view('pages.user.index', ['users' => $users]);
     }
 
+    public function storeProp(Request $request){
+        // dd(request()->id);
+        if (is_iterable($request->properti_id)) {
+            foreach ($request->properti_id as $prop) {
+                $properti = Properti::findOrFail($prop);
+                $properti->pemilik_id = $request->user_id;
+                $properti->save();
+            }
+        }
+
+        return redirect('/user');
+    }
+
+    public function newProp($id, Request $request){
+        $cluster = Cluster::all();
+        $user = User::where('user_status', 'pengguna')->get();
+        return view('pages.user.newProp', ['cluster' => $cluster, 'user' => $user]);
+    }
+
     public function export_excel()
     {
         return Excel::download(new UserExport, 'pengguna.xlsx');
