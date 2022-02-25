@@ -58,6 +58,14 @@ class PropertiController extends Controller
         $properti->luas_bangunan = $request->luas_bangunan;
         $properti->kamar_mandi = $request->kamar_mandi;
         $properti->carport = $request->carport;
+        $properti->provinsi_id = $request->provinsi_id;
+        $properti->provinsi = $request->provinsi;
+        $properti->kabupaten_id = $request->kabupaten_id;
+        $properti->kabupaten = $request->kabupaten;
+        $properti->kecamatan_id = $request->kecamatan_id;
+        $properti->kecamatan = $request->kecamatan;
+        $properti->kelurahan_id = $request->kelurahan_id;
+        $properti->kelurahan = $request->kelurahan;
 
         // $properti->penghuni_id = $request->penghuni;
         // $properti->pemilik_id = $request->pemilik;
@@ -163,6 +171,7 @@ class PropertiController extends Controller
         $data['properti'] = Properti::with('penghuni', 'pemilik', 'cluster')->where('id', $id)->first();
         $data['image'] = Properti_image::where('properti_id', $id)->get();
 
+        // dd($data['properti']);
         return response()->json($data);
     }
     public function edit($id)
@@ -199,6 +208,14 @@ class PropertiController extends Controller
         $properti->pemilik_id = $request->pemilik;
         $properti->status = $request->status;
         $properti->harga = $request->harga;
+        $properti->provinsi_id = $request->provinsi_id;
+        $properti->provinsi = $request->provinsi;
+        $properti->kabupaten_id = $request->kabupaten_id;
+        $properti->kabupaten = $request->kabupaten;
+        $properti->kecamatan_id = $request->kecamatan_id;
+        $properti->kecamatan = $request->kecamatan;
+        $properti->kelurahan_id = $request->kelurahan_id;
+        $properti->kelurahan = $request->kelurahan;
 
         $cluster = Cluster::where('id', $request->cluster_id)->first();
         // dd($cluster);

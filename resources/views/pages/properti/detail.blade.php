@@ -20,6 +20,30 @@
 
             <div class="row mt-4 border border-5">
                 <div class="col border-end">
+                    <p><b>Provinsi</b></p>
+                    <p>{{ $properti->provinsi }}</p>
+                </div>
+
+                <div class="col">
+                    <p><b>Kabupaten/Kota</b> </p>
+                    <p>{{ $properti->kabupaten }}</p>
+                </div>
+            </div>
+
+            <div class="row mt-4 border border-5">
+                <div class="col border-end">
+                    <p><b>Kecamatan</b></p>
+                    <p>{{ $properti->kecamatan }}</p>
+                </div>
+
+                <div class="col">
+                    <p><b>Kelurahan</b> </p>
+                    <p>{{ $properti->kelurahan }}</p>
+                </div>
+            </div>
+
+            <div class="row mt-4 border border-5">
+                <div class="col border-end">
                     <p><b>No Listrik</b></p>
                     <p>{{ $properti->no_listrik }}</p>
                 </div>

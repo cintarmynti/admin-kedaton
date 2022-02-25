@@ -31,15 +31,54 @@
                                 class="form-control" name="no">
                         </div>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-3">
                         <label for="formGroupExampleInput" class="form-label">RT</label>
                         <input value="{{ old('RT', $properti->RT) }}" type="number" required class="form-control"
                             name="RT">
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-3">
                         <label for="formGroupExampleInput" class="form-label">RW</label>
                         <input value="{{ old('RW', $properti->RW) }}" type="number" required class="form-control"
                             name="RW">
+                    </div>
+                    {{-- <div class="col-md-12"></div> --}}
+                    <div class="col-md-12"></div>
+                    <div class="col-md-3">
+                        <label for="formGroupExampleInput" class="form-label">Provinsi</label>
+                        <select onchange="getKota(this.value)" id="select_prov" class="form-select" name="provinsi_id" aria-label="Default select example">
+                            {{-- <option disabled selected="">Provinsi</option> --}}
+                        </select>
+                        <input type="hidden" name="provinsi" id="name_prov">
+                        <input type="hidden" id="edit_prov" value="{{old('provinsi_id', $properti->provinsi_id)}}">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="formGroupExampleInput" class="form-label">Kabupaten/Kota</label>
+                        <select onchange="getKecamatan(this.value)" id="select_kota" class="form-select" name="kabupaten_id" aria-label="Default select example">
+                            {{-- <option disabled selected="">Kabupaten</option> --}}
+                        </select>
+                        <input type="hidden" name="kabupaten" id="name_kota">
+                        <input type="hidden" id="edit_kab" value="{{old('kabupaten_id', $properti->kabupaten_id)}}">
+
+
+                    </div>
+                    <div class="col-md-3">
+                        <label for="formGroupExampleInput" class="form-label">Kecamatan</label>
+                        <select onchange="getKelurahan(this.value)"  id="select_kec" class="form-select" name="kecamatan_id" aria-label="Default select example">
+                            <option disabled selected="">Kecamatan</option>
+                        </select>
+                        <input type="hidden" name="kecamatan" id="name_kec">
+                        <input type="hidden" id="edit_kec" value="{{old('kecamatan_id', $properti->kecamatan_id)}}">
+
+
+                    </div>
+                    <div class="col-md-3">
+                        <label for="formGroupExampleInput" class="form-label">Kelurahan</label>
+                        <select id="select_kel" class="form-select" name="kelurahan_id"  aria-label="Default select example">
+                            <option disabled selected="">Kelurahan</option>
+                        </select>
+                        <input type="hidden" name="kelurahan" id="name_kel">
+                        <input type="hidden" id="edit_kel" value="{{old('kelurahan_id', $properti->kelurahan_id)}}">
+
                     </div>
                     <div class="col-md-12"></div>
                     <div class="col-md-6">
@@ -111,7 +150,7 @@
                     </div>
                     <div class="col-md-4">
                         <label for="" class="form-label">Masukkan Gambar(bisa lebih dari 1)</label>
-                        <input required type="file" class="form-control" name="image[]" placeholder="address" multiple>
+                        <input type="file" class="form-control" name="image[]" placeholder="address" multiple>
 
                     </div>
                     <div class="col-md-12">
@@ -130,170 +169,7 @@
                     </div>
                 </div>
 
-                {{-- <div class="row">
-                    <div class="col-md-9">
-                        <label for="">Alamat</label>
-                        <input type="text" value="{{ old('alamat', $properti->alamat) }}" required class="form-control"
-                            name="alamat" aria-label="First name">
-                    </div>
-                    <div class="col-md-3">
-                        <label for="">No Rumah</label>
-                        <input type="text" value="{{ old('no_rumah', $properti->no_rumah) }}" required
-                            class="form-control" name="no" aria-label="Last name">
-                    </div>
-                </div>
 
-                <div class="row mt-3">
-                    <div class="col-md-3">
-                        <label for="">RT</label>
-                        <input type="number" value="{{ old('RT', $properti->RT) }}" required class="form-control"
-                            name="RT" aria-label="First name">
-                    </div>
-                    <div class="col-md-3">
-                        <label for="">RW</label>
-                        <input type="number" value="{{ old('RW', $properti->RW) }}" required class="form-control"
-                            name="RW" aria-label="Last name">
-                    </div>
-                    <div class="col-md-3">
-                        <label for="">Jumlah Lantai</label>
-                        <input type="number" value="{{ old('lantai', $properti->lantai) }}" required
-                            class="form-control" name="lantai" aria-label="First name">
-                    </div>
-                    <div class="col-md-3">
-                        <label for="">Jumlah Kamar</label>
-                        <input type="number" value="{{ old('jumlah_kamar', $properti->jumlah_kamar) }}" required
-                            class="form-control" name="jumlah_kamar" aria-label="Last name">
-                    </div>
-                </div>
-
-                <div class="row mt-4">
-                    <div class="col-md-8">
-                        <label for="formGroupExampleInput" class="form-label">No Listrik</label>
-                        <input value="{{ old('listrik', $properti->no_listrik) }}" type="number" required
-                            class="form-control" name="listrik" aria-label="First name">
-                    </div>
-                    <div class="col-md-4">
-                        <label for="">Luas Kavling</label>
-
-                        <div class="input-group mb-3">
-                            <input type="number" value="{{ old('luas_tanah', $properti->luas_tanah) }}" min="0" required
-                                name="luas_tanah" class="form-control" aria-label="Recipient's username"
-                                aria-describedby="basic-addon2">
-                            <span class="input-group-text" id="basic-addon2">m2</span>
-                        </div>
-                    </div>
-
-                </div>
-
-
-                <div class="row mt-4">
-                    <div class="col-md-8">
-                        <label for="formGroupExampleInput" class="form-label">No PAM</label>
-                        <input value="{{ old('pam', $properti->no_pam_bsd) }}" type="number" required
-                            class="form-control" name="pam" aria-label="Last name">
-                    </div>
-                    <div class="col-md-4">
-                        <label for="">Luas Bangunan</label>
-                        <div class="input-group mb-3">
-                            <input type="number" value="{{ old('luas_bangunan', $properti->luas_bangunan) }}" min="0"
-                                required name="luas_bangunan" class="form-control" aria-label="Recipient's username"
-                                aria-describedby="basic-addon2">
-                            <span class="input-group-text" id="basic-addon2">m2</span>
-                        </div>
-
-                    </div>
-                </div>
-
-                <div class="row mt-4">
-                    <div class="col">
-                        <label for="">Penghuni</label>
-                        <select class="form-select multiple2" name="penghuni" aria-label="Default select example">
-                            <option disabled selected="">Pilih Penghuni</option>
-                            @foreach ($user as $lis)
-                                <option value="{{ $lis->id }}"
-                                    {{ $lis->id == $properti->penghuni_id ? 'selected' : '' }}>
-                                    {{ $lis->name }}
-                                </option>
-                            @endforeach
-                        </select>
-
-
-                    </div>
-                    <div class="col">
-                        <label for="">Pemilik</label>
-
-                        <select class="form-select multiple2" name="pemilik" aria-label="Default select example">
-                            <option disabled selected="">Pilih Pemilik</option>
-                            @foreach ($user as $lis)
-                                <option value="{{ $lis->id }}"
-                                    {{ $lis->id == $properti->pemilik_id ? 'selected' : '' }}>
-                                    {{ $lis->name }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="col">
-                        <label for="">Pilih Cluster</label>
-                        <select class="form-select select2" name="cluster_id" aria-label="Default select example">
-                            <option disabled selected="">Pilih Cluster</option>
-                            @foreach ($cluster as $clu)
-                                <option value="{{ $clu->id }}"
-                                    {{ $clu->id == $properti->cluster_id ? 'selected' : '' }}>
-                                    {{ $clu->name }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-
-                <div class="row mt-4">
-                    <div class="col">
-                        <label for="">Status Kepemilikan</label>
-                        <select class="form-select" name="status" aria-label="Default select example">
-                            <option disabled selected="">Pilih Status Kepemilikan</option>
-                            <option value="dihuni" {{ 'dihuni' == $properti->status ? 'selected' : '' }}>dihuni</option>
-                            <option value="disewakan" {{ 'disewakan' == $properti->status ? 'selected' : '' }}>disewakan
-                            </option>
-                            <option value="dijual" {{ 'dijual' == $properti->status ? 'selected' : '' }}>dijual</option>
-                        </select>
-                    </div>
-                    <div class="col">
-                        <label for="">Harga</label>
-                        <input type="text" value="{{ old('harga', $properti->harga) }}" class="form-control"
-                            name="harga" aria-label="Last name" onkeyup="onchange_comma(this.id, this.value)">
-                    </div>
-                    <div class="col">
-                        <label for="" class="form-label">Masukkan Gambar(bisa lebih dari 1)</label>
-                        <input type="file" class="form-control" name="image[]" placeholder="address" multiple>
-
-                    </div>
-                </div>
-
-                <div class="row mt-4">
-
-
-                </div>
-
-                <div class="row mt-4" id="images">
-                    @foreach ($image as $item)
-                        <div class="col-md-3 wrapper">
-                            <img onclick="image()" src="{{ asset('storage/' . $item->image) }}" width="200px"
-                                height="200px" alt="">
-                            <div class="panjang mb-4">
-                                <a href="{{ route('propertiimg.delete', $item->id) }}" width="200px"
-                                    class="btn btn-danger hapus mt-3">hapus gambar</a>
-                            </div>
-                        </div>
-                    @endforeach
-
-                </div>
-
-
-                <div class="row mt-4">
-                    <div class="col">
-                  <input type="file" required class="form-control" name="photo_identitas" placeholder="photo identitas" aria-label="First name">
-                </div>
-                </div> --}}
                 <a href="{{ route('properti') }}" class="btn btn-warning mt-4">kembali</a>
                 <button type="submit" class="btn btn-primary ml-4 mt-4">Simpan</button>
             </form>
@@ -332,7 +208,141 @@
             var x = numeral($("#" + id).val()).format('0,0');
             $("#" + id).val(x);
         }
+
+
     </script>
+
+<script>
+    $(document).ready(function () {
+        getProv();
+        $('#select_prov').trigger('change');
+        $('#name_prov').val($('#select_prov option:selected').text());
+    });
+
+    function getProv() {
+        var provinsi = $('#edit_prov').val();
+        // alert(provinsi);
+        $.ajax({
+            type: "get",
+            url: "https://dev.farizdotid.com/api/daerahindonesia/provinsi",
+            dataType: "json",
+            success: function (response) {
+                // $("#select_prov").
+                var data = response.provinsi;
+                var options = '';
+                var selected = '';
+                options += '<option value="" >Pilih Provinsi</option>';
+                for(var i=0; i<data.length; i++) { // Loop through the data & construct the options
+                if (data[i].id == provinsi) {
+                    selected = 'selected';
+                }else{
+                    selected = '';
+                };
+                    options += '<option value="'+data[i].id+'" '+selected+'>'+data[i].nama+'</option>';
+                }
+
+                // Append to the html
+                $('#select_prov').html(options);
+                $('#select_prov').trigger('change');
+            }
+        });
+    }
+
+
+    function getKota(id) {
+        var kabupaten = $('#edit_kab').val();
+
+        $('#name_prov').val($('#select_prov option:selected').text());
+        $.ajax({
+            type: "get",
+            url: "https://dev.farizdotid.com/api/daerahindonesia/kota?id_provinsi="+ id,
+            dataType: "json",
+            success: function (response) {
+                // $("#select_prov").
+                var data = response.kota_kabupaten;
+                var options = '';
+                var selected = '';
+                options += '<option value="" >Pilih Kota/Kab</option>';
+                for(var i=0; i<data.length; i++) { // Loop through the data & construct the options
+                    if (data[i].id == kabupaten) {
+                        selected = 'selected';
+                    }else{
+                        selected = '';
+                    };
+                    options += '<option value="'+data[i].id+'" '+selected+'>'+data[i].nama+'</option>';
+                }
+
+                // Append to the html
+                $('#select_kota').html(options);
+                $('#select_kota').trigger('change');
+            }
+        });
+    }
+
+    function getKecamatan(id) {
+        $('#name_kota').val($('#select_kota option:selected').text());
+        var kecamatan = $('#edit_kec').val();
+
+        $.ajax({
+            type: "get",
+            url: "https://dev.farizdotid.com/api/daerahindonesia/kecamatan?id_kota="+ id,
+            dataType: "json",
+            success: function (response) {
+                // $("#select_prov").
+                var data = response.kecamatan;
+                var options = '';
+                var selected = '';
+                options += '<option value="" >Pilih Kecamatan</option>';
+                for(var i=0; i<data.length; i++) { // Loop through the data & construct the options
+                    if (data[i].id == kecamatan) {
+                        selected = 'selected';
+                    }else{
+                        selected = '';
+                    };
+                    options += '<option value="'+data[i].id+'" '+selected+'>'+data[i].nama+'</option>';
+                }
+
+                // Append to the html
+                $('#select_kec').html(options);
+                $('#select_kec').trigger('change');
+            }
+        });
+    }
+    function getKelurahan(id) {
+        $('#name_kec').val($('#select_kec option:selected').text());
+        var kelurahan = $('#edit_kel').val();
+
+        $.ajax({
+            type: "get",
+            url: "https://dev.farizdotid.com/api/daerahindonesia/kelurahan?id_kecamatan="+ id,
+            dataType: "json",
+            success: function (response) {
+                // $("#select_prov").
+                var data = response.kelurahan;
+                var options = '';
+                var selected = '';
+                options += '<option value="" >Pilih Kelurahan</option>';
+                for(var i=0; i<data.length; i++) { // Loop through the data & construct the options
+                    if (data[i].id == kelurahan) {
+                        selected = 'selected';
+                    }else{
+                        selected = '';
+                    };
+                    options += '<option value="'+data[i].id+'" '+selected+'>'+data[i].nama+'</option>';
+                }
+
+                // Append to the html
+                $('#select_kel').html(options);
+                $('#select_kel').trigger('change');
+
+            }
+        });
+    }
+
+    $("#select_kel").on('change', function (params) {
+        $('#name_kel').val($(this).find('option:selected').text());
+    });
+</script>
 @endpush
 
 @push('before-style')

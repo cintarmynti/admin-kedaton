@@ -126,7 +126,8 @@ class UserController extends Controller
 
         Mail::to($details['recipient'])->send(new PasswordBaru($details));
 
-        dd("Email sudah terkirim" .$pw);
+        return ResponseFormatter::success('password baru telah dikirim silahkan di cek', $pw);
+
 
     }
 

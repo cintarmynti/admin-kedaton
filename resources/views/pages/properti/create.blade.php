@@ -26,21 +26,63 @@
                             <input value="{{ old('no') }}" type="text" required class="form-control" name="no">
                         </div>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-3">
                         <label for="formGroupExampleInput" class="form-label">RT</label>
                         <input value="{{ old('RT') }}" type="number" required class="form-control" name="RT">
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-3">
                         <label for="formGroupExampleInput" class="form-label">RW</label>
                         <input value="{{ old('RW') }}" type="number" required class="form-control" name="RW">
                     </div>
+
                     <div class="col-md-12"></div>
+                    <div class="col-md-3">
+                        <label for="formGroupExampleInput" class="form-label">Provinsi</label>
+                        <select onchange="getKota(this.value)" id="select_prov" class="form-select" name="provinsi_id" aria-label="Default select example">
+                            {{-- <option disabled selected="">Provinsi</option> --}}
+                        </select>
+                        <input type="hidden" name="provinsi" id="name_prov">
+
+                    </div>
+                    <div class="col-md-3">
+                        <label for="formGroupExampleInput" class="form-label">Kabupaten/Kota</label>
+                        <select onchange="getKecamatan(this.value)" id="select_kota" class="form-select" name="kabupaten_id" aria-label="Default select example">
+                            {{-- <option disabled selected="">Kabupaten</option> --}}
+                        </select>
+                        <input type="hidden" name="kabupaten" id="name_kota">
+
+
+                    </div>
+                    <div class="col-md-3">
+                        <label for="formGroupExampleInput" class="form-label">Kecamatan</label>
+                        <select onchange="getKelurahan(this.value)"  id="select_kec" class="form-select" name="kecamatan_id" aria-label="Default select example">
+                            <option disabled selected="">Kecamatan</option>
+                        </select>
+                        <input type="hidden" name="kecamatan" id="name_kec">
+
+
+                    </div>
+                    <div class="col-md-3">
+                        <label for="formGroupExampleInput" class="form-label">Kelurahan</label>
+                        <select id="select_kel" class="form-select" name="kelurahan_id"  aria-label="Default select example">
+                            <option disabled selected="">Kelurahan</option>
+                        </select>
+                        <input type="hidden" name="kelurahan" id="name_kel">
+
+                    </div>
+                    <div class="col-md-12"></div>
+
+
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="formGroupExampleInput" class="form-label">Alamat</label>
                             <textarea rows="5" type="text" required class="form-control" name="alamat"></textarea>
                         </div>
                     </div>
+
+
+
+
                     <div class="col-md-12"></div>
                     <div class="col-md-3">
                         <div class="form-group">
@@ -130,24 +172,127 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
 
     <script>
-        $(document).ready(function() {
-            $('.select2').select2({
-                // placeholder: 'Select Cluster',
-                theme: 'bootstrap4',
-                tags: true
-            })
+        $(document).ready(function () {
+            getProv();
+            $('#select_prov').trigger('change');
+            $('#name_prov').val($('#select_prov option:selected').text());
+        });
 
-            $('.multiple2').select2({
-                // placeholder: 'Select Cluster',
-                theme: 'bootstrap4',
-            })
-            // alert('halo');
-        })
+        function getProv() {
+            $.ajax({
+                type: "get",
+                url: "https://dev.farizdotid.com/api/daerahindonesia/provinsi",
+                dataType: "json",
+                success: function (response) {
+                    // $("#select_prov").
+                    var data = response.provinsi;
+                    var options = '';
+                    var selected = '';
+                    options += '<option value="" >Pilih Provinsi</option>';
+                    for(var i=0; i<data.length; i++) { // Loop through the data & construct the options
+                    if (data[i].id == 33) {
+                        selected = 'selected';
+                    }else{
+                        selected = '';
+                    };
+                        options += '<option value="'+data[i].id+'" '+selected+'>'+data[i].nama+'</option>';
+                    }
 
-        function onchange_comma(id, value) {
-            var x = numeral($("#" + id).val()).format('0,0');
-            $("#" + id).val(x);
+                    // Append to the html
+                    $('#select_prov').html(options);
+                    $('#select_prov').trigger('change');
+                }
+            });
         }
+
+
+        function getKota(id) {
+            $('#name_prov').val($('#select_prov option:selected').text());
+            $.ajax({
+                type: "get",
+                url: "https://dev.farizdotid.com/api/daerahindonesia/kota?id_provinsi="+ id,
+                dataType: "json",
+                success: function (response) {
+                    // $("#select_prov").
+                    var data = response.kota_kabupaten;
+                    var options = '';
+                    var selected = '';
+                    options += '<option value="" >Pilih Kota/Kab</option>';
+                    for(var i=0; i<data.length; i++) { // Loop through the data & construct the options
+                        if (data[i].id == 3374) {
+                            selected = 'selected';
+                        }else{
+                            selected = '';
+                        };
+                        options += '<option value="'+data[i].id+'" '+selected+'>'+data[i].nama+'</option>';
+                    }
+
+                    // Append to the html
+                    $('#select_kota').html(options);
+                    $('#select_kota').trigger('change');
+                }
+            });
+        }
+
+        function getKecamatan(id) {
+            $('#name_kota').val($('#select_kota option:selected').text());
+            $.ajax({
+                type: "get",
+                url: "https://dev.farizdotid.com/api/daerahindonesia/kecamatan?id_kota="+ id,
+                dataType: "json",
+                success: function (response) {
+                    // $("#select_prov").
+                    var data = response.kecamatan;
+                    var options = '';
+                    var selected = '';
+                    options += '<option value="" >Pilih Kecamatan</option>';
+                    for(var i=0; i<data.length; i++) { // Loop through the data & construct the options
+                        if (data[i].id == 3374010) {
+                            selected = 'selected';
+                        }else{
+                            selected = '';
+                        };
+                        options += '<option value="'+data[i].id+'" '+selected+'>'+data[i].nama+'</option>';
+                    }
+
+                    // Append to the html
+                    $('#select_kec').html(options);
+                    $('#select_kec').trigger('change');
+                }
+            });
+        }
+        function getKelurahan(id) {
+            $('#name_kec').val($('#select_kec option:selected').text());
+            $.ajax({
+                type: "get",
+                url: "https://dev.farizdotid.com/api/daerahindonesia/kelurahan?id_kecamatan="+ id,
+                dataType: "json",
+                success: function (response) {
+                    // $("#select_prov").
+                    var data = response.kelurahan;
+                    var options = '';
+                    var selected = '';
+                    options += '<option value="" >Pilih Kelurahan</option>';
+                    for(var i=0; i<data.length; i++) { // Loop through the data & construct the options
+                        if (data[i].id == 3374010011) {
+                            selected = 'selected';
+                        }else{
+                            selected = '';
+                        };
+                        options += '<option value="'+data[i].id+'" '+selected+'>'+data[i].nama+'</option>';
+                    }
+
+                    // Append to the html
+                    $('#select_kel').html(options);
+                    $('#select_kel').trigger('change');
+
+                }
+            });
+        }
+
+        $("#select_kel").on('change', function (params) {
+            $('#name_kel').val($(this).find('option:selected').text());
+        });
     </script>
 @endpush
 

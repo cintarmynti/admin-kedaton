@@ -155,9 +155,9 @@ class UserController extends Controller
                 $constraint->aspectRatio();
             });
             $filename = time() . '.' . $request->file('photo_ktp')->getClientOriginalExtension();
-            $img_path = 'user_photo/' . $filename;
+            $img_ktp = 'user_photo_ktp/' . $filename;
             Storage::put($img_path, $img->encode());
-            $user->photo_ktp = $img_path;
+            $user->photo_ktp = $img_ktp;
         }
         $user->save();
 
@@ -221,7 +221,7 @@ class UserController extends Controller
             $user->photo_identitas = $img_path;
         }
 
-        // dd($user->photo_identitas);
+        // dd($request->all());
 
         if ($request->hasFile('photo_ktp')) {
             Storage::disk('public')->delete($user->photo_ktp);
@@ -231,7 +231,7 @@ class UserController extends Controller
             });
             // dd($img);
             $filename = time() . '.' . $request->file('photo_ktp')->getClientOriginalExtension();
-            $img_ktp = 'user_photo/' . $filename;
+            $img_ktp = 'user_photo_ktp/' . $filename;
             Storage::put($img_ktp, $img->encode());
             $user->photo_ktp = $img_ktp;
             // dd($img_path);
@@ -321,13 +321,29 @@ class UserController extends Controller
     public function getNomerid($id)
     {
         $nomer = Properti::where('cluster_id', $id)->where('pemilik_id', null)->get();
-        // dd($nomer);
-        $html   = '';
-        foreach ($nomer as $data) {
-            $html .= '<option value="' . $data['id'] . '">' . $data['no_rumah'] . '</option>';
+        $cekNomer = Properti::where('cluster_id', $id)->where('pemilik_id', null)->first();
+
+        if($cekNomer == null){
+            $return['kosong'] = true;
+            $return['html'] =
+            '<div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <strong>Tidak ada properti tersedia, mohon tambahkan terlebih dahulu <a href="/properti/create">disini</a>.
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>';
+
+        }else {
+            $return['kosong'] = false;
+            $html   = '';
+            foreach ($nomer as $data) {
+                $html .= '<option value="' . $data['id'] . '">' . $data['no_rumah'] . '</option>';
+            }
+
+            $return['opsi'] = $html;
+            // echo $html;
         }
-        echo $html;
-        // return response()->json($Listing);
+        return response()->json($return);
+
+
     }
 
     public function daftarUser()

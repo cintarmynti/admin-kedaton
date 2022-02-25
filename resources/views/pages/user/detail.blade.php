@@ -83,7 +83,7 @@
                             <th scope="row">{{ $no++ }}</th>
                             <td>{{ $us->cluster->name }}</td>
                             <td>{{ $us->no_rumah }}</td>
-                            <td>{{ $us->alamat }}</td>
+                            <td>{{ $us->alamat }}, {{$us->kelurahan}}, {{$us->kecamatan}}, {{$us->kabupaten}}, {{$us->provinsi}}</td>
                             <td>
                                 @if (isset($us->penghuni->name))
                                     {{ $us->penghuni->name }}

@@ -67,6 +67,7 @@
                                             <option value="{{ $item->id }}">{{ $item->name }}</option>
                                         @endforeach
                                     </select>
+
                                 </div>
                             </div>
 
@@ -76,6 +77,10 @@
                                     <select class="form-select" name="properti_id" id="no_rmh">
                                         <option value="" selected disabled>Pilih No Rumah</option>
                                     </select>
+
+                                    <div id="kosong">
+
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -247,10 +252,14 @@
                         data: {
                             "_token": "{{ csrf_token() }}"
                         },
-                        dataType: "html",
+                        dataType: "json",
                         success: function(data) {
-                            $('#no_rmh').html(data);
-                            $('#no_rmh').trigger('change');
+                            // console.log(Number.isInteger(954));
+
+                            console.log(data);
+                                $('#no_rmh').html(data.opsi);
+                                $('#no_rmh').trigger('change');
+                                $('#kosong').html(data.html);
                         }
                     });
                 } else {
@@ -269,6 +278,7 @@
                         },
                         dataType: "json",
                         success: function(data) {
+                            console.log(data);
                             $('#RT').val(data.properti.RT);
                             $('#RW').val(data.properti.RW);
                             $('#alamat').val(data.properti.alamat);
