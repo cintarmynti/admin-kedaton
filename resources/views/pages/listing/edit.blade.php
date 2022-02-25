@@ -59,6 +59,17 @@
                         <option value="{{$listing->properti_id}}" selected >{{$listing->properti->no_rumah}}</option>
                     </select>
                 </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="">Periode</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" value="{{$listing->periode}}"  aria-describedby="basic-addon2" name="periode">
+                            <span class="input-group-text" id="basic-addon2">tahun</span>
+                        </div>
+
+                    </div>
+                </div>
             </div>
 
 

@@ -21,6 +21,7 @@ class CreateRevListingTable extends Migration
             $table->integer('cluster_id')->nullable();
             $table->string('harga');
             $table->string('name');
+            $table->string('periode')->nullable();
             $table->string('image')->nullable();
             $table->string('setelah_diskon')->nullable();
             $table->timestamps();

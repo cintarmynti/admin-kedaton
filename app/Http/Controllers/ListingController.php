@@ -54,6 +54,7 @@ class ListingController extends Controller
         $listing->name = $request->name;
         $listing->diskon = $request->diskon;
         $listing->status = $request->status;
+        $listing->periode = $request->periode;
         $listing->properti_id = $request->properti_id;
         $listing->cluster_id = $request->cluster_id;
         $listing->setelah_diskon = $request->setelah_diskon;
@@ -124,6 +125,7 @@ class ListingController extends Controller
         $listing->name = $request->name;
         $listing->diskon = $request->diskon;
         $listing->status = $request->status;
+        $listing->periode = $request->periode;
         $listing->properti_id = $request->properti_id;
         $listing->cluster_id = $request->cluster_id;
         $listing->setelah_diskon = $request->setelah_diskon;

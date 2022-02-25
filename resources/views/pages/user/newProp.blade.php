@@ -22,6 +22,9 @@
                                     <option value="{{ $item->id }}">{{ $item->name }}</option>
                                 @endforeach
                             </select>
+                            <div id="kosong">
+
+                            </div>
                         </div>
                     </div>
 
@@ -154,48 +157,53 @@
         }
     </script>
 
-    <script>
-        $(document).ready(function() {
-            $('.cluster').on('change', function() {
-                var clusterID = $(this).val();
-                if (clusterID) {
-                    $.ajax({
-                        url: '/user/nomer/' + clusterID,
-                        type: "GET",
-                        data: {
-                            "_token": "{{ csrf_token() }}"
-                        },
-                        dataType: "html",
-                        success: function(data) {
-                            $('#no_rmh').html(data);
-                            $('#no_rmh').trigger('change');
-                        }
-                    });
-                } else {
-                    $('#no_rmh').empty();
-                }
-            });
+<script>
+    $(document).ready(function() {
+        $('.cluster').on('change', function() {
+            var clusterID = $(this).val();
+            if (clusterID) {
+                $.ajax({
+                    url: '/user/nomer/' + clusterID,
+                    type: "GET",
+                    data: {
+                        "_token": "{{ csrf_token() }}"
+                    },
+                    dataType: "json",
+                    success: function(data) {
+                        // console.log(Number.isInteger(954));
 
-            $('#no_rmh').on('change', function() {
-                var no_rmh = $(this).val();
-                if (no_rmh) {
-                    $.ajax({
-                        url: '/properti-detail-json/' + no_rmh,
-                        type: "GET",
-                        data: {
-                            "_token": "{{ csrf_token() }}"
-                        },
-                        dataType: "json",
-                        success: function(data) {
-                            $('#RT').val(data.properti.RT);
-                            $('#RW').val(data.properti.RW);
-                            $('#alamat').val(data.properti.alamat);
-                        }
-                    });
-                } else {
-                    $('#no_rmh').empty();
-                }
-            });
+                        console.log(data);
+                            $('#no_rmh').html(data.opsi);
+                            $('#no_rmh').trigger('change');
+                            $('#kosong').html(data.html);
+                    }
+                });
+            } else {
+                $('#no_rmh').empty();
+            }
         });
-    </script>
+
+        $('#no_rmh').on('change', function() {
+            var no_rmh = $(this).val();
+            if (no_rmh) {
+                $.ajax({
+                    url: '/properti-detail-json/' + no_rmh,
+                    type: "GET",
+                    data: {
+                        "_token": "{{ csrf_token() }}"
+                    },
+                    dataType: "json",
+                    success: function(data) {
+                        console.log(data);
+                        $('#RT').val(data.properti.RT);
+                        $('#RW').val(data.properti.RW);
+                        $('#alamat').val(data.properti.alamat);
+                    }
+                });
+            } else {
+                $('#no_rmh').empty();
+            }
+        });
+    });
+</script>
 @endpush

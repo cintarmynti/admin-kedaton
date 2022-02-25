@@ -7,7 +7,7 @@
             {{-- <p class="card-description">Listing yang telah ditambahkan akan muncul di halaman listing</p> --}}
             <form action="{{ route('listing.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
-               <div class="row">
+                <div class="row">
                     <div class="col-md-5">
                         <label for="" class="form-label">Judul Listing</label>
                         <input value="{{ old('name') }}" type="text" required class="form-control" name="name"
@@ -18,17 +18,18 @@
                         <input id="filePhoto" required type="file" class="form-control" name="image" placeholder="address">
                         <img id="output" src="" alt="" width="300">
                     </div>
-               </div>
+                </div>
 
                 <div class="row">
                     <div class="col-md-3">
                         <label for="formGroupExampleInput" class="form-label">Tujuan Listing</label>
-                        <select class="form-select" name="status" aria-label="Default select example">
+                        <select class="form-select" id="select_tujuan" onchange="selectTujuan(this.value)" name="status" aria-label="Default select example">
                             <option disabled selected="">Pilih Tujuan Listing</option>
-                            <option value="disewakan">disewakan</option>
+                            <option value="disewakan" >disewakan</option>
                             <option value="dijual">dijual</option>
                         </select>
                     </div>
+
                     <div class="col-md-3">
                         <label for=" " class="form-label">Pilih Cluster</label>
                         <select class="form-select" name="cluster_id" id="cluster">
@@ -46,6 +47,17 @@
                             <option value="" selected disabled>Pilih No Rumah</option>
                         </select>
                     </div>
+                    <div class="col-md-3" id="periode">
+                        <div class="form-group">
+                            <label for="">Periode</label>
+
+
+                            <div class="input-group">
+                                <input type="text" class="form-control"  aria-describedby="basic-addon2" name="periode">
+                                <span class="input-group-text" id="basic-addon2">tahun</span>
+                            </div>
+
+                        </div>
                 </div>
 
 
@@ -72,7 +84,7 @@
                     <div class="col-md-3">
                         <label for="formGroupExampleInput" class="form-label">Setelah Diskon</label>
                         <div class="input-group">
-                            <input id="setelahDiskon" readonly type="number"  min="0" required class="form-control"
+                            <input id="setelahDiskon" readonly type="number" min="0" required class="form-control"
                                 aria-label="Recipient's username" aria-describedby="basic-addon2" name="setelah_diskon">
                             {{-- <span class="input-group-text" id="basic-addon2">%</span> --}}
                         </div>
@@ -89,7 +101,7 @@
 
             </form>
 
-    </div>
+        </div>
     </div>
 @endsection
 
@@ -121,6 +133,16 @@
 
     </script> --}}
     <script>
+        function selectTujuan(val) {
+            if (val == 'dijual') {
+                $("#periode").hide();
+            } else {
+                $("#periode").show();
+            }
+        }
+
+    </script>
+    <script>
         function count() {
             var harga = $("#harga").val();
             harga = harga.replace(/\,/g, ''); // 1125, but a string, so convert it to number
@@ -140,6 +162,8 @@
     </script>
 
     <script>
+        $("#periode").hide();
+
         $(document).ready(function() {
 
 
@@ -177,7 +201,7 @@
                         success: function(data) {
                             // console.log(data);
                             // $('#jumlah').val(data);
-                             text1 += ` <div class="col-md-10">
+                            text1 += ` <div class="col-md-10">
                                                 <div id="content-loader">
                                                     <table class="table" id="myTable">
                                                         <thead>
@@ -198,7 +222,7 @@
                                                         </tbody>
                                                     </table>
                                             </div> `;
-                             $("#dataProperti").html(text1);
+                            $("#dataProperti").html(text1);
                         }
 
 
@@ -239,8 +263,6 @@
             var x = numeral($("#" + id).val()).format('0,0');
             $("#" + id).val(x);
         }
-
-
     </script>
 @endpush
 

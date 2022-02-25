@@ -14,6 +14,7 @@
                         <th scope="col">No</th>
                         <th scope="col">name</th>
                         <th scope="col">status</th>
+                        <th scope="col">periode</th>
                         <th scope="col">harga</th>
                         <th scope="col">diskon</th>
                         <th scope="col">setelah diskons</th>
@@ -30,6 +31,7 @@
                             <th scope="row">{{ $no++ }}</th>
                             <td>{{ $p->name }}</td>
                             <td>{{ $p->status }}</td>
+                            <td>{{$p->periode ? $p->periode : "-" }}</td>
                               <td>Rp.{{$p->harga}}</td>
                             <td>{{ $p->diskon ?  $p->diskon  : '-'}}%
 
