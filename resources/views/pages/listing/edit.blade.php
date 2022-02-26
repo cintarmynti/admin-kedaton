@@ -3,7 +3,7 @@
 @section('content')
 <div class="card">
     <div class="card-body">
-        <h5 class="card-title">Edit Properti</h5>
+        <h5 class="card-title">Edit Properti Listing</h5>
         <p class="card-description">Properti yang telah diedit akan muncul di halaman properti</p>
         <form action="{{route('listing.update', $listing->id)}}" method="POST" enctype="multipart/form-data">
             @csrf

@@ -1,94 +1,133 @@
 @extends('layouts.default')
 
 @section('content')
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Tambahkan Pembelian Properti Baru</h5>
+            {{-- <p class="card-description">Pengguna yang telah ditambahkan akan muncul di halaman pengguna</p> --}}
+            <form action="{{ route('user.addNewProp') }}" method="POST" enctype="multipart/form-data">
+                @csrf
 
-<div class="card">
-    <div class="card-body">
-        <form action="{{route('user.addNewProp')}}"  method="POST">
-            @csrf
-            <div class="col-md-12 mt-3 mb-2">
-                {{-- <hr> --}}
-                <h5>Tambahkan Properti</h5>
-            </div>
-            <div class="col-md-12">
-                <input type="hidden" value="{{request()->id}}" name="user_id">
-                <div class="row">
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label for="" class="form-label">Pilih Cluster</label>
-                            <select class="form-select cluster" id="cluster_id">
-                                <option value="">Pilih Cluster</option>
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Pilih Cluster</label>
+                                    <select class="form-select cluster" id="cluster_id">
+                                        <option value="">Pilih Cluster</option>
+                                        @foreach ($cluster as $item)
+                                            <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    <input type="hidden" name="user_id" value="{{request()->id}}">
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="no_rmh" class="form-label">Pilih No Rumah</label>
+                                    <select class="form-select" name="properti_id" id="no_rmh">
+                                        <option value="" selected disabled>Pilih No Rumah</option>
+                                    </select>
+                                    <div class="alert alert-warning alert-dismissible fade show mt-3" role="alert" id="alert_rumah">
+                                        <strong>Tidak ada properti tersedia, mohon tambahkan terlebih dahulu <a href="/properti/create">disini</a>.
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    </div>
+                                    <div id="kosong">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2">
+                                <label for="formGroupExampleInput" class="form-label">RT</label>
+                                <input value="{{ old('RT') }}" type="number" required class="form-control" id="RT"
+                                    readonly>
+                            </div>
+                            <div class="col-md-2">
+                                <label for="formGroupExampleInput" class="form-label">RW</label>
+                                <input value="{{ old('RW') }}" type="number" required class="form-control" id="RW"
+                                    readonly>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="formGroupExampleInput" class="form-label">Alamat</label>
+                                    <input rows="5" type="text" required class="form-control" id="alamat" readonly>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <br>
+                                    <button onclick="tambahRumah()" class="btn btn-success mt-2" type="button"><i
+                                            class="glyphicon glyphicon-remove"></i>
+                                        Tambah</button>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <table class="table table-stripped">
+                                    <thead>
+                                        <th>Cluster</th>
+                                        <th>No. Rumah</th>
+                                        <th>RT</th>
+                                        <th>RW</th>
+                                        <th>Alamat</th>
+                                        <th></th>
+                                    </thead>
+                                    <tbody id="data-detail">
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <a href="{{ route('user') }}" class="btn btn-warning mt-4">kembali</a>
+                        <button type="submit" class="btn btn-primary ml-4 mt-4">Simpan</button>
+                    </div>
+                </div>
+                {{-- <div class="card-body">
+
+
+                    <div class="row control-group">
+                        <div class="col">
+                            <label for="">Pilih Cluster</label>
+                            <select class="form-select cluster" name="cluster_id">
+                                <option hidden>Pilih Cluster</option>
                                 @foreach ($cluster as $item)
                                     <option value="{{ $item->id }}">{{ $item->name }}</option>
                                 @endforeach
                             </select>
-                            <div id="kosong">
-
-                            </div>
                         </div>
-                    </div>
 
-                    <div class="col-md-3">
-                        <div class="form-group">
+                        <div class="col">
                             <label for="no_rmh" class="form-label">Pilih No Rumah</label>
                             <select class="form-select" name="properti_id" id="no_rmh">
                                 <option value="" selected disabled>Pilih No Rumah</option>
                             </select>
                         </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-2">
-                        <label for="formGroupExampleInput" class="form-label">RT</label>
-                        <input value="{{ old('RT') }}" type="number" required class="form-control" id="RT"
-                            readonly>
-                    </div>
-                    <div class="col-md-2">
-                        <label for="formGroupExampleInput" class="form-label">RW</label>
-                        <input value="{{ old('RW') }}" type="number" required class="form-control" id="RW"
-                            readonly>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="formGroupExampleInput" class="form-label">Alamat</label>
-                            <input rows="5" type="text" required class="form-control" id="alamat" readonly>
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        <div class="form-group">
+                        <div class="col">
+                            <label for=""></label>
                             <br>
                             <button onclick="tambahRumah()" class="btn btn-success mt-2" type="button"><i
                                     class="glyphicon glyphicon-remove"></i>
                                 Tambah</button>
                         </div>
                     </div>
-                    <div class="col-md-12">
-                        <table class="table table-stripped">
-                            <thead>
-                                <th>Cluster</th>
-                                <th>No. Rumah</th>
-                                <th>RT</th>
-                                <th>RW</th>
-                                <th>Alamat</th>
-                                <th></th>
-                            </thead>
-                            <tbody id="data-detail">
 
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="col-md-12">
-                        <a href="{{ route('properti') }}" class="btn btn-warning mt-4">kembali</a>
-                        <button type="submit" class="btn btn-primary ml-4 mt-4">Simpan</button>
-                    </div>
-                </div>
-            </div>
-        </form>
 
+
+                    <div id="data-detail">
+
+                    </div>
+                    <a href="{{ route('properti') }}" class="btn btn-warning mt-4">kembali</a>
+                    <button type="submit" class="btn btn-primary ml-4 mt-4">Simpan</button>
+                </div> --}}
+
+            </form>
+
+        </div>
     </div>
-</div>
-
-
 @endsection
 
 @push('after-script')
@@ -106,6 +145,7 @@
         });
 
         var inc = 0;
+        var array_rumah = [];
 
         function tambahRumah() {
             var id = $("#no_rmh").val();
@@ -116,7 +156,7 @@
             var alamat = $('#alamat').val();
 
             var html =
-                `<tr id="row${inc}">
+                `<tr id="${cluster+id}">
                     <input type="hidden" name="properti_id[]" value="${id}">
                     <td>${cluster}</td>
                     <td>${nomer}</td>
@@ -124,21 +164,40 @@
                     <td>${rw}</td>
                     <td>${alamat}</td>
                     <td>
-                        <button class="btn btn-danger" onclick="deleteRumah(${inc})">Hapus</button>
+                        <button class="btn btn-danger" onclick="deleteRumah('${cluster+id}')">Hapus</button>
                     </td>
                 </tr>
                 `;
+            var names = cluster + id;
+            // var names2 = 'dekat1';
+            var cek = jQuery.inArray(names, array_rumah);
+            // var cek = jQuery.inArray('dekat1', array_rumah);
+            // alert(cek);
+            if (cek == -1) {
+                $('#data-detail').append(html);
+                $('#RT').val('');
+                $('#RW').val('');
+                $('#alamat').val('');
+                array_rumah.push(cluster + id);
+            } else {
+                // alert('rumah sudah ditambahkan');
+            }
+            // alert( names2);
 
-            $('#data-detail').append(html);
 
-            $('#RT').val('');
-            $('#RW').val('');
-            $('#alamat').val('');
+
 
         }
 
         function deleteRumah(id) {
-            $("#row" + id).remove()
+            // alert(id);
+             array_rumah = $.grep(array_rumah, function(value) {
+                return value !== id;
+            });
+            // return array_rumah;
+            // alert(array_rumah);
+            $('#'+id).remove();
+
         }
 
         $(document).ready(function() {
@@ -155,55 +214,103 @@
             var x = numeral($("#" + id).val()).format('0,0');
             $("#" + id).val(x);
         }
+
+        $(document).ready(function() {
+            $('#alert_rumah').hide();
+        });
+
+        $('.cluster').on('change', function() {
+                $('#no_rmh').html('');
+                $('#RT').val('');
+                $('#RW').val('');
+                $('#alamat').val('');
+                var clusterID = $(this).val();
+                var cluster_name = $(this).find('option:selected').text();
+                if (clusterID) {
+                    $.ajax({
+                        url: '/user/nomer/' + clusterID,
+                        type: "GET",
+                        data: {
+                            "_token": "{{ csrf_token() }}"
+                        },
+                        dataType: "json",
+                        success: function(response) {
+                                if (response.status == 200) {
+                                    var data = response.data;
+                                    var options = '';
+                                    options += '<option value="">Pilih No Rumah</option>';
+                                    for(var i = 0; i<data.length; i++){
+                                        // console.log("'" + cluster_name + data[i].id +"'");
+                                        // console.log("'" + cluster_name + array_rumah +"'");
+                                        // alert(cekArrayRumah("'" + cluster_name + data[i].id +"'","'" + cluster_name + array_rumah +"'"));
+                                        options += '<option value="'+data[i].id+'">'+data[i].no_rumah+'</option>';
+                                    };
+                                    $('#no_rmh').html(options);
+                                    $('#alert_rumah').hide();
+                                } else {
+                                    $('#no_rmh').html('');
+                                    $('#alert_rumah').show();
+                                }
+
+                                // $('#no_rmh').trigger('change');
+
+                                // if (data.opsi == '') {
+                                //     $('#alert_rumah').show();
+                                // } else {
+                                //     $('#alert_rumah').hide();
+                                //     $('#no_rmh').html(data.opsi);
+                                //     // $('#no_rmh').trigger('change');
+                                // }
+
+
+                        }
+                    });
+                } else {
+                    $('#no_rmh').empty();
+
+                }
+            });
+
+            $('#no_rmh').on('change', function() {
+                var no_rmh = $(this).val();
+
+                if (no_rmh) {
+                    $.ajax({
+                        url: '/properti-detail-json/' + no_rmh,
+                        type: "GET",
+                        data: {
+                            "_token": "{{ csrf_token() }}"
+                        },
+                        dataType: "json",
+                        success: function(data) {
+
+                            if(data.properti){
+                                $('#RT').val(data.properti.RT);
+                                $('#RW').val(data.properti.RW);
+                                $('#alamat').val(data.properti.alamat);
+                            }
+                                // $('#RT').val();
+                                // $('#RW').val();
+                                // $('#alamat').val();
+
+                        }
+                    });
+                } else {
+                    $('#no_rmh').empty();
+                }
+            });
     </script>
 
-<script>
-    $(document).ready(function() {
-        $('.cluster').on('change', function() {
-            var clusterID = $(this).val();
-            if (clusterID) {
-                $.ajax({
-                    url: '/user/nomer/' + clusterID,
-                    type: "GET",
-                    data: {
-                        "_token": "{{ csrf_token() }}"
-                    },
-                    dataType: "json",
-                    success: function(data) {
-                        // console.log(Number.isInteger(954));
+    <script>
 
-                        console.log(data);
-                            $('#no_rmh').html(data.opsi);
-                            $('#no_rmh').trigger('change');
-                            $('#kosong').html(data.html);
-                    }
-                });
-            } else {
-                $('#no_rmh').empty();
-            }
-        });
+    </script>
+@endpush
 
-        $('#no_rmh').on('change', function() {
-            var no_rmh = $(this).val();
-            if (no_rmh) {
-                $.ajax({
-                    url: '/properti-detail-json/' + no_rmh,
-                    type: "GET",
-                    data: {
-                        "_token": "{{ csrf_token() }}"
-                    },
-                    dataType: "json",
-                    success: function(data) {
-                        console.log(data);
-                        $('#RT').val(data.properti.RT);
-                        $('#RW').val(data.properti.RW);
-                        $('#alamat').val(data.properti.alamat);
-                    }
-                });
-            } else {
-                $('#no_rmh').empty();
-            }
-        });
-    });
-</script>
+@push('before-style')
+    <style>
+        .form-label {
+            font-weight: 500;
+        }
+
+    </style>
 @endpush

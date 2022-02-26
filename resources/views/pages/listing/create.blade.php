@@ -23,9 +23,10 @@
                 <div class="row">
                     <div class="col-md-3">
                         <label for="formGroupExampleInput" class="form-label">Tujuan Listing</label>
-                        <select class="form-select" id="select_tujuan" onchange="selectTujuan(this.value)" name="status" aria-label="Default select example">
+                        <select class="form-select" id="select_tujuan" onchange="selectTujuan(this.value)" name="status"
+                            aria-label="Default select example">
                             <option disabled selected="">Pilih Tujuan Listing</option>
-                            <option value="disewakan" >disewakan</option>
+                            <option value="disewakan">disewakan</option>
                             <option value="dijual">dijual</option>
                         </select>
                     </div>
@@ -47,57 +48,59 @@
                             <option value="" selected disabled>Pilih No Rumah</option>
                         </select>
                     </div>
+
+
                     <div class="col-md-3" id="periode">
                         <div class="form-group">
                             <label for="">Periode</label>
 
 
                             <div class="input-group">
-                                <input type="text" class="form-control"  aria-describedby="basic-addon2" name="periode">
+                                <input type="text" class="form-control" aria-describedby="basic-addon2" name="periode">
                                 <span class="input-group-text" id="basic-addon2">tahun</span>
                             </div>
 
                         </div>
-                </div>
-
-
-
-                <div class="row mt-3">
-
-                    <div class="col-md-3">
-                        <label for="formGroupExampleInput" class="form-label">Harga</label>
-
-                        <input value="{{ old('harga') }}" id="harga" type="text" required class="form-control money"
-                            id="harga" onkeyup="onchange_comma(this.id, this.value); count();" name="harga">
                     </div>
 
-                    <div class="col-md-3">
-                        <label for="formGroupExampleInput" class="form-label">Diskon</label>
-                        <div class="input-group">
-                            <input value="{{ old('diskon') }}" id="diskon" type="number" min="0" required name="diskon"
-                                class="form-control" aria-label="Recipient's username" aria-describedby="basic-addon2"
-                                onkeyup="count()">
-                            <span class="input-group-text" id="basic-addon2">%</span>
+                </div>
+
+                    <div class="row mt-3">
+
+                        <div class="col-md-3">
+                            <label for="formGroupExampleInput" class="form-label">Harga</label>
+
+                            <input value="{{ old('harga') }}" id="harga" type="text" required class="form-control money"
+                                id="harga" onkeyup="onchange_comma(this.id, this.value); count();" name="harga">
+                        </div>
+
+                        <div class="col-md-3">
+                            <label for="formGroupExampleInput" class="form-label">Diskon</label>
+                            <div class="input-group">
+                                <input value="{{ old('diskon') }}" id="diskon" type="number" min="0" required
+                                    name="diskon" class="form-control" aria-label="Recipient's username"
+                                    aria-describedby="basic-addon2" onkeyup="count()">
+                                <span class="input-group-text" id="basic-addon2">%</span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label for="formGroupExampleInput" class="form-label">Setelah Diskon</label>
+                            <div class="input-group">
+                                <input id="setelahDiskon" readonly type="number" min="0" required class="form-control"
+                                    aria-label="Recipient's username" aria-describedby="basic-addon2" name="setelah_diskon">
+                                {{-- <span class="input-group-text" id="basic-addon2">%</span> --}}
+                            </div>
                         </div>
                     </div>
 
-                    <div class="col-md-3">
-                        <label for="formGroupExampleInput" class="form-label">Setelah Diskon</label>
-                        <div class="input-group">
-                            <input id="setelahDiskon" readonly type="number" min="0" required class="form-control"
-                                aria-label="Recipient's username" aria-describedby="basic-addon2" name="setelah_diskon">
-                            {{-- <span class="input-group-text" id="basic-addon2">%</span> --}}
-                        </div>
+                    <div class="row mt-3 mb-5" id="dataProperti">
+
                     </div>
-                </div>
-
-                <div class="row mt-3 mb-5" id="dataProperti">
-
-                </div>
 
 
-                <a href="{{ route('listing') }}" class="btn btn-warning ">kembali</a>
-                <button type="submit" class="btn btn-primary ml-4 ">Simpan</a>
+                    <a href="{{ route('listing') }}" class="btn btn-warning ">kembali</a>
+                    <button type="submit" class="btn btn-primary ml-4 ">Simpan</a>
 
             </form>
 
@@ -140,7 +143,6 @@
                 $("#periode").show();
             }
         }
-
     </script>
     <script>
         function count() {
