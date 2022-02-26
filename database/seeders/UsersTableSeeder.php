@@ -22,20 +22,20 @@ class UsersTableSeeder extends Seeder
             'user_status' => 'admin'
         ]);
 
-        // User::create([
-        //     'id' => 2,
-        //     'name'    => 'fauziyah ramayanti',
-        //     'alamat' => 'jambangan',
-        //     'email'    => null,
-        //     'nik'    =>  '0993249883',
-        //     'user_status' => 'pengguna',
-        //     'phone' => 12872910,
-        //     'photo_identitas' => null,
-        //     'password'    => bcrypt('password123'),
-        //     'photo_ktp' => null,
-        //     'status_penghuni' => 'pemilik'
+        User::create([
+            'id' => 2,
+            'name'    => 'fauziyah ramayanti',
+            'alamat' => 'jambangan',
+            'email'    => null,
+            'nik'    =>  '0993249883',
+            'user_status' => 'pengguna',
+            'phone' => 12872910,
+            'photo_identitas' => null,
+            'password'    => null,
+            'photo_ktp' => null,
+            'status_penghuni' => 'pemilik'
 
-        // ]);
+        ]);
 
         // User::create([
         //     'id' => 3,

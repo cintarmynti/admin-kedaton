@@ -77,7 +77,10 @@
                                     <select class="form-select" name="properti_id" id="no_rmh">
                                         <option value="" selected disabled>Pilih No Rumah</option>
                                     </select>
-
+                                    <div class="alert alert-warning alert-dismissible fade show mt-3" role="alert" id="alert_rumah">
+                                        <strong>Tidak ada properti tersedia, mohon tambahkan terlebih dahulu <a href="/properti/create">disini</a>.
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    </div>
                                     <div id="kosong">
 
                                     </div>
@@ -190,6 +193,7 @@
         });
 
         var inc = 0;
+        var array_rumah = [];
 
         function tambahRumah() {
             var id = $("#no_rmh").val();
@@ -200,7 +204,7 @@
             var alamat = $('#alamat').val();
 
             var html =
-                `<tr id="row${inc}">
+                `<tr id="${cluster+id}">
                     <input type="hidden" name="properti_id[]" value="${id}">
                     <td>${cluster}</td>
                     <td>${nomer}</td>
@@ -208,21 +212,40 @@
                     <td>${rw}</td>
                     <td>${alamat}</td>
                     <td>
-                        <button class="btn btn-danger" onclick="deleteRumah(${inc})">Hapus</button>
+                        <button class="btn btn-danger" onclick="deleteRumah('${cluster+id}')">Hapus</button>
                     </td>
                 </tr>
                 `;
+            var names = cluster + id;
+            // var names2 = 'dekat1';
+            var cek = jQuery.inArray(names, array_rumah);
+            // var cek = jQuery.inArray('dekat1', array_rumah);
+            // alert(cek);
+            if (cek == -1) {
+                $('#data-detail').append(html);
+                $('#RT').val('');
+                $('#RW').val('');
+                $('#alamat').val('');
+                array_rumah.push(cluster + id);
+            } else {
+                // alert('rumah sudah ditambahkan');
+            }
+            // alert( names2);
 
-            $('#data-detail').append(html);
 
-            $('#RT').val('');
-            $('#RW').val('');
-            $('#alamat').val('');
+
 
         }
 
         function deleteRumah(id) {
-            $("#row" + id).remove()
+            // alert(id);
+             array_rumah = $.grep(array_rumah, function(value) {
+                return value !== id;
+            });
+            // return array_rumah;
+            // alert(array_rumah);
+            $('#'+id).remove();
+
         }
 
         $(document).ready(function() {
@@ -239,12 +262,18 @@
             var x = numeral($("#" + id).val()).format('0,0');
             $("#" + id).val(x);
         }
-    </script>
 
-    <script>
         $(document).ready(function() {
-            $('.cluster').on('change', function() {
+            $('#alert_rumah').hide();
+        });
+
+        $('.cluster').on('change', function() {
+                $('#no_rmh').html('');
+                $('#RT').val('');
+                $('#RW').val('');
+                $('#alamat').val('');
                 var clusterID = $(this).val();
+                var cluster_name = $(this).find('option:selected').text();
                 if (clusterID) {
                     $.ajax({
                         url: '/user/nomer/' + clusterID,
@@ -253,22 +282,46 @@
                             "_token": "{{ csrf_token() }}"
                         },
                         dataType: "json",
-                        success: function(data) {
-                            // console.log(Number.isInteger(954));
+                        success: function(response) {
+                                if (response.status == 200) {
+                                    var data = response.data;
+                                    var options = '';
+                                    options += '<option value="">Pilih No Rumah</option>';
+                                    for(var i = 0; i<data.length; i++){
+                                        // console.log("'" + cluster_name + data[i].id +"'");
+                                        // console.log("'" + cluster_name + array_rumah +"'");
+                                        // alert(cekArrayRumah("'" + cluster_name + data[i].id +"'","'" + cluster_name + array_rumah +"'"));
+                                        options += '<option value="'+data[i].id+'">'+data[i].no_rumah+'</option>';
+                                    };
+                                    $('#no_rmh').html(options);
+                                    $('#alert_rumah').hide();
+                                } else {
+                                    $('#no_rmh').html('');
+                                    $('#alert_rumah').show();
+                                }
 
-                            console.log(data);
-                                $('#no_rmh').html(data.opsi);
-                                $('#no_rmh').trigger('change');
-                                $('#kosong').html(data.html);
+                                // $('#no_rmh').trigger('change');
+
+                                // if (data.opsi == '') {
+                                //     $('#alert_rumah').show();
+                                // } else {
+                                //     $('#alert_rumah').hide();
+                                //     $('#no_rmh').html(data.opsi);
+                                //     // $('#no_rmh').trigger('change');
+                                // }
+
+
                         }
                     });
                 } else {
                     $('#no_rmh').empty();
+
                 }
             });
 
             $('#no_rmh').on('change', function() {
                 var no_rmh = $(this).val();
+
                 if (no_rmh) {
                     $.ajax({
                         url: '/properti-detail-json/' + no_rmh,
@@ -278,17 +331,26 @@
                         },
                         dataType: "json",
                         success: function(data) {
-                            console.log(data);
-                            $('#RT').val(data.properti.RT);
-                            $('#RW').val(data.properti.RW);
-                            $('#alamat').val(data.properti.alamat);
+
+                            if(data.properti){
+                                $('#RT').val(data.properti.RT);
+                                $('#RW').val(data.properti.RW);
+                                $('#alamat').val(data.properti.alamat);
+                            }
+                                // $('#RT').val();
+                                // $('#RW').val();
+                                // $('#alamat').val();
+
                         }
                     });
                 } else {
                     $('#no_rmh').empty();
                 }
             });
-        });
+    </script>
+
+    <script>
+
     </script>
 @endpush
 

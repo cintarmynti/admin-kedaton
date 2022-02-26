@@ -320,25 +320,24 @@ class UserController extends Controller
 
     public function getNomerid($id)
     {
-        $nomer = Properti::where('cluster_id', $id)->where('pemilik_id', null)->get();
-        $cekNomer = Properti::where('cluster_id', $id)->where('pemilik_id', null)->first();
 
+        $cekNomer = Properti::where('cluster_id', $id)->where('pemilik_id', null)->first();
         if($cekNomer == null){
             $return['kosong'] = true;
-            $return['html'] =
-            '<div class="alert alert-warning alert-dismissible fade show" role="alert">
-                <strong>Tidak ada properti tersedia, mohon tambahkan terlebih dahulu <a href="/properti/create">disini</a>.
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>';
-
+            $return['status'] = 404;
+            $return['data'] = '';
         }else {
+            $nomer = Properti::where('cluster_id', $id)->where('pemilik_id', null)->get();
             $return['kosong'] = false;
-            $html   = '';
-            foreach ($nomer as $data) {
-                $html .= '<option value="' . $data['id'] . '">' . $data['no_rumah'] . '</option>';
-            }
+            $return['status'] = 200;
+            $return['data'] = $nomer;
+            // $html   = '';
+            // $html .= '<option value="">Pilih No Rumah</option>';
+            // foreach ($nomer as $data) {
+            //     $html .= '<option value="' . $data['id'] . '">' . $data['no_rumah'] . '</option>';
+            // }
 
-            $return['opsi'] = $html;
+            // $return['opsi'] = $html;
             // echo $html;
         }
         return response()->json($return);
