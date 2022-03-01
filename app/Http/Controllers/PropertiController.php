@@ -35,7 +35,7 @@ class PropertiController extends Controller
     public function update_pemilik($id, Request $request){
         $properti = Properti::find($id);
         $properti->pemilik_id = $request->pemilik_id;
-        $properti->status_pengajuan = 2; 
+        $properti->status_pengajuan = 2;
         $properti->save();
 
         return redirect()->route('properti');
@@ -226,7 +226,7 @@ class PropertiController extends Controller
         $properti->penghuni_id = $request->penghuni;
         $properti->pemilik_id = $request->pemilik;
         $properti->status = $request->status;
-        $properti->harga = $request->harga;
+        // $properti->harga = $request->harga;
         $properti->provinsi_id = $request->provinsi_id;
         $properti->provinsi = $request->provinsi;
         $properti->kabupaten_id = $request->kabupaten_id;
