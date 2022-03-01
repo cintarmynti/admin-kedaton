@@ -32,7 +32,8 @@ class PropertiController extends Controller
         return view('pages.properti.index', ['properti' => $properti]);
     }
 
-    public function update_pemilik($id, Request $request){
+    public function update_pemilik($id, Request $request)
+    {
         $properti = Properti::find($id);
         $properti->pemilik_id = $request->pemilik_id;
         $properti->status_pengajuan = 2;
@@ -55,7 +56,7 @@ class PropertiController extends Controller
 
     public function datauser($id)
     {
-        $properti= Pengajuan::where('properti_id', $id)->first();
+        $properti = Pengajuan::where('properti_id', $id)->first();
         $user = User::where('id', $properti->user_id)->first();
 
         return response()->json($user);

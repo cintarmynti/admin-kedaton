@@ -1,1 +1,20 @@
 /* Write your custom CSS here */
+@-webkit-keyframes blinker {
+    from {background: white;color:rgb(255, 85, 85) ;}
+    to {background: rgb(255, 85, 85);color: white;}
+}
+.card-panic{
+    border: 3px solid rgb(255, 85, 85);;
+    animation-name: blinker;
+	animation-duration: 0.75s;
+	animation-iteration-count:infinite;
+	animation-direction: alternate;
+    -webkit-animation-name: blinker;
+	-webkit-animation-duration: 0.75s;
+	-webkit-animation-iteration-count:infinite;
+	-webkit-animation-direction: alternate;
+    -moz-animation-name: blinker;
+	-moz-animation-duration: 0.75s;
+	-moz-animation-iteration-count:infinite;
+	-moz-animation-direction: alternate;
+}
