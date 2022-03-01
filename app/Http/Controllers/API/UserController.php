@@ -53,8 +53,6 @@ class UserController extends Controller
                 return ResponseFormatter::failed('User name Already Exists!', 409);
             }
 
-
-
             // dd($cekNik != null);
             if($cekNik != null && $request->snk == 1){
                 $pw = Str::random(8);
@@ -83,7 +81,27 @@ class UserController extends Controller
             }
     }
 
+    public function editpass(Request $request){
+        $user = User::find($request->id);
 
+        if($user == null){
+            return ResponseFormatter::failed('tidak ada user dengan id tersebut!', 404);
+        }
+
+        $cek_pw_lama = Hash::check($request->password_lama, $user->password);
+        // dd($cek_pw_lama);
+        if($cek_pw_lama == true){
+            $pw_baru = Hash::make($request->password_baru);
+            $user->password = $pw_baru;
+            $user->update();
+
+            return ResponseFormatter::success('password telah diperbarui!', $pw_baru);
+        }
+
+        return ResponseFormatter::failed('gagal update password baru, cek kembali passwod lama!', 404);
+
+
+    }
 
     public function login(Request $request){
         $cekNik = User::where('nik', $request->nik)->first();
@@ -104,9 +122,12 @@ class UserController extends Controller
     {
         $user = User::where('id', $request->id)->first();
         // dd($user);
-        $properti = Properti::where('pemilik_id', $user->id)->get();
+        $properti = Properti::where('pemilik_id', $request->id)->get();
         // dd($properti);
-        return ResponseFormatter::success('get user profile n properti!', [$user, $properti]);
+
+        $return['user'] = $user;
+        $return['properti'] = $properti;
+        return ResponseFormatter::success('get user profile n properti!', $return);
 
     }
 

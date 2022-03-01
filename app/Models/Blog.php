@@ -11,7 +11,12 @@ class Blog extends Model
     protected $table = 'blog';
     protected $fillable = ['judul', 'desc', 'gambar'];
 
-    public function banner_image(){
+    public function blog_image(){
         return $this->hasOne(blog_image::class, 'blog_id', 'id');
+    }
+
+    public function getImageUrlAttribute($value)
+    {
+        return url('/').'/storage/'.$this->gambar;
     }
 }

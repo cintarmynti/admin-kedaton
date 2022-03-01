@@ -17,7 +17,7 @@ class UsersTableSeeder extends Seeder
         User::create([
             'id' => 1,
             'name'    => 'cinta ramayanti',
-            'email'    => 'cinta.ramayanti@gmail.com',
+            'email'    => 'dwi.darma@gmail.com',
             'password'    => bcrypt('password'),
             'user_status' => 'admin'
         ]);
@@ -26,7 +26,7 @@ class UsersTableSeeder extends Seeder
             'id' => 2,
             'name'    => 'fauziyah ramayanti',
             'alamat' => 'jambangan',
-            'email'    => null,
+            'email'    => 'cinta.ramayanti@gmail.com',
             'nik'    =>  '0993249883',
             'user_status' => 'pengguna',
             'phone' => 12872910,

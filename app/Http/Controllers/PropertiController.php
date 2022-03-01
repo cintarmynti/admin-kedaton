@@ -66,6 +66,7 @@ class PropertiController extends Controller
         $properti->kecamatan = $request->kecamatan;
         $properti->kelurahan_id = $request->kelurahan_id;
         $properti->kelurahan = $request->kelurahan;
+        $properti->status_pengajuan = 1;
 
         // $properti->penghuni_id = $request->penghuni;
         // $properti->pemilik_id = $request->pemilik;
@@ -216,6 +217,8 @@ class PropertiController extends Controller
         $properti->kecamatan = $request->kecamatan;
         $properti->kelurahan_id = $request->kelurahan_id;
         $properti->kelurahan = $request->kelurahan;
+        $properti->status_pengajuan = 1;
+
 
         $cluster = Cluster::where('id', $request->cluster_id)->first();
         // dd($cluster);

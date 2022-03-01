@@ -11,11 +11,12 @@ use App\Models\Properti_image;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
 use App\Http\Controllers\API\ResponseFormatter;
+use App\Models\Pengajuan;
 
 
 class PropertiController extends Controller
 {
-    public function cluster(){
+    public function getcluster(){
         $cluster = Cluster::all();
 
         if($cluster){
@@ -25,13 +26,30 @@ class PropertiController extends Controller
         }
     }
 
-    public function no_rmh(Request $request){
-        $no_rumah = Properti::where('cluster_id', $request->cluster->id)->get();
+    public function newProp(Request $request){
+        $cek_pengajuan = Pengajuan::where('user_id', $request->user_id)->where('properti_id', $request->properti_id)->first();
+        if($cek_pengajuan){
+            return ResponseFormatter::failed('pengajuan anda masih dalam proses, mohon tunggu konfirmasi admin!', 401);
+        }
+        $pengajuan = new Pengajuan();
+        $pengajuan->user_id = $request->user_id;
+        $pengajuan->properti_id = $request->properti_id;
+        $pengajuan->save();
+
+        if($pengajuan){
+            return ResponseFormatter::success('berhasil mengirimm pengajuan properti baru!', $pengajuan);
+        }else{
+            return ResponseFormatter::failed('gagal mengirim pengajuan!', 401);
+        }
+    }
+
+    public function getNomer(Request $request){
+        $no_rumah = Properti::where('cluster_id', $request->cluster_id)->where('pemilik_id', null)->get();
 
         if($no_rumah){
-            return ResponseFormatter::success('berhasil mengambil data no rumah!', $no_rumah);
+            return ResponseFormatter::success('berhasil mengambil data no rumah yang tidak ada pemilik!', $no_rumah);
         }else{
-            return ResponseFormatter::failed('gagal mengambil data no rumah!', 401);
+            return ResponseFormatter::failed('gagal mengambil data no rumah yang tidak ada pemilik!', 401);
         }
     }
 //    public function store(Request $request)

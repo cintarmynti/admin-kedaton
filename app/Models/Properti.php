@@ -23,9 +23,13 @@ class Properti extends Model
         'jumlah_kamar',
         'luas_tanah',
         'luas_bangunan',
+        'provinsi',
+        'kabupaten',
+        'kecamatan',
+        'kelurahan',
         'tarif_ipkl',
         'status',
-        'harga',
+        // 'harga',
         'kamar_mandi',
         'carport'
     ];

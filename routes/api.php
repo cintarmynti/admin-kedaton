@@ -44,14 +44,16 @@ Route::get('profile', [UserController::class, 'profile']);
 Route::post('profile-update/{id}', [UserController::class, 'update']);
 Route::get('get-nik', [UserController::class, 'getNik']);
 Route::post('forget-pass', [UserController::class, 'forget']);
+Route::post('edit-pass', [UserController::class, 'editpass']);
 
 
 Route::post('panic-button', [PanicButtonController::class, 'store']);
 
 Route::post('create-properti', [PropertiController::class, 'store']);
-Route::post('edit-properti/{id}', [PropertiController::class, 'edit']);
-Route::get('get-properti-user', [PropertiController::class, 'index']);
 Route::post('create-penghuni', [PropertiController::class, 'addPenghuni']);
+Route::get('daftar-cluster', [PropertiController::class, 'getcluster']);
+Route::get('daftar-rumah', [PropertiController::class, 'getNomer']);
+Route::post('new-prop', [PropertiController::class, 'newProp']);
 
 Route::post('bayar-ipkl', [IPKLController::class, 'store']);
 Route::get('sudah-acc', [IPKLController::class, 'ipklAcc']);
