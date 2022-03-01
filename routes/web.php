@@ -85,6 +85,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/properti/export_excel', [PropertiController::class, 'export_excel'])->name('properti.excel');
     Route::get('/properti/riwayat/{id}', [PropertiController::class, 'riwayat'])->name('properti.riwayat');
     Route::get('/properti-detail-json/{id}', [PropertiController::class, 'detailJson'])->name('properti.detail.json');
+    Route::get('properti/user/{id}', [PropertiController::class, 'datauser'])->name('properti.user.json');
+    Route::patch('/properti/pemilik-update/{id}', [PropertiController::class, 'update_pemilik'])->name('properti.pemilik');
+
 
     Route::get('/listing', [ListingController::class, 'index'])->name('listing');
     Route::get('/listing/create', [ListingController::class, 'create'])->name('listing.create');

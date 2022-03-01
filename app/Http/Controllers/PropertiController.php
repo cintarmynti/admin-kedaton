@@ -12,6 +12,7 @@ use App\Models\Properti;
 use App\Models\tarif_ipkl;
 use Illuminate\Http\Request;
 use App\Models\listing_image;
+use App\Models\Pengajuan;
 use App\Models\penghuniDetail;
 use App\Models\Properti_image;
 use App\Models\Tagihan;
@@ -31,6 +32,15 @@ class PropertiController extends Controller
         return view('pages.properti.index', ['properti' => $properti]);
     }
 
+    public function update_pemilik($id, Request $request){
+        $properti = Properti::find($id);
+        $properti->pemilik_id = $request->pemilik_id;
+        $properti->status_pengajuan = 2; 
+        $properti->save();
+
+        return redirect()->route('properti');
+    }
+
     public function create()
     {
         $cluster = Cluster::all();
@@ -41,6 +51,14 @@ class PropertiController extends Controller
     public function export_excel()
     {
         return Excel::download(new PropertiExport, 'properti.xlsx');
+    }
+
+    public function datauser($id)
+    {
+        $properti= Pengajuan::where('properti_id', $id)->first();
+        $user = User::where('id', $properti->user_id)->first();
+
+        return response()->json($user);
     }
 
     public function store(Request $request)
@@ -66,7 +84,7 @@ class PropertiController extends Controller
         $properti->kecamatan = $request->kecamatan;
         $properti->kelurahan_id = $request->kelurahan_id;
         $properti->kelurahan = $request->kelurahan;
-        $properti->status_pengajuan = 1;
+        $properti->status_pengajuan = 2;
 
         // $properti->penghuni_id = $request->penghuni;
         // $properti->pemilik_id = $request->pemilik;
@@ -217,7 +235,7 @@ class PropertiController extends Controller
         $properti->kecamatan = $request->kecamatan;
         $properti->kelurahan_id = $request->kelurahan_id;
         $properti->kelurahan = $request->kelurahan;
-        $properti->status_pengajuan = 1;
+        $properti->status_pengajuan = 2;
 
 
         $cluster = Cluster::where('id', $request->cluster_id)->first();

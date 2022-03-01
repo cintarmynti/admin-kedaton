@@ -36,6 +36,10 @@ class PropertiController extends Controller
         $pengajuan->properti_id = $request->properti_id;
         $pengajuan->save();
 
+        $properti= Properti::where('id', $request->properti_id)->first();
+        $properti->status_pengajuan = 1;
+        $properti->update();
+
         if($pengajuan){
             return ResponseFormatter::success('berhasil mengirimm pengajuan properti baru!', $pengajuan);
         }else{

@@ -32,9 +32,69 @@
                             <td>{{ $p->no_rumah }}</td>
                             <td>{{ $p->alamat }}</td>
                             <td><a href="{{ route('properti.detail', $p->id) }}">lihat detail</a></td>
-                            <td>{{ $p->pemilik ? $p->pemilik->name : '-' }}</td>
+                            <td>
+                                @if ($p->status_pengajuan == 1)
+                                ada user menambahkan rumah ini di profilenya,  <a href="" data-toggle="modal"
+                                data-target="#exampleModal" type="button" data-properti_id = "{{$p->id}}">lihat</a>
+                                @elseif ($p->status_pengajuan == 2 || $p->status_pengajuan == 0)
+                                {{ $p->pemilik ? $p->pemilik->name : '-' }}
+                                @endif
+                                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Konfirmasi Penambahan Properti Oleh User</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form action="{{route('properti.pemilik', $p->id)}}" method="POST">
+                                                @csrf
+                                                @method('patch')
+                                                <table class="table table-border">
+                                                    <tr>
+                                                        <td>name</td>
+                                                        <td><p id="nama"></p></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>email</td>
+                                                        <td><p id="email"></p></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>No Telp</td>
+                                                        <td><p id="phone"></p></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>nik</td>
+                                                        <td><p id="nik"></p></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>alamat</td>
+                                                        <td><p id="alamat"></p></td>
+                                                    </tr>
+                                                </table>
+                                                <input type="hidden" name="pemilik_id" id="pemilik_id">
+                                                {{-- <img src="" width="400" height="300" id="bukti_tf" alt="">
+                                                <input type="hidden" name="user_id" id="user_id">
+                                                <input type="hidden" name="tagihan_id" id="tagihan_id">
+                                                <input type="hidden" name="pembayaran_id" id="pembayaran_id"> --}}
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-primary">Setujui</button>
+                                        </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            </td>
                             <td>{{ $p->penghuni ? $p->penghuni->name : '-' }}</td>
-                            <td class="d-flex">
+                            <td >
                                 <a href="{{ route('properti.edit', $p->id) }}" class="btn btn-warning fa-regular fa-pen-to-square" data-toggle="tooltip" data-placement="top" title="edit properti"></a>
                                 {{-- <button type="submit" class="btn btn-danger delete fa-solid fa-trash-can" data-id="{{ $p->id }}" data-toggle="tooltip" data-placement="top" title="delete properti">
                                 </button> --}}
@@ -58,9 +118,7 @@
 @endpush
 
 @push('after-script')
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
-    </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
         integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
     </script>
@@ -97,4 +155,37 @@
                 });
         });
     </script>
+
+<script>
+    var APP_URL = {!! json_encode(url('/')) !!}
+    console.log(APP_URL);
+    $('#exampleModal').on('show.bs.modal', function(event) {
+        var button = $(event.relatedTarget)
+        var id = button.data('properti_id')
+
+        $.ajax({
+            type: 'get',
+            url: "/properti/user/" + id  ,
+            dataType: 'json',
+            success: function(response) {
+                console.log(response);
+
+                    // $('#user_id').val(response.user_id);
+                    // $('#pembayaran_id').val(response.id);
+                    // $('#tagihan_id').val(response.tagihan_id);
+                    // $('#bukti_tf').attr('src', APP_URL + '/' +response.bukti_tf);
+                    $('#nama').html(response.name);
+                    $('#email').html(response.email)
+                    $('#phone').html(response.phone);
+                    $('#nik').html(response.nik);
+                    $('#alamat').html(response.alamat);
+                    $('#pemilik_id').val(response.id);
+
+
+
+            }
+        });
+
+    })
+</script>
 @endpush
