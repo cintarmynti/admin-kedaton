@@ -30,7 +30,7 @@
                             <th scope="row">{{ $no++ }}</th>
                             <td>{{ $p->cluster->name }}</td>
                             <td>{{ $p->no_rumah }}</td>
-                            <td>{{ $p->alamat }}</td>
+                            <td>{{ $p->alamat }}, {{$p->kelurahan}}, {{$p->kecamatan}}, {{$p->kabupaten}}, {{$p->provinsi}}</td>
                             <td><a href="{{ route('properti.detail', $p->id) }}">lihat detail</a></td>
                             <td>{{ $p->pemilik ? $p->pemilik->name : '-' }}</td>
                             <td>{{ $p->penghuni ? $p->penghuni->name : '-' }}</td>
