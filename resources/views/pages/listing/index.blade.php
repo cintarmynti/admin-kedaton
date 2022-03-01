@@ -34,7 +34,7 @@
                     <td>{{ $p->status }}</td>
                     <!-- <td>{{$p->periode ? $p->periode : "-" }}</td> -->
                     <td>Rp.{{$p->harga}}</td>
-                    <td>{{ $p->diskon ?  $p->diskon  : '-'}}%
+                    <td>{{ $p->diskon ?  $p->diskon ."%"  : 'Tidak ada diskon'}}
 
                     </td>
 
