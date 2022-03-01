@@ -78,6 +78,22 @@ class PropertiController extends Controller
        }
    }
 
+   public function detailprop($id){
+        $properti = Properti::where('id',$id)->first();
+        // dd($properti);
+        if($properti == null){
+            return ResponseFormatter::failed('tidak ada properti dengan id tsb!', 401);
+
+        }
+
+        if($properti){
+            return ResponseFormatter::success('berhasil menampilkan detail properti!', $properti);
+        }else{
+            return ResponseFormatter::failed('gagal menampilkan detail properti!', 401);
+        }
+
+   }
+
    private function checkEmailExists($email)
    {
        return User::where('email', $email)->first();
