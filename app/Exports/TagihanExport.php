@@ -47,7 +47,7 @@ class TagihanExport implements FromView, FromCollection
         if($this->status){
             $tagihan -> where('status', $this->status);
         }
-        dd($tagihan);
+
         return view('pages.ipkl.excel', [
             'pembayaran' => $tagihan
         ]);

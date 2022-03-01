@@ -7,13 +7,23 @@ use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
+use Illuminate\Contracts\View\View;
+use Maatwebsite\Excel\Concerns\Exportable;
+use Maatwebsite\Excel\Concerns\FromView;
 
 
-class PropertiExport implements FromCollection, WithHeadings, ShouldAutoSize, WithMapping
+class PropertiExport implements FromView
 {
     /**
     * @return \Illuminate\Support\Collection
     */
+    public function view(): View
+    {
+        return view('pages.properti.excel', [
+            'properti' => Properti::with('penghuni', 'pemilik', 'cluster')->get()
+        ]);
+    }
+
     public function collection()
     {
         return Properti::with('penghuni', 'pemilik', 'cluster')->get();
