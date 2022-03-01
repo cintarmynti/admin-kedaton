@@ -1,52 +1,88 @@
 @extends('layouts.default')
 
 @section('content')
-    <div class="row">
-        <div class="col-md-6 col-xl-3">
-            <div class="card stat-widget">
-                <div class="card-body">
-                    <h5 class="card-title">Jumlah Pengguna</h5>
-                    <h2>{{ $customer }}</h2>
-                    <p><a href="{{route('user')}}">pengguna</a> </p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6 col-xl-3">
-            <div class="card stat-widget">
-                <div class="card-body">
-                    <h5 class="card-title">Listing disewakan</h5>
-                    <h2>{{ $disewakan }}</h2>
-                    <p><a href="{{route('listing')}}">listing</a></p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6 col-xl-3">
-            <div class="card stat-widget">
-                <div class="card-body">
-                    <h5 class="card-title">Listing dijual</h5>
-                    <h2>{{ $dijual }}</h2>
-                    <p><a href="{{route('listing')}}">listing</a></p>
-
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6 col-xl-3">
-            <div class="card stat-widget">
-                <div class="card-body">
-                    <h5 class="card-title">Complain</h5>
-                    <h2>{{ $complain }}</h2>
-                    <p><a href="{{route('complain')}}">Complain</a></p>
-
-                </div>
+<div class="row">
+    <div class="col-md-12  mb-3">
+        Ingin menangani semuanya ?
+        <b class="text-danger" style="cursor: pointer;">Tangani Semua</b>
+    </div>
+    <div class="col-md-6 col-xl-3 mb-3">
+        <div class="card card-panic">
+            <div class="card-body">
+                <h6>Butuh Penanganan</h6>
+                <h1>KX-34</h1>
+                <hr>
+                <button class="btn btn-block btn-md btn-danger">TANGANI</button>
             </div>
         </div>
     </div>
-    <div class="row">
-        {{-- <div id="blink">
+    <div class="col-md-6 col-xl-3 mb-3">
+        <div class="card card-panic">
+            <div class="card-body">
+                <h6>Butuh Penanganan</h6>
+                <h1>KX-34</h1>
+                <hr>
+                <button class="btn btn-block btn-md btn-danger">TANGANI</button>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-xl-3 mb-3">
+        <div class="card card-panic">
+            <div class="card-body">
+                <h6>Butuh Penanganan</h6>
+                <h1>KX-34</h1>
+                <hr>
+                <button class="btn btn-block btn-md btn-danger">TANGANI</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6 col-xl-3">
+        <div class="card stat-widget">
+            <div class="card-body">
+                <h5 class="card-title">Jumlah Pengguna</h5>
+                <h2>{{ $customer }}</h2>
+                <p><a href="{{route('user')}}">pengguna</a> </p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-xl-3">
+        <div class="card stat-widget">
+            <div class="card-body">
+                <h5 class="card-title">Listing disewakan</h5>
+                <h2>{{ $disewakan }}</h2>
+                <p><a href="{{route('listing')}}">listing</a></p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-xl-3">
+        <div class="card stat-widget">
+            <div class="card-body">
+                <h5 class="card-title">Listing dijual</h5>
+                <h2>{{ $dijual }}</h2>
+                <p><a href="{{route('listing')}}">listing</a></p>
+
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-xl-3">
+        <div class="card stat-widget">
+            <div class="card-body">
+                <h5 class="card-title">Complain</h5>
+                <h2>{{ $complain }}</h2>
+                <p><a href="{{route('complain')}}">Complain</a></p>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    {{-- <div id="blink">
             TES TES ​
         </div> --}}
-    </div>
-    {{-- <div class="row">
+</div>
+{{-- <div class="row">
     <div class="col-sm-6 col-xl-8">
         <div class="card">
             <div class="card-body">
@@ -148,63 +184,55 @@
                             <tr>
                                 <th scope="row"><img
                                         src="{{ asset('assets/images/avatars/profile-image.png') }}"
-                                        alt="">Anna Doe</th>
-                                <td>Modern</td>
-                                <td>#53327</td>
-                                <td>$20</td>
-                                <td><span class="badge bg-info">Shipped</span></td>
-                            </tr>
-                            <tr>
-                                <th scope="row"><img
-                                        src="{{ asset('assets/images/avatars/profile-image.png') }}"
-                                        alt="">John Doe</th>
-                                <td>Alpha</td>
-                                <td>#13328</td>
-                                <td>$25</td>
-                                <td><span class="badge bg-success">Paid</span></td>
-                            </tr>
-                            <tr>
-                                <th scope="row"><img
-                                        src="{{ asset('assets/images/avatars/profile-image.png') }}"
-                                        alt="">Anna Doe</th>
-                                <td>Lime</td>
-                                <td>#35313</td>
-                                <td>$20</td>
-                                <td><span class="badge bg-danger">Pending</span></td>
-                            </tr>
-                            <tr>
-                                <th scope="row"><img
-                                        src="{{ asset('assets/images/avatars/profile-image.png') }}"
-                                        alt="">John Doe</th>
-                                <td>Circl Admin</td>
-                                <td>#73423</td>
-                                <td>$23</td>
-                                <td><span class="badge bg-primary">Shipped</span></td>
-                            </tr>
-                            <tr>
-                                <th scope="row"><img
-                                        src="{{ asset('assets/images/avatars/profile-image.png') }}"
-                                        alt="">Nina Doe</th>
-                                <td>Space</td>
-                                <td>#54773</td>
-                                <td>$20</td>
-                                <td><span class="badge bg-success">Paid</span></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
+alt="">Anna Doe</th>
+<td>Modern</td>
+<td>#53327</td>
+<td>$20</td>
+<td><span class="badge bg-info">Shipped</span></td>
+</tr>
+<tr>
+    <th scope="row"><img src="{{ asset('assets/images/avatars/profile-image.png') }}" alt="">John Doe</th>
+    <td>Alpha</td>
+    <td>#13328</td>
+    <td>$25</td>
+    <td><span class="badge bg-success">Paid</span></td>
+</tr>
+<tr>
+    <th scope="row"><img src="{{ asset('assets/images/avatars/profile-image.png') }}" alt="">Anna Doe</th>
+    <td>Lime</td>
+    <td>#35313</td>
+    <td>$20</td>
+    <td><span class="badge bg-danger">Pending</span></td>
+</tr>
+<tr>
+    <th scope="row"><img src="{{ asset('assets/images/avatars/profile-image.png') }}" alt="">John Doe</th>
+    <td>Circl Admin</td>
+    <td>#73423</td>
+    <td>$23</td>
+    <td><span class="badge bg-primary">Shipped</span></td>
+</tr>
+<tr>
+    <th scope="row"><img src="{{ asset('assets/images/avatars/profile-image.png') }}" alt="">Nina Doe</th>
+    <td>Space</td>
+    <td>#54773</td>
+    <td>$20</td>
+    <td><span class="badge bg-success">Paid</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
 
-    <div class="col-md-12 col-lg-4">
-        <div class="card stat-widget">
-            <div class="card-body">
-                <h5 class="card-title">Orders</h5>
-                <div id="apex2"></div>
-            </div>
+<div class="col-md-12 col-lg-4">
+    <div class="card stat-widget">
+        <div class="card-body">
+            <h5 class="card-title">Orders</h5>
+            <div id="apex2"></div>
         </div>
     </div>
+</div>
 </div>
 <div class="row">
     <div class="col-sm-12 col-md-4">
@@ -403,21 +431,23 @@
 @push('before-style')
 <style>
     @keyframes blinking {
-      0% {
-        background-color: #e53935;
-        border: 3px solid #e53935;
-color:white
-      }
-      100% {
-        background-color: white;
-        border: 3px solid #e53935;
-color:#e53935
-      }
+        0% {
+            background-color: #e53935;
+            border: 3px solid #e53935;
+            color: white
+        }
+
+        100% {
+            background-color: white;
+            border: 3px solid #e53935;
+            color: #e53935
+        }
     }
+
     #blink {
-      width: 200px;
-      height: 200px;
-      animation: blinking 1s infinite;
+        width: 200px;
+        height: 200px;
+        animation: blinking 1s infinite;
     }
-  </style>
+</style>
 @endpush
