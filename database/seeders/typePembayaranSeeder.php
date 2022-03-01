@@ -21,7 +21,7 @@ class typePembayaranSeeder extends Seeder
 
         type_pembayaran::create([
             // 'id' => 2,
-            'name' => 'layanan'
+            'name' => 'renovasi'
         ]);
     }
 }

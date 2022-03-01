@@ -1,6 +1,7 @@
 @extends('layouts.default')
 
 @section('content')
+
     <div class="card">
         <div class="card-body">
             <h5 class="card-title">Tambahkan Pembayaran IPKL</h5>
@@ -33,6 +34,9 @@
                         <label for="formGroupExampleInput" class="form-label">Periode Pembayaran</label>
                         <input type="date"  required class="form-control date tarif-input date" id="datepicker"
                             name="periode_pembayaran" aria-label="Last name">
+                            @if($errors->any())
+                            <p style="color: red">{{$errors->first()}}</p>
+                            @endif
                     </div>
 
                     <div class="col-md-6" id="harga">

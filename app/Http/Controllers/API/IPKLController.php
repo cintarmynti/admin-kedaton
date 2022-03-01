@@ -46,7 +46,7 @@ class IPKLController extends Controller
                             'nominal' => $tagihan->jumlah_pembayaran,
                             'status' => 1,
                             'periode_pembayaran' => Carbon::now(),
-                            'type' => 1,
+                            'type' => $tagihan->type_id,
                             'bukti_tf' => $imageName
                         ]);
                     }
@@ -68,10 +68,14 @@ class IPKLController extends Controller
         $cek_properti_penghuni = Properti::where('penghuni_id', $request->user_id)->first();
         // dd($cek_properti_pemilik );
         if ($cek_properti_pemilik != null) {
-            $unpay = Tagihan::with('cluster')->where('properti_id', $cek_properti_pemilik->id)->where('status', 1)->get();
+            $unpay['ipkl'] = Tagihan::with('cluster')->where('properti_id', $cek_properti_pemilik->id)->where('status', 1)->get();
+            $unpay['renovasi'] = Tagihan::with('cluster')->where('properti_id', $cek_properti_pemilik->id)->where('status', 2)->get();
+
             return ResponseFormatter::success('successful to get unpaid data!', $unpay);
         } else if ($cek_properti_penghuni != null) {
-            $unpay = Tagihan::with('cluster')->where('properti_id', $cek_properti_penghuni->id)->where('status', 1)->get();
+            $unpay['ipkl'] = Tagihan::with('cluster')->where('properti_id', $cek_properti_penghuni->id)->where('status', 1)->get();
+            $unpay['renovasi'] = Tagihan::with('cluster')->where('properti_id', $cek_properti_penghuni->id)->where('status', 2)->get();
+
             return ResponseFormatter::success('successful to get unpaid data!', $unpay);
         }
         return ResponseFormatter::failed('gagal mendapat data!', 404);

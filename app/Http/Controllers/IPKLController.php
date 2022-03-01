@@ -14,6 +14,7 @@ use App\Models\Tagihan;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Carbon;
 use App\Models\Rumah;
+use Illuminate\Support\Facades\Redirect;
 use Maatwebsite\Excel\Facades\Excel;
 
 class IPKLController extends Controller
@@ -82,13 +83,17 @@ class IPKLController extends Controller
 
     public function store(Request $request)
     {
+        $cekTagihan = Tagihan::where('periode_pembayaran', $request->periode_pembayaran)->first();
+        if($cekTagihan != null){
+            return redirect()->back()->withErrors(['msg' => 'periode sudah ada']);
+        }
         $ipkl = new Tagihan();
         $ipkl-> cluster_id = $request->cluster_id;
         $ipkl-> properti_id = $request->properti_id;
         $ipkl->periode_pembayaran = $request->periode_pembayaran;
         $ipkl->jumlah_pembayaran = $request->jumlah_pembayaran;
         $ipkl->status = 1;
-        $ipkl->type =
+        $ipkl->type_id = 1;
         $ipkl->save();
 
         return redirect('/ipkl');
