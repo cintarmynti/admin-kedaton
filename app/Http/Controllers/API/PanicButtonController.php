@@ -13,6 +13,7 @@ class PanicButtonController extends Controller
         $panic = new PanicButton();
         $panic -> user_id = $request -> user_id;
         $panic -> id_rumah = $request -> properti_id;
+        $panic -> status_keterangan = 'not checked';
         $panic -> save();
 
         if($panic){

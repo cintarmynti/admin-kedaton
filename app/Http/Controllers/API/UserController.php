@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Mail;
 use Validator;
 use App\Models\Listing;
 use App\Models\Properti;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 // use Hash;
 use Illuminate\Support\Facades\Hash;
@@ -120,12 +121,21 @@ class UserController extends Controller
 
     public function profile(Request $request)
     {
-        $user = User::where('id', $request->id)->first();
-        // dd($user);
-        $properti = Properti::where('pemilik_id', $request->id)->get();
-        // dd($properti);
+        $pemilik = User::where('id', $request->id)->first([ 'nik','name', 'alamat', 'phone', 'email', 'photo_ktp', 'photo_identitas']);
 
-        $return['user'] = $user;
+        $pemilik->photo_identitas = $pemilik->image_url;
+        $pemilik->photo_ktp = $pemilik->image_ktp;
+
+
+
+        $properti = DB::table('properti')
+        ->join('users', 'users.id', '=', 'properti.pemilik_id')
+        ->join('cluster', 'cluster.id', 'properti.cluster_id')
+        ->select('users.name as pemilik_id', 'cluster.name as cluster_id','luas_tanah', 'luas_bangunan', 'jumlah_kamar', 'kamar_mandi', 'carport')
+        ->get();
+
+        // dd($properti);
+        $return['pemilik'] = $pemilik;
         $return['properti'] = $properti;
         return ResponseFormatter::success('get user profile n properti!', $return);
 

@@ -29,8 +29,20 @@ class PropertiController extends Controller
     public function newProp(Request $request){
         $cek_pengajuan = Pengajuan::where('user_id', $request->user_id)->where('properti_id', $request->properti_id)->first();
         if($cek_pengajuan){
-            return ResponseFormatter::failed('pengajuan anda masih dalam proses, mohon tunggu konfirmasi admin!', 401);
+            return ResponseFormatter::success('rumah ini sudah diajukan, pengajuan anda masih dalam proses, mohon tunggu konfirmasi admin!', 200);
         }
+
+        if(!$request->user_id || !$request->properti_id){
+            return ResponseFormatter::failed('isi inputan terlebih dahulu!', 404);
+
+        }
+
+        $cek_properti = Properti::find($request->properti_id);
+        if($cek_properti == null){
+            return ResponseFormatter::failed('tidak ada properti dengan id tersebut!', 404);
+
+        }
+
         $pengajuan = new Pengajuan();
         $pengajuan->user_id = $request->user_id;
         $pengajuan->properti_id = $request->properti_id;
@@ -41,14 +53,23 @@ class PropertiController extends Controller
         $properti->update();
 
         if($pengajuan){
-            return ResponseFormatter::success('berhasil mengirimm pengajuan properti baru!', $pengajuan);
+            return ResponseFormatter::success('berhasil mengirimm pengajuan properti baru, mohon tunggu konfirmasi admin!', $pengajuan);
         }else{
-            return ResponseFormatter::failed('gagal mengirim pengajuan!', 401);
+            return ResponseFormatter::failed('gagal mengirim pengajuan!', 404);
         }
     }
 
     public function getNomer(Request $request){
-        $no_rumah = Properti::where('cluster_id', $request->cluster_id)->where('pemilik_id', null)->get();
+        $no_rumah = Properti::with('cluster')->where('cluster_id', $request->cluster_id)->where('pemilik_id', null)->get();
+        $cek_isi = Properti::where('cluster_id', $request->cluster_id)->where('pemilik_id', null)->first();
+
+        if(!$request->cluster_id){
+            return ResponseFormatter::failed('beri paramater cluster terlebih dahulu!', 401);
+        }
+
+        if($cek_isi == null){
+            return ResponseFormatter::failed('tidak ada data, mohon isi properti terlebih dahulu!', 401);
+        }
 
         if($no_rumah){
             return ResponseFormatter::success('berhasil mengambil data no rumah yang tidak ada pemilik!', $no_rumah);
@@ -78,12 +99,17 @@ class PropertiController extends Controller
        }
    }
 
-   public function detailprop($id){
-        $properti = Properti::where('id',$id)->first();
-        // dd($properti);
-        if($properti == null){
-            return ResponseFormatter::failed('tidak ada properti dengan id tsb!', 401);
+   public function detailprop(Request $request){
 
+        if(!$request->prop_id){
+            return ResponseFormatter::failed('beri paramater properti id terlebih dahulu!', 401);
+        }
+
+        $properti = Properti::with('cluster')->where('id', $request->prop_id)->first();
+        // dd($properti);
+
+        if($properti == null){
+            return ResponseFormatter::failed('tidak ada properti dengan id tsb!', 400);
         }
 
         if($properti){

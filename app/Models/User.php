@@ -30,6 +30,16 @@ class User extends Authenticatable
 
     ];
 
+    public function getImageUrlAttribute($value)
+    {
+        return  url('/').'/storage/'.$this->photo_identitas;
+    }
+
+    public function getImageKtpAttribute($value)
+    {
+        return url('/').'/storage/'.$this->photo_ktp;
+    }
+
     public function properti(){
         return $this->hasOne(Properti::class, 'pemilik_id', 'id');
     }

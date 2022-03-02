@@ -54,7 +54,7 @@ Route::post('create-penghuni', [PropertiController::class, 'addPenghuni']);
 Route::get('daftar-cluster', [PropertiController::class, 'getcluster']);
 Route::get('daftar-rumah', [PropertiController::class, 'getNomer']);
 Route::post('new-prop', [PropertiController::class, 'newProp']);
-Route::get('prop-detail/{id}', [PropertiController::class, 'detailprop']);
+Route::get('prop-detail', [PropertiController::class, 'detailprop']);
 
 Route::post('bayar-ipkl', [IPKLController::class, 'store']);
 Route::get('sudah-acc', [IPKLController::class, 'ipklAcc']);
@@ -74,7 +74,7 @@ Route::get('daftar-layanan', [LayananController::class, 'daftarLayanan']);
 
 Route::get('get-banner', [BannerController::class, 'getBanner']);
 Route::get('get-artikel', [BannerController::class, 'getArtikel']);
-Route::get('get-artikel/{id}', [BannerController::class, 'getArtikelDetail']);
+Route::get('get-artikel/detail', [BannerController::class, 'getArtikelDetail']);
 
 Route::post('create-listing', [ListingController::class, 'create_listing']);
 Route::get('get-properti', [ListingController::class, 'getProperti']);

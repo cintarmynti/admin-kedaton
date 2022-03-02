@@ -150,15 +150,20 @@ class UserController extends Controller
         }
 
         if ($request->hasFile('photo_ktp')) {
+            // Storage::disk('public')->delete($user->photo_ktp);
             $img = Image::make($request->file('photo_ktp'));
             $img->resize(521, null,  function ($constraint) {
                 $constraint->aspectRatio();
             });
+            // dd($img);
             $filename = time() . '.' . $request->file('photo_ktp')->getClientOriginalExtension();
             $img_ktp = 'user_photo_ktp/' . $filename;
-            Storage::put($img_path, $img->encode());
+            Storage::put($img_ktp, $img->encode());
             $user->photo_ktp = $img_ktp;
+            // dd($img_path);
         }
+
+
         $user->save();
 
         if (is_iterable($request->properti_id)) {
