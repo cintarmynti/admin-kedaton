@@ -29,6 +29,32 @@ class LaporanPanicButtonController extends Controller
         return view('pages.laporan panic button.index', ['panic' => $query->get()]);
     }
 
+    public function dashboard_update($id)
+    {
+        $panic = PanicButton::where('id', $id)->update([
+            'status_keterangan' => 'checked'
+        ]);
+
+        // if($panic){
+        //     dd($panic);
+        // }
+        return redirect('/dashboard');
+
+    }
+
+    public function dashboard_all()
+    {
+        $panic_button = PanicButton::where('status_keterangan', 'not checked')->get();
+        foreach($panic_button as $p){
+            $p->update([
+                'status_keterangan' => 'checked'
+            ]);
+        }
+
+        return redirect('/dashboard');
+
+    }
+
     public function export_excel(Request $request)
 	{
         if(!$request->start_date){

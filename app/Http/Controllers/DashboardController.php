@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 use App\Models\Complain;
+use App\Models\PanicButton;
 use App\Models\rev_listing;
 use App\Models\User;
 use App\Models\Renovasi;
 // use App\Models\rev_listing;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
@@ -18,8 +20,16 @@ class DashboardController extends Controller
         $complain = Complain::all()->count();
         $renovasi_progress = Renovasi::where('status_renovasi', 0)->count();
 
+        // $panic = PanicButton::with('properti')->where('status_keterangan', 'not checked')->get();
+        // dd($panic);
 
+        $panic = DB::table('panic_button')
+        ->join('properti', 'properti.id', '=', 'panic_button.id_rumah')
+        ->join('cluster', 'cluster.id', '=', 'properti.cluster_id')
+        ->select('panic_button.id', 'name', 'no_rumah')
+        ->where('status_keterangan', 'not checked')->get();
+        // dd($panic);
         // dd($customer);
-        return view('pages.dashboard', ['customer' => $customer, 'dijual' => $dijual, 'disewakan' => $disewakan, 'complain' => $complain]);
+        return view('pages.dashboard', ['customer' => $customer, 'dijual' => $dijual, 'disewakan' => $disewakan, 'complain' => $complain, 'panic' => $panic]);
     }
 }

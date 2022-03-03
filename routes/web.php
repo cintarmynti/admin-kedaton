@@ -149,6 +149,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::patch('/panic-button/status/{id}', [LaporanPanicButtonController::class, 'status'])->name('panic.status');
     Route::get('/panic-button/export_excel', [LaporanPanicButtonController::class, 'export_excel']);
     Route::get('/panic-button/detail/{id}', [LaporanPanicButtonController::class, 'get_detail']);
+    Route::get('/panic-button/dashboard/{id}', [LaporanPanicButtonController::class, 'dashboard_update']);
+    Route::get('/panic-button/dashboard-all', [LaporanPanicButtonController::class, 'dashboard_all']);
 
 
 
