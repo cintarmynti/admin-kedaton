@@ -59,7 +59,7 @@ class IPKLController extends Controller
                             'status' => 1,
                             'periode_pembayaran' => Carbon::now(),
                             'type' => $tagihan->type_id,
-                            'bukti_tf' => $imageName
+                            'bukti_tf' => 'bukti_tf/'.$imageName
                         ]);
 
                         Tagihan::where('id', $tagihan->id)->update([

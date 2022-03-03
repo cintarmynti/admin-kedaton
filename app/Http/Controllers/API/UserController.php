@@ -10,6 +10,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use App\Mail\MyTestMail;
 use App\Mail\PasswordBaru;
+use App\Mail\ResendEmail;
 use Illuminate\Support\Facades\Mail;
 use Validator;
 use App\Models\Listing;
@@ -270,9 +271,36 @@ class UserController extends Controller
 
     }
 
-    public function resendpass()
+    public function resendpass(Request $request)
     {
-        
+        $user = User::where('email', $request->email)->first();
+
+        // dd($user);
+        if($user == null){
+            return ResponseFormatter::failed('tidak ada user dengan email tersebut!', 404);
+        }
+
+        if(!$request->email){
+            return ResponseFormatter::failed('tidak boeh ada field kosong!', 404);
+
+        }
+
+        $pw = Str::random(8);
+        // dd($pw);
+        $hashed_random_password = Hash::make($pw);
+        $user->password = $hashed_random_password;
+        // dd($user->password);
+        $user->save();
+        $details = [
+            'recipient' => $request->email,
+            // 'fromEmail' => 'coba@gmail.com',
+            'nik' => $user->nik,
+            'subject' => $pw
+        ];
+
+        Mail::to($details['recipient'])->send(new ResendEmail($details));
+
+        return ResponseFormatter::success('informasi login sudah dikirim melalui email', $pw);
     }
 
 }
