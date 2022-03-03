@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Mail\KedatonNewMember;
 use App\Models\Rumah;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -50,8 +51,12 @@ class UserController extends Controller
                 return ResponseFormatter::failed('tidak ada user dengan nik tersebut!', 404);
             }
 
+            if(!$request->email || !$request->nik || !$request->snk ){
+                return ResponseFormatter::failed('tidak boleh ada filed kosong', 409);
+            }
+
             if ($this->checkEmailExists($request->email)) {
-                return ResponseFormatter::failed('User name Already Exists!', 409);
+                return ResponseFormatter::failed('User email Already Exists!', 409);
             }
 
             // dd($cekNik != null);
@@ -73,7 +78,7 @@ class UserController extends Controller
                     'subject' => $pw
                 ];
 
-                Mail::to($details['recipient'])->send(new MyTestMail($details));
+                Mail::to($details['recipient'])->send(new KedatonNewMember($details));
 
                 // dd("Email sudah terkirim.");
 
@@ -83,28 +88,49 @@ class UserController extends Controller
     }
 
     public function editpass(Request $request){
+
         $user = User::find($request->id);
 
         if($user == null){
             return ResponseFormatter::failed('tidak ada user dengan id tersebut!', 404);
         }
 
-        $cek_pw_lama = Hash::check($request->password_lama, $user->password);
-        // dd($cek_pw_lama);
-        if($cek_pw_lama == true){
-            $pw_baru = Hash::make($request->password_baru);
-            $user->password = $pw_baru;
-            $user->update();
-
-            return ResponseFormatter::success('password telah diperbarui!', $pw_baru);
+        if(!$request->id || !$request->password_lama || !$request->password_baru || !$request->konfimasi_password_baru ){
+            return ResponseFormatter::failed('tidak boleh ada field kosong!', 404);
         }
 
-        return ResponseFormatter::failed('gagal update password baru, cek kembali passwod lama!', 404);
+        $cek_pw_lama = Hash::check($request->password_lama, $user->password);
+        if($cek_pw_lama == false){
+            return ResponseFormatter::failed('password lama anda salah, cek kembali passwod lama!', 404);
+        }
+
+        // dd(strcmp("Hello world!","Hello world!"));
+        // dd(strcmp($request->password_baru, $request->konfimasi_password_baru) == 0);
+        if(strcmp($request->password_baru, $request->konfimasi_password_baru) != 0){
+            return ResponseFormatter::failed('password baru harus sama dengan pasword konfirmasi!', 404);
+        }
+
+        if(strcmp($request->password_baru, $request->password_lama) == 0){
+            return ResponseFormatter::failed('password baru tidak boleh sama dengan password lama!', 404);
+        }
+
+        $pw_baru = Hash::make($request->password_baru);
+        $user->password = $pw_baru;
+        $user->update();
+
+        return ResponseFormatter::success('password telah diperbarui!', $request->password_baru);
+
+
 
 
     }
 
     public function login(Request $request){
+        if(!$request->password || !$request->nik){
+            return ResponseFormatter::failed('tidak boleh ada field kosong!', 404);
+
+        }
+
         $cekNik = User::where('nik', $request->nik)->first();
         if($cekNik == null){
             return ResponseFormatter::failed('tidak ada user dengan nik tersebut!', 404);
@@ -121,32 +147,73 @@ class UserController extends Controller
 
     public function profile(Request $request)
     {
-        $pemilik = User::where('id', $request->id)->first([ 'nik','name', 'alamat', 'phone', 'email', 'photo_ktp', 'photo_identitas']);
 
-        $pemilik->photo_identitas = $pemilik->image_url;
-        $pemilik->photo_ktp = $pemilik->image_ktp;
+        if(!$request->id){
+            return ResponseFormatter::failed('masukkan id terlebih dahulu!', 404);
+        }
+
+        $user = User::where('id', $request->id)->first([ 'nik','name', 'alamat', 'phone', 'email', 'photo_ktp', 'photo_identitas', 'status_penghuni']);
+
+        if($user == null){
+            return ResponseFormatter::failed('tidak ada user dengan id ini!', 404);
+
+        }
+
+        $user->photo_identitas = $user->image_url;
+        $user->photo_ktp = $user->image_ktp;
+
+        $cek_kepemilikan_prop = Properti::where('pemilik_id', $request->id)->first();
+        $cek_penghuni_prop = Properti::where('penghuni_id', $request->id)->first();
+
+        if($cek_kepemilikan_prop != null){
+            $properti = DB::table('properti')
+            ->join('users', 'users.id', '=', 'properti.pemilik_id')
+            ->join('cluster', 'cluster.id', 'properti.cluster_id')
+            ->select('users.name as pemilik_id', 'cluster.name as cluster_id','luas_tanah', 'luas_bangunan', 'jumlah_kamar', 'kamar_mandi', 'carport')
+            ->where('pemilik_id', $request->id)
+            ->get();
+
+            // dd($properti);
+            $return['pemilik'] = $user;
+            $return['properti'] = $properti;
+            return ResponseFormatter::success('get user profile n properti!', $return);
+        }else if($cek_penghuni_prop != null){
+            $properti = DB::table('properti')
+            ->join('users', 'users.id', '=', 'properti.penghuni_id')
+            ->join('cluster', 'cluster.id', 'properti.cluster_id')
+            ->select('users.name as penghuni_id', 'cluster.name as cluster_id','luas_tanah', 'luas_bangunan', 'jumlah_kamar', 'kamar_mandi', 'carport')
+            ->where('penghuni_id', $request->id)
+            ->get();
+
+            // dd($properti);
+            $return['penghuni'] = $user;
+            $return['properti'] = $properti;
+            return ResponseFormatter::success('get user profile n properti!', $return);
+        }
 
 
-
-        $properti = DB::table('properti')
-        ->join('users', 'users.id', '=', 'properti.pemilik_id')
-        ->join('cluster', 'cluster.id', 'properti.cluster_id')
-        ->select('users.name as pemilik_id', 'cluster.name as cluster_id','luas_tanah', 'luas_bangunan', 'jumlah_kamar', 'kamar_mandi', 'carport')
-        ->get();
-
-        // dd($properti);
-        $return['pemilik'] = $pemilik;
-        $return['properti'] = $properti;
-        return ResponseFormatter::success('get user profile n properti!', $return);
 
     }
 
     public function forget(Request $request){
 
         $user = User::where('email', $request->email)->first();
+
+        // dd($user);
+        if($user == null){
+            return ResponseFormatter::failed('tidak ada user dengan email tersebut!', 404);
+        }
+
+        if(!$request->email){
+            return ResponseFormatter::failed('tidak boeh ada field kosong!', 404);
+
+        }
+
         $pw = Str::random(8);
+        // dd($pw);
         $hashed_random_password = Hash::make($pw);
         $user->password = $hashed_random_password;
+        // dd($user->password);
         $user->save();
         $details = [
             'recipient' => $request->email,
@@ -164,37 +231,48 @@ class UserController extends Controller
 
 
 
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        $user = User::where('id', $id)->first();
-        if ($request->photo_identitas) {
-            $image = $request->photo_identitas;  // your base64 encoded
-            $image = str_replace('data:image/png;base64,', '', $image);
-            $image = str_replace(' ', '+', $image);
-            $imageName =  time().rand(0,2000).'.'.'png';
-            File::put('user_photo/' . $imageName, base64_decode($image));
+        if(!$request->id || !$request -> email || !$request -> phone){
+            return ResponseFormatter::failed('masukkan inputan terlebih dahulu!', 401);
+
+        }
+        $user = User::find($request->id);
+        if($user == null){
+            return ResponseFormatter::failed('tidak ada user id tersebut!', 401);
+
+        }
+        // dd($user->email);
+
+        if($request-> email == $user->email && $request-> phone != $user->phone){
+            $user -> phone = $request -> phone;
+            $user->save();
+        }else if($request-> email != $user->email && $request-> phone == $user->phone){
+            $user -> email = $request -> email;
+            $user->save();
+        }else if($request-> email != $user->email && $request-> phone != $user->phone){
+            $user -> email = $request -> email;
+            $user -> phone = $request -> phone;
+            $user->save();
         }else{
-            $imageName = $user->photo_identitas;;
+            return ResponseFormatter::failed('data anda sudah sama dengan database!', 401);
         }
 
-        $user -> name = $request->name;
-        $user -> email = $request -> email;
-        $user -> nik = $request -> nik;
-        $user -> alamat = $request -> alamat;
-        $user-> password = bcrypt($request->password);
-        $user -> phone = $request -> phone;
-        $user -> photo_identitas = $imageName;
-        $user->update();
+        // dd($user);
 
 
-        if($user){
-            return ResponseFormatter::success('successful to update user profile!', $user);
+        $data_user = User::where('id', $request->id)->first(['id','email', 'phone']);
+        if($data_user){
+            return ResponseFormatter::success('successful to update user profile!', $data_user);
         }else{
             return ResponseFormatter::failed('failed to update profile!', 401);
         }
 
     }
 
-
+    public function resendpass()
+    {
+        
+    }
 
 }

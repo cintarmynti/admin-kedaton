@@ -60,6 +60,11 @@ class BannerController extends Controller
         }
 
         $article['blog'] = Blog::where('id', $request->artikel_id)->first();
+        $article['blog']['detail_image'] = blog_image::where('blog_id', $request->artikel_id)->get();
+        foreach($article['blog']['detail_image'] as $q){
+            $q->image = $q->image_url;
+        };
+
 
         if($article['blog'] == null){
             return ResponseFormatter::failed('tidak ada id dengan artikel tersebut!', 404);

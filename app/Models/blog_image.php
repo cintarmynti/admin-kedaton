@@ -10,4 +10,9 @@ class blog_image extends Model
     use HasFactory;
     protected $table = 'blog_image';
     protected $fillable = ['image', 'blog_id'];
+
+    public function getImageUrlAttribute($value)
+    {
+        return url('/').'/storage/'.$this->image;
+    }
 }

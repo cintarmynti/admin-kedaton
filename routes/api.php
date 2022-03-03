@@ -41,10 +41,11 @@ Route::get('/renovasi/delete/{id}', [RenovasiController::class, 'delete']);
 Route::post('login', [UserController::class, 'login']);
 Route::post('register', [UserController::class, 'register']);
 Route::get('profile', [UserController::class, 'profile']);
-Route::post('profile-update/{id}', [UserController::class, 'update']);
+Route::post('profile-update', [UserController::class, 'update']);
 Route::get('get-nik', [UserController::class, 'getNik']);
 Route::post('forget-pass', [UserController::class, 'forget']);
 Route::post('edit-pass', [UserController::class, 'editpass']);
+Route::post('resend-password', [UserController::class, 'resendpass']);
 
 
 Route::post('panic-button', [PanicButtonController::class, 'store']);
@@ -56,11 +57,14 @@ Route::get('daftar-rumah', [PropertiController::class, 'getNomer']);
 Route::post('new-prop', [PropertiController::class, 'newProp']);
 Route::get('prop-detail', [PropertiController::class, 'detailprop']);
 
-Route::post('bayar-ipkl', [IPKLController::class, 'store']);
-Route::get('sudah-acc', [IPKLController::class, 'ipklAcc']);
+Route::post('bayar-tagihan', [IPKLController::class, 'store']);
 
-Route::get('belom-bayar-ipkl', [IPKLController::class, 'belomDibayar']);
-Route::get('sudah-bayar-ipkl', [IPKLController::class, 'sudahDibayar']);
+Route::get('sudah-bayar', [IPKLController::class, 'ipklAcc']);
+Route::get('belom-bayar', [IPKLController::class, 'belomDibayar']);
+
+Route::get('list-tagihan', [IPKLController::class, 'listTagihan']);
+
+Route::get('sudah-bayar-tagihan', [IPKLController::class, 'sudahDibayar']);
 Route::get('total-bayar', [IPKLController::class, 'total_tagihan']);
 
 Route::get('riwayat-bayar', [IPKLController::class, 'riwayat_bayar']);
