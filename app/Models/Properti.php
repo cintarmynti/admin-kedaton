@@ -31,21 +31,31 @@ class Properti extends Model
         'status',
         // 'harga',
         'kamar_mandi',
-        'carport'
+        'carport',
+        'gambar'
     ];
 
-
-    public function pemilik()
+    public function getCoverUrlAttribute()
     {
-        return $this->hasOne(User::class, 'id', 'pemilik_id');
+        $properti = Properti_image::where('properti_id', $this->id)->first();
+        return $properti  == null ? '' : $properti->image ;
     }
 
     public function penghuni()
     {
         return $this->hasOne(User::class, 'id', 'penghuni_id');
     }
+
     public function cluster()
     {
         return $this->hasOne(Cluster::class, 'id', 'cluster_id');
     }
+
+    public function pemilik()
+    {
+        return $this->hasOne(User::class, 'id', 'pemilik_id');
+    }
+
+
+
 }

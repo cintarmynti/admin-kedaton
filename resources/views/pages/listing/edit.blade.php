@@ -102,6 +102,16 @@
                 </div>
             </div>
 
+            <div class="row mt-1">
+                <div class="col">
+                    <label class="form-label" for="">Deskripsi</label>
+                    {{-- <textarea class="form-control" id="post" rows="12"  name="desc" aria-label="With textarea"></textarea> --}}
+                    <textarea id="konten" class="form-control" name="desc" rows="10" cols="50">{{$listing->desc}}</textarea>
+
+                </div>
+
+            </div>
+
 
             <a href="{{ route('listing') }}" class="btn btn-warning mt-4">kembali</a>
             <button type="submit" class="btn btn-primary ml-4 mt-4">Simpan</a>
@@ -116,6 +126,14 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js" defer></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
+<script src="{{asset('assets/ckeditor/ckeditor.js')}}"></script>
+<script>
+   var konten = document.getElementById("konten");
+     CKEDITOR.replace(konten,{
+     language:'en-gb'
+   });
+   CKEDITOR.config.allowedContent = true;
+</script>
 
 <script>
     function count() {

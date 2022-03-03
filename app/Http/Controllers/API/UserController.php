@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Mail;
 use Validator;
 use App\Models\Listing;
 use App\Models\Properti;
+use App\Models\Properti_image;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 // use Hash;
@@ -25,18 +26,18 @@ use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
-    public function getNik(Request $request){
+    public function getNik(Request $request)
+    {
 
         $user_detail = User::where('nik', $request->nik)->first();
-        if($request->nik == null){
+        if ($request->nik == null) {
             return ResponseFormatter::failed('mohon masukkan nik terlebih dahulu!', 404);
         }
 
-        if($user_detail == null){
+        if ($user_detail == null) {
             return ResponseFormatter::failed('tidak ada user dengan nik tersebut!', 404);
         }
         return ResponseFormatter::success('sukses mengambil detail user!', [$user_detail]);
-
     }
 
     private function checkEmailExists($email)
@@ -44,74 +45,75 @@ class UserController extends Controller
         return User::where('email', $email)->first();
     }
 
-    public function register(Request $request){
+    public function register(Request $request)
+    {
 
 
-            $cekNik = User::where('nik', $request->nik)->first();
-            if($cekNik == null){
-                return ResponseFormatter::failed('tidak ada user dengan nik tersebut!', 404);
-            }
+        $cekNik = User::where('nik', $request->nik)->first();
+        if ($cekNik == null) {
+            return ResponseFormatter::failed('tidak ada user dengan nik tersebut!', 404);
+        }
 
-            if(!$request->email || !$request->nik || !$request->snk ){
-                return ResponseFormatter::failed('tidak boleh ada filed kosong', 409);
-            }
+        if (!$request->email || !$request->nik || !$request->snk) {
+            return ResponseFormatter::failed('tidak boleh ada filed kosong', 409);
+        }
 
-            if ($this->checkEmailExists($request->email)) {
-                return ResponseFormatter::failed('User email Already Exists!', 409);
-            }
+        if ($this->checkEmailExists($request->email)) {
+            return ResponseFormatter::failed('User email Already Exists!', 409);
+        }
 
-            // dd($cekNik != null);
-            if($cekNik != null && $request->snk == 1){
-                $pw = Str::random(8);
-                // dd($pw);
-                $hashed_random_password = Hash::make($pw);
-                $cekNik->password = $hashed_random_password;
-                $cekNik->email = $request->email;
-                $cekNik->snk = 1;
-                $cekNik->save();
+        // dd($cekNik != null);
+        if ($cekNik != null && $request->snk == 1) {
+            $pw = Str::random(8);
+            // dd($pw);
+            $hashed_random_password = Hash::make($pw);
+            $cekNik->password = $hashed_random_password;
+            $cekNik->email = $request->email;
+            $cekNik->snk = 1;
+            $cekNik->save();
 
             // dd($cekNik);
 
-                $details = [
-                    'recipient' => $request->email,
-                    'fromEmail' => 'coba@gmail.com',
-                    'nik' => $request->nik,
-                    'subject' => $pw
-                ];
+            $details = [
+                'recipient' => $request->email,
+                'fromEmail' => 'coba@gmail.com',
+                'nik' => $request->nik,
+                'subject' => $pw
+            ];
 
-                Mail::to($details['recipient'])->send(new KedatonNewMember($details));
+            Mail::to($details['recipient'])->send(new KedatonNewMember($details));
 
-                // dd("Email sudah terkirim.");
+            // dd("Email sudah terkirim.");
 
-                return ResponseFormatter::success('anda telah sukses regristasi! password dikirim melalui email', $pw);
-
-            }
+            return ResponseFormatter::success('anda telah sukses regristasi! password dikirim melalui email', $pw);
+        }
     }
 
-    public function editpass(Request $request){
+    public function editpass(Request $request)
+    {
 
         $user = User::find($request->id);
 
-        if($user == null){
+        if ($user == null) {
             return ResponseFormatter::failed('tidak ada user dengan id tersebut!', 404);
         }
 
-        if(!$request->id || !$request->password_lama || !$request->password_baru || !$request->konfimasi_password_baru ){
+        if (!$request->id || !$request->password_lama || !$request->password_baru || !$request->konfimasi_password_baru) {
             return ResponseFormatter::failed('tidak boleh ada field kosong!', 404);
         }
 
         $cek_pw_lama = Hash::check($request->password_lama, $user->password);
-        if($cek_pw_lama == false){
+        if ($cek_pw_lama == false) {
             return ResponseFormatter::failed('password lama anda salah, cek kembali passwod lama!', 404);
         }
 
         // dd(strcmp("Hello world!","Hello world!"));
         // dd(strcmp($request->password_baru, $request->konfimasi_password_baru) == 0);
-        if(strcmp($request->password_baru, $request->konfimasi_password_baru) != 0){
+        if (strcmp($request->password_baru, $request->konfimasi_password_baru) != 0) {
             return ResponseFormatter::failed('password baru harus sama dengan pasword konfirmasi!', 404);
         }
 
-        if(strcmp($request->password_baru, $request->password_lama) == 0){
+        if (strcmp($request->password_baru, $request->password_lama) == 0) {
             return ResponseFormatter::failed('password baru tidak boleh sama dengan password lama!', 404);
         }
 
@@ -120,44 +122,38 @@ class UserController extends Controller
         $user->update();
 
         return ResponseFormatter::success('password telah diperbarui!', $request->password_baru);
-
-
-
-
     }
 
-    public function login(Request $request){
-        if(!$request->password || !$request->nik){
+    public function login(Request $request)
+    {
+        if (!$request->password || !$request->nik) {
             return ResponseFormatter::failed('tidak boleh ada field kosong!', 404);
-
         }
 
         $cekNik = User::where('nik', $request->nik)->first();
-        if($cekNik == null){
+        if ($cekNik == null) {
             return ResponseFormatter::failed('tidak ada user dengan nik tersebut!', 404);
         }
 
         $pw = Hash::check($request->password, $cekNik->password);
-        if($cekNik != null && $pw){
+        if ($cekNik != null && $pw) {
             return ResponseFormatter::success('User telah berhasil login!', $cekNik);
-        }else{
+        } else {
             return ResponseFormatter::failed('User Login Failed!', 401, ['Unauthorized']);
-
         }
     }
 
     public function profile(Request $request)
     {
 
-        if(!$request->id){
+        if (!$request->id) {
             return ResponseFormatter::failed('masukkan id terlebih dahulu!', 404);
         }
 
-        $user = User::where('id', $request->id)->first([ 'nik','name', 'alamat', 'phone', 'email', 'photo_ktp', 'photo_identitas', 'status_penghuni']);
+        $user = User::where('id', $request->id)->first(['nik', 'name', 'alamat', 'phone', 'email', 'photo_ktp', 'photo_identitas', 'status_penghuni']);
 
-        if($user == null){
+        if ($user == null) {
             return ResponseFormatter::failed('tidak ada user dengan id ini!', 404);
-
         }
 
         $user->photo_identitas = $user->image_url;
@@ -166,48 +162,72 @@ class UserController extends Controller
         $cek_kepemilikan_prop = Properti::where('pemilik_id', $request->id)->first();
         $cek_penghuni_prop = Properti::where('penghuni_id', $request->id)->first();
 
-        if($cek_kepemilikan_prop != null){
-            $properti = DB::table('properti')
-            ->join('users', 'users.id', '=', 'properti.pemilik_id')
-            ->join('cluster', 'cluster.id', 'properti.cluster_id')
-            ->select('users.name as pemilik_id', 'cluster.name as cluster_id','luas_tanah', 'luas_bangunan', 'jumlah_kamar', 'kamar_mandi', 'carport')
-            ->where('pemilik_id', $request->id)
-            ->get();
+        if ($cek_kepemilikan_prop != null) {
+
+            $properti = Properti::with(
+                    [
+                        'pemilik' => function ($pemilik) {
+                            $pemilik->select('id','name');
+                        },
+                        'penghuni' => function ($penghuni) {
+                            $penghuni->select('id','name');
+                        },
+                        'cluster' => function ($cluster) {
+                            $cluster->select('id','name');
+                        }
+                    ]
+                )
+                ->where('pemilik_id', $request->id)->select('id', 'penghuni_id', 'pemilik_id', 'cluster_id', 'luas_tanah', 'luas_bangunan', 'jumlah_kamar', 'kamar_mandi', 'carport')->get();
+            // dd($properti);
+            foreach ($properti as $q) {
+                $q->gambar =  url('/').'/storage/'.$q->cover_url;
+            }
+
 
             // dd($properti);
+            // $return['image_properti'] =
             $return['pemilik'] = $user;
             $return['properti'] = $properti;
+            // $return['properti']['image'] =
             return ResponseFormatter::success('get user profile n properti!', $return);
-        }else if($cek_penghuni_prop != null){
-            $properti = DB::table('properti')
-            ->join('users', 'users.id', '=', 'properti.penghuni_id')
-            ->join('cluster', 'cluster.id', 'properti.cluster_id')
-            ->select('users.name as penghuni_id', 'cluster.name as cluster_id','luas_tanah', 'luas_bangunan', 'jumlah_kamar', 'kamar_mandi', 'carport')
-            ->where('penghuni_id', $request->id)
-            ->get();
+        } else if ($cek_penghuni_prop != null) {
+            $properti = Properti::with(
+                [
+                    'pemilik' => function ($pemilik) {
+                        $pemilik->select('id','name');
+                    },
+                    'penghuni' => function ($penghuni) {
+                        $penghuni->select('id','name');
+                    },
+                    'cluster' => function ($cluster) {
+                        $cluster->select('id','name');
+                    }
+                ]
+            )
+            ->where('penghuni_id', $request->id)->select('id', 'penghuni_id', 'pemilik_id', 'cluster_id', 'luas_tanah', 'luas_bangunan', 'jumlah_kamar', 'kamar_mandi', 'carport')->get();
+            foreach ($properti as $q) {
+                $q->gambar =  url('/').'/storage/'.$q->cover_url;
+            }
 
             // dd($properti);
             $return['penghuni'] = $user;
             $return['properti'] = $properti;
             return ResponseFormatter::success('get user profile n properti!', $return);
         }
-
-
-
     }
 
-    public function forget(Request $request){
+    public function forget(Request $request)
+    {
 
         $user = User::where('email', $request->email)->first();
 
         // dd($user);
-        if($user == null){
+        if ($user == null) {
             return ResponseFormatter::failed('tidak ada user dengan email tersebut!', 404);
         }
 
-        if(!$request->email){
+        if (!$request->email) {
             return ResponseFormatter::failed('tidak boeh ada field kosong!', 404);
-
         }
 
         $pw = Str::random(8);
@@ -226,49 +246,44 @@ class UserController extends Controller
         Mail::to($details['recipient'])->send(new PasswordBaru($details));
 
         return ResponseFormatter::success('password baru telah dikirim silahkan di cek', $pw);
-
-
     }
 
 
 
     public function update(Request $request)
     {
-        if(!$request->id || !$request -> email || !$request -> phone){
+        if (!$request->id || !$request->email || !$request->phone) {
             return ResponseFormatter::failed('masukkan inputan terlebih dahulu!', 401);
-
         }
         $user = User::find($request->id);
-        if($user == null){
+        if ($user == null) {
             return ResponseFormatter::failed('tidak ada user id tersebut!', 401);
-
         }
         // dd($user->email);
 
-        if($request-> email == $user->email && $request-> phone != $user->phone){
-            $user -> phone = $request -> phone;
+        if ($request->email == $user->email && $request->phone != $user->phone) {
+            $user->phone = $request->phone;
             $user->save();
-        }else if($request-> email != $user->email && $request-> phone == $user->phone){
-            $user -> email = $request -> email;
+        } else if ($request->email != $user->email && $request->phone == $user->phone) {
+            $user->email = $request->email;
             $user->save();
-        }else if($request-> email != $user->email && $request-> phone != $user->phone){
-            $user -> email = $request -> email;
-            $user -> phone = $request -> phone;
+        } else if ($request->email != $user->email && $request->phone != $user->phone) {
+            $user->email = $request->email;
+            $user->phone = $request->phone;
             $user->save();
-        }else{
+        } else {
             return ResponseFormatter::failed('data anda sudah sama dengan database!', 401);
         }
 
         // dd($user);
 
 
-        $data_user = User::where('id', $request->id)->first(['id','email', 'phone']);
-        if($data_user){
+        $data_user = User::where('id', $request->id)->first(['id', 'email', 'phone']);
+        if ($data_user) {
             return ResponseFormatter::success('successful to update user profile!', $data_user);
-        }else{
+        } else {
             return ResponseFormatter::failed('failed to update profile!', 401);
         }
-
     }
 
     public function resendpass(Request $request)
@@ -276,13 +291,12 @@ class UserController extends Controller
         $user = User::where('email', $request->email)->first();
 
         // dd($user);
-        if($user == null){
+        if ($user == null) {
             return ResponseFormatter::failed('tidak ada user dengan email tersebut!', 404);
         }
 
-        if(!$request->email){
+        if (!$request->email) {
             return ResponseFormatter::failed('tidak boeh ada field kosong!', 404);
-
         }
 
         $pw = Str::random(8);
@@ -302,5 +316,4 @@ class UserController extends Controller
 
         return ResponseFormatter::success('informasi login sudah dikirim melalui email', $pw);
     }
-
 }

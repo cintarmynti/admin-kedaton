@@ -58,6 +58,8 @@ class ListingController extends Controller
         $listing->properti_id = $request->properti_id;
         $listing->cluster_id = $request->cluster_id;
         $listing->setelah_diskon = $request->setelah_diskon;
+        $listing->desc = $request->desc;
+
 
 
         // dd($request->harga);
@@ -129,6 +131,7 @@ class ListingController extends Controller
         $listing->properti_id = $request->properti_id;
         $listing->cluster_id = $request->cluster_id;
         $listing->setelah_diskon = $request->setelah_diskon;
+        $listing->desc = $request->desc;
 
 
         // dd($request->harga);

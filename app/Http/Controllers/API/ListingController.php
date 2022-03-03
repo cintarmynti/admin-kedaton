@@ -13,23 +13,44 @@ class ListingController extends Controller
 {
     // ini yang udah di revisi
     public function getProperti(Request $request){
-        $cek_user = rev_listing::where('status', $request->status)->get();
-        // dd($cek_user);
-        if($cek_user == null){
-            return ResponseFormatter::failed('tidak ada properti dengan status ini!', 404);
-        }
 
         if($request->status){
             $diproses = rev_listing::where('status', $request->status)->orderBy('created_at', 'desc')->get();
+            if($diproses->count() == 0){
+                return ResponseFormatter::failed('tidak ada listing dengan status ini!', 404);
+            }
+
+            foreach ($diproses as $q) {
+                $q->image =  $q->image_url;
+            }
             return ResponseFormatter::success('berhasil mengambil properti yang difilter berdasarkan input!', $diproses);
         }else if($request->name){
             $cari = rev_listing::where('name','like', "%". $request->name . "%")->get();
+            if($cari->count() == 0){
+                return ResponseFormatter::failed('tidak ada listing yg dicari!', 404);
+            }
+
+            foreach ($cari as $q) {
+                $q->image =  $q->image_url;
+            }
             // dd($cari);
             return ResponseFormatter::success('berhasil mendapatkan yang dicari!', $cari);
         }else{
-            $diproses = rev_listing::orderBy('created_at', 'desc')->get();
-            $promo = rev_listing::whereNotNull('diskon')->get();
-            return ResponseFormatter::success('berhasil mengambil semua properti!', [$diproses, $promo]);
+            $listing['semua'] = rev_listing::orderBy('created_at', 'desc')->get();
+            $listing['dengan_diskon'] = rev_listing::whereNotNull('diskon')->get();
+
+            if($listing['semua']->count() == 0){
+                return ResponseFormatter::failed('tidak ada data listing yg dicari!', 404);
+            }
+
+            foreach ($listing['semua'] as $q) {
+                $q->image =  $q->image_url;
+            }
+
+            foreach ($listing['dengan_diskon'] as $q) {
+                $q->image =  $q->image_url;
+            }
+            return ResponseFormatter::success('berhasil mengambil semua properti!', [$listing]);
         }
 
         return ResponseFormatter::failed('gagal mengambil properti!', 404);

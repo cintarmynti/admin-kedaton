@@ -65,38 +65,48 @@
 
                 </div>
 
-                    <div class="row mt-3">
+                <div class="row mt-3">
 
-                        <div class="col-md-3">
-                            <label for="formGroupExampleInput" class="form-label">Harga</label>
+                    <div class="col-md-3">
+                        <label for="formGroupExampleInput" class="form-label">Harga</label>
 
-                            <input value="{{ old('harga') }}" id="harga" type="text" required class="form-control money"
-                                id="harga" onkeyup="onchange_comma(this.id, this.value); count();" name="harga">
-                        </div>
+                        <input value="{{ old('harga') }}" id="harga" type="text" required class="form-control money"
+                            id="harga" onkeyup="onchange_comma(this.id, this.value); count();" name="harga">
+                    </div>
 
-                        <div class="col-md-3">
-                            <label for="formGroupExampleInput" class="form-label">Diskon</label>
-                            <div class="input-group">
-                                <input value="{{ old('diskon') }}" id="diskon" type="number" min="0" required
-                                    name="diskon" class="form-control" aria-label="Recipient's username"
-                                    aria-describedby="basic-addon2" onkeyup="count()">
-                                <span class="input-group-text" id="basic-addon2">%</span>
-                            </div>
-                        </div>
-
-                        <div class="col-md-3">
-                            <label for="formGroupExampleInput" class="form-label">Setelah Diskon</label>
-                            <div class="input-group">
-                                <input id="setelahDiskon" readonly type="number" min="0" required class="form-control"
-                                    aria-label="Recipient's username" aria-describedby="basic-addon2" name="setelah_diskon">
-                                {{-- <span class="input-group-text" id="basic-addon2">%</span> --}}
-                            </div>
+                    <div class="col-md-3">
+                        <label for="formGroupExampleInput" class="form-label">Diskon</label>
+                        <div class="input-group">
+                            <input value="{{ old('diskon') }}" id="diskon" type="number" min="0" required
+                                name="diskon" class="form-control" aria-label="Recipient's username"
+                                aria-describedby="basic-addon2" onkeyup="count()">
+                            <span class="input-group-text" id="basic-addon2">%</span>
                         </div>
                     </div>
 
-                    <div class="row mt-3 mb-5" id="dataProperti">
+                    <div class="col-md-3">
+                        <label for="formGroupExampleInput" class="form-label">Setelah Diskon</label>
+                        <div class="input-group">
+                            <input id="setelahDiskon" readonly type="number" min="0" required class="form-control"
+                                aria-label="Recipient's username" aria-describedby="basic-addon2" name="setelah_diskon">
+                            {{-- <span class="input-group-text" id="basic-addon2">%</span> --}}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-1">
+                    <div class="col">
+                        <label class="form-label" for="">Deskripsi</label>
+                        {{-- <textarea class="form-control" id="post" rows="12"  name="desc" aria-label="With textarea"></textarea> --}}
+                        <textarea id="konten" class="form-control" name="desc" rows="10" cols="50"></textarea>
 
                     </div>
+
+                </div>
+
+                <div class="row mt-3 mb-5" id="dataProperti">
+
+                </div>
 
 
                     <a href="{{ route('listing') }}" class="btn btn-warning ">kembali</a>
@@ -125,6 +135,14 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js" defer></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
+    <script src="{{asset('assets/ckeditor/ckeditor.js')}}"></script>
+<script>
+   var konten = document.getElementById("konten");
+     CKEDITOR.replace(konten,{
+     language:'en-gb'
+   });
+   CKEDITOR.config.allowedContent = true;
+</script>
     {{-- <script>
         var harga = parseFloat($("#harga").val());
         console.log(harga);

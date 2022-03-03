@@ -31,6 +31,7 @@ class CreatePropertiTable extends Migration
             $table->bigInteger('tarif_ipkl')->nullable();
             $table->bigInteger('kamar_mandi')->nullable();
             $table->bigInteger('carport')->nullable();
+            $table->bigInteger('gambar')->nullable();
             $table->string('status')->nullable();
             // $table->string('harga')->nullable();
             $table->integer('status_pengajuan')->default('0');
