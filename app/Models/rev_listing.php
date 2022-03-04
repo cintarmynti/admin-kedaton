@@ -15,6 +15,10 @@ class rev_listing extends Model
         return $this->hasOne(Properti::class, 'id', 'properti_id');
     }
 
+    public function cluster(){
+        return $this->hasOne(cluster::class, 'id', 'cluster_id');
+    }
+
     public function getImageUrlAttribute($value)
     {
         return url('/').'/storage/'.$this->image;

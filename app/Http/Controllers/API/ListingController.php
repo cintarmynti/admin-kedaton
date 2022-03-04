@@ -15,7 +15,13 @@ class ListingController extends Controller
     public function getProperti(Request $request){
 
         if($request->status){
-            $diproses = rev_listing::where('status', $request->status)->orderBy('created_at', 'desc')->get();
+            $diproses = rev_listing::with(
+                [
+                    'cluster' => function ($cluster) {
+                        $cluster->select('id','name');
+                    }
+                ]
+            )->where('status', $request->status)->orderBy('created_at', 'desc')->get(['id', 'status','image','cluster_id', 'harga', 'diskon', 'setelah_diskon', 'name']);
             if($diproses->count() == 0){
                 return ResponseFormatter::failed('tidak ada listing dengan status ini!', 404);
             }
@@ -25,7 +31,13 @@ class ListingController extends Controller
             }
             return ResponseFormatter::success('berhasil mengambil properti yang difilter berdasarkan input!', $diproses);
         }else if($request->name){
-            $cari = rev_listing::where('name','like', "%". $request->name . "%")->get();
+            $cari = rev_listing::with(
+                [
+                    'cluster' => function ($cluster) {
+                        $cluster->select('id','name');
+                    }
+                ]
+            )->where('name','like', "%". $request->name . "%")->get(['id', 'status','cluster_id','image', 'harga', 'diskon', 'setelah_diskon', 'name']);
             if($cari->count() == 0){
                 return ResponseFormatter::failed('tidak ada listing yg dicari!', 404);
             }
@@ -36,11 +48,25 @@ class ListingController extends Controller
             // dd($cari);
             return ResponseFormatter::success('berhasil mendapatkan yang dicari!', $cari);
         }else{
-            $listing['semua'] = rev_listing::orderBy('created_at', 'desc')->get();
-            $listing['dengan_diskon'] = rev_listing::whereNotNull('diskon')->get();
+            $listing['semua'] = rev_listing::with(
+                [
+                    'cluster' => function ($cluster) {
+                        $cluster->select('id','name');
+                    }
+                ]
+            )->orderBy('created_at', 'desc')->get(['id', 'status','cluster_id', 'image', 'harga', 'diskon', 'setelah_diskon', 'name']);
+
+
+            $listing['dengan_diskon'] = rev_listing::with(
+                [
+                    'cluster' => function ($cluster) {
+                        $cluster->select('id','name');
+                    }
+                ]
+            )->whereNotNull('diskon')->get(['id', 'status','cluster_id', 'image', 'harga', 'diskon', 'setelah_diskon', 'name']);
 
             if($listing['semua']->count() == 0){
-                return ResponseFormatter::failed('tidak ada data listing yg dicari!', 404);
+                return ResponseFormatter::failed('tidak ada data listing !', 404);
             }
 
             foreach ($listing['semua'] as $q) {
