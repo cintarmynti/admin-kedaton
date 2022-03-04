@@ -7,45 +7,49 @@
             <p class="card-description">
                 <button type="button" onclick="excel()" class="btn btn-success my-3" target="_blank">EXPORT EXCEL</button>
                 {{-- <a class="btn btn-primary" href="{{route('complain.create')}}">Tambah <Complain></Complain></a> --}}
-                <form action="/panic-button" method="GET">
-                    <div class="row">
-                            <div class="col-md-3">
-                                <label for="">Mulai Tanggal</label>
-                                <input type="date" id="from_date" class="form-control" value="{{request()->start_date}}" name="start_date">
-                            </div>
-                            <div class="col-md-3">
-                                <label for="">Sampai Tanggal</label>
-                                <input type="date" id="to_date" class="form-control" value="{{request()->end_date}}" name="end_date">
-                            </div>
-                            <div class="col-md-3">
-                                <label for="">Status</label>
-                                <select class="form-select" name="status" id="status" value="{{request()->status}}" aria-label="Default select example">
-                                    <option selected="" value="" disabled>pilih status</option>
-                                    @if (request()->status == 'checked')
-                                    <option value="checked" selected>checked</option>
-                                    <option value="not checked">not checked</option>
-                                    @elseif (request()->status == 'not checked')
-                                    <option value="checked">checked</option>
-                                    <option value="not checked" selected>not checked</option>
-                                    @elseif (request()->status == null)
-                                    <option value="checked">checked</option>
-                                    <option value="not checked">not checked</option>
-                                    @endif
-                                  </select>
-                            </div>
-                            <div class="col-md-3">
-                                <br>
-                                <button class="btn btn-primary" type="submit"><i data-feather="search"></i></button>
-                                <a href="/panic-button" class="btn btn-primary" type="button">Refresh</a>
-
-                            </div>
+            <form action="/panic-button" method="GET">
+                <div class="row">
+                    <div class="col-md-3">
+                        <label for="">Mulai Tanggal</label>
+                        <input type="date" id="from_date" class="form-control" value="{{ request()->start_date }}"
+                            name="start_date">
                     </div>
-                    </form>
+                    <div class="col-md-3">
+                        <label for="">Sampai Tanggal</label>
+                        <input type="date" id="to_date" class="form-control" value="{{ request()->end_date }}"
+                            name="end_date">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="">Status</label>
+                        <select class="form-select" name="status" id="status" value="{{ request()->status }}"
+                            aria-label="Default select example">
+                            <option selected="" value="" disabled>pilih status</option>
+                            @if (request()->status == 'checked')
+                                <option value="checked" selected>checked</option>
+                                <option value="not checked">not checked</option>
+                            @elseif (request()->status == 'not checked')
+                                <option value="checked">checked</option>
+                                <option value="not checked" selected>not checked</option>
+                            @elseif (request()->status == null)
+                                <option value="checked">checked</option>
+                                <option value="     ">not checked</option>
+                            @endif
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <br>
+                        <button class="btn btn-primary" type="submit"><i data-feather="search"></i></button>
+                        <a href="/panic-button" class="btn btn-primary" type="button">Refresh</a>
+
+                    </div>
+                </div>
+            </form>
             </p>
             <table class="table" id="myTable">
                 <thead>
                     <tr>
                         <th scope="col">id</th>
+                        <th scope="col">cluster</th>
                         {{-- listing id --}}
                         <th scope="col">rumah</th>
                         {{-- User id --}}
@@ -63,8 +67,22 @@
                     @foreach ($panic as $pan)
                         <tr>
                             <th scope="row">{{ $no++ }}</th>
-                            <td>{{ $pan->properti->no_rumah }}
+
+                            @if ($pan->properti)
+                            <td>{{ $pan->properti->no_rumah}}</td>
+                            <td>
+
+                                @php
+                                    $cluster = \App\Models\Properti::with('cluster')->where('id', $pan->properti->id )->first();
+                                @endphp
+                                {{$cluster->cluster->name}}
+
                             </td>
+                            @else
+                            <td></td>
+                            <td></td>
+                            @endif
+
                             <td>{{ $pan->user->name }}</td>
                             <td>{{ $pan->keterangan }}</td>
 
@@ -75,73 +93,92 @@
                                     <span class="badge bg-danger">not checked</span>
                                 @endif
                             </td>
+
+                            <div class="modal fade" id="exampleEdit" tabindex="-1" role="dialog"
+                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Alasan Pemanggilan</h5>
+                                        <button type="button" class="close" data-dismiss="modal"
+                                            aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="{{ route('panic.status', $pan->id) }}" method="POST">
+                                            @csrf
+                                            @method('patch')
+
+                                            <input type="hidden" id="id_rumah2"  name="id_rumah">
+                                            <input type="hidden" id="panic_id2"  name="id">
+
+                                            <input type="hidden" id="user_id2"  name="user_id">
+                                            <input type="text" class="form-control" placeholder="Keterangan"
+                                                name="keterangan">
+
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary">Save changes</button>
+                                    </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
                             <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
-                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel">Alasan Pemanggilan</h5>
-                                                <button type="button" class="close" data-dismiss="modal"
-                                                    aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <form action="{{ route('panic.status', $pan->id) }}" method="POST">
-                                                    @csrf
-                                                    @method('patch')
-                                                    {{-- <p id="keterangan"></p> --}}
-                                                    {{-- <img src="" width="400" height="300" id="bukti_tf" alt=""> --}}
-                                                    <input type="hidden" placeholder="rumah_id" id="id_rumah" name="id_rumah">
-                                                    <input type="hidden" placeholder="panic_id" id="panic_id" name="id">
-
-                                                    <input type="hidden" placeholder="user_id" id="user_id" name="user_id">
-                                                    <input type="text" class="form-control" placeholder="Keterangan" name="keterangan">
-
-                                                    {{-- <input type="text" name=""> --}}
-                                                    {{-- <input type="hidden" name="tagihan_id" id="tagihan_id">
-                                                <input type="hidden" name="pembayaran_id" id="pembayaran_id"> --}}
-                                                    {{-- </form> --}}
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary"
-                                                    data-dismiss="modal">Close</button>
-                                                <button type="submit" class="btn btn-primary">Save changes</button>
-                                            </div>
-                                            </form>
+                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Alasan Pemanggilan</h5>
+                                            <button type="button" class="close" data-dismiss="modal"
+                                                aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
                                         </div>
+                                        <div class="modal-body">
+                                            <form action="{{ route('panic.status', $pan->id) }}" method="POST">
+                                                @csrf
+                                                @method('patch')
+
+                                                <input type="hidden" placeholder="rumah_id" id="id_rumah" name="id_rumah">
+                                                <input type="hidden" placeholder="panic_id" id="panic_id" name="id">
+
+                                                <input type="hidden" placeholder="user_id" id="user_id" name="user_id">
+                                                <input type="text" class="form-control" placeholder="Keterangan"
+                                                    name="keterangan">
+
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-primary">Save changes</button>
+                                        </div>
+                                        </form>
                                     </div>
                                 </div>
+                            </div>
                             <td>{{ $pan->created_at }}</td>
 
 
                             <td>
-                                @if ($pan->status_keterangan == 'not checked')
-                                    <a class="btn btn-success" data-toggle="modal" data-riwayat_id="{{ $pan->id }}"
-                                        data-keterangan="{{ $pan->keterangan }}" data-target="#exampleModal"><i
-                                            data-feather="check"></i></a>
-                                @else
-                                @endif
-                                {{-- @if ($pan->status_keterangan == 'not checked')
-                                <a class="btn btn-success" data-bukti="{{ $i->bukti_tf }}"
-                                    data-riwayat_id="{{ $i->id }}" data-toggle="modal"
-                                    data-target="#exampleModal" href="{{ route('ipkl.status', $i->id) }}"><i
-                                        data-feather="check"></i></a>
-                            @else
-                            @endif --}}
-                                {{-- @if ($pan->status_keterangan == 'not checked')
-                                    <a class="btn btn-success" href="{{ route('panic.status', $pan->id) }}"><i
-                                            data-feather="check"></i></a>
-                                @else
-                                @endif --}}
-                                {{-- <a href="{{route('complain.edit',$com->id)}}"><i data-feather="edit"></i></a> --}}
-                                {{-- <form action="{{route('panic.delete', $pan->id)}}" method="post">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger">
-                            <i data-feather="trash"></i>
-                        </button>
-                    </form> --}}
+                                <div class="d-flex">
+                                    <a class="btn btn-warning" data-edit_id="{{ $pan->id }}" data-toggle="modal"
+                                        data-target="#exampleEdit"><i data-feather="edit"></i></a>
+                                    @if ($pan->status_keterangan == 'not checked')
+                                        <a class="btn btn-success" data-toggle="modal" data-riwayat_id="{{ $pan->id }}"
+                                            data-keterangan="{{ $pan->keterangan }}" data-target="#exampleModal"><i
+                                                data-feather="check"></i></a>
+                                    @else
+                                    @endif
+                                </div>
+
+
                             </td>
 
                         </tr>
@@ -181,7 +218,7 @@
             $('#myTable').DataTable();
         });
     </script>
-    <script>
+    {{-- <script>
         var APP_URL = {!! json_encode(url('/')) !!}
         console.log(APP_URL);
         $('#exampleModal').on('show.bs.modal', function(event) {
@@ -193,7 +230,7 @@
                 url: "/panic-button/detail/" + id,
                 dataType: 'json',
                 success: function(response) {
-                    console.log(response);
+                    // console.log(response);
 
                     $('#user_id').val(response.user_id);
                     $('#id_rumah').val(response.id_rumah);
@@ -205,19 +242,45 @@
             });
 
         })
+    </script> --}}
+
+    <script>
+        var APP_URL = {!! json_encode(url('/')) !!}
+        console.log(APP_URL);
+        $('#exampleEdit').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget)
+            var id = button.data('edit_id')
+
+            $.ajax({
+                type: 'get',
+                url: "/panic-button/edit/" + id,
+                dataType: 'json',
+                success: function(response) {
+                    console.log(response);
+
+                    $('#user_id2').val(response.user_id);
+                    $('#id_rumah2').val(response.id_rumah);
+                    $('#panic_id2').val(response.id);
+
+
+
+                }
+            });
+
+        })
     </script>
     <script>
-           var APP_URL = {!! json_encode(url('/')) !!}
+        var APP_URL = {!! json_encode(url('/')) !!}
         console.log(APP_URL);
 
-        function excel(){
+        function excel() {
 
             var fromDate = $('#from_date').val();
             // alert('halo');
             var toDate = $('#to_date').val();
             var status = $('#status').val();
             console.log(status);
-            if(status == null){
+            if (status == null) {
                 window.open(`${APP_URL}/panic-button/export_excel?start_date=${fromDate}&end_date=${toDate}`)
             }
             window.open(`${APP_URL}/panic-button/export_excel?start_date=${fromDate}&end_date=${toDate}&status=${status}`)

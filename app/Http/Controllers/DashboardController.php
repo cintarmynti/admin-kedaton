@@ -30,6 +30,9 @@ class DashboardController extends Controller
         ->where('status_keterangan', 'not checked')->get();
         // dd($panic);
         // dd($customer);
-        return view('pages.dashboard', ['customer' => $customer, 'dijual' => $dijual, 'disewakan' => $disewakan, 'complain' => $complain, 'panic' => $panic]);
+
+        $total_panic = $panic->count();
+
+        return view('pages.dashboard', ['customer' => $customer, 'dijual' => $dijual, 'disewakan' => $disewakan, 'complain' => $complain, 'panic' => $panic, 'total' => $total_panic]);
     }
 }

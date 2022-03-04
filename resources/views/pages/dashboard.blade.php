@@ -2,10 +2,15 @@
 
 @section('content')
 <div class="row">
+    @if ($total == 0)
+
+    @else
     <div class="col-md-12  mb-3">
         Ingin menangani semuanya ?
         <b class="text-danger" style="cursor: pointer;"><a href="/panic-button/dashboard-all">Tangani Semua</a></b>
     </div>
+    @endif
+
     @forelse($panic as $p)
         <div class="col-md-6 col-xl-3 mb-3">
             <div class="card card-panic">

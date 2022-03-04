@@ -14,7 +14,7 @@ class LaporanPanicButtonController extends Controller
 
         $start_date = Carbon::parse($request->start_date);
         $end_date = Carbon::parse($request->end_date);
-        $query = PanicButton::with('user', 'properti');
+        $query = PanicButton::with('user', 'properti')->Orderby('id', 'desc');
         // dd($start_date);
 
         if($request -> start_date){
@@ -107,6 +107,11 @@ class LaporanPanicButtonController extends Controller
     }
 
     public function get_detail($id){
+        $panic = PanicButton::findOrFail($id);
+        return response()->json($panic);
+    }
+
+    public function edit($id){
         $panic = PanicButton::findOrFail($id);
         return response()->json($panic);
     }
