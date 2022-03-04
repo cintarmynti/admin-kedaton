@@ -82,5 +82,6 @@ Route::get('get-artikel/detail', [BannerController::class, 'getArtikelDetail']);
 
 Route::post('create-listing', [ListingController::class, 'create_listing']);
 Route::get('get-listing', [ListingController::class, 'getProperti']);
+Route::get('detail-listing', [ListingController::class, 'detail_listing']);
 
 Route::post('create-image', [ListingController::class, 'createImage']);

@@ -7,7 +7,8 @@ use App\Models\rev_listing;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use App\Http\Controllers\API\ResponseFormatter;
-
+use App\Models\Properti_image;
+use App\Models\User;
 
 class ListingController extends Controller
 {
@@ -80,6 +81,33 @@ class ListingController extends Controller
         }
 
         return ResponseFormatter::failed('gagal mengambil properti!', 404);
+    }
+
+    public function detail_listing(Request $request){
+        $listing['data'] = rev_listing::with(
+
+            [
+                'properti' => function($properti){
+                    $properti->select('id','luas_bangunan', 'pemilik_id', 'luas_tanah', 'jumlah_kamar', 'kamar_mandi', 'carport');
+                },
+                'cluster' => function ($cluster) {
+                    $cluster->select('id','name');
+                }
+            ]
+        )->where('id', $request->listing_id)->first(['id', 'status','cluster_id', 'properti_id', 'image', 'harga', 'diskon', 'setelah_diskon', 'name', 'desc']);
+
+        $listing['data']->image = $listing['data']->image_url;
+
+        $listing['image_detail'] = Properti_image::where('properti_id', $listing['data']->properti_id)->get(['id', 'image']);
+        foreach($listing['image_detail'] as $q){
+            $q->image =  $q->image_url;
+
+        }
+
+        // $listing['pemilik'] = User::where('id', $listing['data']->properti)->first();
+
+        return ResponseFormatter::success('berhasil mengambil semua properti!', $listing);
+
     }
 
 
