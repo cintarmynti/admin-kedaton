@@ -13,6 +13,7 @@ class blog_image extends Model
 
     public function getImageUrlAttribute($value)
     {
+        
         return url('/').'/storage/'.$this->image;
     }
 }

@@ -59,11 +59,18 @@ class BannerController extends Controller
             return ResponseFormatter::failed('masukkan id terlebih dahulu!', 404);
         }
 
+        if(Blog::where('id', $request->artikel_id)->first() == null){
+            return ResponseFormatter::failed('tidak ada artikel dengan id ini!', 404);
+        }
+
         $article['blog'] = Blog::where('id', $request->artikel_id)->first();
         $article['blog']['detail_image'] = blog_image::where('blog_id', $request->artikel_id)->get();
-        foreach($article['blog']['detail_image'] as $q){
-            $q->image = $q->image_url;
-        };
+        // if($article['blog']['detail_image']  = []){
+             foreach($article['blog']['detail_image'] as $q){
+                $q->image = $q->image_url;
+            // };
+        }
+
 
 
         if($article['blog'] == null){
@@ -75,7 +82,7 @@ class BannerController extends Controller
         }
         $article['blog']->gambar = $article['blog']->image_url;
 
-        $article['rekomendasi'] = Blog::inRandomOrder(3)->get();
+        $article['rekomendasi'] = Blog::inRandomOrder(3)->get()->except($request->artikel_id);
         foreach($article['rekomendasi'] as $q){
             $q->gambar = $q->image_url;
         };

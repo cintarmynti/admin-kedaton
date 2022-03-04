@@ -83,7 +83,7 @@ class IPKLController extends Controller
 
     public function store(Request $request)
     {
-        $cekTagihan = Tagihan::where('periode_pembayaran', $request->periode_pembayaran)->first();
+        $cekTagihan = Tagihan::whereMonth('periode_pembayaran', Carbon::parse($request->periode_pembayaran))->first();
         if($cekTagihan != null){
             return redirect()->back()->withErrors(['msg' => 'periode sudah ada']);
         }

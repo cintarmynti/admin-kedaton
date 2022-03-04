@@ -80,8 +80,12 @@ class IPKLController extends Controller
     }
 
     public function listTagihan(Request $request){
-        $tagihan['ipkl'] = Tagihan::where('type_id', 1)->where('status', 1)->get();
-        $tagihan['renovasi'] = Tagihan::where('type_id', 2)->where('status', 1)->get();
+
+        if(!$request->user_id){
+            return ResponseFormatter::failed('tidak ada list tagihan pada user_id ini!', 404);
+        }
+        $tagihan['ipkl'] = Tagihan::where('type_id', 1)->where('status', 1)->where('user_id', $request->user_id)->get();
+        $tagihan['renovasi'] = Tagihan::where('type_id', 2)->where('status', 1)->where('user_id', $request->properti_id)->get();
 
         return ResponseFormatter::success('berhasil mendapat list tagihan yg belum dibayar!', $tagihan);
 

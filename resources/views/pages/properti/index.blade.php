@@ -50,7 +50,7 @@
                                             </button>
                                         </div>
                                         <div class="modal-body">
-                                            <form action="{{route('properti.pemilik', $p->id)}}" method="POST">
+                                            <form action="{{route('properti.pemilik')}}" method="POST">
                                                 @csrf
                                                 @method('patch')
                                                 <table class="table table-border">
@@ -76,6 +76,8 @@
                                                     </tr>
                                                 </table>
                                                 <input type="hidden" name="pemilik_id" id="pemilik_id">
+                                                <input type="hidden" name="properti_id" id="properti_id">
+
                                                 {{-- <img src="" width="400" height="300" id="bukti_tf" alt="">
                                                 <input type="hidden" name="user_id" id="user_id">
                                                 <input type="hidden" name="tagihan_id" id="tagihan_id">
@@ -180,7 +182,7 @@
                     $('#nik').html(response.nik);
                     $('#alamat').html(response.alamat);
                     $('#pemilik_id').val(response.id);
-
+                    $('#properti_id').val(id);
 
 
             }

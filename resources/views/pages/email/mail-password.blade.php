@@ -382,7 +382,7 @@
             <!-- END CENTERED WHITE CONTAINER -->
 
             <!-- START FOOTER -->
-            <div class="footer">
+            {{-- <div class="footer">
               <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                 <tr>
                   <td class="content-block">
@@ -396,7 +396,7 @@
                   </td>
                 </tr>
               </table>
-            </div>
+            </div> --}}
             <!-- END FOOTER -->
 
           </div>

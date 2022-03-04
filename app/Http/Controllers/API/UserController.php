@@ -55,11 +55,16 @@ class UserController extends Controller
         }
 
         if (!$request->email || !$request->nik || !$request->snk) {
-            return ResponseFormatter::failed('tidak boleh ada filed kosong', 409);
+            return ResponseFormatter::failed('tidak boleh ada filed kosong', 404);
+        }
+
+
+        if($cekNik && $cekNik->snk == 1){
+            return ResponseFormatter::failed('user ini sudah register, silahkan login', 404);
         }
 
         if ($this->checkEmailExists($request->email)) {
-            return ResponseFormatter::failed('User email Already Exists!', 409);
+            return ResponseFormatter::failed('User email Already Exists!', 404);
         }
 
         // dd($cekNik != null);
@@ -177,7 +182,7 @@ class UserController extends Controller
                         }
                     ]
                 )
-                ->where('pemilik_id', $request->id)->select('id', 'penghuni_id', 'pemilik_id', 'cluster_id', 'luas_tanah', 'luas_bangunan', 'jumlah_kamar', 'kamar_mandi', 'carport')->get();
+                ->where('pemilik_id', $request->id)->select('id','no_rumah', 'penghuni_id', 'pemilik_id', 'cluster_id', 'luas_tanah', 'luas_bangunan', 'jumlah_kamar', 'kamar_mandi', 'carport')->get();
             // dd($properti);
             foreach ($properti as $q) {
                 $q->gambar =  url('/').'/storage/'.$q->cover_url;
@@ -204,7 +209,7 @@ class UserController extends Controller
                     }
                 ]
             )
-            ->where('penghuni_id', $request->id)->select('id', 'penghuni_id', 'pemilik_id', 'cluster_id', 'luas_tanah', 'luas_bangunan', 'jumlah_kamar', 'kamar_mandi', 'carport')->get();
+            ->where('penghuni_id', $request->id)->select('id', 'no_rumah', 'penghuni_id', 'pemilik_id', 'cluster_id', 'luas_tanah', 'luas_bangunan', 'jumlah_kamar', 'kamar_mandi', 'carport')->get();
             foreach ($properti as $q) {
                 $q->gambar =  url('/').'/storage/'.$q->cover_url;
             }

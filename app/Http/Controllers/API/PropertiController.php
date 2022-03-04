@@ -27,6 +27,16 @@ class PropertiController extends Controller
     }
 
     public function newProp(Request $request){
+
+        $cek_properti = Properti::find($request->properti_id);
+        if($cek_properti == null){
+            return ResponseFormatter::failed('tidak ada properti dengan id tersebut!', 404);
+        }
+
+        if($cek_properti->pemilik_id != null){
+            return ResponseFormatter::failed('rumah ini sudah memiliki pemilik!', 404);
+        }
+
         $cek_pengajuan = Pengajuan::where('user_id', $request->user_id)->where('properti_id', $request->properti_id)->first();
         if($cek_pengajuan){
             return ResponseFormatter::success('rumah ini sudah diajukan, pengajuan anda masih dalam proses, mohon tunggu konfirmasi admin!', 200);
@@ -37,11 +47,7 @@ class PropertiController extends Controller
 
         }
 
-        $cek_properti = Properti::find($request->properti_id);
-        if($cek_properti == null){
-            return ResponseFormatter::failed('tidak ada properti dengan id tersebut!', 404);
 
-        }
 
         $pengajuan = new Pengajuan();
         $pengajuan->user_id = $request->user_id;
@@ -68,7 +74,7 @@ class PropertiController extends Controller
         }
 
         if($cek_isi == null){
-            return ResponseFormatter::failed('tidak ada data, mohon isi properti terlebih dahulu!', 401);
+            return ResponseFormatter::failed('tidak ada data, mohon isi properti terlebih dahulu atau mungkin semua properti sudah dimiliki!', 401);
         }
 
         if($no_rumah){

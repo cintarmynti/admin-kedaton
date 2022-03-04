@@ -32,9 +32,9 @@ class PropertiController extends Controller
         return view('pages.properti.index', ['properti' => $properti]);
     }
 
-    public function update_pemilik($id, Request $request)
+    public function update_pemilik(Request $request)
     {
-        $properti = Properti::find($id);
+        $properti = Properti::find($request->properti_id);
         $properti->pemilik_id = $request->pemilik_id;
         $properti->status_pengajuan = 2;
         $properti->save();

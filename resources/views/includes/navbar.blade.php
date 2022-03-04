@@ -24,8 +24,10 @@
           </li>
           <li class="nav-item dropdown">
 
-
+            <li class="nnav-item">  <i data-feather="bell"></i></a></li>
           <li class="nav-item dropdown">
+              {{-- ini tanda  --}}
+
             <a class="nav-link profile-dropdown" href="#" id="profileDropDown" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{ Auth::user()->name }} </a>
             <div class="dropdown-menu dropdown-menu-end profile-drop-menu">
 
