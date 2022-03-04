@@ -111,7 +111,19 @@ class PropertiController extends Controller
             return ResponseFormatter::failed('beri paramater properti id terlebih dahulu!', 401);
         }
 
-        $properti = Properti::with('cluster')->where('id', $request->prop_id)->first();
+        $properti = Properti::with( [
+            'pemilik' => function ($pemilik) {
+                $pemilik->select('id','name');
+            },
+            'penghuni' => function ($penghuni) {
+                $penghuni->select('id','name');
+            },
+            'cluster' => function ($cluster) {
+                $cluster->select('id','name');
+            }
+        ])->where('id', $request->prop_id)->select('id','no_rumah', 'penghuni_id', 'pemilik_id', 'cluster_id', 'luas_tanah', 'luas_bangunan', 'jumlah_kamar', 'kamar_mandi', 'carport')->first();
+        $properti->gambar = url('/').'/storage/'.$properti->cover_url;
+
         // dd($properti);
 
         if($properti == null){

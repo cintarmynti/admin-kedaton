@@ -188,6 +188,10 @@ class UserController extends Controller
                 $q->gambar =  url('/').'/storage/'.$q->cover_url;
             }
 
+            if($properti->count() == 0){
+                return ResponseFormatter::failed('user ini tidak punya properti!', 404);
+            }
+
 
             // dd($properti);
             // $return['image_properti'] =
@@ -212,6 +216,10 @@ class UserController extends Controller
             ->where('penghuni_id', $request->id)->select('id', 'no_rumah', 'penghuni_id', 'pemilik_id', 'cluster_id', 'luas_tanah', 'luas_bangunan', 'jumlah_kamar', 'kamar_mandi', 'carport')->get();
             foreach ($properti as $q) {
                 $q->gambar =  url('/').'/storage/'.$q->cover_url;
+            }
+
+            if($properti->count() == 0){
+                return ResponseFormatter::failed('user ini tidak punya properti!', 404);
             }
 
             // dd($properti);
