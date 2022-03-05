@@ -10,5 +10,5 @@ class Pengajuan extends Model
     use HasFactory;
 
     protected $table = 'pengajuan';
-    protected $fillable = ['user_id', 'properti_id'];
+    protected $fillable = ['user_id', 'properti_id', 'properti_id_penghuni'];
 }

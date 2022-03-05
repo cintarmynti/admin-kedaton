@@ -30,74 +30,165 @@
                             <th scope="row">{{ $no++ }}</th>
                             <td>{{ $p->cluster->name }}</td>
                             <td>{{ $p->no_rumah }}</td>
-                            <td>{{ $p->alamat }}, {{$p->kelurahan}}, {{$p->kecamatan}}, {{$p->kabupaten}}, {{$p->provinsi}}</td>
+                            <td>{{ $p->alamat }}, {{ $p->kelurahan }}, {{ $p->kecamatan }}, {{ $p->kabupaten }},
+                                {{ $p->provinsi }}</td>
                             <td><a href="{{ route('properti.detail', $p->id) }}">lihat detail</a></td>
                             <td>
                                 @if ($p->status_pengajuan == 1)
-                                ada user menambahkan rumah ini di profilenya,  <a href="" data-toggle="modal"
-                                data-target="#exampleModal" type="button" data-properti_id = "{{$p->id}}">lihat</a>
+                                    ada user menambahkan rumah ini di profilenya, <a href="" data-toggle="modal"
+                                        data-target="#exampleModal" type="button"
+                                        data-properti_id="{{ $p->id }}">lihat</a>
                                 @elseif ($p->status_pengajuan == 2 || $p->status_pengajuan == 0)
-                                {{ $p->pemilik ? $p->pemilik->name : '-' }}
+                                    {{ $p->pemilik ? $p->pemilik->name : '-' }}
                                 @endif
-                                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-                                aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Konfirmasi Penambahan Properti Oleh User</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <form action="{{route('properti.pemilik')}}" method="POST">
-                                                @csrf
-                                                @method('patch')
-                                                <table class="table table-border">
-                                                    <tr>
-                                                        <td>name</td>
-                                                        <td><p id="nama"></p></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>email</td>
-                                                        <td><p id="email"></p></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>No Telp</td>
-                                                        <td><p id="phone"></p></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>nik</td>
-                                                        <td><p id="nik"></p></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>alamat</td>
-                                                        <td><p id="alamat"></p></td>
-                                                    </tr>
-                                                </table>
-                                                <input type="hidden" name="pemilik_id" id="pemilik_id">
-                                                <input type="hidden" name="properti_id" id="properti_id">
+                                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Konfirmasi Penambahan
+                                                    Properti Oleh User</h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form action="{{ route('properti.pemilik') }}" method="POST">
+                                                    @csrf
+                                                    @method('patch')
+                                                    <table class="table table-border">
+                                                        <tr>
+                                                            <td>name</td>
+                                                            <td>
+                                                                <p id="nama"></p>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>email</td>
+                                                            <td>
+                                                                <p id="email"></p>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>No Telp</td>
+                                                            <td>
+                                                                <p id="phone"></p>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>nik</td>
+                                                            <td>
+                                                                <p id="nik"></p>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>alamat</td>
+                                                            <td>
+                                                                <p id="alamat"></p>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                    <input type="hidden" name="pemilik_id" id="pemilik_id">
+                                                    <input type="hidden" name="properti_id" id="properti_id">
 
-                                                {{-- <img src="" width="400" height="300" id="bukti_tf" alt="">
+                                                    {{-- <img src="" width="400" height="300" id="bukti_tf" alt="">
                                                 <input type="hidden" name="user_id" id="user_id">
                                                 <input type="hidden" name="tagihan_id" id="tagihan_id">
                                                 <input type="hidden" name="pembayaran_id" id="pembayaran_id"> --}}
 
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-dismiss="modal">Close</button>
+                                                <button type="submit" class="btn btn-primary">Setujui</button>
+                                            </div>
+                                            </form>
                                         </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                            <button type="submit" class="btn btn-primary">Setujui</button>
-                                        </div>
-                                        </form>
                                     </div>
                                 </div>
-                            </div>
 
+
+                                <div class="modal fade" id="exampleModalPenghuni" tabindex="-1" role="dialog"
+                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Konfirmasi Penambahan
+                                                    Properti Oleh User</h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form action="{{ route('properti.penghuni_id') }}" method="POST">
+                                                    @csrf
+                                                    @method('patch')
+                                                    <table class="table table-border">
+                                                        <tr>
+                                                            <td>name</td>
+                                                            <td>
+                                                                <p id="nama2"></p>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>email</td>
+                                                            <td>
+                                                                <p id="email2"></p>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>No Telp</td>
+                                                            <td>
+                                                                <p id="phone2"></p>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>nik</td>
+                                                            <td>
+                                                                <p id="nik2"></p>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>alamat</td>
+                                                            <td>
+                                                                <p id="alamat2"></p>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                    <input type="text" name="penghuni_id" id="penghuni_id2">
+                                                    <input type="text" name="properti_id" id="properti_id2">
+
+                                                    {{-- <img src="" width="400" height="300" id="bukti_tf" alt="">
+                                                <input type="hidden" name="user_id" id="user_id">
+                                                <input type="hidden" name="tagihan_id" id="tagihan_id">
+                                                <input type="hidden" name="pembayaran_id" id="pembayaran_id"> --}}
+
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-dismiss="modal">Close</button>
+                                                <button type="submit" class="btn btn-primary">Setujui</button>
+                                            </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
 
                             </td>
-                            <td>{{ $p->penghuni ? $p->penghuni->name : '-' }}</td>
-                            <td >
-                                <a href="{{ route('properti.edit', $p->id) }}" class="btn btn-warning fa-regular fa-pen-to-square" data-toggle="tooltip" data-placement="top" title="edit properti"></a>
+                            <td>
+                            @if ($p->status_pengajuan_penghuni == 1)
+                                ada user menambahkan penghuni ini di propertinya, <a href="" data-toggle="modal"
+                                    data-target="#exampleModalPenghuni" type="button"
+                                    data-properti_id_penghuni="{{ $p->id }}" >lihat</a>
+                            @elseif ($p->status_pengajuan_penghuni == 2 || $p->status_pengajuan_penghuni == 0)
+                                {{ $p->penghuni ? $p->penghuni->name : '-' }}</td>
+                            @endif
+                            <td>
+                                <a href="{{ route('properti.edit', $p->id) }}"
+                                    class="btn btn-warning fa-regular fa-pen-to-square" data-toggle="tooltip"
+                                    data-placement="top" title="edit properti"></a>
                                 {{-- <button type="submit" class="btn btn-danger delete fa-solid fa-trash-can" data-id="{{ $p->id }}" data-toggle="tooltip" data-placement="top" title="delete properti">
                                 </button> --}}
 
@@ -120,7 +211,8 @@
 @endpush
 
 @push('after-script')
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
         integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
     </script>
@@ -158,19 +250,19 @@
         });
     </script>
 
-<script>
-    var APP_URL = {!! json_encode(url('/')) !!}
-    console.log(APP_URL);
-    $('#exampleModal').on('show.bs.modal', function(event) {
-        var button = $(event.relatedTarget)
-        var id = button.data('properti_id')
+    <script>
+        var APP_URL = {!! json_encode(url('/')) !!}
+        console.log(APP_URL);
+        $('#exampleModal').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget)
+            var id = button.data('properti_id')
 
-        $.ajax({
-            type: 'get',
-            url: "/properti/user/" + id  ,
-            dataType: 'json',
-            success: function(response) {
-                console.log(response);
+            $.ajax({
+                type: 'get',
+                url: "/properti/user/" + id,
+                dataType: 'json',
+                success: function(response) {
+                    console.log(response);
 
                     // $('#user_id').val(response.user_id);
                     // $('#pembayaran_id').val(response.id);
@@ -181,8 +273,41 @@
                     $('#phone').html(response.phone);
                     $('#nik').html(response.nik);
                     $('#alamat').html(response.alamat);
-                    $('#pemilik_id').val(response.id);
+                    $('#penghuni_id').val(response.id);
                     $('#properti_id').val(id);
+
+
+                }
+            });
+
+        })
+    </script>
+
+<script>
+    var APP_URL = {!! json_encode(url('/')) !!}
+    console.log(APP_URL);
+    $('#exampleModalPenghuni').on('show.bs.modal', function(event) {
+        var button = $(event.relatedTarget)
+        var id = button.data('properti_id_penghuni')
+
+        $.ajax({
+            type: 'get',
+            url: "/properti/penghuni/" + id,
+            dataType: 'json',
+            success: function(response) {
+                console.log(response);
+
+                // $('#user_id').val(response.user_id);
+                // $('#pembayaran_id').val(response.id);
+                // $('#tagihan_id').val(response.tagihan_id);
+                // $('#bukti_tf').attr('src', APP_URL + '/' +response.bukti_tf);
+                $('#nama2').html(response.name);
+                $('#email2').html(response.email)
+                $('#phone2').html(response.phone);
+                $('#nik2').html(response.nik);
+                $('#alamat2').html(response.alamat);
+                $('#penghuni_id2').val(response.id);
+                $('#properti_id2').val(id);
 
 
             }

@@ -35,6 +35,7 @@ class CreatePropertiTable extends Migration
             $table->string('status')->nullable();
             // $table->string('harga')->nullable();
             $table->integer('status_pengajuan')->default('0');
+            $table->integer('status_pengajuan_penghuni')->default('0');
             $table->string('provinsi_id')->nullable();
             $table->string('provinsi')->nullable();
             $table->string('kabupaten_id')->nullable();

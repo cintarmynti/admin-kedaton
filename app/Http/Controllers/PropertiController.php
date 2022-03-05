@@ -32,6 +32,23 @@ class PropertiController extends Controller
         return view('pages.properti.index', ['properti' => $properti]);
     }
 
+    public function update_penghuni(Request $request){
+        $properti = Properti::find($request->properti_id);
+        $properti->penghuni_id = $request->penghuni_id;
+        $properti->status_pengajuan_penghuni = 2;
+        $properti->save();
+
+        return redirect()->route('properti');
+    }
+
+    public function penghuni($id)
+    {
+        $properti = Pengajuan::where('properti_id_penghuni', $id)->first();
+        $user = User::where('id', $properti->user_id)->first();
+
+        return response()->json($user);
+    }
+
     public function update_pemilik(Request $request)
     {
         $properti = Properti::find($request->properti_id);
@@ -326,6 +343,6 @@ class PropertiController extends Controller
     }
 
     public function addPenghuni(){
-        
+
     }
 }

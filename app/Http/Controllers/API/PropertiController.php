@@ -51,8 +51,6 @@ class PropertiController extends Controller
 
         }
 
-
-
         $pengajuan = new Pengajuan();
         $pengajuan->user_id = $request->user_id;
         $pengajuan->properti_id = $request->properti_id;
@@ -87,27 +85,23 @@ class PropertiController extends Controller
             return ResponseFormatter::failed('gagal mengambil data no rumah yang tidak ada pemilik!', 401);
         }
     }
-//    public function store(Request $request)
-//   {
-//         $properti = Properti::
-//   }
 
 
    public function index(Request $request)
-   {
-       $pemilik = Properti::where('pemilik_id', $request->user_id)->first();
-       $penghuni = Properti::where('penghuni_id', $request->user_id)->first();
-        // dd($pemilik);
-       if($pemilik != null){
-            $rumah_pemilik = Properti::with('cluster', 'penghuni', 'pemilik')->where('pemilik_id', $request->user_id)->get();
-            return ResponseFormatter::success('successful to create new prop!', $rumah_pemilik);
-       }else if($penghuni != null){
-            $rumah_penghuni = Properti::with('cluster', 'penghuni', 'pemilik')->where('penghuni_id', $request->user_id)->get();
-            return ResponseFormatter::success('successful to create new prop!', $rumah_penghuni);
-       }else if($pemilik == null && $penghuni == null){
-            return ResponseFormatter::failed('user ini tidak memiliki properti!', 401);
-       }
-   }
+    {
+        $pemilik = Properti::where('pemilik_id', $request->user_id)->first();
+        $penghuni = Properti::where('penghuni_id', $request->user_id)->first();
+            // dd($pemilik);
+        if($pemilik != null){
+                $rumah_pemilik = Properti::with('cluster', 'penghuni', 'pemilik')->where('pemilik_id', $request->user_id)->get();
+                return ResponseFormatter::success('successful to create new prop!', $rumah_pemilik);
+        }else if($penghuni != null){
+                $rumah_penghuni = Properti::with('cluster', 'penghuni', 'pemilik')->where('penghuni_id', $request->user_id)->get();
+                return ResponseFormatter::success('successful to create new prop!', $rumah_penghuni);
+        }else if($pemilik == null && $penghuni == null){
+                return ResponseFormatter::failed('user ini tidak memiliki properti!', 401);
+        }
+    }
 
    public function detailprop(Request $request){
 
@@ -156,6 +150,24 @@ class PropertiController extends Controller
            $properti_disewa = Properti::where('id', $request->properti_id)->first();
            $properti_disewa -> penghuni_id = $cek_nik->id;
            $properti_disewa->save;
+
+
+        $cek_pengajuan = Pengajuan::where('user_id', $cek_nik->id)->where('properti_id_penghuni', $request->properti_id)->first();
+        if($cek_pengajuan){
+            return ResponseFormatter::success('penghuni ini sudah diajukan, pengajuan anda masih dalam proses, mohon tunggu konfirmasi admin!', 200);
+        }
+
+        $pengajuan = new Pengajuan();
+        $pengajuan->user_id = $cek_nik->id;
+        $pengajuan->properti_id_penghuni = $request->properti_id_penghuni;
+        $pengajuan->update();
+
+        $properti= Properti::where('id', $request->properti_id)->first();
+        $properti->status_pengajuan_penghuni = 1;
+        $properti->update();
+
+            return ResponseFormatter::success('berhasil menambah penghuni, menunggu konfirmasi!', [$cek_nik]);
+
         }
 
         if(User::where('email', $request->email)->first() != null){
@@ -195,9 +207,21 @@ class PropertiController extends Controller
         $user_penghuni = User::where('id', $user->id)->first();
         $user_penghuni ->photo_ktp = $user_penghuni ->image_ktp;
 
-        $properti_disewa = Properti::where('id', $request->properti_id)->first();
-        $properti_disewa -> penghuni_id = $user_penghuni->id;
-        $properti_disewa->save;
+        $cek_pengajuan = Pengajuan::where('user_id', $user_penghuni->id)->where('properti_id_penghuni', $request->properti_id)->first();
+        if($cek_pengajuan){
+            return ResponseFormatter::success('penghuni ini sudah diajukan, pengajuan anda masih dalam proses, mohon tunggu konfirmasi admin!', 200);
+        }
+
+        $pengajuan = new Pengajuan();
+        $pengajuan->user_id = $user_penghuni->id;
+        $pengajuan->properti_id_penghuni = $request->properti_id;
+        $pengajuan->save();
+
+        $properti= Properti::where('id', $request->properti_id)->first();
+        // dd($properti);
+        $properti->status_pengajuan_penghuni = 1;
+        $properti->save();
+
 
         if($user){
             return ResponseFormatter::success('berhasil menambah penghuni!', [$user_penghuni, $pw]);

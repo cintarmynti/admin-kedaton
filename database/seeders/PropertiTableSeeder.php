@@ -69,7 +69,7 @@ class PropertiTableSeeder extends Seeder
             'no_rumah' => 40,
             'no_listrik' => '38432874923',
             'no_pam_bsd' => '47883749',
-            'penghuni_id' => 2,
+            'penghuni_id' => null,
             'alamat' => 'wonokromo',
             'RT' => '008',
             'RW' => '007',

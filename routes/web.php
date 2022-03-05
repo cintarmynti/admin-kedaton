@@ -86,7 +86,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/properti/riwayat/{id}', [PropertiController::class, 'riwayat'])->name('properti.riwayat');
     Route::get('/properti-detail-json/{id}', [PropertiController::class, 'detailJson'])->name('properti.detail.json');
     Route::get('properti/user/{id}', [PropertiController::class, 'datauser'])->name('properti.user.json');
+    Route::get('properti/penghuni/{id}', [PropertiCOntroller::class, 'penghuni'])->name('properti.penghuni');
     Route::patch('/properti/pemilik-update', [PropertiController::class, 'update_pemilik'])->name('properti.pemilik');
+    Route::patch('/properti/penghuni-update', [PropertiController::class, 'update_penghuni'])->name('properti.penghuni_id');
+
 
 
     Route::get('/listing', [ListingController::class, 'index'])->name('listing');

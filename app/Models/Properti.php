@@ -31,6 +31,7 @@ class Properti extends Model
         'status',
         // 'harga',
         'kamar_mandi',
+        'status_pengajuan_penghuni',
         'carport',
         'gambar'
     ];
