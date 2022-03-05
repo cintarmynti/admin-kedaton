@@ -31,6 +31,10 @@ class UserController extends Controller
     {
 
         $user_detail = User::where('nik', $request->nik)->first();
+        $user_detail->photo_identitas = $user_detail->image_url;
+        $user_detail->photo_ktp = $user_detail->image_ktp;
+
+
         if ($request->nik == null) {
             return ResponseFormatter::failed('mohon masukkan nik terlebih dahulu!', 404);
         }

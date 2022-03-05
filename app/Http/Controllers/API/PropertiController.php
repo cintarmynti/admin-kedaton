@@ -146,6 +146,10 @@ class PropertiController extends Controller
    public function addPenghuni(Request $request){
        $cek_nik = User::where('nik', $request->nik)->first();
 
+       if(Properti::where('id', $request->properti_id == null)){
+         return ResponseFormatter::failed('tidak ada properti id ini!', 401);
+       }
+
         if( $cek_nik != null && $request->snk == 1){
            $properti_disewa = Properti::where('id', $request->properti_id)->first();
            $properti_disewa -> penghuni_id = $cek_nik->id;
