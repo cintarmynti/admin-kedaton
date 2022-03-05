@@ -11,12 +11,15 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             <label for="formGroupExampleInput" class="form-label">Pilih Cluster</label>
-                            <select id="category" class="form-control select2" name="cluster_id" example">
-                                <option disabled selected="">Pilih Cluster</option>
-                                @foreach ($cluster as $item)
-                                    <option value="{{ $item->id }}">{{ $item->name }}</option>
-                                @endforeach
-                            </select>
+
+                        <select id="category" class="form-control select2" name="cluster_id"
+                            aria-label="Default select example">
+                            <option disabled selected="">Pilih Cluster</option>
+                            @foreach ($cluster as $item)
+                                <option value="{{ $item->name }}">{{ $item->name }}</option>
+                            @endforeach
+
+                        </select>
                         </div>
                     </div>
                     <div class="col-md-3">
@@ -176,6 +179,21 @@
             $('#select_prov').trigger('change');
             $('#name_prov').val($('#select_prov option:selected').text());
         });
+
+        $(document).ready(function() {
+            $('.select2').select2({
+                // placeholder: 'Select Cluster',
+                theme: 'bootstrap4',
+                tags: true
+            })
+
+            $('.multiple2').select2({
+                // placeholder: 'Select Cluster',
+                theme: 'bootstrap4',
+            })
+            // alert('halo');
+        })
+
 
         function getProv() {
             $.ajax({
