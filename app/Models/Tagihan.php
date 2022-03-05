@@ -11,6 +11,7 @@ class Tagihan extends Model
 {
     use HasFactory;
 
+
     protected $table = 'tagihan';
     protected $fillable = [
         'cluster_id',
@@ -39,5 +40,7 @@ class Tagihan extends Model
     public function type(){
         return $this->hasOne(type_pembayaran::class, 'id', 'type_id');
     }
+
+
 
 }

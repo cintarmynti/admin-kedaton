@@ -36,8 +36,6 @@ Route::get('/renovasi/show/{id}', [RenovasiController::class, 'show']);
 Route::get('/renovasi/update/{id}', [RenovasiController::class, 'update']);
 Route::get('/renovasi/delete/{id}', [RenovasiController::class, 'delete']);
 
-
-
 Route::post('login', [UserController::class, 'login']);
 Route::post('register', [UserController::class, 'register']);
 Route::get('profile', [UserController::class, 'profile']);
@@ -46,6 +44,7 @@ Route::get('get-nik', [UserController::class, 'getNik']);
 Route::post('forget-pass', [UserController::class, 'forget']);
 Route::post('edit-pass', [UserController::class, 'editpass']);
 Route::post('resend-password', [UserController::class, 'resendpass']);
+Route::post('edit-foto-profile', [UserController::class, 'edit_foto']);
 
 
 Route::post('panic-button', [PanicButtonController::class, 'store']);
@@ -61,12 +60,10 @@ Route::post('bayar-tagihan', [IPKLController::class, 'store']);
 
 Route::get('sudah-bayar', [IPKLController::class, 'ipklAcc']);
 Route::get('belom-bayar', [IPKLController::class, 'belomDibayar']);
-
 Route::get('list-tagihan', [IPKLController::class, 'listTagihan']);
 
 Route::get('sudah-bayar-tagihan', [IPKLController::class, 'sudahDibayar']);
 Route::get('total-bayar', [IPKLController::class, 'total_tagihan']);
-
 Route::get('riwayat-bayar', [IPKLController::class, 'riwayat_bayar']);
 
 Route::get('count-notif', [NotifikasiController::class, 'countNotif']);
@@ -83,5 +80,4 @@ Route::get('get-artikel/detail', [BannerController::class, 'getArtikelDetail']);
 Route::post('create-listing', [ListingController::class, 'create_listing']);
 Route::get('get-listing', [ListingController::class, 'getProperti']);
 Route::get('detail-listing', [ListingController::class, 'detail_listing']);
-
 Route::post('create-image', [ListingController::class, 'createImage']);

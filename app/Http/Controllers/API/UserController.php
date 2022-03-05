@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 // use Hash;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 // use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 // use Mail;
@@ -328,5 +329,30 @@ class UserController extends Controller
         Mail::to($details['recipient'])->send(new ResendEmail($details));
 
         return ResponseFormatter::success('informasi login sudah dikirim melalui email', $pw);
+    }
+
+    public function edit_foto(Request $request){
+
+        $user = User::find($request->user_id);
+        Storage::disk('public')->delete($user->photo_identitas);
+        $image = $request->image;  // your base64 encoded
+        $image = str_replace('data:image/png;base64,', '', $image);
+        $image = str_replace(' ', '+', $image);
+        $imageName = 'user_photo/'. Str::random(10) . '.png';
+
+        Storage::disk('public')->put($imageName, base64_decode($image));
+        $user->photo_identitas = $imageName;
+        $user->save();
+
+        $user_update = User::find($request->user_id);
+        $user_update ->photo_identitas  = $user-> image_url;
+
+
+        if ($user) {
+            return ResponseFormatter::success('successful to update user foto profile!', $user_update);
+        } else {
+            return ResponseFormatter::failed('failed to update foto profile!', 401);
+        }
+
     }
 }

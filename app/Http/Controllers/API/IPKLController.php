@@ -11,7 +11,10 @@ use App\Models\Properti;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 use Log;
+use Illuminate\Support\Str;
+
 
 class IPKLController extends Controller
 {
@@ -31,11 +34,18 @@ class IPKLController extends Controller
         try {
             $ipkl = [];
             if ($request->bukti_tf) {
+                // $image = $request->bukti_tf;  // your base64 encoded
+                // $image = str_replace('data:image/png;base64,', '', $image);
+                // $image = str_replace(' ', '+', $image);
+                // $imageName =  time() . rand(0, 2000) . '.' . 'png';
+                // File::put('bukti_tf/' . $imageName, base64_decode($image));
+
                 $image = $request->bukti_tf;  // your base64 encoded
                 $image = str_replace('data:image/png;base64,', '', $image);
                 $image = str_replace(' ', '+', $image);
-                $imageName =  time() . rand(0, 2000) . '.' . 'png';
-                File::put('bukti_tf/' . $imageName, base64_decode($image));
+                $imageName = Str::random(10) . '.png';
+
+                Storage::disk('public')->put($imageName, base64_decode($image));
             }
             foreach ($request->tagihan_id as $i) {
                 //cek gagal
@@ -82,10 +92,15 @@ class IPKLController extends Controller
         if (!$request->user_id) {
             return ResponseFormatter::failed('tidak ada list tagihan pada user_id ini!', 404);
         }
-        $tagihan['ipkl'] = Tagihan::where('type_id', 1)->where('status', 1)->where('user_id', $request->user_id)->get();
-        $tagihan['renovasi'] = Tagihan::where('type_id', 2)->where('status', 1)->where('user_id', $request->properti_id)->get();
+        $get_properti_user = Properti::where('pemilik_id', $request->user_id)->get();
 
-        return ResponseFormatter::success('berhasil mendapat list tagihan yg belum dibayar!', $tagihan);
+        foreach($get_properti_user as $p){
+            $tagihan['ipkl'] = Tagihan::with('type')->where('type_id', 1)->where('status', 1)->where('properti_id', $p->id)->get();
+            $tagihan['renovasi'] = Tagihan::with('type')->where('type_id', 2)->where('status', 1)->where('properti_id', $p->id)->get();
+
+             return ResponseFormatter::success('berhasil mendapat list tagihan yg belum dibayar!', $tagihan);
+        }
+
     }
 
     public function belomDibayar(Request $request)
@@ -102,22 +117,22 @@ class IPKLController extends Controller
         $cek_properti_penghuni = Properti::where('penghuni_id', $request->user_id)->first();
         // dd($cek_properti_pemilik );
         if ($cek_properti_pemilik != null) {
-            $unpay = Tagihan::with('cluster')->where('properti_id', $cek_properti_pemilik->id)->where('status', 1)->where('type_id', 1)->get();
+            $unpay = Tagihan::with('type')->where('properti_id', $cek_properti_pemilik->id)->where('status', 1)->where('type_id', 1)->get(['id', 'periode_pembayaran', 'jumlah_pembayaran', 'type_id']);
+
+            // dd($unpay);
 
             if ($unpay->count() == 0) {
-                return ResponseFormatter::failed('tidak ada tagihan yang belum dibayar!', 404);
+                return ResponseFormatter::failed('tidak ada tagihan IPKL yang belum dibayar!', 404);
             }
-            return ResponseFormatter::success('successful to get unpaid data!', $unpay);
+            return ResponseFormatter::success('successful to get unpaid IPKL data!', $unpay);
 
-            if ($unpay->count() == 0) {
-                return ResponseFormatter::failed('tidak ada tagihan yang di acc!', 404);
-            }
+
         } else if ($cek_properti_penghuni != null) {
-            $unpay = Tagihan::with('cluster')->where('properti_id', $cek_properti_penghuni->id)->where('status', 1)->where('type_id', 1)->get();
+            $unpay = Tagihan::with('type')->where('properti_id', $cek_properti_penghuni->id)->where('status', 1)->where('type_id', 1)->get(['id', 'periode_pembayaran', 'jumlah_pembayaran', 'type_id']);
             if ($unpay->count() == 0) {
-                return ResponseFormatter::failed('tidak ada tagihan yang di acc!', 404);
+                return ResponseFormatter::failed('tidak ada tagihan IPKL yang di acc!', 404);
             }
-            return ResponseFormatter::success('successful to get unpaid data!', $unpay);
+            return ResponseFormatter::success('successful to get unpaid IPKL data!', $unpay);
         }
         return ResponseFormatter::failed('gagal mendapat data!', 404);
     }
@@ -167,14 +182,34 @@ class IPKLController extends Controller
         $cek_properti_penghuni = Properti::where('penghuni_id', $request->user_id)->first();
         // dd($cek_properti_pemilik );
         if ($cek_properti_pemilik != null) {
-            $unpay = Tagihan::with('cluster')->where('properti_id', $cek_properti_pemilik->id)->where('status', 3)->get();
+            $unpay = Tagihan::with([
+            'ipkl' => function ($ipkl) {
+                $ipkl->select('id', 'tagihan_id','periode_pembayaran', 'bank', 'bukti_tf', 'nominal');
+            },
+            'type' => function ($type) {
+                $type->select('id','name');
+            },
+            'cluster' => function ($cluster) {
+                $cluster->select('id','name');
+            }])->where('properti_id', $cek_properti_pemilik->id)->where('status', 3)->where('type_id', 1)->get();
             if ($unpay->count() == 0) {
                 return ResponseFormatter::failed('tidak ada tagihan yang sudah di bayar!', 404);
             }
 
             return ResponseFormatter::success('successful to get Accepted data!', $unpay);
         } else if ($cek_properti_penghuni != null) {
-            $unpay = Tagihan::with('cluster')->where('properti_id', $cek_properti_penghuni->id)->where('status', 3)->get();
+            $unpay = Tagihan::with([
+                'ipkl' => function ($ipkl) {
+                    $ipkl->select('id','periode_pembayaran', 'bank', 'bukti_tf', 'image_url');
+                },
+                'type' => function ($type) {
+                    $type->select('id','name');
+                },
+                'cluster' => function ($cluster) {
+                    $cluster->select('id','name');
+                }
+            ])->where('properti_id', $cek_properti_penghuni->id)->where('type_id', 1)->where('status', 3)->get();
+
             if ($unpay->count() == 0) {
                 return ResponseFormatter::failed('tidak ada tagihan yang belum dibayar!', 404);
             }

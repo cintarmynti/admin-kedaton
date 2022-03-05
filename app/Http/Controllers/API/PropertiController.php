@@ -11,7 +11,11 @@ use App\Models\Properti_image;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
 use App\Http\Controllers\API\ResponseFormatter;
+use App\Mail\KedatonNewMember;
 use App\Models\Pengajuan;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 
 class PropertiController extends Controller
@@ -143,43 +147,20 @@ class PropertiController extends Controller
        return User::where('email', $email)->first();
    }
 
-   private function checkUsernameExists($name)
-   {
-       return User::where('name', $name)->first();
-   }
-
-   private function checkNikExists($nik)
-   {
-       return User::where('nik', $nik)->first();
-   }
 
 
    public function addPenghuni(Request $request){
-       $user = $request->all();
-        $validator = Validator::make($user, [
-            'nik' => 'required',
-            'name' => 'required',
-            'alamat' => 'required',
-            'phone' => 'required',
-            'email' => 'required|email',
-        ]);
+       $cek_nik = User::where('nik', $request->nik)->first();
 
-        if ($validator->fails()) {
-            return ResponseFormatter::failed('User Registration Failed!', 401, $validator->errors());
+        if( $cek_nik != null && $request->snk == 1){
+           $properti_disewa = Properti::where('id', $request->properti_id)->first();
+           $properti_disewa -> penghuni_id = $cek_nik->id;
+           $properti_disewa->save;
         }
 
-        if ($this->checkNikExists($user['nik'])) {
-            return ResponseFormatter::failed('User nik Already Exists!', 409, $validator->errors());
+        if(User::where('email', $request->email)->first() != null){
+            return ResponseFormatter::failed('email ini sudah terdaftar silahkan login!', 401);
         }
-
-        if ($this->checkUsernameExists($user['name'])) {
-            return ResponseFormatter::failed('User name Already Exists!', 409, $validator->errors());
-        }
-
-        if ($this->checkEmailExists($user['email'])) {
-            return ResponseFormatter::failed('User Email Already Exists!', 409, $validator->errors());
-        }
-
 
         $user = new User();
         $user -> name = $request->name;
@@ -188,19 +169,38 @@ class PropertiController extends Controller
         $user -> alamat = $request -> alamat;
         $user -> user_status = 'pengguna';
         $user -> phone = $request -> phone;
+        $user -> snk = $request -> snk;
 
-        if($request->photo_identitas){
-            $image = $request->photo_identitas;  // your base64 encoded
+        if($request->foto_ktp){
+            $image = $request->foto_ktp;  // your base64 encoded
             $image = str_replace('data:image/png;base64,', '', $image);
             $image = str_replace(' ', '+', $image);
-            $imageName =  time().rand(0,2000).'.'.'png';
-            File::put('user_photo/' . $imageName, base64_decode($image));
-            $user->photo_identitas = '/user_photo/'.$imageName;
+            $imageName = 'user_photo_ktp/'.Str::random(10) . '.png';
+
+            Storage::disk('public')->put($imageName, base64_decode($image));
         }
+        $user -> photo_ktp = $imageName;
         $user->save();
+        $pw = Str::random(8);
+
+        $details = [
+            'recipient' => $request->email,
+            'fromEmail' => 'coba@gmail.com',
+            'nik' => $request->nik,
+            'subject' => $pw
+        ];
+
+        Mail::to($details['recipient'])->send(new KedatonNewMember($details));
+
+        $user_penghuni = User::where('id', $user->id)->first();
+        $user_penghuni ->photo_ktp = $user_penghuni ->image_ktp;
+
+        $properti_disewa = Properti::where('id', $request->properti_id)->first();
+        $properti_disewa -> penghuni_id = $user_penghuni->id;
+        $properti_disewa->save;
 
         if($user){
-            return ResponseFormatter::success('berhasil menambah penghuni!', $user);
+            return ResponseFormatter::success('berhasil menambah penghuni!', [$user_penghuni, $pw]);
         }else{
             return ResponseFormatter::failed('gagal menambah penghuni!', 401);
         }

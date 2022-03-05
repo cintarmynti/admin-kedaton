@@ -324,4 +324,8 @@ class PropertiController extends Controller
         //    dd($properti);
         return view('pages.properti.riwayat',  ['riwayat_ipkl' => $properti]);
     }
+
+    public function addPenghuni(){
+        
+    }
 }

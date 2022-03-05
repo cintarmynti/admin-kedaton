@@ -15,6 +15,13 @@ class IPKL extends Model
     //     return $this->hasOne(Listing::class, 'id', 'listing_id');
     // }
 
+    protected $appends = ['image_url'];
+
+    public function getImageUrlAttribute($value)
+    {
+        return url('/').'/storage/'.$this->bukti_tf;
+    }
+
     public function tagihan(){
         return $this->hasOne(Tagihan::class, 'id', 'tagihan_id');
     }
