@@ -68,7 +68,7 @@ class PropertiController extends Controller
     }
 
     public function getNomer(Request $request){
-        $no_rumah = Properti::with('cluster')->where('cluster_id', $request->cluster_id)->where('pemilik_id', null)->get();
+        $no_rumah = Properti::with('cluster')->where('cluster_id', $request->cluster_id)->where('pemilik_id', null)->get(['id', 'no_rumah', 'cluster_id']);
         $cek_isi = Properti::where('cluster_id', $request->cluster_id)->where('pemilik_id', null)->first();
 
         if(!$request->cluster_id){

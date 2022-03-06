@@ -81,7 +81,7 @@ class UserController extends Controller
             $cekNik->email = $request->email;
             $cekNik->snk = 1;
             $cekNik->save();
-
+            
             // dd($cekNik);
 
             $details = [

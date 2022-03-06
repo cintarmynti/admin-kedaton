@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\File;
 use App\Http\Controllers\API\ResponseFormatter;
 use App\Models\Properti_image;
 use App\Models\User;
+use App\Models\Cluster;
 
 class ListingController extends Controller
 {
@@ -84,8 +85,14 @@ class ListingController extends Controller
     }
 
     public function detail_listing(Request $request){
-        $listing['data'] = rev_listing::with(
 
+        if(!$request->listing_id){
+            return ResponseFormatter::failed('tidak boleh ada field kosong!', 404);
+        }
+        if(rev_listing::where('id', $request->listing_id)->first() == null){
+            return ResponseFormatter::failed('tidak ada listing dengan id ini!', 404);
+        }
+        $listing['data'] = rev_listing::with(
             [
                 'properti' => function($properti){
                     $properti->select('id','luas_bangunan', 'pemilik_id', 'luas_tanah', 'jumlah_kamar', 'kamar_mandi', 'carport');
@@ -95,7 +102,6 @@ class ListingController extends Controller
                 }
             ]
         )->where('id', $request->listing_id)->first(['id', 'status','cluster_id', 'properti_id', 'image', 'harga', 'diskon', 'setelah_diskon', 'name', 'desc']);
-
         $listing['data']->image = $listing['data']->image_url;
 
         $listing['image_detail'] = Properti_image::where('properti_id', $listing['data']->properti_id)->get(['id', 'image']);
