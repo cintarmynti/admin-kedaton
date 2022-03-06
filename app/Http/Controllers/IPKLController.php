@@ -85,7 +85,7 @@ class IPKLController extends Controller
     {
         $cekTagihan = Tagihan::whereMonth('periode_pembayaran', Carbon::parse($request->periode_pembayaran))->first();
         if($cekTagihan != null){
-            return redirect()->back()->withErrors(['msg' => 'periode sudah ada']);
+            return redirect()->back()->withErrors(['msg' => 'tagihan properti untuk periode tersebut sudah ada']);
         }
         $ipkl = new Tagihan();
         $ipkl-> cluster_id = $request->cluster_id;

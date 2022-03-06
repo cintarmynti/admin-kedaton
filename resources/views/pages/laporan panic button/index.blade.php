@@ -99,7 +99,7 @@
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Alasan Pemanggilan</h5>
+                                        <h5 class="modal-title" id="exampleModalLabel">Tambah Alasan Pemanggilan</h5>
                                         <button type="button" class="close" data-dismiss="modal"
                                             aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
@@ -116,13 +116,11 @@
                                             <input type="hidden" id="user_id2"  name="user_id">
                                             <input type="text" class="form-control" placeholder="Keterangan"
                                                 name="keterangan">
-
-
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary"
                                             data-dismiss="modal">Close</button>
-                                        <button type="submit" class="btn btn-primary">Save changes</button>
+                                        <button type="submit" class="btn btn-primary">Tambah Alasan</button>
                                     </div>
                                     </form>
                                 </div>
@@ -157,7 +155,7 @@
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary"
                                                 data-dismiss="modal">Close</button>
-                                            <button type="submit" class="btn btn-primary">Save changes</button>
+                                            <button type="submit" class="btn btn-primary">Tangani</button>
                                         </div>
                                         </form>
                                     </div>
@@ -168,13 +166,14 @@
 
                             <td>
                                 <div class="d-flex">
-                                    <a class="btn btn-warning" data-edit_id="{{ $pan->id }}" data-toggle="modal"
-                                        data-target="#exampleEdit"><i data-feather="edit"></i></a>
+                                    <a class="mx-1 btn btn-primary fa-solid fa-edit" data-edit_id="{{ $pan->id }}" data-toggle="modal"
+                                        data-target="#exampleEdit" data-placement="top" title="edit keterangan"></a>
+
                                     @if ($pan->status_keterangan == 'not checked')
-                                        <a class="btn btn-success" data-toggle="modal" data-riwayat_id="{{ $pan->id }}"
-                                            data-keterangan="{{ $pan->keterangan }}" data-target="#exampleModal"><i
-                                                data-feather="check"></i></a>
+                                    <a class="mx-1 btn btn-success" data-toggle="modal" data-riwayat_id="{{ $pan->id }}"
+                                        data-keterangan="{{ $pan->keterangan }}" data-target="#exampleModal"><i class="fa-solid fa-check"></i></i></a>
                                     @else
+
                                     @endif
                                 </div>
 
@@ -218,7 +217,7 @@
             $('#myTable').DataTable();
         });
     </script>
-    {{-- <script>
+    <script>
         var APP_URL = {!! json_encode(url('/')) !!}
         console.log(APP_URL);
         $('#exampleModal').on('show.bs.modal', function(event) {
@@ -242,7 +241,16 @@
             });
 
         })
-    </script> --}}
+    </script>
+
+    <script>
+         $(document).ready(function() {
+        $('#myTable').DataTable();
+        $(function() {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+    });
+    </script>
 
     <script>
         var APP_URL = {!! json_encode(url('/')) !!}

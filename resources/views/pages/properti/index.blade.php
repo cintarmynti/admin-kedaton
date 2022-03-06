@@ -35,7 +35,7 @@
                             <td><a href="{{ route('properti.detail', $p->id) }}">lihat detail</a></td>
                             <td>
                                 @if ($p->status_pengajuan == 1)
-                                    ada user menambahkan rumah ini di profilenya, <a href="" data-toggle="modal"
+                                pengajuan properti oleh pemilik, <a href="" data-toggle="modal"
                                         data-target="#exampleModal" type="button"
                                         data-properti_id="{{ $p->id }}">lihat</a>
                                 @elseif ($p->status_pengajuan == 2 || $p->status_pengajuan == 0)

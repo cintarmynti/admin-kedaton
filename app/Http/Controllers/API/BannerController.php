@@ -88,9 +88,9 @@ class BannerController extends Controller
         };
         // dd($article);
         if($article){
-            return ResponseFormatter::success('berhasil mengambil banner!', [$article]);
+            return ResponseFormatter::success('berhasil mengambil artikel!', [$article]);
         }else{
-            return ResponseFormatter::failed('gagal mengambil banner!', 404);
+            return ResponseFormatter::failed('gagal mengambil artikel!', 404);
         }
     }
 
