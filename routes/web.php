@@ -193,6 +193,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::patch('/ipkl/riwayat-create', [IPKLController::class, 'create_riwayat']);
     Route::get('/ipkl/pembayar/{id}', [IPKLController::class, 'pembayar'])->name('ipkl.pembayar');
     Route::get('/ipkl/export_excel', [IPKLController::class, 'export_excel']);
+    Route::get('/ipkl/new_tagihan', [IPKLController::class]);
 
     Route::get('/layanan', [LayananController::class, 'index'])->name('layanan');
     Route::get('/layanan/status/{id}', [LayananController::class, 'status'])->name('layanan.status');

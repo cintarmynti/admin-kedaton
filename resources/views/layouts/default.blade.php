@@ -39,6 +39,9 @@
     <!-- Title -->
     <title>Admin - Kedaton</title>
 
+    <audio id="chat-alert-sound" style="display: none">
+        <source src="{{ asset('succeeded-message-tone.mp3') }}" />
+    </audio>
     <!-- Styles -->
     @include('includes.style')
 
@@ -67,11 +70,53 @@
         </div>
     </div>
 
+
+    {{-- <script>
+        let channel = pusher.subscribe('warning');
+    </script> --}}
+    {{-- <input type="hidden" id="current_user" value="{{ \Auth::user()->id }}" /> --}}
+    <input type="hidden" id="pusher_app_key" value="{{ env('PUSHER_APP_KEY') }}" />
+    <input type="hidden" id="pusher_cluster" value="{{ env('PUSHER_APP_CLUSTER') }}" />
+
     <!-- Javascripts -->
     @include('includes.script')
     @include('sweetalert::alert')
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://js.pusher.com/4.1/pusher.min.js"></script>
+
+    <script>
+        let pusher = new Pusher($("#pusher_app_key").val(), {
+                cluster : $("#pusher_cluster").val(),
+                encrypted : true
+            });
+        let channel = pusher.subscribe('chat');
+
+        channel.bind('send', function(data){
+            let alert_sound = document.getElementById("chat-alert-sound");
+            alert_sound.play();
+            // console.log('halo');
+            console.log(data);
+            // console.log(data.data.properti.no_rumah);
+            console.log(data.data.properti.cluster.name);
+
+            var text = `<div class="col-md-6 col-xl-3 mb-3">
+            <div class="card card-panic">
+                <div class="card-body">
+                    <h6>Butuh Penanganan</h6>
+                    <h1>${data.data.properti.cluster.name}-${data.data.properti.no_rumah}</h1>
+                    <hr>
+                    <a href="/panic-button/dashboard/${data.data.panic.id}" class="btn btn-block btn-md btn-danger">TANGANI</a>
+                </div>
+            </div>
+        </div>`
+
+            $("#panic-button").append(text);
+            // console.log(text);
+        })
+
+
+    </script>
 
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.10.2/viewer.min.css" integrity="sha512-r+5gXtPk5M2lBWiI+/ITUncUNNO15gvjjVNVadv9qSd3/dsFZdpYuVu4O2yELRwSZcxlsPKOrMaC7Ug3+rbOXw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -81,6 +126,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-bs4.js"></script>
+
+    <script src="{{ asset('js/chat.js') }}"></script>
         @stack('after-script')
 </body>
 

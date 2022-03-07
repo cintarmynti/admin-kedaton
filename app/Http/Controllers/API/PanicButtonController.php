@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Lib\PusherFactory;
 use App\Models\PanicButton;
+use App\Models\Properti;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PanicButtonController extends Controller
 {
@@ -25,8 +28,15 @@ class PanicButtonController extends Controller
         $panic -> status_keterangan = 'not checked';
         $panic -> save();
 
+
+        $panic_button['panic'] = PanicButton::where('id', $panic->id)->first('id');
+        $panic_button['properti'] = Properti::with('cluster')->where('id', $panic -> id_rumah)->first(['id', 'no_rumah', 'cluster_id']);
+        // dd($panic_button);
+
+        PusherFactory::make()->trigger('chat', 'send', ['data' => $panic_button]);
+
         if($panic){
-            return ResponseFormatter::success('berhasil mengambil data panic buttond!', $panic);
+            return ResponseFormatter::success('berhasil mengambil data panic buttond!', $panic_button);
         }else{
             return ResponseFormatter::failed('gagal mengambil data panic button!', 401);
         }

@@ -12,6 +12,7 @@
     @endif
 
     @forelse($panic as $p)
+    <div id="panic-button">
         <div class="col-md-6 col-xl-3 mb-3">
             <div class="card card-panic">
                 <div class="card-body">
@@ -22,6 +23,8 @@
                 </div>
             </div>
         </div>
+    </div>
+
     @empty
 
     @endforelse
@@ -113,8 +116,14 @@
 
     #blink {
         width: 200px;
+
+
+
+
         height: 200px;
         animation: blinking 1s infinite;
     }
 </style>
 @endpush
+
+
