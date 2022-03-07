@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\BannerController;
+use App\Http\Controllers\API\ComplainController;
 use App\Http\Controllers\API\RenovasiController;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\API\IPKLController;
@@ -81,3 +82,5 @@ Route::post('create-listing', [ListingController::class, 'create_listing']);
 Route::get('get-listing', [ListingController::class, 'getProperti']);
 Route::get('detail-listing', [ListingController::class, 'detail_listing']);
 Route::post('create-image', [ListingController::class, 'createImage']);
+
+Route::post('create-complain', [ComplainController::class, 'store']);
