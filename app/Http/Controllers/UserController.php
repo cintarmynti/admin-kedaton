@@ -8,15 +8,20 @@ use App\Models\Riwayat;
 use App\Models\Properti;
 use App\Models\Pembayaran;
 use App\Exports\UserExport;
+use App\Mail\KedatonNewMember;
+use App\Models\Pengajuan;
 use App\Models\penghuniDetail;
 use Illuminate\Http\Request;
 use App\Models\Properti_image;
 use App\Models\tarif_ipkl;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Mail;
 use Maatwebsite\Excel\Facades\Excel;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Storage;
 use RealRashid\SweetAlert\Facades\Alert;
+use Illuminate\Support\Str;
+
 
 class UserController extends Controller
 {
@@ -48,6 +53,30 @@ class UserController extends Controller
         $cluster = Cluster::all();
         $user = User::where('user_status', 'pengguna')->get();
         return view('pages.user.newProp', ['cluster' => $cluster, 'user' => $user]);
+    }
+
+    public function activated($id, Request $request){
+        $pw = Str::random(8);
+
+        $user = User::where('id', $id)->first();
+        $user->email_pengjuan = 2;
+
+        $details = [
+            'recipient' => $user->email,
+            'fromEmail' => 'coba@gmail.com',
+            'nik' => $user->nik,
+            'subject' => $pw
+        ];
+
+        Mail::to($details['recipient'])->send(new KedatonNewMember($details));
+        $penghuni_pengajuan = Pengajuan::where('user_id', $id)->first();
+        $properti= Properti::where('id', $penghuni_pengajuan->properti_id_penghuni)->first();
+
+        // dd($properti);
+        $properti->status_pengajuan_penghuni = 1;
+        $properti->save();
+
+        return redirect('/user');
     }
 
     public function export_excel()

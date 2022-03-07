@@ -10,9 +10,9 @@
         <b style="cursor: pointer;"><a class="text-danger" href="/panic-button/dashboard-all">Tangani Semua</a></b>
     </div>
     @endif
-
+   
     @forelse($panic as $p)
-    <div id="panic-button" class="row">
+    <div>
         <div class="col-md-6 col-xl-3 mb-3">
             <div class="card card-panic">
                 <div class="card-body">

@@ -61,6 +61,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/user/create-properti/{id}', [UserController::class, 'newProp'])->name('user.newProp');
     Route::get('/user-detail-json/{name}', [UserController::class, 'detailJson'])->name('user.detail.json');
     Route::post('/user/storeProp', [UserController::class, 'storeProp'])->name('user.addNewProp');
+    Route::get('/user/user-activated/{id}', [UserController::class, 'activated'])->name('user.activated');
 
 
 

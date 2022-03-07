@@ -44,6 +44,14 @@
 
                         <i class="fa-solid fa-mobile fa-2x" style="color: #6BCAC2" data-toggle="tooltip" data-placement="top" title="pengguna mobile"></i>
 
+                        @if ($user->email_pengajuan == 1)
+                            <a class="mx-1 fa-2x"  href="{{route('user.activated', $user->id)}}" data-toggle="tooltip" data-placement="top" title="Kirim Email">
+                                <i data-feather="mail" style="color: #e46f5a"></i>
+                            </a>
+
+                        @endif
+
+                        {{-- <i  data-toggle="tooltip" data-placement="top" title="pengguna mobile"></i> --}}
                         @endif
                     </td>
                     <td>{{ $user->nik }}</td>
