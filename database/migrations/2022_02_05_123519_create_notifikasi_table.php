@@ -20,6 +20,7 @@ class CreateNotifikasiTable extends Migration
             $table->string('desc');
             $table->date('tanggal');
             $table->string('type');
+            $table->string('message')->nullable();
             $table->timestamps();
         });
     }

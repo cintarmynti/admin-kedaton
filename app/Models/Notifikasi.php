@@ -10,5 +10,5 @@ class Notifikasi extends Model
     use HasFactory;
     protected $guarded = ['id'];
     protected $table = 'notifikasi';
-    protected $fillable = ['user_id', 'pembayaran_id', 'tanggal', 'desc', 'type'];
+    protected $fillable = ['user_id', 'pembayaran_id', 'tanggal', 'desc', 'type', 'message'];
 }

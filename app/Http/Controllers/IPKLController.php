@@ -99,6 +99,28 @@ class IPKLController extends Controller
         return redirect('/ipkl');
     }
 
+    public function generate_tagihan()
+    {
+        $sekarang = Carbon::now()->format('m');
+        if($sekarang == 25){
+            $properti = Properti::all();
+
+            foreach($properti as $p){
+                $tagihan = new Tagihan();
+                $tagihan->cluster_id = $p->cluster_id;
+                $tagihan->properti_id = $p->id;
+                $tagihan->periode_pembayaran = Carbon::now();
+                $tagihan->jumlah_pembayaran = $p->tarif_ipkl;
+                $tagihan->type_id = 1;
+                $tagihan->status = 1;
+                $tagihan->save();
+
+            }
+        }else{
+            dd('tidak ada tagihan');
+        }
+    }
+
     public function edit($id)
     {
         $ipkl = IPKL::findOrFail($id);
