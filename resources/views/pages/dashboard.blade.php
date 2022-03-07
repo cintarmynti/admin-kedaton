@@ -7,16 +7,12 @@
     @else
     <div class="col-md-12  mb-3">
         Ingin menangani semuanya ?
-        <b class="text-danger" style="cursor: pointer;"><a href="/panic-button/dashboard-all">Tangani Semua</a></b>
+        <b style="cursor: pointer;"><a class="text-danger" href="/panic-button/dashboard-all">Tangani Semua</a></b>
     </div>
     @endif
 
-    <div id="panic-button">
-
-    </div>
-
     @forelse($panic as $p)
-
+    <div id="panic-button" class="row">
         <div class="col-md-6 col-xl-3 mb-3">
             <div class="card card-panic">
                 <div class="card-body">
@@ -129,5 +125,3 @@
     }
 </style>
 @endpush
-
-

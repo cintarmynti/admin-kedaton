@@ -11,7 +11,7 @@
             <div class="row">
                 <div class="col">
                     <label for="">Judul</label>
-                  <input type="text" value="{{old('judul', $blog->judul)}}" required class="form-control" name="judul"  aria-label="First name">
+                    <input type="text" value="{{old('judul', $blog->judul)}}" required class="form-control" name="judul" aria-label="First name">
                 </div>
                 <div class="col-md-6">
                     <label for="">Foto Header</label>
@@ -33,20 +33,20 @@
 
             <div class="row mt-4" id="images">
                 @foreach ($image as $item)
-                    <div class="col wrapper" >
-                        <img onclick="image()" src="{{ asset('storage/' . $item->image) }}" style="height: 100px; width:200px; object-fit:cover" alt="">
-                        <div class="panjang">
-                            <a href="{{route('blogimg.delete', $item->id)}}" class="btn btn-danger hapus mt-3">hapus gambar</a>
-                        </div>
-
+                <div class="col-3 wrapper mb-3">
+                    <img onclick="image()" src="{{ asset('storage/' . $item->image) }}" style="height: 150px; width:100%; object-fit:cover" alt="">
+                    <div>
+                        <a href="{{route('blogimg.delete', $item->id)}}" class="btn btn-danger hapus mt-3">hapus gambar</a>
                     </div>
+
+                </div>
                 @endforeach
 
             </div>
 
 
-                <a href="{{route('blog')}}" class="btn btn-warning mt-4">kembali</a>
-                <button type="submit"  class="btn btn-primary ml-4 mt-4">Simpan</a>
+            <a href="{{route('blog')}}" class="btn btn-warning mt-4">kembali</a>
+            <button type="submit" class="btn btn-primary ml-4 mt-4">Simpan</a>
         </form>
 
     </div>
@@ -58,34 +58,32 @@
 
 <script type="text/javascript">
     $(document).ready(function() {
-      $(".btn-success").click(function(){
-          var lsthmtl = $(".clone").html();
-          $(".increment").after(lsthmtl);
-      });
-      $("body").on("click",".btn-danger",function(){
-          $(this).parents(".realprocode").remove();
-      });
+        $(".btn-success").click(function() {
+            var lsthmtl = $(".clone").html();
+            $(".increment").after(lsthmtl);
+        });
+        $("body").on("click", ".btn-danger", function() {
+            $(this).parents(".realprocode").remove();
+        });
     });
 </script>
 <script src="{{asset('assets/ckeditor/ckeditor.js')}}"></script>
 
 <script>
     var konten = document.getElementById("konten");
-      CKEDITOR.replace(konten,{
-      language:'en-gb'
+    CKEDITOR.replace(konten, {
+        language: 'en-gb'
     });
     CKEDITOR.config.allowedContent = true;
- </script>
+</script>
 <script>
-
-
     function image() {
-            const viewer = new Viewer(document.getElementById('images'), {
-                viewed() {
-                    viewer.zoomTo(1);
-                },
-            });
-        }
+        const viewer = new Viewer(document.getElementById('images'), {
+            viewed() {
+                viewer.zoomTo(1);
+            },
+        });
+    }
 </script>
 <script>
     $(function() {
@@ -99,19 +97,19 @@
 @endpush
 
 @push('before-style')
-    <style>
-        .form-label{
-            font-weight: 500;
-        }
+<style>
+    .form-label {
+        font-weight: 500;
+    }
 
-        .wrapper {
-            text-align: center;
-           display: flex;
-           flex-direction: column;
-        }
+    .wrapper {
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+    }
 
-        .panjang{
-            width:200px;
-        }
-    </style>
+    .panjang {
+        width: 200px;
+    }
+</style>
 @endpush

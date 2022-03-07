@@ -18,3 +18,25 @@
 	-moz-animation-iteration-count:infinite;
 	-moz-animation-direction: alternate;
 }
+.alert-circle{
+	height: 10px;
+	width: 10px;
+	border-radius: 100%;
+	display: inline-block;
+	animation-name: blinker;
+	animation-duration: 0.75s;
+	animation-iteration-count:infinite;
+	animation-direction: alternate;
+    -webkit-animation-name: blinker;
+	-webkit-animation-duration: 0.75s;
+	-webkit-animation-iteration-count:infinite;
+	-webkit-animation-direction: alternate;
+    -moz-animation-name: blinker;
+	-moz-animation-duration: 0.75s;
+	-moz-animation-iteration-count:infinite;
+	-moz-animation-direction: alternate;
+}
+
+.page-header .header-notif .notif-text{
+	width: 100% !important;
+}
