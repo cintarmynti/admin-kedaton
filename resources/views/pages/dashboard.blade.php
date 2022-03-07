@@ -12,7 +12,7 @@
     @endif
 
     @forelse($panic as $p)
-    <div id="panic-button">
+    <div id="panic-button" class="row">
         <div class="col-md-6 col-xl-3 mb-3">
             <div class="card card-panic">
                 <div class="card-body">
@@ -125,5 +125,3 @@
     }
 </style>
 @endpush
-
-
