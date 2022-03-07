@@ -111,7 +111,13 @@
             </div>
         </div>`
 
+        var alert = ` <div class="col-md-12  mb-3">
+            Ingin menangani semuanya ?
+            <b class="text-danger" style="cursor: pointer;"><a href="/panic-button/dashboard-all">Tangani Semua</a></b>
+        </div>`;
+
             $("#panic-button").append(text);
+            // $("#tangani").append(alert);
             // console.log(text);
         })
 

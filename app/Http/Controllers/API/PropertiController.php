@@ -143,94 +143,100 @@ class PropertiController extends Controller
 
 
 
-   public function addPenghuni(Request $request){
-       $cek_nik = User::where('nik', $request->nik)->first();
+        public function addPenghuni(Request $request){
+            $cek_nik = User::where('nik', $request->nik)->first();
 
-       if(Properti::where('id', $request->properti_id == null)){
-         return ResponseFormatter::failed('tidak ada properti id ini!', 401);
-       }
+            if($cek_nik == null){
+                return ResponseFormatter::failed('tidak user dengan nik !', 401);
+            }
 
-        if( $cek_nik != null && $request->snk == 1){
-           $properti_disewa = Properti::where('id', $request->properti_id)->first();
-           $properti_disewa -> penghuni_id = $cek_nik->id;
-           $properti_disewa->save;
+            if(Properti::where('id', $request->properti_id_penghuni)->first() == null){
+                return ResponseFormatter::failed('tidak ada properti id ini!', 401);
+            }
+
+            dd($cek_nik);
+            dd($cek_nik != null && $cek_nik->snk == 1);
+                if( $cek_nik != null && $cek_nik->snk == 1){
+                    dd('halo');
+                    $properti_disewa = Properti::where('id', $request->properti_id)->first();
+                    $properti_disewa -> penghuni_id = $cek_nik->id;
+                    $properti_disewa->save;
+
+                    $cek_pengajuan = Pengajuan::where('user_id', $cek_nik->id)->where('properti_id_penghuni', $request->properti_id)->first();
+                    if($cek_pengajuan){
+                        return ResponseFormatter::success('penghuni ini sudah diajukan, pengajuan anda masih dalam proses, mohon tunggu konfirmasi admin!', 200);
+                    }
+
+                    $pengajuan = new Pengajuan();
+                    $pengajuan->user_id = $cek_nik->id;
+                    $pengajuan->properti_id_penghuni = $request->properti_id_penghuni;
+                    $pengajuan->update();
+
+                    $properti= Properti::where('id', $request->properti_id)->first();
+                    $properti->status_pengajuan_penghuni = 1;
+                    $properti->update();
+
+                        return ResponseFormatter::success('berhasil menambah penghuni, menunggu konfirmasi!', [$cek_nik]);
+
+                }
+
+                if(User::where('email', $request->email)->first() != null){
+                    return ResponseFormatter::failed('email ini sudah terdaftar silahkan login!', 401);
+                }
+
+                $user = new User();
+                $user -> name = $request->name;
+                $user -> email = $request->email;
+                $user -> nik = $request->nik;
+                $user -> alamat = $request -> alamat;
+                $user -> user_status = 'pengguna';
+                $user -> phone = $request -> phone;
+                $user -> snk = $request -> snk;
+
+                if($request->foto_ktp){
+                    $image = $request->foto_ktp;  // your base64 encoded
+                    $image = str_replace('data:image/png;base64,', '', $image);
+                    $image = str_replace(' ', '+', $image);
+                    $imageName = 'user_photo_ktp/'.Str::random(10) . '.png';
+
+                    Storage::disk('public')->put($imageName, base64_decode($image));
+                }
+                $user -> photo_ktp = $imageName;
+                $user->save();
+                $pw = Str::random(8);
+
+                $details = [
+                    'recipient' => $request->email,
+                    'fromEmail' => 'coba@gmail.com',
+                    'nik' => $request->nik,
+                    'subject' => $pw
+                ];
+
+                Mail::to($details['recipient'])->send(new KedatonNewMember($details));
+
+                $user_penghuni = User::where('id', $user->id)->first();
+                $user_penghuni ->photo_ktp = $user_penghuni ->image_ktp;
+
+                $cek_pengajuan = Pengajuan::where('user_id', $user_penghuni->id)->where('properti_id_penghuni', $request->properti_id)->first();
+                if($cek_pengajuan){
+                    return ResponseFormatter::success('penghuni ini sudah diajukan, pengajuan anda masih dalam proses, mohon tunggu konfirmasi admin!', 200);
+                }
+
+                $pengajuan = new Pengajuan();
+                $pengajuan->user_id = $user_penghuni->id;
+                $pengajuan->properti_id_penghuni = $request->properti_id;
+                $pengajuan->save();
+
+                $properti= Properti::where('id', $request->properti_id)->first();
+                // dd($properti);
+                $properti->status_pengajuan_penghuni = 1;
+                $properti->save();
 
 
-        $cek_pengajuan = Pengajuan::where('user_id', $cek_nik->id)->where('properti_id_penghuni', $request->properti_id)->first();
-        if($cek_pengajuan){
-            return ResponseFormatter::success('penghuni ini sudah diajukan, pengajuan anda masih dalam proses, mohon tunggu konfirmasi admin!', 200);
+                if($user){
+                    return ResponseFormatter::success('berhasil menambah penghuni!', [$user_penghuni, $pw]);
+                }else{
+                    return ResponseFormatter::failed('gagal menambah penghuni!', 401);
+                }
         }
-
-        $pengajuan = new Pengajuan();
-        $pengajuan->user_id = $cek_nik->id;
-        $pengajuan->properti_id_penghuni = $request->properti_id_penghuni;
-        $pengajuan->update();
-
-        $properti= Properti::where('id', $request->properti_id)->first();
-        $properti->status_pengajuan_penghuni = 1;
-        $properti->update();
-
-            return ResponseFormatter::success('berhasil menambah penghuni, menunggu konfirmasi!', [$cek_nik]);
-
-        }
-
-        if(User::where('email', $request->email)->first() != null){
-            return ResponseFormatter::failed('email ini sudah terdaftar silahkan login!', 401);
-        }
-
-        $user = new User();
-        $user -> name = $request->name;
-        $user -> email = $request->email;
-        $user -> nik = $request->nik;
-        $user -> alamat = $request -> alamat;
-        $user -> user_status = 'pengguna';
-        $user -> phone = $request -> phone;
-        $user -> snk = $request -> snk;
-
-        if($request->foto_ktp){
-            $image = $request->foto_ktp;  // your base64 encoded
-            $image = str_replace('data:image/png;base64,', '', $image);
-            $image = str_replace(' ', '+', $image);
-            $imageName = 'user_photo_ktp/'.Str::random(10) . '.png';
-
-            Storage::disk('public')->put($imageName, base64_decode($image));
-        }
-        $user -> photo_ktp = $imageName;
-        $user->save();
-        $pw = Str::random(8);
-
-        $details = [
-            'recipient' => $request->email,
-            'fromEmail' => 'coba@gmail.com',
-            'nik' => $request->nik,
-            'subject' => $pw
-        ];
-
-        Mail::to($details['recipient'])->send(new KedatonNewMember($details));
-
-        $user_penghuni = User::where('id', $user->id)->first();
-        $user_penghuni ->photo_ktp = $user_penghuni ->image_ktp;
-
-        $cek_pengajuan = Pengajuan::where('user_id', $user_penghuni->id)->where('properti_id_penghuni', $request->properti_id)->first();
-        if($cek_pengajuan){
-            return ResponseFormatter::success('penghuni ini sudah diajukan, pengajuan anda masih dalam proses, mohon tunggu konfirmasi admin!', 200);
-        }
-
-        $pengajuan = new Pengajuan();
-        $pengajuan->user_id = $user_penghuni->id;
-        $pengajuan->properti_id_penghuni = $request->properti_id;
-        $pengajuan->save();
-
-        $properti= Properti::where('id', $request->properti_id)->first();
-        // dd($properti);
-        $properti->status_pengajuan_penghuni = 1;
-        $properti->save();
-
-
-        if($user){
-            return ResponseFormatter::success('berhasil menambah penghuni!', [$user_penghuni, $pw]);
-        }else{
-            return ResponseFormatter::failed('gagal menambah penghuni!', 401);
-        }
-   }
 }
