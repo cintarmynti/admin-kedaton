@@ -103,7 +103,7 @@ class IPKLController extends Controller
     {
         $sekarang = Carbon::now()->format('m');
         if($sekarang == 25){
-            $properti = Properti::all();
+            $properti = Properti::where('pemilik_id', null)->get();
 
             foreach($properti as $p){
                 $tagihan = new Tagihan();
