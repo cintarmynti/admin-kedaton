@@ -101,23 +101,27 @@ class IPKLController extends Controller
 
     public function generate_tagihan()
     {
-        $sekarang = Carbon::now()->format('m');
-        if($sekarang == 25){
-            $properti = Properti::where('pemilik_id', null)->get();
+        $sekarang = Carbon::now()->format('d');
+        // dd($sekarang);
+        if($sekarang == '07'){
+            $cekTagihan = Tagihan::whereMonth('created_at', date('m'))->whereYear('created_at', date('Y'))->get();
+            // dd(count($cekTagihan));
+            if(count($cekTagihan) == 0){
+                $properti = Properti::whereNotNull('pemilik_id')->get();
 
-            foreach($properti as $p){
-                $tagihan = new Tagihan();
-                $tagihan->cluster_id = $p->cluster_id;
-                $tagihan->properti_id = $p->id;
-                $tagihan->periode_pembayaran = Carbon::now();
-                $tagihan->jumlah_pembayaran = $p->tarif_ipkl;
-                $tagihan->type_id = 1;
-                $tagihan->status = 1;
-                $tagihan->save();
-
+                    foreach($properti as $p){
+                        $tagihan = new Tagihan();
+                        $tagihan->cluster_id = $p->cluster_id;
+                        $tagihan->properti_id = $p->id;
+                        $tagihan->periode_pembayaran = Carbon::now();
+                        $tagihan->jumlah_pembayaran = $p->tarif_ipkl;
+                        $tagihan->type_id = 1;
+                        $tagihan->status = 1;
+                        $tagihan->save();
+                    }
+            }else{
+                dd('tidak ada tagihan');
             }
-        }else{
-            dd('tidak ada tagihan');
         }
     }
 
