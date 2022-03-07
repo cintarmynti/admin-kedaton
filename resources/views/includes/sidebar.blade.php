@@ -55,9 +55,9 @@
       <a href="{{route('blog')}}"><i data-feather="file"></i>Blog</a>
     </li>
 
-    <li class="{{ Request::is('renovasi*') ? 'active-page' : '' }}">
+    <!-- <li class="{{ Request::is('renovasi*') ? 'active-page' : '' }}">
       <a href="{{route('renovasi')}}"><i data-feather="tool"></i>Otoritas Renovasi</a>
-    </li>
+    </li> -->
     <li class="{{ Request::is('complain*') ? 'active-page' : '' }}">
       <a href="{{route('complain')}}"><i data-feather="alert-triangle"></i>Laporan Complain</a>
     </li>

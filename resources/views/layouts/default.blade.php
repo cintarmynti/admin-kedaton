@@ -8,22 +8,19 @@
     <meta name="description" content="Responsive Admin Dashboard Template">
     <meta name="keywords" content="admin,dashboard">
     <meta name="author" content="stacks">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
-        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     {{-- untuk cluster --}}
     {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
         integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous"> --}}
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous">
     </script>
 
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
 
-    <link href="https://raw.githack.com/ttskch/select2-bootstrap4-theme/master/dist/select2-bootstrap4.css"
-        rel="stylesheet" />
+    <link href="https://raw.githack.com/ttskch/select2-bootstrap4-theme/master/dist/select2-bootstrap4.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 
 
@@ -39,8 +36,8 @@
     <!-- Title -->
     <title>Admin - Kedaton</title>
 
-    <audio id="chat-alert-sound" style="display: none">
-        <source src="{{ asset('succeeded-message-tone.mp3') }}" />
+    <audio id="chat-alert-sound" loop style="display: none">
+        <source src="{{ asset('assets/notif.mp3') }}" type="audio/mpeg" />
     </audio>
     <!-- Styles -->
     @include('includes.style')
@@ -87,18 +84,15 @@
 
     <script>
         let pusher = new Pusher($("#pusher_app_key").val(), {
-                cluster : $("#pusher_cluster").val(),
-                encrypted : true
-            });
+            cluster: $("#pusher_cluster").val(),
+            encrypted: true
+        });
         let channel = pusher.subscribe('chat');
 
-        channel.bind('send', function(data){
+        channel.bind('send', function(data) {
             let alert_sound = document.getElementById("chat-alert-sound");
             alert_sound.play();
             // console.log('halo');
-            console.log(data);
-            // console.log(data.data.properti.no_rumah);
-            console.log(data.data.properti.cluster.name);
 
             var text = `<div class="col-md-6 col-xl-3 mb-3">
             <div class="card card-panic">
@@ -111,17 +105,16 @@
             </div>
         </div>`
 
-        var alert = ` <div class="col-md-12  mb-3">
+            var alert = ` <div class="col-md-12 mb-3">
             Ingin menangani semuanya ?
-            <b class="text-danger" style="cursor: pointer;"><a href="/panic-button/dashboard-all">Tangani Semua</a></b>
+            <b style="cursor: pointer;"><a class="text-danger" href="/panic-button/dashboard-all">Tangani Semua</a></b>
         </div>`;
 
             $("#panic-button").append(text);
+            $("#box-alert").html(alert);
             // $("#tangani").append(alert);
             // console.log(text);
         })
-
-
     </script>
 
 
@@ -134,7 +127,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-bs4.js"></script>
 
     <script src="{{ asset('js/chat.js') }}"></script>
-        @stack('after-script')
+    @stack('after-script')
 </body>
 
 </html>

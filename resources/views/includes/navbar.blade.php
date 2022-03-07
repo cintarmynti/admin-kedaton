@@ -24,7 +24,7 @@
       </li>
 
       <li class="nav-item dropdown">
-        <a class="nav-link" href="#" id="notificationsDropDown" data-bs-toggle="dropdown" aria-expanded="false"> <i data-feather="bell"></i></a>
+        <a class="nav-link" href="#" id="notificationsDropDown" data-bs-toggle="dropdown" aria-expanded="false"> <i data-feather="bell"></i> <span class="badge badge-danger">3</span></a>
         <div class="dropdown-menu dropdown-menu-end notif-drop-menu" aria-labelledby="notificationsDropDown">
           <h6 class="dropdown-header">Notifications</h6>
           <a href="#">
