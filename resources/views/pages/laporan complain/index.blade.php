@@ -183,7 +183,7 @@
 
         $.ajax({
             type: 'get',
-            url: "/complain/detail/" + id,
+            url: "/user/detail_penghuni" + id,
             dataType: 'json',
             success: function(response) {
                 console.log(response);

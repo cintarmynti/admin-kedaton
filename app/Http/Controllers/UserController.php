@@ -55,10 +55,11 @@ class UserController extends Controller
         return view('pages.user.newProp', ['cluster' => $cluster, 'user' => $user]);
     }
 
-    public function activated($id, Request $request){
+    public function activated(Request $request){
         $pw = Str::random(8);
+        // dd($request->penghuni_id);
 
-        $user = User::where('id', $id)->first();
+        $user = User::where('id', $request->penghuni_id)->first();
         $user->email_pengjuan = 2;
 
         $details = [
@@ -69,7 +70,8 @@ class UserController extends Controller
         ];
 
         Mail::to($details['recipient'])->send(new KedatonNewMember($details));
-        $penghuni_pengajuan = Pengajuan::where('user_id', $id)->first();
+        $penghuni_pengajuan = Pengajuan::where('user_id', $request->penghuni_id)->first();
+        // dd($penghuni_pengajuan);
         $properti= Properti::where('id', $penghuni_pengajuan->properti_id_penghuni)->first();
 
         // dd($properti);
@@ -394,5 +396,11 @@ class UserController extends Controller
         // dd($properti);
         return redirect('/properti/detail/' . $id);
         //    dd( $properti->penghuni_id);
+    }
+
+    public function detail_penghuni(Request $request)
+    {
+        $penghuni = Pengajuan::with('user', 'user_pemilik')->where('user_id', $request->id)->first();
+        return response()->json($penghuni);
     }
 }

@@ -43,11 +43,82 @@
                         {{-- <a class="mx-1 bg-success fa-solid fa-user" type="button" href="" data-toggle="tooltip" data-placement="top" title="terdaftar mobile"></a> --}}
 
                         <i class="fa-solid fa-mobile fa-2x" style="color: #6BCAC2" data-toggle="tooltip" data-placement="top" title="pengguna mobile"></i>
+                        @if ($user->status_pengajuan_penghuni == 1)
+                        <a href="" data-bs-toggle="modal" data-penghuni_id="{{$user->id}}" data-bs-target="#exampleModal"><i class="fa-solid fa-envelope fa-2x" style="color: #f37474" data-toggle="tooltip" data-placement="top" title="permintaan persetujuan"></i></a>
+                        @endif
+
+
+                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLabel">Setujui Pendaftaran Penghuni Ini</h5>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                              {{-- setujui penghuni user ini --}}
+                                <table class="table">
+                                    <tr>
+                                        <td>Didaftarkan Oleh : </td>
+                                        <td><p id="nama_pemilik"></p></td>
+                                    </tr>
+
+                                </table>
+
+                                <h4>Data Pendaftar</h4>
+                                <table class="table">
+                                    <tr>
+                                        <td>nama : </td>
+                                        <td><p id="nama_penghuni"></p></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>email : </td>
+                                        <td><p id="email"></p></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>nik : </td>
+                                        <td><p id="nik"></p></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>alamat : </td>
+                                        <td><p id="alamat"></p></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>phone : </td>
+                                        <td><p id="phone"></p></td>
+                                    </tr>
+                                    <form action="/user/user-activated" method="post">
+                                        @csrf
+                                        @method('patch')
+                                        <input type="hidden" id="input_penghuni" name="penghuni_id">
+
+{{--
+                                    <tr>
+                                        <td>photo ktp : </td>
+                                        <td></td>
+                                    </tr> --}}
+                                </table>
+                            </div>
+                            <div class="modal-footer">
+                              {{-- <button type="button" class="" data-bs-dismiss="modal">Tolak</button> --}}
+                            <a href="" class="btn btn-danger">Tolak</a>
+                            <button type="submit" class="btn btn-success">Setujui</button>
+                            {{-- <a href="" >Setujui</a> --}}
+                        </form>
+
+                            </div>
+                          </div>
+                        </div>
+                      </div>
 
                         @if ($user->email_pengajuan == 1)
-                            <a class="mx-1 fa-2x"  href="{{route('user.activated', $user->id)}}" data-toggle="tooltip" data-placement="top" title="Kirim Email">
-                                <i data-feather="mail" style="color: #e46f5a"></i>
-                            </a>
+
+
 
                         @endif
 
@@ -104,8 +175,19 @@
                                             </a> --}}
                             <a class="mx-1 btn btn-primary fa-solid fa-eye" type="button" href="{{ route('user.detail', $user->id) }}" data-toggle="tooltip" data-placement="top" title="detail user"></a>
                             <a class="mx-1 btn btn-primary" type="button" href="{{ route('user.newProp', $user->id) }}" data-toggle="tooltip" data-placement="top" title="Tambah Properti"><i class="fa-solid fa-house"></i></a>
-                        </div>
 
+                        </div>
+                        {{-- <div class="d-flex">
+                            <a class="mx-1 btn btn-success"  href="{{route('user.activated', $user->id)}}" data-toggle="tooltip" data-placement="top" title="Kirim Email">
+                                <i class="fa-solid fa-check"></i>
+
+                            </a>
+
+                            <a class="mx-1 btn btn-danger"  href="{{route('user.activated', $user->id)}}" data-toggle="tooltip" data-placement="top" title="Kirim Email">
+                                <i class="fa-solid fa-xmark"></i>
+
+                            </a>
+                        </div> --}}
 
                     </td>
                 </tr>
@@ -124,8 +206,8 @@
 @endpush
 
 @push('after-script')
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
-</script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
 </script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
@@ -139,6 +221,37 @@
             $('[data-toggle="tooltip"]').tooltip()
         })
     });
+
+    $('#exampleModal').on('show.bs.modal', function(event) {
+        console.log('halo');
+        var button = $(event.relatedTarget)
+        var id = button.data('penghuni_id')
+
+        $.ajax({
+            type: 'get',
+            url: "/user/detail_penghuni/" + id,
+            dataType: 'json',
+            success: function(response) {
+                console.log(response);
+
+                // $("#stat").val(response.status)
+                // $('#user_id').val(response.id);
+                // $('#id_rumah').val(response.id_rumah);
+                // $('#panic_id').val(response.id);
+
+                $('#nama_pemilik').html(response.user_pemilik.name);
+                $('#nama_penghuni').html(response.user.name);
+                $('#email').html(response.user.email);
+                $('#nik').html(response.user.nik);
+                $('#alamat').html(response.user.alamat);
+                $('#phone').html(response.user.phone);
+
+                $('#input_penghuni').val(response.user.id);
+
+            }
+        });
+
+    })
 
 
     $('.delete').click(function() {
