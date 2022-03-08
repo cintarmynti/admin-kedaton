@@ -272,7 +272,8 @@ class PropertiController extends Controller
         $properti->update();
 
         if ($request->hasfile('image')) {
-            foreach ($request->file('image') as $file) {
+
+             foreach($request->file('image') as $file) {
                 // $name = time().rand(1,100).'.'.$file->extension();
                 // $file->move(public_path('files'), $name);
                 // $files[] = $name;
