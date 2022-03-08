@@ -7,6 +7,7 @@ use App\Models\Complain;
 use App\Models\complain_image;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -15,10 +16,21 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class LaporanComplainController extends Controller
 {
-    public function index(){
-        $complain = Complain::with('user')->orderBy('created_at', 'desc')->get();
+    public function index(Request $request){
+        $start_date = Carbon::parse($request->start_date);
+        $end_date = Carbon::parse($request->end_date);
+
+        $complain = Complain::with('user')->orderBy('created_at', 'desc');
         // dd($complain->id);
-        return view('pages.laporan complain.index', ['complain' => $complain]);
+
+        if($request -> start_date){
+            $complain->whereDate('created_at', '>=', $start_date)->whereDate('created_at', '<=', $end_date);
+        }
+
+        if($request -> status){
+            $complain -> where('status', $request->status);
+        }
+        return view('pages.laporan complain.index', ['complain' => $complain->get()]);
     }
 
     public function create(){
@@ -26,9 +38,21 @@ class LaporanComplainController extends Controller
         return view('pages.laporan complain.create', ['user'=>$user]);
     }
 
-    public function export_excel()
+    public function export_excel(Request $request)
 	{
-		return Excel::download(new ComplainExport, 'complain.xlsx');
+        if(!$request->start_date){
+            $from = '';
+        }else{
+            $from = Carbon::parse($request->start_date);
+        }
+
+        if(!$request->end_date){
+            $to = '';
+        }else{
+            $to = Carbon::parse($request->end_date);
+        }
+        $status = $request->status;
+		return Excel::download(new ComplainExport($from, $to, $status), 'complain.xlsx');
 	}
 
     public function store(Request $request){

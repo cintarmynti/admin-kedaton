@@ -6,8 +6,52 @@
         <h5 class="card-title">Daftar Complain</h5>
         <p class="card-description">
             {{-- <a class="btn btn-primary" href="{{route('complain.create')}}">Tambah Complain</a> --}}
-            <a href="{{route('complain.excel')}}" class="btn btn-success my-3" target="_blank">EXPORT EXCEL</a>
+            <a onclick="excel()" class="btn btn-success my-3" target="_blank">EXPORT EXCEL</a>
+            <form action="/complain" method="GET">
+                <div class="row">
+                        <div class="col-md-3">
+                            <label for="">Mulai Tanggal</label>
+                            <input type="date" id="from_date" class="form-control" value="{{request()->start_date}}" name="start_date">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="">Sampai Tanggal</label>
+                            <input type="date" id="to_date" class="form-control" value="{{request()->end_date}}" name="end_date">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="">Status Pembayaran</label>
+                            <select class="form-select" name="status" id="status" value="{{request()->status}}" aria-label="Default select example">
+                                <option selected="" value="" disabled>pilih status complain</option>
+                                @if (request()->status == 'diajukan')
+                                <option value="diajukan" selected>Diajukan</option>
+                                <option value="diproses">Diproses</option>
+                                <option value="selesai">Selesai</option>
+                                @elseif (request()->status == 'diproses')
+                                <option value="diajukan" >Diajukan</option>
+                                <option value="diproses" selected>Diproses</option>
+                                <option value="selesai">Selesai</option>
+                                @elseif (request()->status == 'selesai')
+                                <option value="diajukan">Diajukan
+
+                                </option>
+                                <option value="diproses">Diproses</option>
+                                <option value="selesai" selected>Selesai</option>
+                                @elseif (request()->status == null)
+                                <option value="diajukan">Diajukan</option>
+                                <option value="diproses">Diproses</option>
+                                <option value="selesai">Selesai</option>
+                                @endif
+                              </select>
+                        </div>
+                        <div class="col-md-3">
+                            <br>
+                            <button class="btn btn-primary" type="submit"><i data-feather="search"></i></button>
+                            <a href="/complain" class="btn btn-primary" type="button">Refresh</a>
+
+                        </div>
+                </div>
+                </form>
         </p>
+
         <table class="table" id="myTable">
           <thead>
             <tr>
@@ -17,6 +61,7 @@
               <th scope="col">Alamat</th>
               <th scope="col">catatan</th>
               <th scope="col">status</th>
+              <th scope="col">Tanggal</th>
               <th scope="col">detail foto</th>
               {{-- <th scope="col">aksi</th> --}}
             </tr>
@@ -37,9 +82,12 @@
                     @elseif ($com->status == 'diproses')
                     <span class="badge bg-primary btn"  data-complain_id="{{ $com->id }}"  data-bs-toggle="modal" data-bs-target="#exampleModal">Primary</span>
                     @elseif($com->status == 'selesai')
-                    <span class="badge bg-success btn"  data-complain_id="{{ $com->id }}"  data-bs-toggle="modal" data-bs-target="#exampleModal">Success</span>
-                    @endif</td>
-
+                    <span class="badge bg-success btn"  data-complain_id="{{ $com->id }}"  data-bs-toggle="modal" data-bs-target="#exampleModal">Selesai</span>
+                    @endif
+                </td>
+                <td>
+                    {{$com->created_at}}
+                </td>
 
                 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
                 aria-hidden="true">
@@ -60,7 +108,7 @@
                             <option value="diproses">Diproses</option>
                             <option value="selesai">Selesai</option>
                           </select>
-                          <input type="text" name="id" id="user_id">
+                          <input type="hidden" name="id" id="user_id">
 
                           <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -105,6 +153,29 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.11.3/datatables.min.js"></script>
     <script>
+        // $(document).ready(function() {
+        //     $('#myTable').DataTable();
+        // });
+
+        var APP_URL = {!! json_encode(url('/')) !!}
+        console.log(APP_URL);
+
+        function excel(){
+
+            var fromDate = $('#from_date').val();
+            // alert('halo');
+            var toDate = $('#to_date').val();
+            var status = $('#status').val();
+            console.log(toDate);
+            if(status == null){
+                window.open(`${APP_URL}/complain/export_excel?start_date=${fromDate}&end_date=${toDate}`)
+            }
+            window.open(`${APP_URL}/complain/export_excel?start_date=${fromDate}&end_date=${toDate}&status=${status}`)
+        }
+    </script>
+
+    <script>
+
      $('#exampleModal').on('show.bs.modal', function(event) {
         console.log('halo');
         var button = $(event.relatedTarget)
