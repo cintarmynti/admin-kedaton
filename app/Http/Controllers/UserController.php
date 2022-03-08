@@ -60,7 +60,9 @@ class UserController extends Controller
         // dd($request->penghuni_id);
 
         $user = User::where('id', $request->penghuni_id)->first();
-        $user->email_pengjuan = 2;
+        // dd($user);
+        $user->email_pengajuan = 2;
+        $user->save();
 
         $details = [
             'recipient' => $user->email,

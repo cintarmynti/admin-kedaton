@@ -149,10 +149,10 @@ class PropertiController extends Controller
     {
         $cek_nik = User::where('nik', $request->nik)->first();
 
+        // dd($request->properti_id);
         if (Properti::where('id', $request->properti_id)->first() == null) {
             return ResponseFormatter::failed('tidak ada properti id ini!', 401);
         }
-
 
         if ($cek_nik != null && $cek_nik->snk == 1 && $cek_nik->email_pengajuan == 2) {
             // dd('halo');
@@ -233,7 +233,8 @@ class PropertiController extends Controller
             } else {
                 return ResponseFormatter::failed('gagal menambah penghuni!', 401);
             }
-        }else if($cek_nik == null || $cek_nik->snk == 0){
+        }
+        else if($cek_nik != null && $cek_nik->snk == 0){
             return ResponseFormatter::failed('penghuni sudah terdaftar di database, namun belum melakukan registrasi aplikasi, mohon registrasi terlebih dahulu', 401);
         }else if($cek_nik != null && $cek_nik->snk == 1 && $cek_nik->email_pengajuan == 1){
             return ResponseFormatter::failed('menunggu penyetujuan penghuni baru oleh admin!', 401);

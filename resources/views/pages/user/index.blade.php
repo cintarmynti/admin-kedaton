@@ -40,11 +40,16 @@
                     <th scope="row">{{ $no++ }}</th>
                     <td>{{ $user->name }}
                         @if ($user->snk == 1)
-                        {{-- <a class="mx-1 bg-success fa-solid fa-user" type="button" href="" data-toggle="tooltip" data-placement="top" title="terdaftar mobile"></a> --}}
-
                         <i class="fa-solid fa-mobile fa-2x" style="color: #6BCAC2" data-toggle="tooltip" data-placement="top" title="pengguna mobile"></i>
-                        @if ($user->status_pengajuan_penghuni == 1)
+                        @else
+
+                        @endif
+
+                        @if ($user->email_pengajuan == 1)
                         <a href="" data-bs-toggle="modal" data-penghuni_id="{{$user->id}}" data-bs-target="#exampleModal"><i class="fa-solid fa-envelope fa-2x" style="color: #f37474" data-toggle="tooltip" data-placement="top" title="permintaan persetujuan"></i></a>
+
+                        @elseif ($user->email_pengajuan == 2)
+
                         @endif
 
 
@@ -116,14 +121,7 @@
                         </div>
                       </div>
 
-                        @if ($user->email_pengajuan == 1)
 
-
-
-                        @endif
-
-                        {{-- <i  data-toggle="tooltip" data-placement="top" title="pengguna mobile"></i> --}}
-                        @endif
                     </td>
                     <td>{{ $user->nik }}</td>
                     @if ($user->pemilik->count() != 0)
