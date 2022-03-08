@@ -2,21 +2,38 @@
 
 @section('content')
 <div class="card" id="images">
-    <div class="row mt-2" id="images">
-        @foreach ($image as $item)
-            <div class="col wrapper" >
-                <img onclick="image()" src="{{ url('complain_image/' . $item->image) }}" width="200px" height="200px" alt="">
-                <div class="panjang">
-                    <a href="{{route('complainimg.delete', $item->id)}}" width="200px" class="btn btn-danger hapus mt-3">hapus gambar</a>
+    <div class="card-body">
+        <div class="open-email-content">
+            <div class="mail-header">
+                <div class="mail-title">
+                    <h4>Catatan Complain</h4>
                 </div>
             </div>
-        @endforeach
+        </div>
+        <div class="mail-text">
+            {{$complain->catatan}}
+            {{-- {!! $blog->desc !!} --}}
+        </div>
+        <div class="mail-attachment">
+            <span class="attachment-info"><i class="fas fa-paperclip m-r-xxs"></i>{{ $image->count() }} Attachments</span>
+            <div class="mail-attachment-files">
+                @foreach ($image as $item)
+                    <div class="card">
+                        <img onclick="image()" src="{{ url('storage/' . $item->image) }}" class="card-img-top"
+                            style="height: 100px; width:200px; object-fit:cover">
+                        <div class="card-body" style="padding-left: 28px">
+                            <a href="{{route('complainimg.delete', $item->id)}}" width="200px" class="btn btn-danger hapus mt-3">hapus gambar</a>
 
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
     </div>
-    <div class="m-5">
-        <a href="{{ route('complain') }}" class="btn btn-warning mt-4">kembali</a>
+    <div class="ml-5 mb-5">
+        <a href="{{ route('complain') }}" class="btn btn-primary mt-4">kembali</a>
+    </div>
 
-    </div>
 </div>
 
 @endsection

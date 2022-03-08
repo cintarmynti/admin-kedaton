@@ -145,9 +145,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/complain/delete/{id}', [LaporanComplainController::class, 'delete'])->name('complain.delete');
     Route::get('/complain/edit/{id}', [LaporanComplainController::class, 'edit'])->name('complain.edit');
     Route::put('/complain/update/{id}', [LaporanComplainController::class, 'update'])->name('complain.update');
-    Route::get('/complain/detail/{id}', [LaporanComplainController::class, 'detail'])->name('complain.detail');
+    Route::get('/complain/detail/image/{id}', [LaporanComplainController::class, 'detail'])->name('complain.detail.image');
     Route::get('/complain-img/delete/{id}', [LaporanComplainController::class, 'imgdelete'])->name('complainimg.delete');
     Route::get('/complain/export_excel', [LaporanComplainController::class, 'export_excel'])->name('complain.excel');
+    Route::get('/complain/detail/{id}', [LaporanComplainController::class, 'complainDetail'])->name('complain.detail');
+    Route::patch('/complain/status', [LaporanComplainController::class, 'updateStatus'])->name('complain.status');
 
     Route::get('/panic-button', [LaporanPanicButtonController::class, 'index'])->name('panic');
     Route::patch('/panic-button/status/{id}', [LaporanPanicButtonController::class, 'status'])->name('panic.status');

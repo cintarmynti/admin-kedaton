@@ -7,6 +7,7 @@ use App\Models\Complain;
 use App\Models\complain_image;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -15,7 +16,7 @@ use RealRashid\SweetAlert\Facades\Alert;
 class LaporanComplainController extends Controller
 {
     public function index(){
-        $complain = Complain::with('user')->get();
+        $complain = Complain::with('user')->orderBy('created_at', 'desc')->get();
         // dd($complain->id);
         return view('pages.laporan complain.index', ['complain' => $complain]);
     }
@@ -121,9 +122,8 @@ class LaporanComplainController extends Controller
         $image = complain_image::findOrFail($id);
         // dd($image->image);
 
-            $image_path = public_path().'/complain_image/'.$image->image;
-            unlink($image_path);
-
+            // $image_path = public_path().'/complain_image/'.$image->image;
+            Storage::delete($image->image);
         $image->delete();
         return redirect()->back();
     }
@@ -133,9 +133,9 @@ class LaporanComplainController extends Controller
         $image = complain_image::where('complain_id', $post->id)->get();
 
         foreach($image as $img){
+
+            Storage::delete($img->image);;
             $img->delete();
-            $image_path = public_path().'/complain_image/'.$img->image;
-            unlink($image_path);
         }
         $post->delete();
 
@@ -159,5 +159,19 @@ class LaporanComplainController extends Controller
         $image = complain_image::where('complain_id', $id)->get();
         // dd($image);
         return view('pages.laporan complain.detail', ['complain' => $complain, 'image' => $image]);
+    }
+
+    public function updateStatus(Request $request){
+        $status = Complain::where('id', $request->id)->first();
+        // dd($status);
+        $status->status = $request->status;
+        $status->save();
+
+        return redirect('/complain');
+    }
+
+    public function complainDetail($id){
+        $complain = Complain::find($id);
+        return response()->json($complain);
     }
 }

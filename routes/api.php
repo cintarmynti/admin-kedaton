@@ -84,3 +84,4 @@ Route::get('detail-listing', [ListingController::class, 'detail_listing']);
 Route::post('create-image', [ListingController::class, 'createImage']);
 
 Route::post('create-complain', [ComplainController::class, 'store']);
+Route::get('get-complain', [ComplainController::class, 'getComplain']);

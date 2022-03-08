@@ -18,7 +18,8 @@ class CreateComplainTable extends Migration
             $table->integer('user_id');
             $table->string('nama');
             $table->string('alamat');
-            $table->string('pesan_complain');
+            $table->string('catatan');
+            $table->string('status')->default('diajukan');
             $table->timestamps();
         });
     }

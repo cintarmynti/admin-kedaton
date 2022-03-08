@@ -22,7 +22,9 @@ class ComplainExport implements FromCollection, WithHeadings, ShouldAutoSize, Wi
         return [
             $complain->id,
             $complain->user->name,
-            strip_tags($complain->pesan_complain),
+            $complain->alamat,
+            $complain->status,
+            strip_tags($complain->catatan),
         ] ;
     }
 
@@ -31,6 +33,8 @@ class ComplainExport implements FromCollection, WithHeadings, ShouldAutoSize, Wi
         return [
             'id',
             'nama user',
+            'alamat',
+            'status',
             'pesan_complain',
 
         ];
