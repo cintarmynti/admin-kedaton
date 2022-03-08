@@ -11,7 +11,7 @@ use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\FromView;
 
-class TagihanExport implements FromView, FromCollection
+class TagihanExport implements FromView
 {
     /**
     * @return \Illuminate\Support\Collection
@@ -37,7 +37,7 @@ class TagihanExport implements FromView, FromCollection
         // }else{
         //     $status = 'sudah membayar';
         // }
-        $tagihan = Tagihan::with('nomer', 'cluster','type')->get();
+        $tagihan = Tagihan::with('nomer', 'cluster','type');
 
         if( $this->from){
             $tagihan->whereBetween('periode_pembayaran',[ $this->from, $this->to]);
@@ -48,27 +48,25 @@ class TagihanExport implements FromView, FromCollection
             $tagihan -> where('status', $this->status);
         }
 
-        return view('pages.ipkl.excel', [
-            'pembayaran' => $tagihan
-        ]);
+        return view('pages.ipkl.excel', ['pembayaran' => $tagihan->get()]);
     }
 
-    public function collection()
-    {
+    // public function collection()
+    // {
 
-        $query = Tagihan::with('nomer', 'cluster','type');
+    //     $query = Tagihan::with('nomer', 'cluster','type');
 
-        if( $this->from){
-            $query->whereBetween('periode_pembayaran',[ $this->from, $this->to]);
+    //     if( $this->from){
+    //         $query->whereBetween('periode_pembayaran',[ $this->from, $this->to]);
 
-        }
+    //     }
 
-        if($this->status){
-            $query -> where('status', $this->status);
-        }
+    //     if($this->status){
+    //         $query -> where('status', $this->status);
+    //     }
 
-        return $query->get();
-    }
+    //     return $query->get();
+    // }
 
     public function map($tagihan) : array {
          if($tagihan->status == 1){
