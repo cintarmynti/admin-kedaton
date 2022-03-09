@@ -62,7 +62,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/user-detail-json/{name}', [UserController::class, 'detailJson'])->name('user.detail.json');
     Route::post('/user/storeProp', [UserController::class, 'storeProp'])->name('user.addNewProp');
     Route::patch('/user/user-activated', [UserController::class, 'activated'])->name('user.activated');
-    Route::get('/user/user-cancel/{id}', [UserController::class, 'canceled'])->name('user.canceled');
+    Route::get('/user/user-cancel', [UserController::class, 'canceled'])->name('user.canceled');
     Route::get('/user/detail_penghuni/{id}', [UserController::class, 'detail_penghuni'])->name('user.detail_penghuni');
 
 

@@ -9,6 +9,7 @@ use App\Models\Properti;
 use App\Models\Pembayaran;
 use App\Exports\UserExport;
 use App\Mail\KedatonNewMember;
+use App\Models\Cancel;
 use App\Models\Pengajuan;
 use App\Models\penghuniDetail;
 use Illuminate\Http\Request;
@@ -404,5 +405,18 @@ class UserController extends Controller
     {
         $penghuni = Pengajuan::with('user', 'user_pemilik')->where('user_id', $request->id)->first();
         return response()->json($penghuni);
+    }
+
+    public function canceled(Request $request){
+        $user = User::where('id', $request->penghuni_id2)->first();
+        $user->delete();
+
+        $cancel = new Cancel();
+        $cancel->alasan_dibatalkan = $request->alasan_dibatalkan;
+        $cancel->pemilik_mengajukan_id = $request->pemilik_id2;
+        $cancel->save();
+
+        return redirect('/user');
+        // dd($cancel);
     }
 }
