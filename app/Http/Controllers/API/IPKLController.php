@@ -81,15 +81,15 @@ class IPKLController extends Controller
             $notifikasi = new Notifikasi();
             $notifikasi->user_id = $request->user_id;
             $notifikasi->sisi_notifikasi  = 'pengguna';
-            $notifikasi->heading = 'Berhasil Melakukan Pembayaran IPKL';
+            $notifikasi->heading = 'BERHASIL MELAKUKAN PEMBAYARAN IPKL';
             $notifikasi->desc = 'Terimakasih sudah melakukan pembayaran IPKL, pembayaran anda sedang di proses Admin';
             $notifikasi->save();
 
             $notifikasi_admin = new Notifikasi();
             $notifikasi_admin ->user_id = null;
             $notifikasi_admin ->sisi_notifikasi = 'admin';
-            $notifikasi_admin -> heading = 'Pembayaran IPKL Baru';
-            $notifikasi_admin ->desc = 'ada penghuni yang meakukan pembayaran';
+            $notifikasi_admin -> heading = 'PEMBAYARAN IPKL BARU';
+            $notifikasi_admin ->desc = 'ada penghuni yang melakukan pembayaran';
             $notifikasi_admin ->save();
 
             // DB::commit();

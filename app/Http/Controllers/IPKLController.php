@@ -174,14 +174,14 @@ class IPKLController extends Controller
      {
         // dd($request->all());
 
-        $riwayat = new Notifikasi();
-        $riwayat -> user_id = $request->user_id;
-        $riwayat-> pembayaran_id = $request->pembayaran_id;
-        $riwayat->tanggal = Carbon::now()->toDateString();
-        $riwayat-> desc = 'pembayaran anda telah diterima oleh admin';
-        $riwayat->type = 'IPKL';
-        $riwayat->save();
-        Alert::success('Data berhasil disimpan');
+        $notifikasi = new Notifikasi();
+        $notifikasi->user_id = $request->user_id;
+        $notifikasi->sisi_notifikasi  = 'pengguna';
+        $notifikasi->heading = 'PEMBAYARAN IPKL TELAH DISETUJUI';
+        $notifikasi->desc = 'Pembayaran IPKL telah disetujui admin, terimakasih sudah membayar';
+        $notifikasi->save();
+
+        // Alert::success('Data berhasil disimpan');
 
         $data = IPKL::findOrFail($request-> pembayaran_id);
         // dd($status_id);

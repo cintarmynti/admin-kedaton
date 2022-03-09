@@ -64,7 +64,7 @@ class PropertiTableSeeder extends Seeder
 
 
         Properti::create([
-            'pemilik_id' => 2,
+            'pemilik_id' => null,
             'cluster_id' => 1,
             'no_rumah' => 40,
             'no_listrik' => '38432874923',

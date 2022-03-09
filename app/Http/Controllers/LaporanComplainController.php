@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Exports\ComplainExport;
 use App\Models\Complain;
 use App\Models\complain_image;
+use App\Models\Notifikasi;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Carbon\Carbon;
@@ -190,6 +191,20 @@ class LaporanComplainController extends Controller
         // dd($status);
         $status->status = $request->status;
         $status->save();
+
+         if($request->status != 'diajukan'){
+            $notifikasi = new Notifikasi();
+            $notifikasi->user_id = $request->user_id;
+            $notifikasi->sisi_notifikasi  = 'pengguna';
+            $notifikasi->heading = 'STATUS COMPLAIN TELAH DIPERBARUI ADMIN';
+            if($request->status == 'diproses'){
+                $notifikasi->desc = 'Complain anda sedang diproses';
+            }else if($request->status == 'selesai'){
+                $notifikasi->desc = 'Complain anda telah diselesaikan';
+            }
+            $notifikasi->save();
+         }
+      
 
         return redirect('/complain');
     }

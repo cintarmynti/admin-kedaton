@@ -20,7 +20,7 @@ class NotifikasiController extends Controller
         if($cek_user == null){
             return ResponseFormatter::failed('tidak ada User dengan dengan id yang di input!', 401);
         }
-        $notif = Notifikasi::where('user_id', $request->user_id)->count();
+        $notif = Notifikasi::where('user_id', $request->user_id)->where('sisi_notifikasi', 'pengguna')->count();
         return ResponseFormatter::success('Success to count notifications!', $notif);
     }
 
@@ -33,7 +33,7 @@ class NotifikasiController extends Controller
         if($cek_user == null){
             return ResponseFormatter::failed('tidak ada User dengan dengan id yang di input!', 401);
         }
-        $notif = Notifikasi::where('user_id', $request->user_id)->get();
+        $notif = Notifikasi::where('user_id', $request->user_id)->where('sisi_notifikasi', 'pengguna')->get();
         if($notif->count() == 0){
             return ResponseFormatter::failed('tidak ada notif!', 401);
         }

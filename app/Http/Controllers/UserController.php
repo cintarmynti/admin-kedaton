@@ -10,6 +10,7 @@ use App\Models\Pembayaran;
 use App\Exports\UserExport;
 use App\Mail\KedatonNewMember;
 use App\Models\Cancel;
+use App\Models\Notifikasi;
 use App\Models\Pengajuan;
 use App\Models\penghuniDetail;
 use Illuminate\Http\Request;
@@ -411,10 +412,17 @@ class UserController extends Controller
         $user = User::where('id', $request->penghuni_id2)->first();
         $user->delete();
 
-        $cancel = new Cancel();
-        $cancel->alasan_dibatalkan = $request->alasan_dibatalkan;
-        $cancel->pemilik_mengajukan_id = $request->pemilik_id2;
-        $cancel->save();
+        // $cancel = new Cancel();
+        // $cancel->alasan_dibatalkan = $request->alasan_dibatalkan;
+        // $cancel->pemilik_mengajukan_id = $request->pemilik_id2;
+        // $cancel->save();
+
+        $notifikasi = new Notifikasi();
+        $notifikasi->user_id = $request->pemilik_id2;
+        $notifikasi->sisi_notifikasi  = 'pengguna';
+        $notifikasi->heading = 'PENDAFTARAN PENGHUNI BARU DITOLAK';
+        $notifikasi->desc = 'Mohon Maaf, pedaftaran penghuni baru kami tolak kaena '.$request->alasan_dibatalkan;
+        $notifikasi->save();
 
         return redirect('/user');
         // dd($cancel);

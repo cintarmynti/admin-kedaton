@@ -80,7 +80,7 @@
                     @if ($com->status == 'diajukan')
                     <span class="badge bg-warning btn"  data-complain_id="{{ $com->id }}"  data-bs-toggle="modal" data-bs-target="#exampleModal">Diajukan</span>
                     @elseif ($com->status == 'diproses')
-                    <span class="badge bg-primary btn"  data-complain_id="{{ $com->id }}"  data-bs-toggle="modal" data-bs-target="#exampleModal">Primary</span>
+                    <span class="badge bg-primary btn"  data-complain_id="{{ $com->id }}"  data-bs-toggle="modal" data-bs-target="#exampleModal">Diproses</span>
                     @elseif($com->status == 'selesai')
                     <span class="badge bg-success btn"  data-complain_id="{{ $com->id }}"  data-bs-toggle="modal" data-bs-target="#exampleModal">Selesai</span>
                     @endif
@@ -183,12 +183,13 @@
 
         $.ajax({
             type: 'get',
-            url: "/user/detail_penghuni" + id,
+            url: "/complain/detail/" + id,
             dataType: 'json',
             success: function(response) {
-                console.log(response);
+                // console.log(response);
 
                 $("#stat").val(response.status)
+                // alert(response.status);
                 $('#user_id').val(response.id);
                 // $('#id_rumah').val(response.id_rumah);
                 // $('#panic_id').val(response.id);

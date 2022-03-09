@@ -12,6 +12,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
 use App\Http\Controllers\API\ResponseFormatter;
 use App\Mail\KedatonNewMember;
+use App\Models\Notifikasi;
 use App\Models\Pengajuan;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
@@ -60,6 +61,20 @@ class PropertiController extends Controller
         $properti = Properti::where('id', $request->properti_id)->first();
         $properti->status_pengajuan = 1;
         $properti->update();
+
+        $notifikasi = new Notifikasi();
+        $notifikasi->user_id = $request->user_id;
+        $notifikasi->sisi_notifikasi  = 'pengguna';
+        $notifikasi->heading = 'BERHASIL MENAMBAHKAN PROPERTI BARU';
+        $notifikasi->desc = 'Properti anda dalam proses pengecekan, menunggu persetujuan admin';
+        $notifikasi->save();
+
+        $notifikasi_admin = new Notifikasi();
+        $notifikasi_admin ->user_id = null;
+        $notifikasi_admin ->sisi_notifikasi = 'admin';
+        $notifikasi_admin -> heading = 'PENGAJUAN PROPERTI OLEH PENGHUNI';
+        $notifikasi_admin ->desc = 'ada pengajuan properti oleh penghuni';
+        $notifikasi_admin ->save();
 
         if ($pengajuan) {
             return ResponseFormatter::success('berhasil mengirimm pengajuan properti baru, mohon tunggu konfirmasi admin!', $pengajuan);
@@ -182,6 +197,20 @@ class PropertiController extends Controller
             $properti->status_pengajuan_penghuni = 1;
             $properti->save();
 
+            $notifikasi = new Notifikasi();
+            $notifikasi->user_id = $request->user_id;
+            $notifikasi->sisi_notifikasi  = 'pengguna';
+            $notifikasi->heading = 'BERHASIL MELAKUKAN PENGAJUAN PENAMBAHAN PENGHUNI';
+            $notifikasi->desc = 'Menambahkan penghuni baru, menunggu persetujuan admin';
+            $notifikasi->save();
+
+            $notifikasi_admin = new Notifikasi();
+            $notifikasi_admin ->user_id = null;
+            $notifikasi_admin ->sisi_notifikasi = 'admin';
+            $notifikasi_admin -> heading = 'PEMILIK MELAKUKAN PENGAJUAN UNTUK PENGHUNI PROPERTI';
+            $notifikasi_admin ->desc = 'Ada pengajuan penghuni di properti';
+            $notifikasi_admin ->save();
+
             return ResponseFormatter::success('berhasil menambah penghuni, menunggu konfirmasi!', [$cek_nik]);
         } else if ($cek_nik == null ) {
 
@@ -226,6 +255,20 @@ class PropertiController extends Controller
             $pengajuan->properti_id_penghuni = $request->properti_id;
             $pengajuan->pemilik_mengajukan = $request->user_id;
             $pengajuan->save();
+
+            $notifikasi = new Notifikasi();
+            $notifikasi->user_id = $request->user_id;
+            $notifikasi->sisi_notifikasi  = 'pengguna';
+            $notifikasi->heading = 'PENDAFTARAN PENGHUNI BARU UNTUK PENYEWA SEDANG DIPROSES';
+            $notifikasi->desc = 'tunggu admin memproses pendaftaran penghuni baru';
+            $notifikasi->save();
+
+            $notifikasi_admin = new Notifikasi();
+            $notifikasi_admin ->user_id = null;
+            $notifikasi_admin ->sisi_notifikasi = 'admin';
+            $notifikasi_admin -> heading = 'PEMILIK MELAKUKAN PPENDAFTARAN PENGHUNI BARU UNTUK PENGHUNI PROPERTI';
+            $notifikasi_admin ->desc = 'lakukan pengecekan pada menu penghuni';
+            $notifikasi_admin ->save();
 
 
             if ($user) {

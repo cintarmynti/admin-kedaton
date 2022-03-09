@@ -12,6 +12,7 @@ use App\Models\Properti;
 use App\Models\tarif_ipkl;
 use Illuminate\Http\Request;
 use App\Models\listing_image;
+use App\Models\Notifikasi;
 use App\Models\Pengajuan;
 use App\Models\penghuniDetail;
 use App\Models\Properti_image;
@@ -38,14 +39,21 @@ class PropertiController extends Controller
         $properti->status_pengajuan_penghuni = 2;
         $properti->save();
 
+        $notifikasi = new Notifikasi();
+        $notifikasi->user_id = $request->pemilik_id;
+        $notifikasi->sisi_notifikasi  = 'pengguna';
+        $notifikasi->heading = 'PENGHUNI TELAH DISETUJUI';
+        $notifikasi->desc = 'Admin telah menyetujui penyewaan propert tersebut';
+        $notifikasi->save();
+
         return redirect()->route('properti');
     }
 
     public function penghuni($id)
     {
         $properti = Pengajuan::where('properti_id_penghuni', $id)->first();
-        $user = User::where('id', $properti->user_id)->first();
-
+        $user['penghuni'] = User::where('id', $properti->user_id)->first();
+        $user['pemilik'] = $properti->pemilik_mengajukan;
         return response()->json($user);
     }
 
@@ -55,6 +63,13 @@ class PropertiController extends Controller
         $properti->pemilik_id = $request->pemilik_id;
         $properti->status_pengajuan = 2;
         $properti->save();
+
+        $notifikasi = new Notifikasi();
+        $notifikasi->user_id = $request->pemilik_id;
+        $notifikasi->sisi_notifikasi  = 'pengguna';
+        $notifikasi->heading = 'PENAMBAHAN PROPERTI BARU TELAH DISETUJUI';
+        $notifikasi->desc = 'Properti anda telah disetujui';
+        $notifikasi->save();
 
         return redirect()->route('properti');
     }

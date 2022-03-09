@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exports\PanicButtonExport;
+use App\Models\Notifikasi;
 use App\Models\PanicButton;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -35,9 +36,12 @@ class LaporanPanicButtonController extends Controller
             'status_keterangan' => 'checked'
         ]);
 
-        // if($panic){
-        //     dd($panic);
-        // }
+        // $notifikasi = new Notifikasi();
+        // $notifikasi->user_id = $request->pemilik_id;
+        // $notifikasi->sisi_notifikasi  = 'pengguna';
+        // $notifikasi->heading = 'PENGHUNI TELAH DISETUJUI';
+        // $notifikasi->desc = 'Admin telah menyetujui penyewaan propert tersebut';
+        // $notifikasi->save();
         return redirect('/dashboard');
 
     }

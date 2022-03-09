@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\Complain;
 use App\Models\complain_image;
+use App\Models\Notifikasi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -37,6 +38,20 @@ class ComplainController extends Controller
             $complain_image->save();
         }
 
+        $notifikasi = new Notifikasi();
+        $notifikasi->user_id = $request->user_id;
+        $notifikasi->sisi_notifikasi  = 'pengguna';
+        $notifikasi->heading = 'BERHASIL MENGAJUKAN COMPLAIN';
+        $notifikasi->desc = 'Complain berhasil dikirim, complain anda masih diajukan, menunggu perubahan status oleh admin';
+        $notifikasi->save();
+
+        $notifikasi_admin = new Notifikasi();
+        $notifikasi_admin ->user_id = null;
+        $notifikasi_admin ->sisi_notifikasi = 'admin';
+        $notifikasi_admin -> heading = 'PENGAJUAN COMPLAIN BARU';
+        $notifikasi_admin ->desc = 'ada pengajuan complain baru';
+        $notifikasi_admin ->save();
+
         return ResponseFormatter::success('berhasil mengirim complain!', $complain);
 
     }
@@ -48,6 +63,9 @@ class ComplainController extends Controller
 
         if($request->status){
             $complain = Complain::where('status', $request->status)->where('user_id', $request->user_id)->get();
+            if($complain->count() == 0){
+            return ResponseFormatter::failed('tidak ada complaiin dengan status tsb!', 401);
+            }
             return ResponseFormatter::success('berhasil mengembil complin dengann status!', $complain);
         }
 

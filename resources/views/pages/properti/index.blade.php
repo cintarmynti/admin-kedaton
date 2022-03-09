@@ -157,8 +157,9 @@
                                                             </td>
                                                         </tr>
                                                     </table>
-                                                    <input type="text" name="penghuni_id" id="penghuni_id2">
-                                                    <input type="text" name="properti_id" id="properti_id2">
+                                                    <input type="hidden" name="penghuni_id" id="penghuni_id2">
+                                                    <input type="hidden" name="pemilik_id" id="pemilik_id2">
+                                                    <input type="hidden" name="properti_id" id="properti_id2">
 
                                                     {{-- <img src="" width="400" height="300" id="bukti_tf" alt="">
                                                 <input type="hidden" name="user_id" id="user_id">
@@ -275,6 +276,7 @@
                     $('#alamat').html(response.alamat);
                     $('#penghuni_id').val(response.id);
                     $('#properti_id').val(id);
+                    $('#pemilik_id').val(response.id);
 
 
                 }
@@ -301,12 +303,13 @@
                 // $('#pembayaran_id').val(response.id);
                 // $('#tagihan_id').val(response.tagihan_id);
                 // $('#bukti_tf').attr('src', APP_URL + '/' +response.bukti_tf);
-                $('#nama2').html(response.name);
-                $('#email2').html(response.email)
-                $('#phone2').html(response.phone);
-                $('#nik2').html(response.nik);
-                $('#alamat2').html(response.alamat);
-                $('#penghuni_id2').val(response.id);
+                $('#nama2').html(response.penghuni.name);
+                $('#email2').html(response.penghuni.email)
+                $('#phone2').html(response.penghuni.phone);
+                $('#nik2').html(response.penghuni.nik);
+                $('#alamat2').html(response.penghuni.alamat);
+                $('#penghuni_id2').val(response.penghuni.id);
+                $('#pemilik_id2').val(response.pemilik);
                 $('#properti_id2').val(id);
 
 
