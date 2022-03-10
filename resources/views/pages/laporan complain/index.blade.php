@@ -108,7 +108,8 @@
                             <option value="diproses">Diproses</option>
                             <option value="selesai">Selesai</option>
                           </select>
-                          <input type="hidden" name="id" id="user_id">
+                          <input type="hidden" name="user_id" id="user_id">
+                          <input type="hidden" name="complain_id" id="id_complain">
 
                           <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -186,11 +187,12 @@
             url: "/complain/detail/" + id,
             dataType: 'json',
             success: function(response) {
-                // console.log(response);
+                console.log(response);
 
                 $("#stat").val(response.status)
+                $('#id_complain').val(response.id);
                 // alert(response.status);
-                $('#user_id').val(response.id);
+                $('#user_id').val(response.user_id);
                 // $('#id_rumah').val(response.id_rumah);
                 // $('#panic_id').val(response.id);
 

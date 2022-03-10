@@ -187,7 +187,7 @@ class LaporanComplainController extends Controller
     }
 
     public function updateStatus(Request $request){
-        $status = Complain::where('id', $request->id)->first();
+        $status = Complain::where('id', $request->complain_id)->first();
         // dd($status);
         $status->status = $request->status;
         $status->save();
@@ -204,7 +204,7 @@ class LaporanComplainController extends Controller
             }
             $notifikasi->save();
          }
-      
+
 
         return redirect('/complain');
     }

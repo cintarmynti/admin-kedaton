@@ -36,12 +36,14 @@ class LaporanPanicButtonController extends Controller
             'status_keterangan' => 'checked'
         ]);
 
-        // $notifikasi = new Notifikasi();
-        // $notifikasi->user_id = $request->pemilik_id;
-        // $notifikasi->sisi_notifikasi  = 'pengguna';
-        // $notifikasi->heading = 'PENGHUNI TELAH DISETUJUI';
-        // $notifikasi->desc = 'Admin telah menyetujui penyewaan propert tersebut';
-        // $notifikasi->save();
+        $update_notif = PanicButton::where('id', $id)->first();
+        // dd($update_notif);
+        $notifikasi = new Notifikasi();
+        $notifikasi->user_id = $update_notif->user_id;
+        $notifikasi->sisi_notifikasi  = 'pengguna';
+        $notifikasi->heading = 'LAPORAN PANIC BUTTON';
+        $notifikasi->desc = 'Laporan Panic Button anda telah ditangani oleh admin';
+        $notifikasi->save();
         return redirect('/dashboard');
 
     }
