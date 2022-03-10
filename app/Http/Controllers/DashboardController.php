@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\Complain;
+use App\Models\Notifikasi;
 use App\Models\PanicButton;
 use App\Models\rev_listing;
 use App\Models\User;
@@ -34,5 +35,11 @@ class DashboardController extends Controller
         $total_panic = $panic->count();
 
         return view('pages.dashboard', ['customer' => $customer, 'dijual' => $dijual, 'disewakan' => $disewakan, 'complain' => $complain, 'panic' => $panic, 'total' => $total_panic]);
+    }
+
+    public function notif_admin(){
+        $notif['jumlah'] = Notifikasi::where('sisi_notifikasi', 'admin')->get()->count();
+        $notif['data'] = Notifikasi::where('sisi_notifikasi', 'admin')->orderBy('created_at', 'desc')->get();
+        return response()->json($notif);
     }
 }

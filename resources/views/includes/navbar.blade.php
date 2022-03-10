@@ -24,26 +24,21 @@
       </li>
 
       <li class="nav-item dropdown">
-        <a class="nav-link" href="#" id="notificationsDropDown" data-bs-toggle="dropdown" aria-expanded="false"> <i data-feather="bell"></i> <span class="badge badge-danger">3</span></a>
+        <a class="nav-link" href="#" id="notificationsDropDown" data-bs-toggle="dropdown" aria-expanded="false"> <i data-feather="bell"></i> <span class="badge badge-danger" id="total-notif"></span></a>
         <div class="dropdown-menu dropdown-menu-end notif-drop-menu" aria-labelledby="notificationsDropDown">
           <h6 class="dropdown-header">Notifications</h6>
-          <a href="#">
+          <div id="notif">
+
+          </div>
+          {{-- <a href="#">
             <div class="header-notif">
               <div class="notif-text">
-                <p class="bold-notif-text">Si A telah mendaftar di aplikasi</p>
-                <small>19:00</small>
+                <p class="bold-notif-text" id="header-notif"></p>
+                <small id="jam-notif"></small>
               </div>
             </div>
-          </a>
-          <a href="#">
-            <div class="header-notif">
-              <div class="notif-text">
-                <p class="bold-notif-text">Si A telah mengajukan properti baru</p>
-                <small>19:00</small>
-              </div>
-            </div>
-          </a>
-          <a href="#">
+          </a> --}}
+          {{-- <a href="#">
             <div class="header-notif">
               <div class="notif-text">
                 <p class="bold-notif-text">Si A telah menambahkan si B sebagai penyewa di properti KX34</p>
@@ -58,7 +53,7 @@
                 <small>19:00</small>
               </div>
             </div>
-          </a>
+          </a> --}}
         </div>
       </li>
 

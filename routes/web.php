@@ -42,6 +42,7 @@ Route::group(['middleware' => 'auth'], function () {
     });
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
+    Route::get('/dashboard/notif-admin', [DashboardController::class, 'notif_admin']);
 
     Route::get('/user', [UserController::class, 'index'])->name('user');
     Route::get('/user/create', [UserController::class, 'create'])->name('user.create');

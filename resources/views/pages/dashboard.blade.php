@@ -1,5 +1,6 @@
 @extends('layouts.default')
 
+
 @section('content')
 <div class="row">
     <div id="box-alert" class="row">
@@ -103,10 +104,6 @@
 
         #blink {
             width: 200px;
-
-
-
-
             height: 200px;
             animation: blinking 1s infinite;
         }
