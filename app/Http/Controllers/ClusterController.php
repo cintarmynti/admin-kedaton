@@ -39,11 +39,15 @@ class ClusterController extends Controller
         }
     }
 
-    public function edit(){
-
+    public function edit($id){
+        $cluster = Cluster::find($id);
+        return response()->json($cluster);
     }
 
-    public function update(){
-
+    public function update(Request $request){
+        $cluster = Cluster::find($request->cluster_id);
+        $cluster->name = $request->name;
+        $cluster->save();
+        return redirect('/cluster');
     }
 }

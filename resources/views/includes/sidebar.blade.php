@@ -22,6 +22,10 @@
       <a href="{{route('properti')}}"><i data-feather="home"></i>Properti</a>
     </li>
 
+    <li class="{{ Request::is('cluster') ? 'active-page' : '' }}" class="active-page">
+        <a href="{{route('cluster')}}"><i data-feather="home"></i>Cluster</a>
+    </li>
+
     <li class="{{ Request::is('listing*') ? 'active-page' : '' }}">
       <a href="{{route('listing')}}"><i data-feather="book-open"></i>Listing</a>
     </li>
@@ -47,9 +51,7 @@
     {{-- <li class="{{ Request::is('layanan*') ? 'active-page' : '' }}" class="active-page">
     <a href="{{route('layanan')}}"><i data-feather="archive"></i>Pembayaran Layanan</a>
     </li> --}}
-    {{-- <li class="{{ Request::is('cluster') ? 'active-page' : '' }}" class="active-page">
-    <a href="{{route('cluster')}}"><i data-feather="home"></i>cluster</a>
-    </li> --}}
+
 
     <li class="{{ Request::is('blog*') ? 'active-page' : '' }}" class="active-page">
       <a href="{{route('blog')}}"><i data-feather="file"></i>Blog</a>

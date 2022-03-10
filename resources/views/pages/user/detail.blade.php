@@ -6,7 +6,7 @@
             <div class="row mb-3">
                 <div class="col-8">
                     <a class="btn btn-primary" href="{{ route('user.edit', $user->id) }}">Edit Profile</a>
-                    <span class="badge bg-danger">Belum Terdaftar Mobile</span>
+                    {{-- <span class="badge bg-danger">Belum Terdaftar Mobile</span> --}}
                 </div>
                 <div class="col-4">
 

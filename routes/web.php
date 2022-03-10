@@ -181,7 +181,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/cluster/store', [ClusterController::class, 'store'])->name('cluster.store');
     Route::delete('/cluster/delete/{id}', [ClusterController::class, 'delete'])->name('cluster.delete');
     Route::get('/cluster/edit/{id}', [ClusterController::class, 'edit'])->name('cluster.edit');
-    Route::put('/cluster/update/{id}', [ClusterController::class, 'update'])->name('cluster.update');
+    Route::patch('/cluster/update', [ClusterController::class, 'update'])->name('cluster.update');
     Route::get('/home', [HomeController::class, 'index'])->name('home');
 
     Route::get('/ipkl', [IPKLController::class, 'index'])->name('ipkl');
