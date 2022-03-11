@@ -81,7 +81,7 @@ class UserController extends Controller
             $cekNik->email = $request->email;
             $cekNik->snk = 1;
             $cekNik->save();
-            
+
             // dd($cekNik);
 
             $details = [
@@ -231,6 +231,10 @@ class UserController extends Controller
             $return['penghuni'] = $user;
             $return['properti'] = $properti;
             return ResponseFormatter::success('get user profile n properti!', $return);
+        }else {
+            $user = User::where('id', $request->id)->first(['nik', 'name', 'alamat', 'phone', 'email', 'photo_ktp', 'photo_identitas', 'status_penghuni']);
+            return ResponseFormatter::success('get user profile n properti!', $user);
+
         }
     }
 
@@ -292,9 +296,6 @@ class UserController extends Controller
         } else {
             return ResponseFormatter::failed('data anda sudah sama dengan database!', 401);
         }
-
-        // dd($user);
-
 
         $data_user = User::where('id', $request->id)->first(['id', 'email', 'phone']);
         if ($data_user) {

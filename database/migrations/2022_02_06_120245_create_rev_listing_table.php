@@ -23,7 +23,7 @@ class CreateRevListingTable extends Migration
             $table->string('name');
             $table->string('periode')->nullable();
             $table->string('image')->nullable();
-            $table->string('desc')->nullable();
+            $table->longText('desc')->nullable();
             $table->string('setelah_diskon')->nullable();
             $table->timestamps();
             //harga, diskon (opsional), status(sewa/dijual), properti_id

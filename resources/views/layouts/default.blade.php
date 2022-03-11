@@ -87,12 +87,14 @@
             cluster: $("#pusher_cluster").val(),
             encrypted: true
         });
+        let notif = pusher.subscribe('admin');
         let channel = pusher.subscribe('chat');
 
         channel.bind('send', function(data) {
             let alert_sound = document.getElementById("chat-alert-sound");
             alert_sound.play();
             // console.log('halo');
+            console.log(notif_panic);
 
             var text = `<div class="col-md-6 col-xl-3 mb-3">
             <div class="card card-panic">
@@ -105,15 +107,39 @@
             </div>
         </div>`
 
+        // var panicBtn = `  <a href="#">
+        //                     <div class="header-notif">
+        //                     <div class="notif-text">
+        //                         <p class="bold-notif-text" id="header-notif" style="text-transform:uppercase;">${data.notif_panic[0].heading}</p>
+        //                         <small id="jam-notif">${data.notif_panic[0].jam_hari}</small>
+        //                     </div>
+        //                     </div>
+        //                 </a>`;
+
             var alert = ` <div class="col-md-12 mb-3">
             Ingin menangani semuanya ?
             <b style="cursor: pointer;"><a class="text-danger" href="/panic-button/dashboard-all">Tangani Semua</a></b>
-        </div>`;
+             </div>`;
 
             $("#panic-button").append(text);
             $("#box-alert").html(alert);
-            // $("#tangani").append(alert);
-            // console.log(text);
+
+        })
+
+        notif.bind('kirim', function(data){
+            console.log(data);
+            // let sound = document.getElementById("");
+            // sound.play();
+
+            var text = `  <a href="#">
+                            <div class="header-notif">
+                            <div class="notif-text">
+                                <p class="bold-notif-text" id="header-notif" style="text-transform:uppercase;">${data.data.heading}</p>
+                                <small id="jam-notif">${data.data.jam_hari}</small>
+                            </div>
+                            </div>
+                        </a>`;
+            $('#notif').append(text);
         })
     </script>
 

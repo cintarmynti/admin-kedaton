@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Lib\PusherFactory;
 use App\Models\Complain;
 use App\Models\complain_image;
 use App\Models\Notifikasi;
@@ -52,6 +53,8 @@ class ComplainController extends Controller
         $notifikasi_admin ->desc = 'ada pengajuan complain baru';
         $notifikasi_admin ->save();
 
+        PusherFactory::make()->trigger('admin', 'kirim', ['data' => $notifikasi_admin]);
+
         return ResponseFormatter::success('berhasil mengirim complain!', $complain);
 
     }
@@ -70,6 +73,12 @@ class ComplainController extends Controller
         }
 
         $complain = Complain::where('user_id', $request->user_id)->get();
+        // foreach($complain as $com){
+            // foreach($complain->gambar as $gbr){
+            //     $complain->gambar_image = $gbr;
+            // }
+
+        // }
         return ResponseFormatter::success('berhasil mengembil semua complain!', $complain);
     }
 }

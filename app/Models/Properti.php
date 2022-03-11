@@ -36,10 +36,18 @@ class Properti extends Model
         'gambar'
     ];
 
+    protected $appends = ['telp'];
+
     public function getCoverUrlAttribute()
     {
         $properti = Properti_image::where('properti_id', $this->id)->first();
         return $properti  == null ? '' : $properti->image ;
+    }
+
+    public function getTelpAttribute()
+    {
+        $user = User::where('id', $this->pemilik_id)->first();
+        return $user == null ? '' : $user->phone;
     }
 
     public function penghuni()

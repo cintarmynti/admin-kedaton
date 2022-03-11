@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -19,6 +20,18 @@ class Tagihan extends Model
         'periode_pembayaran',
         'jumlah_pembayaran'
     ];
+
+    protected $appends = ['bulan_thn', 'tanggal'];
+
+    public function getBulanThnAttribute(){
+        $waktu = Carbon::parse($this->created_at)->format('F Y');
+        return $waktu;
+    }
+
+    public function getTanggalAttribute(){
+        $tanggal =  Carbon::parse($this->created_at)->format('D/m/Y');
+        return $tanggal;
+    }
 
     public function ipkl(){
         return $this->hasMany(IPKL::class, 'tagihan_id', 'id');

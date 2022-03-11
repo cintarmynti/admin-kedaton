@@ -29,4 +29,6 @@ class Listing extends Model
     {
         return $this->hasMany(PanicButton::class, 'id_rumah', 'id');
     }
+
+
 }

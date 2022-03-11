@@ -107,14 +107,33 @@ class IPKLController extends Controller
         if (!$request->user_id) {
             return ResponseFormatter::failed('tidak ada list tagihan pada user_id ini!', 404);
         }
-        $get_properti_user = Properti::where('pemilik_id', $request->user_id)->get();
 
-        foreach($get_properti_user as $p){
-            $tagihan['ipkl'] = Tagihan::with('type')->where('type_id', 1)->where('status', 1)->where('properti_id', $p->id)->get();
-            $tagihan['renovasi'] = Tagihan::with('type')->where('type_id', 2)->where('status', 1)->where('properti_id', $p->id)->get();
+        $pemilik =Properti::where('pemilik_id', $request->user_id)->first();
+        $penghuni = Properti::where('penghuni_id', $request->user_id)->first();
 
-             return ResponseFormatter::success('berhasil mendapat list tagihan yg belum dibayar!', $tagihan);
+        if($pemilik){
+            $get_properti_user = Properti::where('pemilik_id', $request->user_id)->get();
+
+            foreach($get_properti_user as $p){
+                $tagihan['ipkl'] = Tagihan::with('type')->where('type_id', 1)->where('status', 1)->where('properti_id', $p->id)->get(['id', 'type_id', 'jumlah_pembayaran']);
+                $tagihan['renovasi'] = Tagihan::with('type')->where('type_id', 2)->where('status', 1)->where('properti_id', $p->id)->get();
+
+                 return ResponseFormatter::success('berhasil mendapat list tagihan yg belum dibayar!', $tagihan);
+            }
+        }else if($penghuni){
+            $get_properti_user = Properti::where('penghuni_id', $request->user_id)->get(['id', 'type_id', 'jumlah_pembayaran']);
+
+            foreach($get_properti_user as $p){
+                $tagihan['ipkl'] = Tagihan::with('type')->where('type_id', 1)->where('status', 1)->where('properti_id', $p->id)->get();
+                $tagihan['renovasi'] = Tagihan::with('type')->where('type_id', 2)->where('status', 1)->where('properti_id', $p->id)->get();
+
+                 return ResponseFormatter::success('berhasil mendapat list tagihan yg belum dibayar!', $tagihan);
+            }
+        }else{
+            return ResponseFormatter::failed('user belum meiliki properti !', 404);
+
         }
+
 
     }
 

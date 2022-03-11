@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Lib\PusherFactory;
+use App\Models\Notifikasi;
 use App\Models\PanicButton;
 use App\Models\Properti;
 use App\Models\User;
@@ -19,6 +20,7 @@ class PanicButtonController extends Controller
         }
 
         $user = User::where('id', $request -> user_id)->first();
+        $properti = Properti::where('id', $request -> properti_id)->first();
         if($user == null){
             return ResponseFormatter::failed('tidak ada data user ini!', 401);
         }
@@ -27,6 +29,13 @@ class PanicButtonController extends Controller
         $panic -> id_rumah = $request -> properti_id;
         $panic -> status_keterangan = 'not checked';
         $panic -> save();
+
+        $notifikasi_admin = new Notifikasi();
+        $notifikasi_admin ->user_id = null;
+        $notifikasi_admin ->sisi_notifikasi = 'admin';
+        $notifikasi_admin -> heading = 'PANIC BUTTON BARU, PADA ALAMAT '.$properti->alamat .' OLEH '.$user->name;
+        $notifikasi_admin ->desc = 'ada panic button baru';
+        $notifikasi_admin ->save();
 
 
         $panic_button['panic'] = PanicButton::where('id', $panic->id)->first('id');
