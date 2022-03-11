@@ -59,9 +59,10 @@ Route::get('prop-detail', [PropertiController::class, 'detailprop']);
 
 Route::post('bayar-tagihan', [IPKLController::class, 'store']);
 
-Route::get('sudah-bayar', [IPKLController::class, 'ipklAcc']);
+Route::get('sudah-bayar', [IPKLController::class, 'sudahBayarIpkl']);
 Route::get('belom-bayar', [IPKLController::class, 'belomDibayar']);
 Route::get('list-tagihan', [IPKLController::class, 'listTagihan']);
+Route::get('detail-ipkl', [IPKLController::class, 'detailIpkl']);
 
 Route::get('sudah-bayar-tagihan', [IPKLController::class, 'sudahDibayar']);
 Route::get('total-bayar', [IPKLController::class, 'total_tagihan']);

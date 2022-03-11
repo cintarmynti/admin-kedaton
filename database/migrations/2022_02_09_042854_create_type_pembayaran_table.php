@@ -16,6 +16,7 @@ class CreateTypePembayaranTable extends Migration
         Schema::create('type_pembayaran', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->longText('desc')->nullable();
             $table->timestamps();
         });
     }

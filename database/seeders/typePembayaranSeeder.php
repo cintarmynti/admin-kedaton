@@ -16,12 +16,14 @@ class typePembayaranSeeder extends Seeder
     {
         type_pembayaran::create([
             // 'id' => 1,
-            'name' => 'IPKL'
+            'name' => 'IPKL',
+            'desc' => 'Bayar Tagihan IPKL'
         ]);
 
         type_pembayaran::create([
             // 'id' => 2,
-            'name' => 'renovasi'
+            'name' => 'renovasi',
+            'desc' => 'Bayar Renovasi'
         ]);
     }
 }

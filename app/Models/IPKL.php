@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -15,7 +16,7 @@ class IPKL extends Model
     //     return $this->hasOne(Listing::class, 'id', 'listing_id');
     // }
 
-    protected $appends = ['image_url'];
+    protected $appends = ['image_url', 'tanggal_dibayarkan'];
 
     public function getImageUrlAttribute($value)
     {
@@ -28,5 +29,14 @@ class IPKL extends Model
 
     public function user(){
         return $this->hasOne(User::class, 'id', 'user_id');
+    }
+
+    public function getTanggalDibayarkanAttribute(){
+        $tanggal =  Carbon::parse($this->created_at)->format('d F | h:i');
+        return $tanggal;
+    }
+
+    public function type(){
+        return $this->hasOne(type_pembayaran::class, 'id', 'type');
     }
 }

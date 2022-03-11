@@ -202,7 +202,7 @@ class IPKLController extends Controller
         return ResponseFormatter::failed('gagal mendapat data!', 404);
     }
 
-    public function ipklAcc(Request $request)
+    public function sudahBayarIpkl(Request $request)
     {
         if (!$request->user_id) {
             return ResponseFormatter::failed('tidak boleh ada field kosong!', 404);
@@ -219,12 +219,6 @@ class IPKLController extends Controller
             $unpay = Tagihan::with([
             'ipkl' => function ($ipkl) {
                 $ipkl->select('id', 'tagihan_id','periode_pembayaran', 'bank', 'bukti_tf', 'nominal');
-            },
-            'type' => function ($type) {
-                $type->select('id','name');
-            },
-            'cluster' => function ($cluster) {
-                $cluster->select('id','name');
             }])->where('properti_id', $cek_properti_pemilik->id)->where('status', 3)->where('type_id', 1)->get();
             if ($unpay->count() == 0) {
                 return ResponseFormatter::failed('tidak ada tagihan yang sudah di bayar!', 404);
@@ -235,12 +229,6 @@ class IPKLController extends Controller
             $unpay = Tagihan::with([
                 'ipkl' => function ($ipkl) {
                     $ipkl->select('id','periode_pembayaran', 'bank', 'bukti_tf', 'image_url');
-                },
-                'type' => function ($type) {
-                    $type->select('id','name');
-                },
-                'cluster' => function ($cluster) {
-                    $cluster->select('id','name');
                 }
             ])->where('properti_id', $cek_properti_penghuni->id)->where('type_id', 1)->where('status', 3)->get();
 
@@ -296,5 +284,13 @@ class IPKLController extends Controller
             array_push($riwayat, $total_income);
         }
         return ResponseFormatter::success('successful to get riwayat pembayaran!', $riwayat);
+    }
+
+    public function detailIpkl(Request $request){
+        if(!$request->tagihan_id){
+            return ResponseFormatter::failed('tidak boleh ada field kosong!', 404);
+        }
+        $tagihan = Tagihan::where('id', $request->tagihan_id)->with('ipkl')->first();
+        return ResponseFormatter::success('berhasil mendapat detail tagihan!', $tagihan);
     }
 }

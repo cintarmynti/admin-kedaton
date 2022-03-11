@@ -21,14 +21,14 @@ class Tagihan extends Model
         'jumlah_pembayaran'
     ];
 
-    protected $appends = ['bulan_thn', 'tanggal'];
+    protected $appends = ['bulan_thn', 'tanggal_ditagihkan'];
 
     public function getBulanThnAttribute(){
         $waktu = Carbon::parse($this->created_at)->format('F Y');
         return $waktu;
     }
 
-    public function getTanggalAttribute(){
+    public function getTanggalDitagihkanAttribute(){
         $tanggal =  Carbon::parse($this->created_at)->format('D/m/Y');
         return $tanggal;
     }
