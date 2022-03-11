@@ -13,7 +13,12 @@
                     <label for="">Judul</label>
                     <input type="text" value="{{old('judul', $blog->judul)}}" required class="form-control" name="judul" aria-label="First name">
                 </div>
-                <div class="col-md-6">
+                <div class="col">
+                    <label for="">Tambah Foto Deskripsi(opsional)</label>
+                    <input type="file" name="image[]" class="form-control" name="images[]" placeholder="address" multiple>
+
+                </div>
+                <div class="col">
                     <label for="">Foto Header</label>
                     <input type="file" id="filePhoto" class="form-control" name="photo_identitas" placeholder="photo identitas" aria-label="First name">
                     <img id="output" src="{{ asset('storage/' . $blog->gambar) }}" alt="{{ $blog->gambar }}" class="mt-2" style="max-height: 200px; max-width: 300px">

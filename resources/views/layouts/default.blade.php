@@ -144,7 +144,7 @@
                         var text = `  <a href="#">
                             <div class="header-notif">
                             <div class="notif-text">
-                                <p class="bold-notif-text" id="header-notif">${item.heading}</p>
+                                <p class="bold-notif-text" id="header-notif" style="text-transform:uppercase;">${item.heading}</p>
                                 <small id="jam-notif">${item.jam_hari}</small>
                             </div>
                             </div>

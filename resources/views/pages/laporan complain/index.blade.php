@@ -78,11 +78,15 @@
                 <td>{{  substr($com->catatan , 0, 10) }}</td>
                 <td>
                     @if ($com->status == 'diajukan')
-                    <span class="badge bg-warning btn"  data-complain_id="{{ $com->id }}"  data-bs-toggle="modal" data-bs-target="#exampleModal">Diajukan</span>
+                    <div class="d-flex">
+                        <span class="badge bg-warning btn"  data-complain_id="{{ $com->id }}"  data-bs-toggle="modal" data-bs-target="#exampleModal">Diajukan <i class="fa-solid fa-edit"></i></span>
+                        {{-- <i class="fa-solid fa-house"></i> --}}
+                    </div>
+
                     @elseif ($com->status == 'diproses')
-                    <span class="badge bg-primary btn"  data-complain_id="{{ $com->id }}"  data-bs-toggle="modal" data-bs-target="#exampleModal">Diproses</span>
+                    <span class="badge bg-primary btn"  data-complain_id="{{ $com->id }}"  data-bs-toggle="modal" data-bs-target="#exampleModal">Diproses <i class="fa-solid fa-edit"></i></span>
                     @elseif($com->status == 'selesai')
-                    <span class="badge bg-success btn"  data-complain_id="{{ $com->id }}"  data-bs-toggle="modal" data-bs-target="#exampleModal">Selesai</span>
+                    <span class="badge bg-success btn"  data-complain_id="{{ $com->id }}"  data-bs-toggle="modal" data-bs-target="#exampleModal">Selesai <i class="fa-solid fa-edit"></i></span>
                     @endif
                 </td>
                 <td>

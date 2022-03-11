@@ -15,4 +15,12 @@ class Complain extends Model
         return $this->hasOne(User::class, 'id', 'user_id');
     }
 
+    protected $appends = ['gambar'];
+
+    public  function getGambarAttribute()
+    {
+        $gambar = blog_image::where('blog_id', $this->id)->first();
+        return $gambar == null ? '' : url('/').'/storage/'.$gambar->image;
+    }
+
 }
