@@ -11,6 +11,7 @@ use App\Models\Properti_image;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
 use App\Http\Controllers\API\ResponseFormatter;
+use App\Lib\PusherFactory;
 use App\Mail\KedatonNewMember;
 use App\Models\Notifikasi;
 use App\Models\Pengajuan;
@@ -74,7 +75,12 @@ class PropertiController extends Controller
         $notifikasi_admin ->sisi_notifikasi = 'admin';
         $notifikasi_admin -> heading = 'PENGAJUAN PROPERTI OLEH PENGHUNI';
         $notifikasi_admin ->desc = 'ada pengajuan properti oleh penghuni';
+        $notifikasi_admin -> link = '/properti';
         $notifikasi_admin ->save();
+
+        $tampil_notif = Notifikasi::with('user')->where('user_id', $request->user_id)->first();
+
+        PusherFactory::make()->trigger('add_new_properti', 'new_prop', ['data' => $tampil_notif]);
 
         if ($pengajuan) {
             return ResponseFormatter::success('berhasil mengirimm pengajuan properti baru, mohon tunggu konfirmasi admin!', $pengajuan);
@@ -209,8 +215,10 @@ class PropertiController extends Controller
             $notifikasi_admin ->sisi_notifikasi = 'admin';
             $notifikasi_admin -> heading = 'PEMILIK MELAKUKAN PENGAJUAN UNTUK PENGHUNI PROPERTI';
             $notifikasi_admin ->desc = 'Ada pengajuan penghuni di properti';
+            $notifikasi_admin -> link = '/properti';
             $notifikasi_admin ->save();
 
+            PusherFactory::make()->trigger('add_penghuni_prop', 'penghuni_prop', ['data' => $notifikasi_admin]);
             return ResponseFormatter::success('berhasil menambah penghuni, menunggu konfirmasi!', [$cek_nik]);
         } else if ($cek_nik == null ) {
 
@@ -266,10 +274,12 @@ class PropertiController extends Controller
             $notifikasi_admin = new Notifikasi();
             $notifikasi_admin ->user_id = null;
             $notifikasi_admin ->sisi_notifikasi = 'admin';
-            $notifikasi_admin -> heading = 'PEMILIK MELAKUKAN PPENDAFTARAN PENGHUNI BARU UNTUK PENGHUNI PROPERTI';
+            $notifikasi_admin -> heading = 'PEMILIK MELAKUKAN PENDAFTARAN PENGHUNI BARU UNTUK PENGHUNI PROPERTI';
             $notifikasi_admin ->desc = 'lakukan pengecekan pada menu penghuni';
+            $notifikasi_admin ->link = '/user';
             $notifikasi_admin ->save();
 
+            PusherFactory::make()->trigger('add_penghuni_prop2', 'kirim_prop2', ['data' => $notifikasi_admin]);
 
             if ($user) {
                 return ResponseFormatter::success('berhasil menambah penghuni!', [$user_penghuni]);

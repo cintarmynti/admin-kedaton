@@ -20,4 +20,9 @@ class Notifikasi extends Model
         $jam = Carbon::parse($this->created_at)->format('h:i');
         return $jam;
     }
+
+    public function user(){
+        return $this->hasOne(User::class, 'id', 'user_id');
+
+    }
 }

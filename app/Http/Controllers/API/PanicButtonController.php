@@ -24,6 +24,11 @@ class PanicButtonController extends Controller
         if($user == null){
             return ResponseFormatter::failed('tidak ada data user ini!', 401);
         }
+
+        if($properti == null){
+            return ResponseFormatter::failed('tidak ada properti ini!', 401);
+
+        }
         $panic = new PanicButton();
         $panic -> user_id = $request -> user_id;
         $panic -> id_rumah = $request -> properti_id;
@@ -35,6 +40,7 @@ class PanicButtonController extends Controller
         $notifikasi_admin ->sisi_notifikasi = 'admin';
         $notifikasi_admin -> heading = 'PANIC BUTTON BARU, PADA ALAMAT '.$properti->alamat .' OLEH '.$user->name;
         $notifikasi_admin ->desc = 'ada panic button baru';
+        $notifikasi_admin -> link = '/panic-button';
         $notifikasi_admin ->save();
 
 

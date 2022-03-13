@@ -38,7 +38,7 @@ class DashboardController extends Controller
     }
 
     public function notif_admin(){
-        $notif['jumlah'] = Notifikasi::where('sisi_notifikasi', 'admin')->get()->count();
+        $notif['jumlah'] = Notifikasi::where('sisi_notifikasi', 'admin')->where('status_dibaca', 1)->get()->count();
         $notif['data'] = Notifikasi::where('sisi_notifikasi', 'admin')->orderBy('created_at', 'desc')->get();
         return response()->json($notif);
     }

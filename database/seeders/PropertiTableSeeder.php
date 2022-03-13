@@ -15,12 +15,12 @@ class PropertiTableSeeder extends Seeder
     public function run()
     {
         Properti::create([
-           'pemilik_id' => 2,
+           'pemilik_id' => null,
            'cluster_id' => 1,
            'no_rumah' => 21,
            'no_listrik' => '38432874923',
            'no_pam_bsd' => '47883749',
-           'penghuni_id' => 2,
+           'penghuni_id' => null,
            'alamat' => 'medokan ayu',
             'RT' => '003',
             'RW' => '006',
@@ -39,12 +39,12 @@ class PropertiTableSeeder extends Seeder
         ]);
 
         Properti::create([
-            'pemilik_id' => 2,
+            'pemilik_id' => null,
             'cluster_id' => 1,
             'no_rumah' => 17,
             'no_listrik' => '437934027',
             'no_pam_bsd' => '029887323',
-            'penghuni_id' => 2,
+            'penghuni_id' => null,
             'alamat' => 'semampir',
              'RT' => '021',
              'RW' => '016',

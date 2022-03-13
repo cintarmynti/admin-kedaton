@@ -12,7 +12,7 @@
                         <div class="form-group">
                             <label for="formGroupExampleInput" class="form-label">Pilih Cluster</label>
 
-                        <select id="category" class="form-control select2" name="cluster_id"
+                        <select id="category" required class="form-control select2" name="cluster_id"
                             aria-label="Default select example">
                             <option disabled selected="">Pilih Cluster</option>
                             @foreach ($cluster as $item)

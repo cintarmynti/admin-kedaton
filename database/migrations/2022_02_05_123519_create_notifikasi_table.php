@@ -19,6 +19,8 @@ class CreateNotifikasiTable extends Migration
             $table->string('sisi_notifikasi');
             $table->string('heading');
             $table->string('desc');
+            $table->string('link')->nullable();
+            $table->string('status_dibaca')->default(1);
             // $table->string('type');
             // $table->string('message')->nullable();
             $table->timestamps();

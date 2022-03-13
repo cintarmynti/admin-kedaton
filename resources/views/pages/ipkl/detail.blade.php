@@ -34,7 +34,7 @@
                             {{-- <td>{{ $i->user_id }}</td> --}}
                             <td>{{ $i->created_at }}</td>
                             <td>{{ $i->bank }}</td>
-                            <td><img src="{{ url('bukti_tf/' . $i->bukti_tf) }}" width="100" alt=""></td>
+                            <td><img src="{{ asset('storage/' . $i->bukti_tf) }}" width="100" alt=""></td>
                             <td>Rp.{{ number_format($i->nominal )}}</td>
 
                             <td><span

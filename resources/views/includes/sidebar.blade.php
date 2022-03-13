@@ -19,7 +19,7 @@
     </li> --}}
 
     <li class="{{ Request::is('cluster') ? 'active-page' : '' }}" class="active-page">
-        <a href="{{route('cluster')}}"><i data-feather="home"></i>Cluster</a>
+        <a href="{{route('cluster')}}"><i data-feather="file-plus"></i>Cluster</a>
     </li>
 
     <li class="{{ Request::is('properti*') ? 'active-page' : '' }}">

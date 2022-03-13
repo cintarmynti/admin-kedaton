@@ -90,6 +90,7 @@ class IPKLController extends Controller
             $notifikasi_admin ->sisi_notifikasi = 'admin';
             $notifikasi_admin -> heading = 'PEMBAYARAN IPKL BARU';
             $notifikasi_admin ->desc = 'ada penghuni yang melakukan pembayaran';
+            $notifikasi_admin -> link = '/ipkl';
             $notifikasi_admin ->save();
 
             // DB::commit();

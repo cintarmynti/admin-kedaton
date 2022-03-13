@@ -51,6 +51,7 @@ class ComplainController extends Controller
         $notifikasi_admin ->sisi_notifikasi = 'admin';
         $notifikasi_admin -> heading = 'PENGAJUAN COMPLAIN BARU, PADA ALAMAT '.$request->alamat .' OLEH '. $request->nama ;
         $notifikasi_admin ->desc = 'ada pengajuan complain baru';
+        $notifikasi_admin -> link = '/complain';
         $notifikasi_admin ->save();
 
         PusherFactory::make()->trigger('admin', 'kirim', ['data' => $notifikasi_admin]);

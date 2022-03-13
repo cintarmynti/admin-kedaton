@@ -232,7 +232,7 @@ class UserController extends Controller
             $return['properti'] = $properti;
             return ResponseFormatter::success('get user profile n properti!', $return);
         }else {
-            $user = User::where('id', $request->id)->first(['nik', 'name', 'alamat', 'phone', 'email', 'photo_ktp', 'photo_identitas', 'status_penghuni']);
+            $user= User::where('id', $request->id)->first(['nik', 'name', 'alamat', 'phone', 'email', 'photo_ktp', 'photo_identitas', 'status_penghuni']);
             return ResponseFormatter::success('get user profile n properti!', $user);
 
         }
