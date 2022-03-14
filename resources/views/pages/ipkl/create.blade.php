@@ -12,7 +12,7 @@
                     <div class="col">
 
                         <label for="">Pilih Cluster</label>
-                        <select class="form-select" name="cluster_id" id="cluster">
+                        <select class="form-select" required name="cluster_id" id="cluster">
                             <option hidden>Pilih Cluster</option>
                             @foreach ($cluster as $item)
                                 <option value="{{ $item->id }}">{{ $item->name }}</option>
@@ -22,7 +22,7 @@
 
                     <div class="col">
                         <label for="no_rmh" class="form-label">Pilih No Rumah</label>
-                        <select class="form-select" name="properti_id" id="no_rmh">
+                        <select class="form-select" required name="properti_id" id="no_rmh">
                             <option value="" selected disabled>Pilih No Rumah</option>
                         </select>
                     </div>

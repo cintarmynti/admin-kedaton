@@ -44,7 +44,7 @@ class IPKLController extends Controller
                 $image = $request->bukti_tf;  // your base64 encoded
                 $image = str_replace('data:image/png;base64,', '', $image);
                 $image = str_replace(' ', '+', $image);
-                $imageName = Str::random(10) . '.png';
+                $imageName = 'bukti_tf/'.Str::random(10) . '.png';
 
                 Storage::disk('public')->put($imageName, base64_decode($image));
             }
@@ -69,7 +69,7 @@ class IPKLController extends Controller
                         'status' => 1,
                         'periode_pembayaran' => Carbon::now(),
                         'type' => $tagihan->type_id,
-                        'bukti_tf' => 'bukti_tf/' . $imageName
+                        'bukti_tf' =>$imageName
                     ]);
 
                     Tagihan::where('id', $tagihan->id)->update([
