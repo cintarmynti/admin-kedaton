@@ -157,13 +157,13 @@ Route::group(['middleware' => 'auth'], function () {
     Route::patch('/complain/status', [LaporanComplainController::class, 'updateStatus'])->name('complain.status');
 
     Route::get('/panic-button', [LaporanPanicButtonController::class, 'index'])->name('panic');
-    Route::patch('/panic-button/status/{id}', [LaporanPanicButtonController::class, 'status'])->name('panic.status');
+    Route::patch('/panic-button/status', [LaporanPanicButtonController::class, 'status'])->name('panic.status');
     Route::get('/panic-button/export_excel', [LaporanPanicButtonController::class, 'export_excel']);
     Route::get('/panic-button/detail/{id}', [LaporanPanicButtonController::class, 'get_detail']);
     Route::get('/panic-button/dashboard/{id}', [LaporanPanicButtonController::class, 'dashboard_update']);
     Route::get('/panic-button/dashboard-all', [LaporanPanicButtonController::class, 'dashboard_all']);
     Route::get('/panic-button/edit/{id}', [LaporanPanicButtonController::class, 'edit']);
-    Route::patch('/panic-button/update/{id}', [LaporanPanicButtonController::class, 'update']);
+    Route::get('/panic-button/belum_dicek', [LaporanPanicButtonController::class, 'belum_dicek']);
 
 
     Route::get('/iuran', [IuranController::class, 'index'])->name('iuran');

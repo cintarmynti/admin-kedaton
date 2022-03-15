@@ -26,12 +26,12 @@ class IPKLController extends Controller
         $query = Tagihan::with('nomer', 'cluster')->orderby('created_at', 'desc');
         // dd($start_date);
 
-        if($request -> start_date){
-            $query->whereBetween('periode_pembayaran',[$start_date,$end_date]);
+        if ($request->start_date) {
+            $query->whereBetween('periode_pembayaran', [$start_date, $end_date]);
         }
 
-        if($request -> status){
-            $query -> where('status', $request->status);
+        if ($request->status) {
+            $query->where('status', $request->status);
         }
 
         return view('pages.ipkl.index', ['ipkl' => $query->get()]);
@@ -41,8 +41,8 @@ class IPKLController extends Controller
     {
         $listing = Properti::where('cluster_id', $id)->get();
         $html   = '';
-        foreach($listing as $data){
-            $html .= '<option value="'.$data['id'].'">'.$data['no_rumah'].'</option>';
+        foreach ($listing as $data) {
+            $html .= '<option value="' . $data['id'] . '">' . $data['no_rumah'] . '</option>';
         }
         echo $html;
         // return response()->json($Listing);
@@ -57,21 +57,22 @@ class IPKLController extends Controller
         // return response()->json($Listing);
     }
 
-    public function export_excel(Request $request){
-        if(!$request->start_date){
+    public function export_excel(Request $request)
+    {
+        if (!$request->start_date) {
             $from = '';
-        }else{
+        } else {
             $from = Carbon::parse($request->start_date);
         }
 
-        if(!$request->end_date){
+        if (!$request->end_date) {
             $to = '';
-        }else{
+        } else {
             $to = Carbon::parse($request->end_date);
         }
         $status = $request->status;
 
-        return Excel::download(new TagihanExport($from, $to, $status), 'Tagihan'.$from.'-'.$to.'.xlsx');
+        return Excel::download(new TagihanExport($from, $to, $status), 'Tagihan' . $from . '-' . $to . '.xlsx');
     }
 
     public function create()
@@ -83,13 +84,13 @@ class IPKLController extends Controller
 
     public function store(Request $request)
     {
-        $cekTagihan = Tagihan::whereMonth('periode_pembayaran', Carbon::parse($request->periode_pembayaran))->first();
-        if($cekTagihan != null){
+        $cekTagihan = Tagihan::whereMonth('periode_pembayaran', Carbon::parse($request->periode_pembayaran))->whereYear('periode_pembayaran', Carbon::parse($request->periode_pembayaran))->where('properti_id', $request->properti_id)->first();
+        if ($cekTagihan != null) {
             return redirect()->back()->withErrors(['msg' => 'tagihan properti untuk periode tersebut sudah ada']);
         }
         $ipkl = new Tagihan();
-        $ipkl-> cluster_id = $request->cluster_id;
-        $ipkl-> properti_id = $request->properti_id;
+        $ipkl->cluster_id = $request->cluster_id;
+        $ipkl->properti_id = $request->properti_id;
         $ipkl->periode_pembayaran = $request->periode_pembayaran;
         $ipkl->jumlah_pembayaran = $request->jumlah_pembayaran;
         $ipkl->status = 1;
@@ -98,7 +99,7 @@ class IPKLController extends Controller
 
         $properti = Properti::where('id', $request->properti_id)->first();
         // dd($properti->penghuni_id);
-        if($properti->pemilik_id != null){
+        if ($properti->pemilik_id != null) {
             $notifikasi = new Notifikasi();
             $notifikasi->user_id = $properti->pemilik_id;
             $notifikasi->sisi_notifikasi  = 'pengguna';
@@ -107,7 +108,7 @@ class IPKLController extends Controller
             $notifikasi->save();
         }
 
-        if($properti->penghuni_id != null){
+        if ($properti->penghuni_id != null) {
             $notifikasi = new Notifikasi();
             $notifikasi->user_id = $properti->penghuni_id;
             $notifikasi->sisi_notifikasi  = 'pengguna';
@@ -117,20 +118,25 @@ class IPKLController extends Controller
         }
 
         return redirect('/ipkl');
-
     }
 
     public function generate_tagihan()
     {
         $sekarang = Carbon::now()->format('d');
         // dd($sekarang);
-        if($sekarang == '25'){
+        if ($sekarang == '15') {
             $cekTagihan = Tagihan::whereMonth('created_at', date('m'))->whereYear('created_at', date('Y'))->get();
+
             // dd(count($cekTagihan));
-            if(count($cekTagihan) == 0){
+            if (count($cekTagihan) == 0) {
                 $properti = Properti::whereNotNull('pemilik_id')->get();
 
-                    foreach($properti as $p){
+                foreach ($properti as $p) {
+                    $cekTagihanproperti = Tagihan::whereMonth('created_at', date('m'))->whereYear('created_at', date('Y'))->where('properti_id', $p->id)->first();
+
+                    // dd($cekTagihanproperti);
+
+                    if ($cekTagihanproperti == null) {
                         $tagihan = new Tagihan();
                         $tagihan->cluster_id = $p->cluster_id;
                         $tagihan->properti_id = $p->id;
@@ -140,7 +146,7 @@ class IPKLController extends Controller
                         $tagihan->status = 1;
                         $tagihan->save();
 
-                        if($p->pemilik_id != null){
+                        if ($p->pemilik_id != null) {
                             $notifikasi = new Notifikasi();
                             $notifikasi->user_id = $p->pemilik_id;
                             $notifikasi->sisi_notifikasi  = 'pengguna';
@@ -149,7 +155,7 @@ class IPKLController extends Controller
                             $notifikasi->save();
                         }
 
-                        if($p->penghuni_id != null){
+                        if ($p->penghuni_id != null) {
                             $notifikasi = new Notifikasi();
                             $notifikasi->user_id = $p->penghuni_id;
                             $notifikasi->sisi_notifikasi  = 'pengguna';
@@ -158,7 +164,8 @@ class IPKLController extends Controller
                             $notifikasi->save();
                         }
                     }
-            }else{
+                }
+            } else {
                 dd('tidak ada tagihan');
             }
         }
@@ -173,7 +180,7 @@ class IPKLController extends Controller
     public function update(Request $request, $id)
     {
         $ipkl = IPKL::findOrFail($id);
-        $ipkl-> rumah_id = $request->rumah_id;
+        $ipkl->rumah_id = $request->rumah_id;
         $ipkl->metode_pembayaran = $request->metode_pembayaran;
         $ipkl->periode_pembayaran = $request->periode_pembayaran;
         $ipkl->jumlah_pembayaran = $request->jumlah_pembayaran;
@@ -188,7 +195,7 @@ class IPKLController extends Controller
         $data = IPKL::findOrFail($id);
         // dd($status_id);
         $status_sekarang = $data->status;
-        if($status_sekarang == 1){
+        if ($status_sekarang == 1) {
             IPKL::where('id', $id)->update([
                 'status' => 2
             ]);
@@ -203,14 +210,15 @@ class IPKLController extends Controller
         return redirect('/ipkl');
     }
 
-    public function get_riwayat($id){
+    public function get_riwayat($id)
+    {
 
         $cancel = IPKL::findOrFail($id);
         return response()->json($cancel);
-     }
+    }
 
-     public function create_riwayat(Request $request)
-     {
+    public function create_riwayat(Request $request)
+    {
         // dd($request->all());
 
         $notifikasi = new Notifikasi();
@@ -222,11 +230,11 @@ class IPKLController extends Controller
 
         // Alert::success('Data berhasil disimpan');
 
-        $data = IPKL::findOrFail($request-> pembayaran_id);
+        $data = IPKL::findOrFail($request->pembayaran_id);
         // dd($status_id);
         $status_sekarang = $data->status;
-        if($status_sekarang == 1){
-            IPKL::where('id', $request-> pembayaran_id)->update([
+        if ($status_sekarang == 1) {
+            IPKL::where('id', $request->pembayaran_id)->update([
                 'status' => 2
             ]);
             Tagihan::where('id', $request->tagihan_id)->update([
@@ -235,10 +243,11 @@ class IPKLController extends Controller
         }
         return redirect('/ipkl');
         // return redirect('/ipkl');
-     }
+    }
 
-     public function pembayar($id){
+    public function pembayar($id)
+    {
         $ipkl = IPKL::with('user')->where('tagihan_id', $id)->get();
         return view('pages.ipkl.detail', ['ipkl' => $ipkl]);
-     }
+    }
 }

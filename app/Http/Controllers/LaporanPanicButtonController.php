@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Exports\PanicButtonExport;
 use App\Models\Notifikasi;
 use App\Models\PanicButton;
+use App\Models\Properti;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
@@ -30,8 +31,11 @@ class LaporanPanicButtonController extends Controller
         return view('pages.laporan panic button.index', ['panic' => $query->get()]);
     }
 
-    public function update($id){
-
+    public function belum_dicek(){
+        $panic = PanicButton::with('properti.cluster')->where('status_keterangan', 'not checked')->groupBy('id_rumah')->get();
+        // dd($panic);
+        // $panic['properti'] = Properti::with('cluster')->where('id', $panic -> id_rumah)->first(['id', 'no_rumah', 'cluster_id']);
+        return response()->json($panic);
     }
 
     public function dashboard_update($id)
@@ -82,7 +86,7 @@ class LaporanPanicButtonController extends Controller
 		return Excel::download(new PanicButtonExport($from, $to, $status), 'panic-button'.$from.'-'.$to.'.xlsx');
 	}
 
-    public function status($id, Request $request){
+    public function status(Request $request){
         $data = PanicButton::where('id', $request->id)->first();
         // dd($data)
         // dd($status_id);
