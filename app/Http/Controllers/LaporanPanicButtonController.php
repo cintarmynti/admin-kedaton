@@ -30,6 +30,10 @@ class LaporanPanicButtonController extends Controller
         return view('pages.laporan panic button.index', ['panic' => $query->get()]);
     }
 
+    public function update($id){
+
+    }
+
     public function dashboard_update($id)
     {
         $panic = PanicButton::where('id', $id)->update([
@@ -75,7 +79,7 @@ class LaporanPanicButtonController extends Controller
             $to = Carbon::parse($request->end_date);
         }
         $status = $request->status;
-		return Excel::download(new PanicButtonExport($from, $to, $status), 'panic-button.xlsx');
+		return Excel::download(new PanicButtonExport($from, $to, $status), 'panic-button'.$from.'-'.$to.'.xlsx');
 	}
 
     public function status($id, Request $request){
@@ -90,7 +94,7 @@ class LaporanPanicButtonController extends Controller
 
 
 
-        return redirect('/panic-button');
+        return redirect()->back();
     }
 
     public function delete($id){

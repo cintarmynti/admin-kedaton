@@ -53,7 +53,7 @@ class LaporanComplainController extends Controller
             $to = Carbon::parse($request->end_date);
         }
         $status = $request->status;
-		return Excel::download(new ComplainExport($from, $to, $status), 'complain.xlsx');
+		return Excel::download(new ComplainExport($from, $to, $status), 'complain'.$from.'-'.$to.'.xlsx');
 	}
 
     public function store(Request $request){
@@ -206,7 +206,7 @@ class LaporanComplainController extends Controller
          }
 
 
-        return redirect('/complain');
+        return redirect()->back();
     }
 
     public function complainDetail($id){

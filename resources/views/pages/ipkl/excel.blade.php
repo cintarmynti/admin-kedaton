@@ -26,7 +26,7 @@
         </tr>
     @foreach($pembayaran as $index => $t)
         <tr class="body">
-            <td style="border: 1px solid #000000; text-align: center;">{{ $index }}</td>
+            <td style="border: 1px solid #000000; text-align: center;">{{ $index+1 }}</td>
             <td style="border: 1px solid #000000">{{ $t->cluster->name }}</td>
             <td style="border: 1px solid #000000; text-align: left;">{{ $t->nomer->no_rumah }}</td>
             <td style="border: 1px solid #000000" colspan="2">{{ $t->periode_pembayaran }}</td>

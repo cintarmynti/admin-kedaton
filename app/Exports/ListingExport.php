@@ -3,6 +3,7 @@
 namespace App\Exports;
 
 use App\Models\rev_listing;
+use Carbon\Carbon;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithHeadings;
@@ -20,26 +21,28 @@ class ListingExport implements FromCollection, WithHeadings, ShouldAutoSize, Wit
 
     public function map($panic) : array {
         return [
-            $panic->id,
+            $panic->name,
+            // $panic->id,
             $panic->diskon,
             $panic->status,
             $panic->harga,
-            $panic->name,
             $panic->setelah_diskon,
-            $panic->properti->no_rumah
+            $panic->properti->no_rumah,
+            Carbon::parse($panic->created_at)->format('d m Y')
         ] ;
     }
 
     public function headings(): array
     {
         return [
-            'id',
+            'nama',
+            // 'id',
             'diskon',
             'status',
             'harga',
-            'nama',
             'harga diskon',
-            'no rumah'
+            'no rumah',
+            'tanggal'
         ];
     }
 }

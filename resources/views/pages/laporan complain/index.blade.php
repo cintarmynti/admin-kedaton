@@ -191,7 +191,7 @@
             url: "/complain/detail/" + id,
             dataType: 'json',
             success: function(response) {
-                console.log(response);
+                // console.log(response);
 
                 $("#stat").val(response.status)
                 $('#id_complain').val(response.id);

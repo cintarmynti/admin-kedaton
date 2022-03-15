@@ -71,7 +71,7 @@ class IPKLController extends Controller
         }
         $status = $request->status;
 
-        return Excel::download(new TagihanExport($from, $to, $status), 'Tagihan.xlsx');
+        return Excel::download(new TagihanExport($from, $to, $status), 'Tagihan'.$from.'-'.$to.'.xlsx');
     }
 
     public function create()
@@ -96,14 +96,35 @@ class IPKLController extends Controller
         $ipkl->type_id = 1;
         $ipkl->save();
 
+        $properti = Properti::where('id', $request->properti_id)->first();
+        // dd($properti->penghuni_id);
+        if($properti->pemilik_id != null){
+            $notifikasi = new Notifikasi();
+            $notifikasi->user_id = $properti->pemilik_id;
+            $notifikasi->sisi_notifikasi  = 'pengguna';
+            $notifikasi->heading = 'ADA PEMBAYARAN IPKL BARU';
+            $notifikasi->desc = 'sudah ada tagihan pembayaran ipkl baru, jangan lupa membayar ya';
+            $notifikasi->save();
+        }
+
+        if($properti->penghuni_id != null){
+            $notifikasi = new Notifikasi();
+            $notifikasi->user_id = $properti->penghuni_id;
+            $notifikasi->sisi_notifikasi  = 'pengguna';
+            $notifikasi->heading = 'ADA PEMBAYARAN IPKL BARU';
+            $notifikasi->desc = 'sudah ada tagihan pembayaran ipkl baru, jangan lupa membayar ya';
+            $notifikasi->save();
+        }
+
         return redirect('/ipkl');
+
     }
 
     public function generate_tagihan()
     {
         $sekarang = Carbon::now()->format('d');
         // dd($sekarang);
-        if($sekarang == '07'){
+        if($sekarang == '25'){
             $cekTagihan = Tagihan::whereMonth('created_at', date('m'))->whereYear('created_at', date('Y'))->get();
             // dd(count($cekTagihan));
             if(count($cekTagihan) == 0){
@@ -118,6 +139,24 @@ class IPKLController extends Controller
                         $tagihan->type_id = 1;
                         $tagihan->status = 1;
                         $tagihan->save();
+
+                        if($p->pemilik_id != null){
+                            $notifikasi = new Notifikasi();
+                            $notifikasi->user_id = $p->pemilik_id;
+                            $notifikasi->sisi_notifikasi  = 'pengguna';
+                            $notifikasi->heading = 'ADA PEMBAYARAN IPKL BARU';
+                            $notifikasi->desc = 'sudah ada tagihan pembayaran ipkl baru, jangan lupa membayar ya';
+                            $notifikasi->save();
+                        }
+
+                        if($p->penghuni_id != null){
+                            $notifikasi = new Notifikasi();
+                            $notifikasi->user_id = $p->penghuni_id;
+                            $notifikasi->sisi_notifikasi  = 'pengguna';
+                            $notifikasi->heading = 'ADA PEMBAYARAN IPKL BARU';
+                            $notifikasi->desc = 'sudah ada tagihan pembayaran ipkl baru, jangan lupa membayar ya';
+                            $notifikasi->save();
+                        }
                     }
             }else{
                 dd('tidak ada tagihan');

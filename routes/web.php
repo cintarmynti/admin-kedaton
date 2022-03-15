@@ -163,7 +163,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/panic-button/dashboard/{id}', [LaporanPanicButtonController::class, 'dashboard_update']);
     Route::get('/panic-button/dashboard-all', [LaporanPanicButtonController::class, 'dashboard_all']);
     Route::get('/panic-button/edit/{id}', [LaporanPanicButtonController::class, 'edit']);
-
+    Route::patch('/panic-button/update/{id}', [LaporanPanicButtonController::class, 'update']);
 
 
     Route::get('/iuran', [IuranController::class, 'index'])->name('iuran');

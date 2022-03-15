@@ -38,7 +38,7 @@
 
                     </td>
 
-                    <td>Rp.{{ number_format($p->setelah_diskon )}} {{$p->periode ? "/ " . $p->periode . " Tahun" : "-" }}</td>
+                    <td>Rp.{{ $p->setelah_diskon }} {{$p->periode ? "/ " . $p->periode . " Tahun" : "-" }}</td>
                     <td><a href="{{ route('listing.detail', $p->properti_id) }}">lihat detail</a></td>
                     <td class="d-flex">
                         <a href="{{ route('listing.edit', $p->id) }}" class="btn btn-warning fa-regular fa-pen-to-square" data-toggle="tooltip" data-placement="top" title="edit listing"></a>

@@ -46,9 +46,9 @@
             <thead>
                 <tr>
                     <th scope="col">id</th>
+                    <th scope="col">rumah</th>
                     <th scope="col">cluster</th>
                     {{-- listing id --}}
-                    <th scope="col">rumah</th>
                     {{-- User id --}}
                     <th scope="col">user</th>
                     <th scope="col">keterangan</th>
@@ -265,9 +265,11 @@
     })
 </script>
 <script>
-    var APP_URL = {
-        !!json_encode(url('/')) !!
-    }
+    // var APP_URL = {
+    //     !!json_encode(url('/')) !!
+    // }
+    var APP_URL = {!! json_encode(url('/')) !!}
+
     // console.log(APP_URL);
 
     function excel() {
@@ -284,3 +286,6 @@
     }
 </script>
 @endpush
+
+
+

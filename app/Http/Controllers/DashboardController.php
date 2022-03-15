@@ -27,8 +27,10 @@ class DashboardController extends Controller
         $panic = DB::table('panic_button')
         ->join('properti', 'properti.id', '=', 'panic_button.id_rumah')
         ->join('cluster', 'cluster.id', '=', 'properti.cluster_id')
-        ->select('panic_button.id', 'name', 'no_rumah')
-        ->where('status_keterangan', 'not checked')->get();
+        ->select('panic_button.id', 'name', 'no_rumah', 'id_rumah')
+        ->groupBy('id_rumah')
+        ->where('status_keterangan', 'not checked')
+        ->get();
         // dd($panic);
         // dd($customer);
 

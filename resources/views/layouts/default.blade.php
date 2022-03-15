@@ -97,8 +97,19 @@
         channel.bind('send', function(data) {
             let alert_sound = document.getElementById("chat-alert-sound");
             alert_sound.play();
+            // console.log(data);
             // console.log('halo');
-            console.log(notif_panic);
+            // console.log(notif_panic);
+
+            // $.ajax({
+            //     type: "method",
+            //     url: "url",
+            //     data: "data",
+            //     dataType: "dataType",
+            //     success: function (response) {
+
+            //     }
+            // });
 
             var text = `<div class="col-md-6 col-xl-3 mb-3">
             <div class="card card-panic">
@@ -110,14 +121,15 @@
                 </div>
             </div>
         </div>`
+        $("#panic-button").append(text);
 
-            var alert = ` <div class="col-md-12 mb-3">
-            Ingin menangani semuanya ?
-            <b style="cursor: pointer;"><a class="text-danger" href="/panic-button/dashboard-all">Tangani Semua</a></b>
-             </div>`;
 
-            $("#panic-button").append(text);
-            $("#box-alert").html(alert);
+            // var alert = ` <div class="col-md-12 mb-3">
+            // Ingin menangani semuanya ?
+            // <b style="cursor: pointer;"><a class="text-danger" href="/panic-button/dashboard-all">Tangani Semua</a></b>
+            //  </div>`;
+
+            // $("#box-alert").html(alert);
 
         })
 
@@ -145,7 +157,6 @@
         //add penghuni prop
         addPenghuni.bind('penghuni_prop', function(data){
             getNotifAll()
-;
         })
     </script>
 
@@ -184,7 +195,7 @@
                         // console.log(item.heading);
                         if(item.status_dibaca == 2){
                             text += `<a href="/notif/${item.id}">
-                            <div class="header-notif" style="background-color:#f3f6f9;">
+                            <div class="header-notif" >
                             <div class="notif-text" >
                                 <p class="bold-notif-text" id="header-notif" style="text-transform:uppercase;">${item.heading}</p>
                                 <small id="jam-notif">${item.jam_hari}</small>
@@ -193,7 +204,7 @@
                         </a>`;
                         }else{
                             text += `<a href="/notif/${item.id}">
-                            <div class="header-notif">
+                            <div class="header-notif" style="background-color:#f3f6f9;">
                             <div class="notif-text">
                                 <p class="bold-notif-text" id="header-notif" style="text-transform:uppercase;">${item.heading}</p>
                                 <small id="jam-notif">${item.jam_hari}</small>

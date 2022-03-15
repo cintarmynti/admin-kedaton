@@ -16,7 +16,7 @@ class ResponseFormatter extends Controller
     ];
 
 
- 
+
 
     public static function success($message, $data = [])
     {
@@ -33,7 +33,7 @@ class ResponseFormatter extends Controller
         self::$response['meta']['status'] = 'failed!';
         self::$response['meta']['code'] = $code;
         self::$response['meta']['message'] = $message;
-        self::$response['errors'] = $errors;
+        self::$response['data'] = $errors;
 
         return response()->json(self::$response);
     }

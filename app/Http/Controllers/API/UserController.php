@@ -200,7 +200,7 @@ class UserController extends Controller
 
             // dd($properti);
             // $return['image_properti'] =
-            $return['pemilik'] = $user;
+            $return['user'] = $user;
             $return['properti'] = $properti;
             // $return['properti']['image'] =
             return ResponseFormatter::success('get user profile n properti!', $return);
@@ -228,7 +228,7 @@ class UserController extends Controller
             }
 
             // dd($properti);
-            $return['penghuni'] = $user;
+            $return['user'] = $user;
             $return['properti'] = $properti;
             return ResponseFormatter::success('get user profile n properti!', $return);
         }else {

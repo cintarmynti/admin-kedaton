@@ -2,7 +2,9 @@
 
 namespace App\Exports;
 
+use App\Models\Cluster;
 use App\Models\PanicButton;
+use App\Models\Properti;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithHeadings;
@@ -40,8 +42,11 @@ class PanicButtonExport implements FromCollection, WithHeadings, ShouldAutoSize,
 
 
     public function map($panic) : array {
+        $properti = Properti::where('id', $panic->id_rumah)->first();
+        $cluster = Cluster::where('id', $properti->cluster_id)->first();
         return [
-            $panic->id,
+            $cluster->name,
+            $properti->no_rumah,
             $panic->user->name,
             $panic->keterangan,
             $panic->status_keterangan,
@@ -51,7 +56,8 @@ class PanicButtonExport implements FromCollection, WithHeadings, ShouldAutoSize,
     public function headings(): array
     {
         return [
-            'id',
+            'cluster',
+            'no rumah',
             'nama user',
             'keterangan',
             'status_keterangan',

@@ -11,7 +11,7 @@
                 <div class="col-md-3">
                     <div class="form-group">
                         <label for="" class="form-label">NIK</label>
-                        <input value="" type="number" required class="form-control" name="nik">
+                        <input value="" type="number" id="nik" maxlength="16" required class="form-control" name="nik">
                     </div>
                 </div>
                 <div class="col-md-3">
@@ -182,6 +182,29 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js" defer></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
 <script type="text/javascript">
+
+
+        $('#nik').on('keyup', function() {
+            limitText(this, 16)
+        });
+
+        function limitText(field, maxChar){
+            var ref = $(field),
+                val = ref.val();
+            if ( val.length >= maxChar ){
+                ref.val(function() {
+                    console.log(val.substr(0, maxChar))
+                    return val.substr(0, maxChar);
+                });
+            }
+        }
+
+
+    $( document ).ready(function() {
+        $("#nik").attr('maxlength',maxChar);
+    });
+
+
     $(function() {
         $("#filePhoto").change(function(event) {
             var x = URL.createObjectURL(event.target.files[0]);
@@ -235,9 +258,6 @@
             return false;
         }
         // alert( names2);
-
-
-
 
     }
 
