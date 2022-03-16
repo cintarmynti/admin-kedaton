@@ -21,7 +21,7 @@ class ListingController extends Controller
                 [
                     'cluster' => function ($cluster) {
                         $cluster->select('id','name');
-                    }
+                    },
                 ]
             )->where('status', $request->status)->orderBy('created_at', 'desc')->get(['id', 'status','image','cluster_id', 'harga', 'diskon', 'setelah_diskon', 'name']);
             if($diproses->count() == 0){
@@ -99,6 +99,12 @@ class ListingController extends Controller
                 },
                 'cluster' => function ($cluster) {
                     $cluster->select('id','name');
+                },
+                'properti.penghuni' => function($pemilik){
+                    $pemilik->select('id', 'name', 'photo_identitas');
+                },
+                'properti.pemilik' => function($pemilik){
+                    $pemilik->select('id', 'name', 'photo_identitas');
                 }
             ]
         )->where('id', $request->listing_id)->first(['id', 'status','cluster_id', 'properti_id', 'image', 'harga', 'diskon', 'setelah_diskon', 'name', 'desc']);

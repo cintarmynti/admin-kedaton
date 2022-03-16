@@ -24,12 +24,12 @@ class Tagihan extends Model
     protected $appends = ['bulan_thn', 'tanggal_ditagihkan'];
 
     public function getBulanThnAttribute(){
-        $waktu = Carbon::parse($this->created_at)->translatedFormat('F Y');
+        $waktu = Carbon::parse($this->periode_pembayaran)->translatedFormat('F Y');
         return $waktu;
     }
 
     public function getTanggalDitagihkanAttribute(){
-        $tanggal =  Carbon::parse($this->created_at)->format('D/m/Y');
+        $tanggal =  Carbon::parse($this->periode_pembayaran)->format('D/m/Y');
         return $tanggal;
     }
 

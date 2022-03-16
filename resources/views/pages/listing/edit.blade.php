@@ -95,7 +95,7 @@
                 <div class="col-md-3">
                     <label for="formGroupExampleInput" class="form-label">Setelah Diskon</label>
                     <div class="input-group">
-                        <input id="setelahDiskon" value="{{ old('diskon', $listing->setelah_diskon) }}" type="number" readonly  min="0" required class="form-control" name="setelah_diskon"
+                        <input id="setelahDiskon" readonly value="{{ old('setelah_diskon', $listing->setelah_diskon) }}" type="text"  required class="form-control" name="setelah_diskon"
                          aria-label="Recipient's username" aria-describedby="basic-addon2">
                         {{-- <span class="input-group-text" id="basic-addon2">%</span> --}}
                     </div>
@@ -149,8 +149,16 @@
             var hargaDiskon = harga * diskon / 100;
             var hargaAkhir = harga - hargaDiskon;
 
-            $("#setelahDiskon").val(parseInt(hargaAkhir));
+            var jumlah = numberWithCommas(hargaAkhir);
+            // alert(jumlah);
+            $("#setelahDiskon").val(jumlah);
+
+            // $("#setelahDiskon").val(parseInt(hargaAkhir));
             // alert(harga);
+        }
+
+        function numberWithCommas(x) {
+            return (Math.round(x * 100) / 100).toLocaleString();
         }
 </script>
     <script>

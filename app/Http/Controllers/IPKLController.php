@@ -92,7 +92,7 @@ class IPKLController extends Controller
         $ipkl->cluster_id = $request->cluster_id;
         $ipkl->properti_id = $request->properti_id;
         $ipkl->periode_pembayaran = $request->periode_pembayaran;
-        $ipkl->jumlah_pembayaran = $request->jumlah_pembayaran;
+        $ipkl->jumlah_pembayaran = str_replace(',', '',$request->jumlah_pembayaran);
         $ipkl->status = 1;
         $ipkl->type_id = 1;
         $ipkl->save();

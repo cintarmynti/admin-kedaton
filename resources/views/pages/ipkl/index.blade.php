@@ -90,7 +90,7 @@
                             <td>{{ $i->cluster->name }}</td>
                             <td>{{ $i->nomer->no_rumah }}</td>
                             <td>{{ $i->periode_pembayaran }}</td>
-                            <td>Rp.{{ number_format($i->jumlah_pembayaran )}}</td>
+                            <td>Rp.{{ number_format($i->jumlah_pembayaran,2,',','.') }}</td>
 
                             <td><span
                                     class="badge @if ($i->status == 1)

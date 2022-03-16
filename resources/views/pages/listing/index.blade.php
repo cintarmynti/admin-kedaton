@@ -3,7 +3,7 @@
 @section('content')
 <div class="card">
     <div class="card-body">
-        <h5 class="card-title">Daftar Listng</h5>
+        <h5 class="card-title">Daftar Listing</h5>
         <p class="card-description">
             <a class="btn btn-primary" href="{{ route('listing.create') }}">Tambah Listng</a>
             <a href="/listing/export_excel" class="btn btn-success my-3" target="_blank">EXPORT EXCEL</a>

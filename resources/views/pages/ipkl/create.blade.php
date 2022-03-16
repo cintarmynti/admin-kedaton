@@ -1,7 +1,6 @@
 @extends('layouts.default')
 
 @section('content')
-
     <div class="card">
         <div class="card-body">
             <h5 class="card-title">Tambahkan Pembayaran IPKL</h5>
@@ -30,19 +29,19 @@
 
                 </div>
                 <div class="row mt-4">
-                    <div class="col-md-6" >
+                    <div class="col-md-6">
                         <label for="formGroupExampleInput" class="form-label">Periode Pembayaran</label>
-                        <input type="date"  required class="form-control date tarif-input date" id="datepicker"
+                        <input type="date" required class="form-control date tarif-input date" id="datepicker"
                             name="periode_pembayaran" aria-label="Last name">
-                            @if($errors->any())
-                            <p style="color: red">{{$errors->first()}}</p>
-                            @endif
+                        @if ($errors->any())
+                            <p style="color: red">{{ $errors->first() }}</p>
+                        @endif
                     </div>
 
                     <div class="col-md-6" id="harga">
                         <label for="formGroupExampleInput" class="form-label">Jumlah Pembayaran</label>
-                        <input  type="text" id="jumlah" readonly required
-                            class="form-control" name="jumlah_pembayaran" aria-label="Last name">
+                        <input type="text" id="jumlah" readonly required class="form-control" name="jumlah_pembayaran"
+                            aria-label="Last name">
                     </div>
 
                     {{-- <div class="col-md-6">
@@ -75,7 +74,7 @@
 
 
 
-            </form>
+        </form>
 
     </div>
     </div>
@@ -98,21 +97,13 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
 
     <script>
-        function onchange_comma(id, value) {
-            var x = numeral($("#" + id).val()).format('0,0');
-            $("#" + id).val(x);
-        }
-
         function myFunction(e) {
             // console.log(data.tarif);
             document.getElementById("no_rmh").value = $(e).find('option:selected').data('tarif');
 
         }
 
-        function onchange_comma(id, value) {
-            var x = numeral($("#" + id).val()).format('0,0');
-            $("#" + id).val(x);
-        }
+
 
 
         // $('.date').datepicker({
@@ -147,6 +138,10 @@
 
 
         $(document).ready(function() {
+            function addCommas(str) {
+                return str.replace(/^0+/, '').replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            }
+
             $('#no_rmh').on('change', function() {
                 var harga_id = $(this).val();
                 if (harga_id) {
@@ -158,8 +153,8 @@
                         },
                         dataType: "html",
                         success: function(data) {
-                            console.log(data);
-                            $('#jumlah').val(data);
+                            // console.log(data);
+                            $('#jumlah').val(addCommas(data));
                         }
                     });
                 } else {
@@ -167,24 +162,17 @@
                 }
             });
         });
-
-
     </script>
-
 @endpush
 
 @push('before-style')
-
-
     <style>
         .form-label {
             font-weight: 500;
         }
 
     </style>
-
 @endpush
 
 @push('after-script')
-
 @endpush

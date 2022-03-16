@@ -317,13 +317,13 @@ class UserController extends Controller
 
     public function show($id)
     {
-        $properti = Properti::where('pemilik_id', $id)->first();
-        if ($properti == null) {
-            $properti = Properti::where('penghuni_id', $id)->get();
-            // dd($properti);
-        } else {
-            $properti = Properti::where('pemilik_id', $id)->get();
-        }
+        $properti = Properti::where('pemilik_id', $id)->orWhere('penghuni_id', $id)->get();
+        // if ($properti == null) {
+        //     $properti = Properti::where('penghuni_id', $id)->get();
+        //     // dd($properti);
+        // } else {
+        //     $properti = Properti::where('pemilik_id', $id)->get();
+        // }
         return view('pages.user.detail', [
             "properti" => $properti,
             "user" => User::find($id)

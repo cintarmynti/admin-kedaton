@@ -86,7 +86,7 @@ class UserController extends Controller
 
             $details = [
                 'recipient' => $request->email,
-                'fromEmail' => 'coba@gmail.com',
+                // 'fromEmail' => 'coba@gmail.com',
                 'nik' => $request->nik,
                 'subject' => $pw
             ];
@@ -172,70 +172,30 @@ class UserController extends Controller
         $cek_kepemilikan_prop = Properti::where('pemilik_id', $request->id)->first();
         $cek_penghuni_prop = Properti::where('penghuni_id', $request->id)->first();
 
-        if ($cek_kepemilikan_prop != null) {
+        $properti = Properti::with(
+            [
+                'pemilik' => function ($pemilik) {
+                    $pemilik->select('id','name');
+                },
+                'penghuni' => function ($penghuni) {
+                    $penghuni->select('id','name');
+                },
+                'cluster' => function ($cluster) {
+                    $cluster->select('id','name');
+                }
+            ]
+        )->where('pemilik_id', $request->id)->orWhere('penghuni_id', $request->id)->get();
 
-            $properti = Properti::with(
-                    [
-                        'pemilik' => function ($pemilik) {
-                            $pemilik->select('id','name');
-                        },
-                        'penghuni' => function ($penghuni) {
-                            $penghuni->select('id','name');
-                        },
-                        'cluster' => function ($cluster) {
-                            $cluster->select('id','name');
-                        }
-                    ]
-                )
-                ->where('pemilik_id', $request->id)->select('id','no_rumah', 'penghuni_id', 'pemilik_id', 'cluster_id', 'luas_tanah', 'luas_bangunan', 'jumlah_kamar', 'kamar_mandi', 'carport')->get();
-            // dd($properti);
-            foreach ($properti as $q) {
-                $q->gambar =  url('/').'/storage/'.$q->cover_url;
-            }
-
-            if($properti->count() == 0){
-                return ResponseFormatter::failed('user ini tidak punya properti!', 404);
-            }
-
-
-            // dd($properti);
-            // $return['image_properti'] =
-            $return['user'] = $user;
-            $return['properti'] = $properti;
-            // $return['properti']['image'] =
-            return ResponseFormatter::success('get user profile n properti!', $return);
-        } else if ($cek_penghuni_prop != null) {
-            $properti = Properti::with(
-                [
-                    'pemilik' => function ($pemilik) {
-                        $pemilik->select('id','name');
-                    },
-                    'penghuni' => function ($penghuni) {
-                        $penghuni->select('id','name');
-                    },
-                    'cluster' => function ($cluster) {
-                        $cluster->select('id','name');
-                    }
-                ]
-            )
-            ->where('penghuni_id', $request->id)->select('id', 'no_rumah', 'penghuni_id', 'pemilik_id', 'cluster_id', 'luas_tanah', 'luas_bangunan', 'jumlah_kamar', 'kamar_mandi', 'carport')->get();
-            foreach ($properti as $q) {
-                $q->gambar =  url('/').'/storage/'.$q->cover_url;
-            }
-
-            if($properti->count() == 0){
-                return ResponseFormatter::failed('user ini tidak punya properti!', 404);
-            }
-
-            // dd($properti);
-            $return['user'] = $user;
-            $return['properti'] = $properti;
-            return ResponseFormatter::success('get user profile n properti!', $return);
-        }else {
-            $user= User::where('id', $request->id)->first(['nik', 'name', 'alamat', 'phone', 'email', 'photo_ktp', 'photo_identitas', 'status_penghuni']);
-            return ResponseFormatter::success('get user profile n properti!', $user);
-
+        foreach ($properti as $q) {
+            $q->gambar =  url('/').'/storage/'.$q->cover_url;
         }
+        if($properti->count() == 0){
+            return ResponseFormatter::failed('tidak ada properti dengan id ini!', 404);
+        }
+        $return['user'] = $user;
+        $return['properti'] = $properti;
+        return ResponseFormatter::success('get user profile n properti!', $return);
+
     }
 
     public function forget(Request $request)
