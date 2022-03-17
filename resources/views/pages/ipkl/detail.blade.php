@@ -53,10 +53,17 @@
                             <td>
                                 <div class="d-flex">
                                     @if ($i->status == 1)
-                                        <a class="btn btn-success" data-bukti="{{ $i->bukti_tf }}"
+                                        <a class="btn btn-success mx-1" data-bukti="{{ $i->bukti_tf }}"
                                             data-riwayat_id="{{ $i->id }}" data-toggle="modal"
                                             data-target="#exampleModal" href="{{ route('ipkl.status', $i->id) }}"><i
                                                 data-feather="check"></i></a>
+
+
+                                    {{-- ini buat nolak --}}
+                                    <a class="btn btn-danger" data-bukti="{{ $i->bukti_tf }}"
+                                        data-riwayat_id="{{ $i->id }}" data-toggle="modal"
+                                        data-target="#exampleCancelModal" href="{{ route('ipkl.status', $i->id) }}"><i
+                                            data-feather="x"></i></a>
                                     @else
 
                                     @endif
@@ -73,6 +80,37 @@
 
                 </tbody>
             </table>
+
+               <!-- Modal Penolakan -->
+               <div class="modal fade" id="exampleCancelModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+               aria-hidden="true">
+               <div class="modal-dialog" role="document">
+                   <div class="modal-content">
+                       <div class="modal-header">
+                           <h5 class="modal-title" id="exampleModalLabel">Masukkan Alasan Penolakan</h5>
+                           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                               <span aria-hidden="true">&times;</span>
+                           </button>
+                       </div>
+                       <div class="modal-body">
+                           <form action="/ipkl/tolak" method="POST">
+                               @csrf
+                               @method('patch')
+                               {{-- <img src="" width="400" height="300" id="bukti_tf2" alt=""> --}}
+                               <input type="text" required name="alasan_penolakan" class="form-control">
+                               <input type="hidden" name="user_id" id="user_id2">
+                               <input type="hidden" name="tagihan_id" id="tagihan_id2">
+                               {{-- <input type="text" name="pembayaran_id" id="pembayaran_id2"> --}}
+
+                       </div>
+                       <div class="modal-footer">
+                           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                           <button type="submit" class="btn btn-primary">Save changes</button>
+                       </div>
+                       </form>
+                   </div>
+               </div>
+           </div>
 
             <!-- Modal -->
             <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -170,7 +208,7 @@
     <script>
         var APP_URL = {!! json_encode(url('/')) !!}
         console.log(APP_URL);
-        $('#exampleModal').on('show.bs.modal', function(event) {
+        $('#exampleCancelModal').on('show.bs.modal', function(event) {
             var button = $(event.relatedTarget)
             var id = button.data('riwayat_id')
 
@@ -181,10 +219,10 @@
                 success: function(response) {
                     console.log(response);
 
-                    $('#user_id').val(response.user_id);
-                    $('#pembayaran_id').val(response.id);
-                    $('#tagihan_id').val(response.tagihan_id);
-                    $('#bukti_tf').attr('src', APP_URL + '/storage/' +response.bukti_tf);
+                    $('#user_id2').val(response.user_id);
+                    $('#pembayaran_id2').val(response.id);
+                    $('#tagihan_id2').val(response.tagihan_id);
+                    $('#bukti_tf2').attr('src', APP_URL + '/storage/' +response.bukti_tf);
 
 
                 }
@@ -192,6 +230,37 @@
 
         })
     </script>
+
+
+<script>
+    // ini buat yang disetujui
+
+    var APP_URL = {!! json_encode(url('/')) !!}
+    console.log(APP_URL);
+    $('#exampleModal').on('show.bs.modal', function(event) {
+        var button = $(event.relatedTarget)
+        var id = button.data('riwayat_id')
+
+        $.ajax({
+            type: 'get',
+            url: "/ipkl/riwayat/" + id,
+            dataType: 'json',
+            success: function(response) {
+                console.log(response);
+
+                $('#user_id').val(response.user_id);
+                $('#pembayaran_id').val(response.id);
+                $('#tagihan_id').val(response.tagihan_id);
+                $('#bukti_tf').attr('src', APP_URL + '/storage/' +response.bukti_tf);
+
+
+            }
+        });
+
+    })
+</script>
+
+
 @endpush
 
 @push('before-style')

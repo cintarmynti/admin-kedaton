@@ -46,6 +46,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/dashboard/notif-admin', [DashboardController::class, 'notif_admin']);
     Route::get('/notif/{id}', [NotifikasiController::class, 'detailPages']);
     Route::get('/all-notif', [NotifikasiController::class, 'allNotif']);
+    Route::get('/read-all', [NotifikasiController::class, 'readAll']);
 
     Route::get('/user', [UserController::class, 'index'])->name('user');
     Route::get('/user/create', [UserController::class, 'create'])->name('user.create');
@@ -201,6 +202,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::patch('/ipkl/riwayat-create', [IPKLController::class, 'create_riwayat']);
     Route::get('/ipkl/pembayar/{id}', [IPKLController::class, 'pembayar'])->name('ipkl.pembayar');
     Route::get('/ipkl/export_excel', [IPKLController::class, 'export_excel']);
+    Route::patch('/ipkl/tolak', [IPKLController::class, 'penolakan_pembayaran']);
 
     Route::get('/layanan', [LayananController::class, 'index'])->name('layanan');
     Route::get('/layanan/status/{id}', [LayananController::class, 'status'])->name('layanan.status');

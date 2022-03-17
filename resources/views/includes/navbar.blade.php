@@ -26,7 +26,7 @@
       <li class="nav-item dropdown">
         <a class="nav-link" href="#" id="notificationsDropDown" data-bs-toggle="dropdown" aria-expanded="false"> <i data-feather="bell"></i> <span class="badge badge-danger" id="total-notif"></span></a>
         <div class="dropdown-menu dropdown-menu-end notif-drop-menu" aria-labelledby="notificationsDropDown">
-          <h6 class="dropdown-header">Notifications</h6>
+          <h6 class="dropdown-header">Notifications  <a href="/read-all" class="btn-warning">Read All</a></h6>
           <div id="notif">
 
           </div>

@@ -44,6 +44,10 @@
     <audio id="chat-alert-sound" loop style="display: none">
         <source src="{{ asset('assets/notif.mp3') }}" type="audio/mpeg" />
     </audio>
+
+    <audio id="tinung-sound" style="display: none">
+        <source src="{{ asset('assets/tinung.mp3') }}" type="audio/mpeg" />
+    </audio>
     <!-- Styles -->
     @include('includes.style')
 
@@ -198,8 +202,8 @@
 
         complain.bind('kirim', function(data) {
             // console.log(data);
-            // let sound = document.getElementById("");
-            // sound.play();
+            let sound = document.getElementById("tinung-sound");
+            sound.play();
 
             getNotifAll()
         })
@@ -208,8 +212,8 @@
 
         properti.bind('new_prop', function(data) {
             // console.log(data);
-            // let sound = document.getElementById("");
-            // sound.play();
+            let sound = document.getElementById("tinung-sound");
+            sound.play();
             getNotifAll()
 
 
@@ -217,6 +221,8 @@
 
         //add penghuni prop
         addPenghuni.bind('penghuni_prop', function(data) {
+            let sound = document.getElementById("tinung-sound");
+            sound.play();
             getNotifAll()
         })
     </script>

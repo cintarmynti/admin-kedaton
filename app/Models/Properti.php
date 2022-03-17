@@ -47,7 +47,11 @@ class Properti extends Model
     public function getTelpAttribute()
     {
         $user = User::where('id', $this->pemilik_id)->first();
-        return $user == null ? '' : $user->phone;
+        if($user != null){
+            $user->phone = (int)$user->phone;
+            return $user->phone;
+        }
+
     }
 
     public function penghuni()

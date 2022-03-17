@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Lib\PusherFactory;
 use App\Models\IPKL;
 use App\Models\Notifikasi;
 use App\Models\Tagihan;
@@ -92,6 +93,9 @@ class IPKLController extends Controller
             $notifikasi_admin ->desc = 'ada penghuni yang melakukan pembayaran';
             $notifikasi_admin -> link = '/ipkl';
             $notifikasi_admin ->save();
+
+            PusherFactory::make()->trigger('admin', 'kirim', ['data' => $notifikasi_admin]);
+
 
             // DB::commit();
             return ResponseFormatter::success('successful to pay !', $ipkl);

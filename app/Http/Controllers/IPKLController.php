@@ -250,4 +250,23 @@ class IPKLController extends Controller
         $ipkl = IPKL::with('user')->where('tagihan_id', $id)->get();
         return view('pages.ipkl.detail', ['ipkl' => $ipkl]);
     }
+
+    public function penolakan_pembayaran(Request $request)
+    {
+        $tagihan = Tagihan::where('id', $request->tagihan_id)->first();
+        $tagihan->status = 1;
+        $tagihan->save();
+
+        $ipkl = IPKL::where('tagihan_id', $request->tagihan_id)->first();
+        $ipkl->delete();
+
+        $notifikasi = new Notifikasi();
+        $notifikasi->user_id = $request->user_id;
+        $notifikasi->sisi_notifikasi  = 'pengguna';
+        $notifikasi->heading = 'Pembayaran IPKL anda ditolak';
+        $notifikasi->desc = 'pembayaran ipkl anda ditolak karena'.$request->alasan_penolakan;
+        $notifikasi->save();
+
+        return redirect('/ipkl');
+    }
 }

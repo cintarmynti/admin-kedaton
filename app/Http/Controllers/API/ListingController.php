@@ -101,14 +101,15 @@ class ListingController extends Controller
                     $cluster->select('id','name');
                 },
                 'properti.penghuni' => function($pemilik){
-                    $pemilik->select('id', 'name', 'photo_identitas');
+                    $pemilik->select('id', 'name', 'photo_identitas', 'phone');
                 },
                 'properti.pemilik' => function($pemilik){
-                    $pemilik->select('id', 'name', 'photo_identitas');
+                    $pemilik->select('id', 'name', 'photo_identitas', 'phone');
                 }
             ]
         )->where('id', $request->listing_id)->first(['id', 'status','cluster_id', 'properti_id', 'image', 'harga', 'diskon', 'setelah_diskon', 'name', 'desc']);
         $listing['data']->image = $listing['data']->image_url;
+        // $listing['data']->phone =  $listing['data']->telp;
 
         $listing['image_detail'] = Properti_image::where('properti_id', $listing['data']->properti_id)->get(['id', 'image']);
         foreach($listing['image_detail'] as $q){
