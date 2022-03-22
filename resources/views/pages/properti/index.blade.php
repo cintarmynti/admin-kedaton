@@ -54,9 +54,7 @@
                                                 </button>
                                             </div>
                                             <div class="modal-body">
-                                                <form action="{{ route('properti.pemilik') }}" method="POST">
-                                                    @csrf
-                                                    @method('patch')
+
                                                     <table class="table table-border">
                                                         <tr>
                                                             <td>name</td>
@@ -89,9 +87,12 @@
                                                             </td>
                                                         </tr>
                                                     </table>
-                                                    <input type="hidden" name="pemilik_id" id="pemilik_id">
-                                                    <input type="hidden" name="properti_id" id="properti_id">
+                                                    <form action="/properti/tolak-tambahproperti">
+                                                        @csrf
+                                                        @method('patch')
+                                                    <label for="" class="form-label">Alasan Ditolak</label>
 
+                                                    <textarea class="form-control" name="alasan_dibatalkan" required aria-label="With textarea"></textarea>
                                                     {{-- <img src="" width="400" height="300" id="bukti_tf" alt="">
                                                 <input type="hidden" name="user_id" id="user_id">
                                                 <input type="hidden" name="tagihan_id" id="tagihan_id">
@@ -99,8 +100,18 @@
 
                                             </div>
                                             <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary"
-                                                    data-dismiss="modal">Close</button>
+
+                                                    <input type="hidden" name="pemilik_id" id="pemilik_id4">
+                                                    <input type="hidden" name="properti_id" id="properti_id4">
+
+                                                    <button type="submit" class="btn btn-danger"
+                                                   >Tolak</button>
+                                                </form>
+                                            <form action="{{ route('properti.pemilik') }}" method="POST">
+                                                @csrf
+                                                @method('patch')
+                                            <input type="hidden" name="pemilik_id" id="pemilik_id">
+                                            <input type="hidden" name="properti_id" id="properti_id">
                                                 <button type="submit" class="btn btn-primary">Setujui</button>
                                             </div>
                                             </form>
@@ -291,6 +302,8 @@
                     $('#penghuni_id').val(response.id);
                     $('#properti_id').val(id);
                     $('#pemilik_id').val(response.id);
+                    $('#properti_id4').val(id);
+                    $('#pemilik_id4').val(response.id);
 
 
                 }
