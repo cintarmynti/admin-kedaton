@@ -49,6 +49,25 @@ class PropertiController extends Controller
         return redirect()->route('properti');
     }
 
+    public function tolak_penghuni(Request $request)
+    {
+        $pengajuan = Pengajuan::where('user_id', $request->penghuni_id)->where('pemilik_mengajukan', $request->pemilik_id)->where('properti_id_penghuni', $request->properti_id)->first();
+        $pengajuan->delete();
+
+        $properti = Properti::where('id', $request->properti_id)->first();
+        $properti -> status_pengajuan_penghuni = 0;
+        $properti -> save();
+
+        $notifikasi = new Notifikasi();
+        $notifikasi->user_id = $request->pemilik_id;
+        $notifikasi->sisi_notifikasi  = 'pengguna';
+        $notifikasi->heading = 'PENGAJUAN PENGHUNI UNTUK PROPERTI INI DITOLAK';
+        $notifikasi->desc = 'Mohon Maaf, pengajuan penghuni baru pada properti kami tolak karena '.$request->alasan_dibatalkan;
+        $notifikasi->save();
+
+        return redirect()->back();
+    }
+
     public function penghuni($id)
     {
         $properti = Pengajuan::where('properti_id_penghuni', $id)->first();

@@ -122,9 +122,7 @@
                                                 </button>
                                             </div>
                                             <div class="modal-body">
-                                                <form action="{{ route('properti.penghuni_id') }}" method="POST">
-                                                    @csrf
-                                                    @method('patch')
+
                                                     <table class="table table-border">
                                                         <tr>
                                                             <td>name</td>
@@ -157,9 +155,9 @@
                                                             </td>
                                                         </tr>
                                                     </table>
-                                                    <input type="hidden" name="penghuni_id" id="penghuni_id2">
-                                                    <input type="hidden" name="pemilik_id" id="pemilik_id2">
-                                                    <input type="hidden" name="properti_id" id="properti_id2">
+                                                    <form action="/properti/tolak-penghuni">
+                                                    <label for="" class="form-label">Masukkan alasan ditolak</label>
+                                                    <textarea class="form-control" name="alasan_dibatalkan" required aria-label="With textarea"></textarea>
 
                                                     {{-- <img src="" width="400" height="300" id="bukti_tf" alt="">
                                                 <input type="hidden" name="user_id" id="user_id">
@@ -168,11 +166,27 @@
 
                                             </div>
                                             <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary"
-                                                    data-dismiss="modal">Close</button>
-                                                <button type="submit" class="btn btn-primary">Setujui</button>
-                                            </div>
+
+                                                @csrf
+                                                    @method('patch')
+                                                <input type="hidden" name="penghuni_id" id="penghuni_id3">
+                                                <input type="hidden" name="pemilik_id" id="pemilik_id3">
+                                                <input type="hidden" name="properti_id" id="properti_id3">
+
+                                                <button type="submit" class="btn btn-danger"
+                                                >Tolak</button>
                                             </form>
+
+                                        <form action="{{ route('properti.penghuni_id') }}" method="POST">
+                                                @csrf
+                                                @method('patch')
+                                            <input type="hidden" name="penghuni_id" id="penghuni_id2">
+                                            <input type="hidden" name="pemilik_id" id="pemilik_id2">
+                                            <input type="hidden" name="properti_id" id="properti_id2">
+                                            <button type="submit" class="btn btn-primary">Setujui</button>
+                                        </form>
+
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -311,6 +325,9 @@
                 $('#penghuni_id2').val(response.penghuni.id);
                 $('#pemilik_id2').val(response.pemilik);
                 $('#properti_id2').val(id);
+                $('#penghuni_id3').val(response.penghuni.id);
+                $('#pemilik_id3').val(response.pemilik);
+                $('#properti_id3').val(id);
 
 
             }

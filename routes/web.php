@@ -96,7 +96,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('properti/penghuni/{id}', [PropertiController::class, 'penghuni'])->name('properti.penghuni');
     Route::patch('/properti/pemilik-update', [PropertiController::class, 'update_pemilik'])->name('properti.pemilik');
     Route::patch('/properti/penghuni-update', [PropertiController::class, 'update_penghuni'])->name('properti.penghuni_id');
-
+    Route::get('/properti/tolak-penghuni', [PropertiController::class, 'tolak_penghuni'])->name('properti.tolak');
 
 
     Route::get('/listing', [ListingController::class, 'index'])->name('listing');
