@@ -243,8 +243,8 @@ class UserController extends Controller
         $user->nik = $request->nik;
         $user->alamat = $request->alamat;
         $user->phone = $request->phone;
-        $user->email = $request->email;
-        $user->password = bcrypt($request->password);
+        // $user->email = $request->email;
+        // $user->password = bcrypt($request->password);
         $user->user_status = 'pengguna';
 
 

@@ -106,6 +106,14 @@ class IPKLController extends Controller
         }
     }
 
+    // public function ipklRouting($user){
+    //     $properti_user = Properti::where('pemilik_id', $user)->orWhere('penghuni_id', $user)->get();
+    //     foreach($properti_user as $p){
+    //         $tagihan = Tagihan::where('properti_id', $p)->where('status', 1)->get();
+
+    //     }
+    // }
+
     public function listTagihan(Request $request)
     {
 
@@ -124,7 +132,7 @@ class IPKLController extends Controller
         return ResponseFormatter::failed('user belum meiliki properti !', 404);
         }
         foreach($properti as $p){
-            $tagihan['ipkl'] = Tagihan::with('type')->where('type_id', 1)->where('status', 1)->where('properti_id', $p->id)->get(['id', 'type_id', 'jumlah_pembayaran', 'properti_id']);
+            $tagihan['ipkl'] = Tagihan::with('type')->where('type_id', 1)->where('status', 1)->where('properti_id', $p->id)->get(['id', 'type_id', 'jumlah_pembayaran', 'properti_id', 'periode_pembayaran']);
             $tagihan['renovasi'] = Tagihan::with('type')->where('type_id', 2)->where('status', 1)->where('properti_id', $p->id)->get();
 
             return ResponseFormatter::success('berhasil mendapat list tagihan yg belum dibayar!', $tagihan);

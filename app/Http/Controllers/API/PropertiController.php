@@ -47,7 +47,7 @@ class PropertiController extends Controller
 
         $cek_pengajuan = Pengajuan::where('user_id', $request->user_id)->where('properti_id', $request->properti_id)->first();
         if ($cek_pengajuan) {
-            return ResponseFormatter::success('rumah ini sudah diajukan, pengajuan anda masih dalam proses, mohon tunggu konfirmasi admin!', 200);
+            return ResponseFormatter::failed('rumah ini sudah diajukan, pengajuan anda masih dalam proses, mohon tunggu konfirmasi admin!', 200);
         }
 
         if (!$request->user_id || !$request->properti_id) {
@@ -80,7 +80,8 @@ class PropertiController extends Controller
 
         $tampil_notif = Notifikasi::with('user')->where('user_id', $request->user_id)->first();
 
-        PusherFactory::make()->trigger('add_new_properti', 'new_prop', ['data' => $tampil_notif]);
+        PusherFactory::make()->trigger('admin', 'kirim', ['data' => $notifikasi_admin]);
+
 
         if ($pengajuan) {
             return ResponseFormatter::success('berhasil mengirimm pengajuan properti baru, mohon tunggu konfirmasi admin!', $pengajuan);
@@ -187,7 +188,7 @@ class PropertiController extends Controller
 
             $cek_pengajuan = Pengajuan::where('user_id', $cek_nik->id)->where('properti_id_penghuni', $request->properti_id)->first();
             if ($cek_pengajuan) {
-                return ResponseFormatter::success('penghuni ini sudah diajukan, pengajuan anda masih dalam proses, mohon tunggu konfirmasi admin!', 200);
+                return ResponseFormatter::failed('penghuni ini sudah diajukan, pengajuan anda masih dalam proses, mohon tunggu konfirmasi admin!', 404);
             }
 
             $pengajuan = new Pengajuan();
@@ -218,7 +219,8 @@ class PropertiController extends Controller
             $notifikasi_admin -> link = '/properti';
             $notifikasi_admin ->save();
 
-            PusherFactory::make()->trigger('add_penghuni_prop', 'penghuni_prop', ['data' => $notifikasi_admin]);
+            PusherFactory::make()->trigger('admin', 'kirim', ['data' => $notifikasi_admin]);
+
             return ResponseFormatter::success('berhasil menambah penghuni, menunggu konfirmasi!', [$cek_nik]);
         } else if ($cek_nik == null ) {
 
@@ -255,7 +257,7 @@ class PropertiController extends Controller
 
             $cek_pengajuan = Pengajuan::where('user_id', $user_penghuni->id)->where('properti_id_penghuni', $request->properti_id)->first();
             if ($cek_pengajuan) {
-                return ResponseFormatter::success('penghuni ini sudah diajukan, pengajuan anda masih dalam proses, mohon tunggu konfirmasi admin!', 200);
+                return ResponseFormatter::failed('penghuni ini sudah diajukan, pengajuan anda masih dalam proses, mohon tunggu konfirmasi admin!', 404);
             }
 
             $pengajuan = new Pengajuan();
@@ -279,7 +281,8 @@ class PropertiController extends Controller
             $notifikasi_admin ->link = '/user';
             $notifikasi_admin ->save();
 
-            PusherFactory::make()->trigger('add_penghuni_prop2', 'kirim_prop2', ['data' => $notifikasi_admin]);
+            PusherFactory::make()->trigger('admin', 'kirim', ['data' => $notifikasi_admin]);
+
 
             if ($user) {
                 return ResponseFormatter::success('berhasil menambah penghuni!', [$user_penghuni]);

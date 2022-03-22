@@ -45,13 +45,7 @@
                                 @else
                                 @endif
 
-                                @if ($user->email_pengajuan == 1)
-                                    <a href="" data-bs-toggle="modal" data-penghuni_id="{{ $user->id }}"
-                                        data-bs-target="#exampleModal"><i class="fa-solid fa-envelope fa-2x"
-                                            style="color: #f37474" data-toggle="tooltip" data-placement="top"
-                                            title="permintaan persetujuan"></i></a>
-                                @elseif ($user->email_pengajuan == 2)
-                                @endif
+
 
 
                                 <div class="modal fade" id="exampleModal" tabindex="-1"
@@ -109,6 +103,16 @@
                                                             <p id="phone"></p>
                                                         </td>
                                                     </tr>
+                                                    <tr>
+                                                        <td>foto KTP :</td>
+
+                                                        <td><img width="200px" src="" id="user_img" alt=""> </td>
+                                                    </tr>
+                                                    {{-- <tr>
+                                                        <td>foto identitas :</td>
+                                                        <td><img width="200px" src="" id="user_identity_img" alt=""> </td>
+                                                    </tr> --}}
+
 
                                                     {{-- <tr>
                                         <td>photo ktp : </td>
@@ -125,7 +129,7 @@
                                                 </div>
                                                 <div class="modal-footer">
                                                 <button type="submit" class="btn btn-danger">Tolak</button>
-                                             
+
                                                 </form>
                                                 <form action="/user/user-activated" method="post">
                                                     @csrf
@@ -197,7 +201,13 @@
                                     <a class="mx-1 btn btn-primary" type="button"
                                         href="{{ route('user.newProp', $user->id) }}" data-toggle="tooltip"
                                         data-placement="top" title="Tambah Properti"><i class="fa-solid fa-house"></i></a>
-
+                                    @if ($user->email_pengajuan == 1)
+                                        <a class="mx-1 btn btn-warning" href="" data-bs-toggle="modal" data-penghuni_id="{{ $user->id }}"
+                                            data-bs-target="#exampleModal"><i class="fa-solid fa-user-check"
+                                                 data-toggle="tooltip" data-placement="top"
+                                                title="permintaan persetujuan"></i></a>
+                                    @elseif ($user->email_pengajuan == 2)
+                                    @endif
                                 </div>
                                 {{-- <div class="d-flex">
                             <a class="mx-1 btn btn-success"  href="{{route('user.activated', $user->id)}}" data-toggle="tooltip" data-placement="top" title="Kirim Email">
@@ -241,6 +251,7 @@
     <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.11.3/datatables.min.js"></script>
     <script src="https://unpkg.com/@popperjs/core@2"></script>
     <script>
+         var APP_URL = {!! json_encode(url('/')) !!}
         $(document).ready(function() {
             $('#myTable').DataTable();
             $(function() {
@@ -258,13 +269,15 @@
                 url: "/user/detail_penghuni/" + id,
                 dataType: 'json',
                 success: function(response) {
-                    console.log(response);
+                    // console.log(APP_URL + '/storage/' +response.user.photo_ktp);
 
                     // $("#stat").val(response.status)
                     // $('#user_id').val(response.id);
                     // $('#id_rumah').val(response.id_rumah);
                     // $('#panic_id').val(response.id);
 
+                    // $('#user_identity_img').attr('src', APP_URL + '/storage/' +response.user.photo_identitas);
+                    $('#user_img').attr('src', APP_URL + '/storage/' +response.user.photo_ktp);
                     $('#nama_pemilik').html(response.user_pemilik.name);
                     $('#nama_penghuni').html(response.user.name);
                     $('#email').html(response.user.email);
@@ -274,6 +287,8 @@
                     $('#input_penghuni2').val(response.user.id);
                     $('#input_pemilik2').val(response.user_pemilik.id);
                     $('#input_penghuni').val(response.user.id);
+                    $('#halo').html(response.user.photo_ktp);
+
 
                 }
             });

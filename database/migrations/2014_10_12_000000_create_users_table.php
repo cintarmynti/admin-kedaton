@@ -22,7 +22,7 @@ class CreateUsersTable extends Migration
             // $table->string('listing_id')->nullable();
             $table->string('user_status');
             $table->string('snk')->default(0);
-            $table->string('phone')->unique()->nullable();
+            $table->string('phone')->nullable();
             $table->string('photo_identitas')->nullable();
             $table->string('photo_ktp')->nullable();
             $table->string('status_penghuni')->nullable();

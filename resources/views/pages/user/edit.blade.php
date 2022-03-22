@@ -40,7 +40,7 @@
                     </div> --}}
                     <div class="col-md-4">
                         <label for="formGroupExampleInput" class="form-label">Alamat</label>
-                        <textarea name="" id="" cols="10" class="form-control" rows="5">
+                        <textarea name="alamat" id="" cols="10" class="form-control" rows="5">
                             {{ old('alamat', $user->alamat) }}
                         </textarea>
                         {{-- <input type="text" value="" class="form-control" name="alamat"

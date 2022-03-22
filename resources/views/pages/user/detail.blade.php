@@ -39,6 +39,12 @@
                         <input value="{{ $user->phone }}" type="text" required class="form-control" readonly>
                     </div>
                 </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="" class="form-label">Email</label>
+                        <input value="{{ $user->email }}" type="text" required class="form-control" readonly>
+                    </div>
+                </div>
                 <div class="col-6">
                     <div class="form-group">
                         <label for="" class="form-label">Alamat</label>
