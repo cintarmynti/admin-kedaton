@@ -43,6 +43,11 @@ class PropertiController extends Controller
         $pengajuan->status_verivikasi = 1;
         $pengajuan->save();
 
+        $penghuni_detail = new penghuniDetail();
+        $penghuni_detail->penghuni_id = $request->penghuni_id;
+        $penghuni_detail->properti_id = $request->properti_id;
+        $penghuni_detail->save();
+
 
         $notifikasi = new Notifikasi();
         $notifikasi->user_id = $request->pemilik_id;

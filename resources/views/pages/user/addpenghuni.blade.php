@@ -39,11 +39,11 @@
                         <input value="" type="email" required class="form-control" name="email" id="email"
                             aria-label="First name">
                     </div>
-                    <div class="col">
+                    {{-- <div class="col">
                         <label for="formGroupExampleInput" class="form-label">Password</label>
                         <input value="" type="password" required class="form-control" name="password" id="password"
                             aria-label="Last name">
-                    </div>
+                    </div> --}}
                     <div class="col">
                         <label for="formGroupExampleInput" class="form-label">Alamat</label>
                         <input value="" type="text" required class="form-control" name="alamat" id="alamat"
