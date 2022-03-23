@@ -54,6 +54,21 @@ class Properti extends Model
 
     }
 
+    // public function getStatusPenghuniAttribute($value)
+    // {
+    //     $penghuni = Pengajuan::where('pemilik_mengajukan', $this->pemilik_id)->where('properti_id_penghuni', $this->id)->first();
+    //     // dd($penghuni);
+    //     if($penghuni == null){
+    //         return '';
+    //     }
+
+    //     if($penghuni->status_verivikasi == 1){
+    //         return 'terverifikasi';
+    //     }else{
+    //         return 'menunggu verifikasi';
+    //     }
+    // }
+
     public function penghuni()
     {
         return $this->hasOne(User::class, 'id', 'penghuni_id');

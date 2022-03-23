@@ -19,6 +19,7 @@ class CreatePengajuanTable extends Migration
             $table->integer('properti_id')->nullable();
             $table->integer('properti_id_penghuni')->nullable();
             $table->integer('pemilik_mengajukan')->nullable();
+            $table->integer('status_verivikasi')->default(0);
             $table->timestamps();
         });
     }

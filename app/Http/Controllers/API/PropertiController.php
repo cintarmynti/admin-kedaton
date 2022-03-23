@@ -194,6 +194,7 @@ class PropertiController extends Controller
             $pengajuan = new Pengajuan();
             $pengajuan->user_id = $cek_nik->id;
             $pengajuan->properti_id_penghuni = $request->properti_id;
+            $pengajuan->pemilik_mengajukan = $request->user_id;
             $pengajuan->save();
 
             $properti = Properti::where('id', $request->properti_id)->first();

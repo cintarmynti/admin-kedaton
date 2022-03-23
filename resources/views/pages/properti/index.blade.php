@@ -288,7 +288,7 @@
                 url: "/properti/user/" + id,
                 dataType: 'json',
                 success: function(response) {
-                    console.log(response);
+                    // console.log(response);
 
                     // $('#user_id').val(response.user_id);
                     // $('#pembayaran_id').val(response.id);

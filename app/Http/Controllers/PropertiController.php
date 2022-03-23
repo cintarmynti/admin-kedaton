@@ -39,6 +39,11 @@ class PropertiController extends Controller
         $properti->status_pengajuan_penghuni = 2;
         $properti->save();
 
+        $pengajuan = Pengajuan::where('user_id', $request->penghuni_id)->where('pemilik_mengajukan', $request->pemilik_id)->where('properti_id_penghuni', $request->properti_id)->first();
+        $pengajuan->status_verivikasi = 1;
+        $pengajuan->save();
+
+
         $notifikasi = new Notifikasi();
         $notifikasi->user_id = $request->pemilik_id;
         $notifikasi->sisi_notifikasi  = 'pengguna';
@@ -90,7 +95,8 @@ class PropertiController extends Controller
 
     public function penghuni($id)
     {
-        $properti = Pengajuan::where('properti_id_penghuni', $id)->first();
+        $properti = Pengajuan::where('properti_id_penghuni', $id)->orderBy('id', 'desc')->first();
+        // dd($properti);
         $user['penghuni'] = User::where('id', $properti->user_id)->first();
         $user['pemilik'] = $properti->pemilik_mengajukan;
         return response()->json($user);
@@ -102,6 +108,10 @@ class PropertiController extends Controller
         $properti->pemilik_id = $request->pemilik_id;
         $properti->status_pengajuan = 2;
         $properti->save();
+
+        $pengajuan = Pengajuan::where('user_id', $request->pemilik_id)->where('properti_id', $request->properti_id)->first();
+        $pengajuan -> status_verivikasi = 1;
+        $pengajuan->save();
 
         $notifikasi = new Notifikasi();
         $notifikasi->user_id = $request->pemilik_id;

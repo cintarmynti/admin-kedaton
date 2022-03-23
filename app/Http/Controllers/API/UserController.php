@@ -14,6 +14,7 @@ use App\Mail\ResendEmail;
 use Illuminate\Support\Facades\Mail;
 use Validator;
 use App\Models\Listing;
+use App\Models\Pengajuan;
 use App\Models\Properti;
 use App\Models\Properti_image;
 use Illuminate\Support\Facades\DB;
@@ -169,8 +170,8 @@ class UserController extends Controller
         $user->photo_identitas = $user->image_url;
         $user->photo_ktp = $user->image_ktp;
 
-        $cek_kepemilikan_prop = Properti::where('pemilik_id', $request->id)->first();
-        $cek_penghuni_prop = Properti::where('penghuni_id', $request->id)->first();
+        // $cek_kepemilikan_prop = Properti::where('pemilik_id', $request->id)->first();
+        // $cek_penghuni_prop = Properti::where('penghuni_id', $request->id)->first();
 
         $properti = Properti::with(
             [
@@ -184,16 +185,31 @@ class UserController extends Controller
                     $cluster->select('id','name');
                 }
             ]
-        )->where('pemilik_id', $request->id)->orWhere('penghuni_id', $request->id)->get();
+        )->where('pemilik_id', $request->id)->orWhere('penghuni_id', $request->id)->get(['id', 'cluster_id', 'pemilik_id', 'penghuni_id', 'cluster_id', 'luas_tanah', 'luas_bangunan', 'jumlah_kamar', 'kamar_mandi', 'carport', 'no_rumah']);
+        if($properti->count() == 0){
+            return ResponseFormatter::failed('tidak ada properti dengan id ini!', 404);
+        }
 
         foreach ($properti as $q) {
             $q->gambar =  url('/').'/storage/'.$q->cover_url;
         }
-        if($properti->count() == 0){
-            return ResponseFormatter::failed('tidak ada properti dengan id ini!', 404);
+
+        foreach ($properti as $q) {
+            $myArr = [];
+            $pengajuan = Pengajuan::where('properti_id_penghuni', $q->id)->get();
+            foreach($pengajuan as $p)
+            {
+                $penghuni['nama'] = User::where('id', $p->user_id)->first()->name;
+                $status = Pengajuan::where('user_id', $p->user_id)->first()->status_verivikasi;
+                $penghuni['status'] = $status == 1 ? 'terverifikasi' : 'menunggu verifikasi';
+                array_push($myArr, $penghuni);
+            }
         }
+
         $return['user'] = $user;
         $return['properti'] = $properti;
+        $return['properti.penghuni'] = $myArr;
+
         return ResponseFormatter::success('get user profile n properti!', $return);
 
     }
@@ -229,8 +245,6 @@ class UserController extends Controller
 
         return ResponseFormatter::success('password baru telah dikirim silahkan di cek', $pw);
     }
-
-
 
     public function update(Request $request)
     {
