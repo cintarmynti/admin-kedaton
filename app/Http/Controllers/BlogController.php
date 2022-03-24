@@ -89,19 +89,35 @@ class BlogController extends Controller
         $blog = Blog::findOrFail($id);
         $blog-> judul = $request-> judul;
         $blog-> desc = $request-> desc;
+
+        // dd($request->all());
         if ($request->hasFile('photo_header')) {
-            Storage::disk('public')->delete($blog->photo_identitas);
-            $img = Image::make($request->file('photo_identitas'));
-            $img->resize(521, null,  function ($constraint)
-            {
+            Storage::disk('public')->delete($blog->photo_header);
+            $img = Image::make($request->file('photo_header'));
+            $img->resize(521, null,  function ($constraint) {
                 $constraint->aspectRatio();
             });
             // dd($img);
-            $filename = time().'.'.$request->file('photo_identitas')->getClientOriginalExtension();
-            $img_path = 'blog_photo/'.$filename;
+            $filename = time() . '.' . $request->file('photo_header')->getClientOriginalExtension();
+            $img_path = 'blog_photo/' . $filename;
             Storage::put($img_path, $img->encode());
-            $blog->photo_identitas = $img_path;
+            $blog->gambar = $img_path;
         }
+
+
+        // if ($request->hasFile('photo_header')) {
+        //     Storage::disk('public')->delete($blog->photo_identitas);
+        //     $img = Image::make($request->file('photo_identitas'));
+        //     $img->resize(521, null,  function ($constraint)
+        //     {
+        //         $constraint->aspectRatio();
+        //     });
+        //     // dd($img);
+        //     $filename = time().'.'.$request->file('photo_identitas')->getClientOriginalExtension();
+        //     $img_path = 'blog_photo/'.$filename;
+        //     Storage::put($img_path, $img->encode());
+        //     $blog->photo_identitas = $img_path;
+        // }
         $blog->update();
 
         if($request->hasfile('image'))

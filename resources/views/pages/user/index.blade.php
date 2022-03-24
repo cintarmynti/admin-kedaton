@@ -11,6 +11,7 @@
                 <a class="btn btn-primary" href="{{ route('user.create') }}">Tambah Penghuni dan Properti</a>
                 <a href="/user/export_excel" class="btn btn-success my-3" target="_blank">EXPORT EXCEL</a>
             </p>
+            <div class="table-responsive">
             <table class="table" id="myTable">
                 <thead>
                     <tr>
@@ -229,6 +230,7 @@
                 </tbody>
             </table>
         </div>
+        </div>
     </div>
 @endsection
 
@@ -236,6 +238,10 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.11.3/datatables.min.css" />
+@endpush
+
+@push('before-style')
+<link rel="stylesheet" href="{{asset('assets/plugins/bootsrap/bootsrap5/css/bootstrap.min.css')}}">
 @endpush
 
 @push('after-script')

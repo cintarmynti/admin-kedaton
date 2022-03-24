@@ -31,6 +31,7 @@
                 </div>
               </div>
             </p>
+            <div class="table-responsive">
             <table class="table" id="myTable">
                 <thead>
                     <tr>
@@ -81,9 +82,14 @@
                     @endforeach
                 </tbody>
             </table>
+            </div>
         </div>
     </div>
 @endsection
+
+@push('before-style')
+<link rel="stylesheet" href="{{asset('assets/plugins/bootsrap/bootsrap5/css/bootstrap.min.css')}}">
+@endpush
 
 @push('before-style')
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"

@@ -20,7 +20,7 @@
                 </div>
                 <div class="col">
                     <label for="">Foto Header</label>
-                    <input type="file" id="filePhoto" class="form-control" name="photo_identitas" placeholder="photo identitas" aria-label="First name">
+                    <input type="file" id="filePhoto" class="form-control" name="photo_header" placeholder="photo identitas" aria-label="First name">
                     <img id="output" src="{{ asset('storage/' . $blog->gambar) }}" alt="{{ $blog->gambar }}" class="mt-2" style="max-height: 200px; max-width: 300px">
                 </div>
             </div>

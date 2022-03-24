@@ -66,6 +66,7 @@
                         <h5>List Properti yang sudah ditambahkan</h5>
                     </div>
                     <div class="col-md-12">
+                        <div class="table-responsive">
                         <table class="table table-stripped">
                             <thead>
                                 <th>No.</th>
@@ -80,6 +81,7 @@
 
                             </tbody>
                         </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -130,6 +132,10 @@
 </div>
 </div>
 @endsection
+
+@push('before-style')
+<link rel="stylesheet" href="{{asset('assets/plugins/bootsrap/bootsrap5/css/bootstrap.min.css')}}">
+@endpush
 
 @push('after-script')
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

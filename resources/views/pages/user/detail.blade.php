@@ -66,6 +66,7 @@
                 </div>
             </div>
             <h5 class="card-title">Daftar Rumah {{ $user->name }}</h5>
+        <div class="table-responsive">
             <table class="table" id="myTable">
                 <thead>
                     <tr>
@@ -141,6 +142,7 @@
                     @endforeach
                 </tbody>
             </table>
+        </div>
             <a href="{{ route('user') }}" class="btn btn-warning mt-4">kembali</a>
         </div>
     </div>
@@ -150,6 +152,8 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.11.3/datatables.min.css" />
+<link rel="stylesheet" href="{{asset('assets/plugins/bootsrap/bootsrap5/css/bootstrap.min.css')}}">
+
 @endpush
 
 @push('after-script')
