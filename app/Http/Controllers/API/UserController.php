@@ -186,8 +186,13 @@ class UserController extends Controller
                 }
             ]
         )->where('pemilik_id', $request->id)->orWhere('penghuni_id', $request->id)->get(['id', 'cluster_id', 'pemilik_id', 'penghuni_id', 'cluster_id', 'luas_tanah', 'luas_bangunan', 'jumlah_kamar', 'kamar_mandi', 'carport', 'no_rumah']);
+
         if($properti->count() == 0){
-            return ResponseFormatter::failed('tidak ada properti dengan id ini!', 404);
+             $return['user'] = $user;
+            $return['properti'] = '';
+            $return['properti.penghuni'] = '';
+
+        return ResponseFormatter::success('get user profile n properti!', $return);
         }
 
         foreach ($properti as $q) {
