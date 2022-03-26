@@ -34,11 +34,11 @@
                 </div>
 
                 <div class="row mt-4">
-                    <div class="col">
+                    {{-- <div class="col">
                         <label for="formGroupExampleInput" class="form-label">Email</label>
                         <input value="" type="email" required class="form-control" name="email" id="email"
                             aria-label="First name">
-                    </div>
+                    </div> --}}
                     {{-- <div class="col">
                         <label for="formGroupExampleInput" class="form-label">Password</label>
                         <input value="" type="password" required class="form-control" name="password" id="password"
@@ -49,24 +49,25 @@
                         <input value="" type="text" required class="form-control" name="alamat" id="alamat"
                             aria-label="First name">
                     </div>
-
-                </div>
-
-                <div class="row mt-4 mb-4">
-                    <div class="col-md-4">
+                    <div class="col">
                         <label for="formGroupExampleInput" class="form-label ">Foto Pengguna</label>
                         <input value="" type="file" id="filePhoto" class="form-control" name="photo_identitas"
                             id="photo_identitas" aria-label="First name">
                         <img id="output" class="mt-3" style="max-height: 200px; max-width: 300px">
                     </div>
 
-                    <div class="col-md-4">
+                    <div class="col">
                         <label for="formGroupExampleInput" class="form-label ">Foto KTP</label>
                         <input value="" type="file" id="filePhoto2" class="form-control" name="photo_ktp" id="photo_ktp"
                             aria-label="First name">
                         <img id="output2" class="mt-3" style="max-height: 200px; max-width: 300px">
                     </div>
 
+
+
+                </div>
+
+                <div class="row mt-4 mb-4">
                     <div class="col">
                         {{-- <label for="formGroupExampleInput" class="form-label">Alamat</label> --}}
                         <input value="{{ request()->id }}" type="hidden" required class="form-control"
@@ -127,6 +128,9 @@
                 var photo_ktp = $('#photo_ktp');
                 var photoImg = $('#output');
                 var ktpImg = $('#output2');
+
+
+
                 // var nik = $("#nik");
 
                 // $('#nik').on('keyup', function() {
@@ -150,8 +154,10 @@
                             email.attr('disabled', false).val('');
                             alamat.attr('disabled', false).val('');
                             password.attr('disabled', false);
-                            photo_identitas.attr('disabled', false);
-                            photo_ktp.attr('disabled', false);
+                            photo_identitas.attr('disabled', false).val('');
+                            photo_ktp.attr('disabled', false).val('');
+                            photoImg.attr("src",'');
+                            ktpImg.attr("src", '');
                         } else {
                             console.log(data);
                             console.log(data[0].name);

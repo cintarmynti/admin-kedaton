@@ -91,7 +91,7 @@ class IPKLController extends Controller
             $notifikasi_admin ->sisi_notifikasi = 'admin';
             $notifikasi_admin -> heading = 'PEMBAYARAN IPKL BARU';
             $notifikasi_admin ->desc = 'ada penghuni yang melakukan pembayaran';
-            $notifikasi_admin -> link = '/ipkl';
+            $notifikasi_admin -> link = '/ipkl/pembayaran/'.$request->user_id;
             $notifikasi_admin ->save();
 
             PusherFactory::make()->trigger('admin', 'kirim', ['data' => $notifikasi_admin]);

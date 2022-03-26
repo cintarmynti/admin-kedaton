@@ -204,6 +204,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/ipkl/pembayar/{id}', [IPKLController::class, 'pembayar'])->name('ipkl.pembayar');
     Route::get('/ipkl/export_excel', [IPKLController::class, 'export_excel']);
     Route::patch('/ipkl/tolak', [IPKLController::class, 'penolakan_pembayaran']);
+    Route::get('/ipkl/pembayaran/{id}', [IPKLController::class, 'pembayaran_baru']);
 
     Route::get('/layanan', [LayananController::class, 'index'])->name('layanan');
     Route::get('/layanan/status/{id}', [LayananController::class, 'status'])->name('layanan.status');

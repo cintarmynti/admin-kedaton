@@ -115,7 +115,7 @@ class UserController extends Controller
             $user->nik = $request->nik;
             $user->alamat = $request->alamat;
             $user->phone = $request->phone;
-            $user->email = $request->email;
+            // $user->email = $request->email;
             // $user->password = bcrypt($request->password);
             $user->status_penghuni = $request->status_penghuni;
             $user->user_status = 'pengguna';
@@ -132,14 +132,17 @@ class UserController extends Controller
             }
 
             if ($request->hasFile('photo_ktp')) {
+                // Storage::disk('public')->delete($user->photo_ktp);
                 $img = Image::make($request->file('photo_ktp'));
                 $img->resize(521, null,  function ($constraint) {
                     $constraint->aspectRatio();
                 });
+                // dd($img);
                 $filename = time() . '.' . $request->file('photo_ktp')->getClientOriginalExtension();
-                $img_path = 'user_photo/' . $filename;
-                Storage::put($img_path, $img->encode());
-                $user->photo_ktp = $img_path;
+                $img_ktp = 'user_photo_ktp/' . $filename;
+                Storage::put($img_ktp, $img->encode());
+                $user->photo_ktp = $img_ktp;
+                // dd($img_path);
             }
             $user->save();
 

@@ -14,6 +14,7 @@ use App\Models\Tagihan;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Carbon;
 use App\Models\Rumah;
+use App\Models\User;
 use Illuminate\Support\Facades\Redirect;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -35,6 +36,16 @@ class IPKLController extends Controller
         }
 
         return view('pages.ipkl.index', ['ipkl' => $query->get()]);
+    }
+
+    public function pembayaran_baru($id){
+        $user_prop = User::find($id);
+        $properti = Properti::where('pemilik_id', $user_prop->id)->orWhere('penghuni_id')->get();
+        foreach($properti as $p){
+            $query = Tagihan::where('properti_id', $p->id)->where('status', 2)->get();
+            // dd($query);
+            return view('pages.ipkl.index', ['ipkl' => $query]);
+        }
     }
 
     public function getIPKLid($id)

@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class ClusterController extends Controller
 {
     public function index(){
-        $cluster = Cluster::all();
+        $cluster = Cluster::orderBy('created_at', 'desc')->get();
         return view('pages.cluster.index', ['cluster' => $cluster]);
     }
 
