@@ -135,7 +135,7 @@ class IPKLController extends Controller
     {
         $sekarang = Carbon::now()->format('d');
         // dd($sekarang);
-        if ($sekarang == '15') {
+        if ($sekarang == '25') {
             $cekTagihan = Tagihan::whereMonth('created_at', date('m'))->whereYear('created_at', date('Y'))->get();
 
             // dd(count($cekTagihan));
