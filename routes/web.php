@@ -21,6 +21,7 @@ use App\Http\Controllers\NotifikasiController;
 use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\LaporanComplainController;
 use App\Http\Controllers\LaporanPanicButtonController;
+// use App\Http\Controllers\MobilePulsaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -218,8 +219,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/layanan/riwayat/{id}', [LayananController::class, 'get_riwayat']);
     Route::patch('/layanan/riwayat-create', [LayananController::class, 'create_riwayat']);
     Route::get('/layanan/pembayar/{id}', [LayananController::class, 'pembayar'])->name('layanan.pembayar');
-
-
 
 
 

@@ -10,6 +10,7 @@ use App\Http\Controllers\API\NotifikasiController;
 use App\Http\Controllers\API\ListingController;
 use App\Http\Controllers\API\PanicButtonController;
 use App\Http\Controllers\API\PropertiController;
+use App\Http\Controllers\API\MobilePulsaController;
 use App\Models\Properti;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -86,3 +87,7 @@ Route::post('create-image', [ListingController::class, 'createImage']);
 
 Route::post('create-complain', [ComplainController::class, 'store']);
 Route::get('get-complain', [ComplainController::class, 'getComplain']);
+
+
+Route::get('/mobile-pulsa', [MobilePulsaController::class, 'balance']);
+Route::post('/mobile-pulsa/pascatelkom', [MobilePulsaController::class, 'pascatelkom']);
