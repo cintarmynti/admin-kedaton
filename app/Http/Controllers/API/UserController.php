@@ -199,15 +199,19 @@ class UserController extends Controller
             $q->gambar =  url('/').'/storage/'.$q->cover_url;
         }
 
+        $myArr = [];
+
         foreach ($properti as $q) {
-            $myArr = [];
             $pengajuan = Pengajuan::where('properti_id_penghuni', $q->id)->get();
             foreach($pengajuan as $p)
             {
                 $penghuni['nama'] = User::where('id', $p->user_id)->first()->name;
                 $status = Pengajuan::where('user_id', $p->user_id)->first()->status_verivikasi;
                 $penghuni['status'] = $status == 1 ? 'terverifikasi' : 'menunggu verifikasi';
+                $penghuni['gambar'] = url('/').'/storage/'.User::where('id', $p->user_id)->first()->photo_identitas;
+                // dd($penghuni);
                 array_push($myArr, $penghuni);
+                // dd($myArr);
             }
         }
 
