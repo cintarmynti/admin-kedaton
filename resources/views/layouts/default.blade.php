@@ -76,35 +76,34 @@
         </div>
     </div>
 
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Alasan Panic Button</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-            <form action="{{ route('panic.status') }}" method="POST">
-                @csrf
-                @method('patch')
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Alasan Panic Button</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ route('panic.status') }}" method="POST">
+                        @csrf
+                        @method('patch')
 
-                <input type="hidden" placeholder="rumah_id" id="id_rumah" name="id_rumah">
-                <input type="hidden" placeholder="panic_id" id="panic_id" name="id">
+                        <input type="hidden" placeholder="rumah_id" id="id_rumah" name="id_rumah">
+                        <input type="hidden" placeholder="panic_id" id="panic_id" name="id">
 
-                <input type="hidden" placeholder="user_id" id="user_id" name="user_id">
-                <input type="text" class="form-control" placeholder="Keterangan" name="keterangan">
-          {{-- Woohoo, you're reading this text in a modal! --}}
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary">Save changes</button>
-        </form>
+                        <input type="hidden" placeholder="user_id" id="user_id" name="user_id">
+                        <input type="text" class="form-control" placeholder="Keterangan" name="keterangan">
+                        {{-- Woohoo, you're reading this text in a modal! --}}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                    </form>
 
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 
 
     {{-- <script>
@@ -240,6 +239,66 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-bs4.js"></script>
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-messaging.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+    https://firebase.google.com/docs/web/setup#available-libraries -->
+
+    <script>
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+            apiKey: "AIzaSyB2OL6IhJX7HDGUblKz0OjCF2tbMvT-tV4",
+            authDomain: "kedaton-fbe20.firebaseapp.com",
+            projectId: "kedaton-fbe20",
+            storageBucket: "kedaton-fbe20.appspot.com",
+            messagingSenderId: "201815427799",
+            appId: "1:201815427799:web:8dd19acf1353c737abbe92",
+            measurementId: "G-96L7Y5B4EG"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
+        const messaging = firebase.messaging();
+
+        function initFirebaseMessagingRegistration() {
+            messaging.requestPermission().then(function() {
+                return messaging.getToken()
+            }).then(function(token) {
+
+                $.ajax({
+                    type: "post",
+                    url: "/api/fcm-token",
+
+                    dataType: "json",
+                    data : {
+                        token : token,
+                        user_id : "{{Auth::user()->id}}"
+                    },
+                    success: function (response) {
+                        console.log(response);
+                    }
+                });
+
+            }).catch(function(err) {
+                console.log(`Token Error :: ${err}`);
+            });
+        }
+
+        initFirebaseMessagingRegistration();
+
+        messaging.onMessage(function({
+            data: {
+                body,
+                title
+            }
+        }) {
+            new Notification(title, {
+                body
+            });
+        });
+    </script>
 
     <script>
         $(document).ready(function() {

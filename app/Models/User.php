@@ -27,7 +27,8 @@ class User extends Authenticatable
         'password',
         'status_penghuni',
         'email_pengajuan',
-        'snk'
+        'snk',
+        'fcm_token'
 
     ];
 

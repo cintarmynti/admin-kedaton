@@ -71,6 +71,8 @@ Route::get('riwayat-bayar', [IPKLController::class, 'riwayat_bayar']);
 
 Route::get('count-notif', [NotifikasiController::class, 'countNotif']);
 Route::get('semua-notif', [NotifikasiController::class, 'notif']);
+Route::post('/fcm-token', [NotifikasiController::class, 'updateToken'])->name('fcmToken');
+Route::post('/send-notification',[NotifikasiController::class,'notification'])->name('notification');
 
 Route::post('pengajuan-layanan', [LayananController::class, 'pengajuan']);
 Route::get('get-layanan', [LayananController::class, 'ambilLayanan']);

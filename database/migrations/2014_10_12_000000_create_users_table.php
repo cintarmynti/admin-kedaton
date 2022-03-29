@@ -30,6 +30,7 @@ class CreateUsersTable extends Migration
             $table->string('password')->nullable();
             $table->longText('device_token')->nullable();
             $table->string('email_pengajuan')->default(2);
+            $table->text('fcm_token')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
