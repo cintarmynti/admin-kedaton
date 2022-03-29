@@ -65,7 +65,7 @@ Route::get('belom-bayar', [IPKLController::class, 'belomDibayar']);
 Route::get('list-tagihan', [IPKLController::class, 'listTagihan']);
 Route::get('detail-ipkl', [IPKLController::class, 'detailIpkl']);
 
-Route::get('sudah-bayar-tagihan', [IPKLController::class, 'sudahDibayar']);
+// Route::get('sudah-bayar-tagihan', [IPKLController::class, 'sudahDibayar']);
 Route::get('total-bayar', [IPKLController::class, 'total_tagihan']);
 Route::get('riwayat-bayar', [IPKLController::class, 'riwayat_bayar']);
 

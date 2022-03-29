@@ -163,7 +163,7 @@
             // console.log(data);
             // console.log('halo');
             // console.log(notif_panic);
-
+            getNotifAll()
             alert_button();
 
         })

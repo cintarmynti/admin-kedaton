@@ -22,8 +22,7 @@ class IPKLController extends Controller
 {
     public function store(Request $request)
     {
-        // DB::beginTransaction();
-        // Log::info($request->all());
+
 
         if (!$request->user_id || !$request->tagihan_id || !$request->bank || !$request->bukti_tf) {
             return ResponseFormatter::failed('tidak boleh ada field kosong!', 404);
@@ -36,11 +35,6 @@ class IPKLController extends Controller
         try {
             $ipkl = [];
             if ($request->bukti_tf) {
-                // $image = $request->bukti_tf;  // your base64 encoded
-                // $image = str_replace('data:image/png;base64,', '', $image);
-                // $image = str_replace(' ', '+', $image);
-                // $imageName =  time() . rand(0, 2000) . '.' . 'png';
-                // File::put('bukti_tf/' . $imageName, base64_decode($image));
 
                 $image = $request->bukti_tf;  // your base64 encoded
                 $image = str_replace('data:image/png;base64,', '', $image);
@@ -106,13 +100,6 @@ class IPKLController extends Controller
         }
     }
 
-    // public function ipklRouting($user){
-    //     $properti_user = Properti::where('pemilik_id', $user)->orWhere('penghuni_id', $user)->get();
-    //     foreach($properti_user as $p){
-    //         $tagihan = Tagihan::where('properti_id', $p)->where('status', 1)->get();
-
-    //     }
-    // }
 
     public function listTagihan(Request $request)
     {
@@ -123,21 +110,31 @@ class IPKLController extends Controller
 
         $user = User::where('id', $request->user_id)->first();
 
-        if($user == null){
+        if ($user == null) {
             return ResponseFormatter::failed('tidak ada user dengan id ini!', 404);
         }
 
         $properti = Properti::where('pemilik_id', $request->user_id)->orWhere('penghuni_id', $request->user_id)->get();
-        if($properti->count() == 0){
-        return ResponseFormatter::failed('user belum meiliki properti !', 404);
-        }
-        foreach($properti as $p){
-            $tagihan['ipkl'] = Tagihan::with('type')->where('type_id', 1)->where('status', 1)->where('properti_id', $p->id)->get(['id', 'type_id', 'jumlah_pembayaran', 'properti_id', 'periode_pembayaran']);
-            $tagihan['renovasi'] = Tagihan::with('type')->where('type_id', 2)->where('status', 1)->where('properti_id', $p->id)->get();
-
-            return ResponseFormatter::success('berhasil mendapat list tagihan yg belum dibayar!', $tagihan);
+        if ($properti->count() == 0) {
+            return ResponseFormatter::failed('user belum meiliki properti !', 404);
         }
 
+        $array_ipkl = [];
+        $array_renovasi = [];
+        foreach ($properti as $p) {
+            $push_ipkl = Tagihan::with('type')->where('type_id', 1)->where('status', 1)->where('properti_id', $p->id)->select('id', 'type_id', 'jumlah_pembayaran', 'properti_id', 'periode_pembayaran')->get();
+            foreach ($push_ipkl as $key => $ipkl) {
+                array_push($array_ipkl, $ipkl);
+            }
+            $push_renovasi = Tagihan::with('type')->where('type_id', 2)->where('status', 1)->where('properti_id', $p->id)->get();
+            foreach ($push_renovasi as $key => $renovasi) {
+                array_push($array_renovasi, $renovasi);
+            }
+        }
+
+        $tagihan['ipkl'] = $array_ipkl;
+        $tagihan['renovasi'] = $array_renovasi;
+        return ResponseFormatter::success('berhasil mendapat list tagihan yg belum dibayar!', $tagihan);
     }
 
     public function belomDibayar(Request $request)
@@ -152,53 +149,25 @@ class IPKLController extends Controller
 
         $properti = Properti::where('pemilik_id', $request->user_id)->orWhere('penghuni_id', $request->user_id)->get();
         if($properti->count() == 0){
-        return ResponseFormatter::failed('user belum meiliki properti !', 404);
+            return ResponseFormatter::failed('user belum meiliki properti !', 404);
         }
 
+
+        $array_unpay = [];
         foreach($properti as $p){
-            $unpay = Tagihan::with('type')->where('properti_id', $p->id)->where('status', 1)->where('type_id', 1)->get(['id', 'periode_pembayaran', 'jumlah_pembayaran', 'type_id']);
+            $push_unpay = Tagihan::with('type')->where('properti_id', $p->id)->where('status', 1)->where('type_id', 1)->get(['id', 'periode_pembayaran', 'jumlah_pembayaran', 'type_id']);
 
-            if($unpay->count() == 0){
-                return ResponseFormatter::failed('tidak ada tagihan!', 404);
+            foreach($push_unpay as $key => $unpay){
+                array_push($array_unpay, $unpay);
             }
 
-            return ResponseFormatter::success('berhasil mendapat ipkl belum dibayar!', $unpay);
         }
 
+        return ResponseFormatter::success('berhasil mendapat ipkl belum dibayar!', $array_unpay);
 
-        return ResponseFormatter::failed('gagal mendapat data!', 404);
     }
 
-    public function sudahDibayar(Request $request)
-    {
-        if (!$request->user_id) {
-            return ResponseFormatter::failed('tidak boleh ada field kosong!', 404);
-        }
 
-        if (User::where('id', $request->user_id)->first() == null) {
-            return ResponseFormatter::failed('tidak ada user dengan id tersebut!', 404);
-        }
-
-        $cek_properti_pemilik = Properti::where('pemilik_id', $request->user_id)->first();
-        $cek_properti_penghuni = Properti::where('penghuni_id', $request->user_id)->first();
-
-        // dd($cek_properti_pemilik );
-        if ($cek_properti_pemilik != null) {
-
-            $unpay = Tagihan::with('cluster')->where('properti_id', $cek_properti_pemilik->id)->where('type_id', 1)->where('status', 3)->get();
-            if ($unpay->count() == 0) {
-                return ResponseFormatter::failed('tidak ada tagihan yang di acc!', 404);
-            }
-
-            return ResponseFormatter::success('successful to get paid data!', $unpay);
-        } else if ($cek_properti_penghuni != null) {
-            $unpay = Tagihan::with('cluster')->where('properti_id', $cek_properti_penghuni->id)->where('type_id', 1)->where('status', 3)->get();
-            if ($unpay->count() == 0) {
-                return ResponseFormatter::failed('tidak ada tagihan yang di acc!', 404);
-            }
-        }
-        return ResponseFormatter::failed('gagal mendapat data!', 404);
-    }
 
     public function sudahBayarIpkl(Request $request)
     {
@@ -215,18 +184,21 @@ class IPKLController extends Controller
             return ResponseFormatter::failed('user belum memiliki tagihan IPKL !', 404);
         }
 
+        $array_dibayar = [];
         foreach($properti as $p){
-            $dibayar = Tagihan::with([
+            $push_dibayar = Tagihan::with([
                     'ipkl' => function ($ipkl) {
                         $ipkl->select('id', 'tagihan_id','periode_pembayaran', 'bank', 'bukti_tf', 'nominal');
                     }])
                     ->where('properti_id', $p->id)->where('status', 3)->where('type_id', 1)->get();
-
-            return ResponseFormatter::success('successful to get Accepted data!', $dibayar);
+            foreach($push_dibayar as $key => $dibayar){
+                array_push($array_dibayar, $dibayar);
+            }
 
         }
 
-        return ResponseFormatter::failed('gagal mendapat data!', 404);
+        return ResponseFormatter::success('successful to get Accepted data!', $array_dibayar);
+
     }
 
     public function total_tagihan(Request $request)
@@ -242,21 +214,21 @@ class IPKLController extends Controller
         $properti = Properti::where('pemilik_id', $request->user_id)->orWhere('penghuni_id', $request->user_id)->get();
 
         if($properti->count() == 0){
-        return ResponseFormatter::failed('user belum meiliki properti !', 404);
+            return ResponseFormatter::failed('user belum meiliki properti !', 404);
         }
 
 
-
+        $array_total = [];
         foreach($properti as $p){
 
-        $unpay = Tagihan::with('cluster')->where('properti_id', $p->id)->where('status', 1)->get()->sum('jumlah_pembayaran');
-        return ResponseFormatter::success('successful to get total pembayaran!', $unpay);
-
-
+            $push_total = Tagihan::with('cluster')->where('properti_id', $p->id)->where('status', 1)->get();
+            foreach($push_total as $key => $total){
+                array_push($array_total, $total->jumlah_pembayaran);
+            }
         }
+        return ResponseFormatter::success('successful to get total pembayaran!', array_sum($array_total));
 
 
-        return ResponseFormatter::failed('gagal mendapat data!', 404);
     }
 
     public function riwayat_bayar(Request $request)

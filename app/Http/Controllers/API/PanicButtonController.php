@@ -43,6 +43,7 @@ class PanicButtonController extends Controller
         $notifikasi_admin -> link = '/panic-button';
         $notifikasi_admin ->save();
 
+        // PusherFactory::make()->trigger('admin', 'kirim', ['data' => $notifikasi_admin]);
 
         $panic_button['panic'] = PanicButton::where('id', $panic->id)->first('id');
         $panic_button['properti'] = Properti::with('cluster')->where('id', $panic -> id_rumah)->first(['id', 'no_rumah', 'cluster_id']);
