@@ -32,8 +32,9 @@ class UserController extends Controller
     {
 
         $user_detail = User::where('nik', $request->nik)->first();
-        $user_detail->photo_identitas = $user_detail->image_url;
-        $user_detail->photo_ktp = $user_detail->image_ktp;
+        // dd($user_detail->image_url);
+        $user_detail->photo_identitas = $user_detail->image_url == null ? '' : $user_detail->image_url;
+        $user_detail->photo_ktp = $user_detail->image_ktp == null ? '' : $user_detail->image_ktp;
 
 
         if ($request->nik == null) {
@@ -64,8 +65,7 @@ class UserController extends Controller
             return ResponseFormatter::failed('tidak boleh ada filed kosong', 404);
         }
 
-
-        if($cekNik && $cekNik->snk == 1){
+        if($cekNik->snk == 1){
             return ResponseFormatter::failed('user ini sudah register, silahkan login', 404);
         }
 
@@ -74,7 +74,7 @@ class UserController extends Controller
         }
 
         // dd($cekNik != null);
-        if ($cekNik != null && $request->snk == 1) {
+        if ($cekNik != null && $cekNik->snk == 0) {
             $pw = Str::random(8);
             // dd($pw);
             $hashed_random_password = Hash::make($pw);
@@ -147,8 +147,10 @@ class UserController extends Controller
         }
 
         $pw = Hash::check($request->password, $cekNik->password);
-        if ($cekNik != null && $pw) {
+        if ($cekNik != null && $pw && $cekNik->snk == 1) {
             return ResponseFormatter::success('User telah berhasil login!', $cekNik);
+        }else if($cekNik != null && $pw && $cekNik->snk == 0){
+            return ResponseFormatter::failed('lakukan registrasi terlebih dahulu');
         } else {
             return ResponseFormatter::failed('User Login Failed!', 401, ['Unauthorized']);
         }

@@ -8,6 +8,8 @@
     <meta name="description" content="Responsive Admin Dashboard Template">
     <meta name="keywords" content="admin,dashboard">
     <meta name="author" content="stacks">
+    <link rel="icon" href="{{ asset('assets/images/kedaton-logo.png') }}">
+    {{-- <link rel="stylesheet" type="text/css" href="{{ url('css/style.css') }}"> --}}
     {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script> --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
         integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
@@ -132,13 +134,9 @@
                 dataType: 'json',
                 success: function(response) {
                     // console.log(response);
-
                     $('#user_id').val(response.user_id);
                     $('#id_rumah').val(response.id_rumah);
                     $('#panic_id').val(response.id);
-
-
-
                 }
             });
 

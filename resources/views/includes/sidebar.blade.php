@@ -6,6 +6,15 @@
     <li class="{{ Request::is('dashboard*') ? 'active-page' : '' }}">
       <a href="{{route('dashboard.index')}}"><i data-feather="home"></i>Dashboard <div class="alert-circle"></div></a>
     </li>
+
+    <li class="{{ Request::is('cluster') ? 'active-page' : '' }}" class="active-page">
+        <a href="{{route('cluster')}}"><i data-feather="file-plus"></i>Cluster</a>
+    </li>
+
+    <li class="{{ Request::is('properti*') ? 'active-page' : '' }}">
+      <a href="{{route('properti')}}"><i data-feather="home"></i>Properti</a>
+    </li>
+
     {{-- <li  class="{{ Request::is('admin') ? 'active-page' : '' }}">
     <a href="{{route('admin.index')}}"><i data-feather="home"></i>Admin</a>
     </li> --}}
@@ -18,13 +27,6 @@
     <a href="/rumah-pengguna"><i data-feather="user-check"></i>Rumah Pengguna</a>
     </li> --}}
 
-    <li class="{{ Request::is('cluster') ? 'active-page' : '' }}" class="active-page">
-        <a href="{{route('cluster')}}"><i data-feather="file-plus"></i>Cluster</a>
-    </li>
-
-    <li class="{{ Request::is('properti*') ? 'active-page' : '' }}">
-      <a href="{{route('properti')}}"><i data-feather="home"></i>Properti</a>
-    </li>
 
 
 

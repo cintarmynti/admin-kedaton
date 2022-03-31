@@ -30,10 +30,10 @@
 
                 <div class="row mt-4">
 
-                    {{-- <div class="col">
+                    <div class="col-md-4">
                     <label for="formGroupExampleInput" class="form-label">Email</label>
                   <input type="email" value="{{old('email', $user->email)}}"  class="form-control" name="email"  aria-label="First name">
-                </div> --}}
+                </div>
                     {{-- <div class="col">
                         <label for="formGroupExampleInput" class="form-label">Password</label>
                         <input type="password" class="form-control" name="password" aria-label="Last name">

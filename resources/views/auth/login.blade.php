@@ -11,7 +11,7 @@
 
         <!-- Title -->
         <title>Admin - Kedaton</title>
-
+        <link rel="icon" href="{{ asset('assets/images/kedaton-logo.png') }}">
 
 
         <!-- Styles -->

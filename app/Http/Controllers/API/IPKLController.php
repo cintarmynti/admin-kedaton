@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Log;
 use Illuminate\Support\Str;
-
+use Kutia\Larafirebase\Facades\Larafirebase;
 
 class IPKLController extends Controller
 {
@@ -79,6 +79,20 @@ class IPKLController extends Controller
             $notifikasi->heading = 'BERHASIL MELAKUKAN PEMBAYARAN IPKL';
             $notifikasi->desc = 'Terimakasih sudah melakukan pembayaran IPKL, pembayaran anda sedang di proses Admin';
             $notifikasi->save();
+
+            try{
+                $fcmTokens = User::whereNotNull('fcm_token')->pluck('fcm_token')->toArray();
+
+                Larafirebase::withTitle($request->title = 'BERHASIL MELAKUKAN PEMBAYARAN IPKL')
+                    ->withBody($request->message ='Terimakasih sudah melakukan pembayaran IPKL, pembayaran anda sedang di proses Admin')
+                    ->sendMessage($fcmTokens);
+
+                return response()->json(['success'=>'Notification Sent Successfully!!']);
+
+            }catch(\Exception $e){
+                report($e);
+                return response()->json(['error'=>'Something goes wrong while sending notification.']);
+            }
 
             $notifikasi_admin = new Notifikasi();
             $notifikasi_admin ->user_id = null;

@@ -9,6 +9,7 @@ use App\Models\Properti;
 use App\Models\Pembayaran;
 use App\Exports\UserExport;
 use App\Mail\KedatonNewMember;
+use App\Mail\PasswordBaru;
 use App\Models\Cancel;
 use App\Models\Notifikasi;
 use App\Models\Pengajuan;
@@ -17,6 +18,7 @@ use Illuminate\Http\Request;
 use App\Models\Properti_image;
 use App\Models\tarif_ipkl;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Maatwebsite\Excel\Facades\Excel;
 use Intervention\Image\Facades\Image;
@@ -246,9 +248,27 @@ class UserController extends Controller
         $user->nik = $request->nik;
         $user->alamat = $request->alamat;
         $user->phone = $request->phone;
-        // $user->email = $request->email;
+        $user->email = $request->email;
         // $user->password = bcrypt($request->password);
         $user->user_status = 'pengguna';
+
+        if($user->email != $request->email){
+            $pw = Str::random(8);
+            // dd($pw);
+            $hashed_random_password = Hash::make($pw);
+            $user->password = $hashed_random_password;
+            // dd($user->password);
+            $user->save();
+            $details = [
+                'recipient' => $request->email,
+                // 'fromEmail' => 'coba@gmail.com',
+                // 'nik' => $request->nik,
+                'subject' => $pw
+            ];
+
+            Mail::to($details['recipient'])->send(new PasswordBaru($details));
+
+        }
 
 
         if ($request->hasFile('photo_identitas')) {
@@ -283,7 +303,7 @@ class UserController extends Controller
         // dd($user->photo_ktp);
         // dd($user);
 
-        $user->save();
+        $user->update();
 
 
         if ($user) {

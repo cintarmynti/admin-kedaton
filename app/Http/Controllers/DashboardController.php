@@ -44,4 +44,12 @@ class DashboardController extends Controller
         $notif['data'] = Notifikasi::where('sisi_notifikasi', 'admin')->orderBy('created_at', 'desc')->get();
         return response()->json($notif);
     }
+
+    public function privasi(){
+        return view('tambahan.privasi');
+    }
+
+    public function term(){
+        return view('tambahan.term');
+    }
 }

@@ -16,6 +16,7 @@ use Illuminate\Support\Carbon;
 use App\Models\Rumah;
 use App\Models\User;
 use Illuminate\Support\Facades\Redirect;
+use Kutia\Larafirebase\Facades\Larafirebase;
 use Maatwebsite\Excel\Facades\Excel;
 
 class IPKLController extends Controller
@@ -243,6 +244,19 @@ class IPKLController extends Controller
         $notifikasi->desc = 'Pembayaran IPKL telah disetujui admin, terimakasih sudah membayar';
         $notifikasi->save();
 
+        try{
+            $fcmTokens = User::where('id', $request->user_id)->whereNotNull('fcm_token')->pluck('fcm_token')->toArray();
+
+            Larafirebase::withTitle($request->title = 'PEMBAYARAN IPKL TELAH DISETUJUI')
+                ->withBody($request->message = 'Pembayaran IPKL telah disetujui admin, terimakasih sudah membayar')
+                ->sendMessage($fcmTokens);
+
+            return response()->json(['success'=>'Notification Sent Successfully!!']);
+
+        }catch(\Exception $e){
+            report($e);
+            return response()->json(['error'=>'Something goes wrong while sending notification.']);
+        }
         // Alert::success('Data berhasil disimpan');
 
         $data = IPKL::findOrFail($request->pembayaran_id);

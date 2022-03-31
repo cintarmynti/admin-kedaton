@@ -134,14 +134,14 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="formGroupExampleInput" class="form-label">No Listrik</label>
-                            <input value="{{ old('listrik') }}" type="number" required class="form-control"
+                            <input value="{{ old('listrik') }}" type="text" required class="form-control"
                                 name="listrik">
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="formGroupExampleInput" class="form-label">No PAM</label>
-                            <input value="{{ old('pam') }}" type="number" required class="form-control" name="pam">
+                            <input value="{{ old('pam') }}" type="text" required class="form-control" name="pam">
                         </div>
                     </div>
                     <div class="col-md-4">

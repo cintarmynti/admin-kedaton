@@ -21,6 +21,8 @@ use App\Http\Controllers\NotifikasiController;
 use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\LaporanComplainController;
 use App\Http\Controllers\LaporanPanicButtonController;
+use Facade\FlareClient\Api;
+
 // use App\Http\Controllers\MobilePulsaController;
 
 /*
@@ -43,6 +45,8 @@ Route::group(['middleware' => 'auth'], function () {
     });
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
+
+
 
     Route::get('/dashboard/notif-admin', [DashboardController::class, 'notif_admin']);
     Route::get('/notif/{id}', [NotifikasiController::class, 'detailPages']);
@@ -236,3 +240,6 @@ Auth::routes();
 
 
 Route::get('/ipkl/new_tagihan', [IPKLController::class, 'generate_tagihan']);
+Route::get('/privasi', [DashboardController::class, 'privasi']);
+Route::get('/term', [DashboardController::class, 'term']);
+// Route::get('/notif-ipkl', [App\Http\Controllers\API\NotifikasiController::class, 'notification']);
