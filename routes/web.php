@@ -45,6 +45,7 @@ Route::group(['middleware' => 'auth'], function () {
     });
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
+    Route::get('/dashboard/saldo', [DashboardController::class, 'balance']);
 
 
 

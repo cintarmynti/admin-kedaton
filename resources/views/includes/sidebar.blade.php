@@ -1,6 +1,12 @@
 <div class="page-sidebar">
   <ul class="list-unstyled accordion-menu">
     <li class="sidebar-title">
+        Saldo
+    </li>
+    <li>
+        <a href=""><h4 id="total-balance"></h4> </a>
+    </li>
+    <li class="sidebar-title">
       Main
     </li>
     <li class="{{ Request::is('dashboard*') ? 'active-page' : '' }}">

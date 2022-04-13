@@ -10,6 +10,7 @@ use App\Models\Renovasi;
 // use App\Models\rev_listing;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 
 class DashboardController extends Controller
 {
@@ -51,5 +52,16 @@ class DashboardController extends Controller
 
     public function term(){
         return view('tambahan.term');
+    }
+
+    public function balance()
+    {
+        $balance = Http::post('https://testprepaid.mobilepulsa.net/v1/legacy/index', [
+            'commands' => 'balance',
+            'username' => '087859277817',
+            'sign'     => 'e847641e5dd7ff2299294976646f76b7'
+        ])->json();
+
+        return $balance;
     }
 }

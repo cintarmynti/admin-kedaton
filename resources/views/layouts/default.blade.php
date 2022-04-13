@@ -78,7 +78,7 @@
         </div>
     </div>
 
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="ketPanicModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -90,10 +90,10 @@
                         @csrf
                         @method('patch')
 
-                        <input type="hidden" placeholder="rumah_id" id="id_rumah" name="id_rumah">
-                        <input type="hidden" placeholder="panic_id" id="panic_id" name="id">
+                        <input type="text" placeholder="rumah_id" id="id_rumah" name="id_rumah">
+                        <input type="text" placeholder="panic_id" id="panic_id" name="id">
 
-                        <input type="hidden" placeholder="user_id" id="user_id" name="user_id">
+                        <input type="text" placeholder="user_id" id="user_id" name="user_id">
                         <input type="text" class="form-control" placeholder="Keterangan" name="keterangan">
                         {{-- Woohoo, you're reading this text in a modal! --}}
                 </div>
@@ -124,7 +124,7 @@
     <script src="https://js.pusher.com/4.1/pusher.min.js"></script>
 
     <script>
-        $('#exampleModal').on('show.bs.modal', function(event) {
+        $('#ketPanicModal').on('show.bs.modal', function(event) {
             var button = $(event.relatedTarget)
             var id = button.data('panic_id')
 
@@ -133,7 +133,7 @@
                 url: "/panic-button/detail/" + id,
                 dataType: 'json',
                 success: function(response) {
-                    // console.log(response);
+                    console.log(response.user_id);
                     $('#user_id').val(response.user_id);
                     $('#id_rumah').val(response.id_rumah);
                     $('#panic_id').val(response.id);
@@ -183,7 +183,7 @@
                                 <h6>Butuh Penanganan</h6>
                                 <h1>${item.properti.no_rumah} - ${item.properti.cluster.name}</h1>
                                 <hr>
-                                <a href="" data-bs-toggle="modal" data-bs-target="#exampleModal" data-panic_id="${item.id}" class="btn btn-block btn-md btn-danger">TANGANI</a>
+                                <a href="" data-bs-toggle="modal" data-bs-target="#ketPanicModal" data-panic_id="${item.id}" class="btn btn-block btn-md btn-danger">TANGANI</a>
                             </div>
                         </div>
                     </div>`
@@ -270,11 +270,11 @@
                     url: "/api/fcm-token",
 
                     dataType: "json",
-                    data : {
-                        token : token,
-                        user_id : "{{Auth::user()->id}}"
+                    data: {
+                        token: token,
+                        user_id: "{{ Auth::user()->id }}"
                     },
-                    success: function (response) {
+                    success: function(response) {
                         console.log(response);
                     }
                 });
@@ -302,6 +302,7 @@
         $(document).ready(function() {
             // alert('halo');
             getNotifAll();
+            getBalance();
         });
 
         function getNotifAll() {
@@ -347,6 +348,34 @@
                 }
             });
         }
+
+
+        function moneyFormat(price, sign = 'Rp') {
+            const pieces = parseFloat(price).toFixed(2).split('')
+            let ii = pieces.length - 3
+            while ((ii -= 3) > 0) {
+                pieces.splice(ii, 0, ',')
+            }
+            return sign + pieces.join('')
+        }
+
+
+        function getBalance() {
+            $.ajax({
+                    type: "get",
+                    url: "/dashboard/saldo",
+                    data: "data",
+                    dataType: "json",
+                    success: function(response) {
+                        var total = response.data.balance;
+                        // console.log(total);
+                        // console.log( moneyFormat(total));
+                            // alert(response);
+                            $('#total-balance').html(moneyFormat(total));
+
+                        }
+                    });
+            }
     </script>
 
     {{-- <script src="{{ asset('js/chat.js') }}"></script> --}}

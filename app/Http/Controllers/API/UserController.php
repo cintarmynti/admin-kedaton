@@ -30,20 +30,25 @@ class UserController extends Controller
 {
     public function getNik(Request $request)
     {
-
-        $user_detail = User::where('nik', $request->nik)->first();
-        // dd($user_detail->image_url);
-        $user_detail->photo_identitas = $user_detail->image_url == null ? '' : $user_detail->image_url;
-        $user_detail->photo_ktp = $user_detail->image_ktp == null ? '' : $user_detail->image_ktp;
-
-
         if ($request->nik == null) {
             return ResponseFormatter::failed('mohon masukkan nik terlebih dahulu!', 404);
         }
 
+
+        $user_detail = User::where('nik', $request->nik)->first();
+
         if ($user_detail == null) {
             return ResponseFormatter::failed('tidak ada user dengan nik tersebut!', 404);
         }
+        // dd($user_detail->image_url);
+        $user_detail->email = $user_detail->email_cek == null ? '' : $user_detail->email_cek;
+        $user_detail->photo_identitas = $user_detail->image_url == null ? '' : $user_detail->image_url;
+        $user_detail->photo_ktp = $user_detail->image_ktp == null ? '' : $user_detail->image_ktp;
+
+
+
+
+
         return ResponseFormatter::success('sukses mengambil detail user!', [$user_detail]);
     }
 

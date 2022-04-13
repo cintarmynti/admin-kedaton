@@ -31,6 +31,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
+//semua riwayat
+Route::get('riwayat', [MobilePulsaController::class, 'riwayat']);
+
 
 Route::get('/renovasi', [RenovasiController::class, 'index']);
 Route::post('/renovasi/create', [RenovasiController::class, 'create']);
@@ -93,3 +96,8 @@ Route::get('get-complain', [ComplainController::class, 'getComplain']);
 
 Route::get('/mobile-pulsa', [MobilePulsaController::class, 'balance']);
 Route::post('/mobile-pulsa/pascatelkom', [MobilePulsaController::class, 'pascatelkom']);
+Route::post('/mobile-pulsa/paytelkom', [MobilePulsaController::class, 'paymentTelkom']);
+Route::post('/mobile-pulsa/inquiry_pdam', [MobilePulsaController::class, 'inquiryPDAM']);
+Route::post('/mobile-pulsa/payment_pdam', [MobilePulsaController::class, 'paymentPDAM']);
+Route::post('/mobile-pulsa/inquiry_pln', [MobilePulsaController::class, 'inquiryPLN']);
+Route::post('/mobile-pulsa/payment_pln', [MobilePulsaController::class, 'paymentPLN']);

@@ -17,7 +17,7 @@ class CreateMobilePulsaTable extends Migration
             $table->id();
             $table->integer('user_id');
             $table->string('total');
-            $table->string('no_hp'); // no indihome
+            $table->string('no_telkom'); // no indihome
             $table->integer('status_pembayaran')->default(0);
             $table->string('jenis_pembayaran');
             $table->timestamps();

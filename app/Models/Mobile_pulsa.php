@@ -13,7 +13,7 @@ class Mobile_pulsa extends Model
         'user_id',
         'total',
         'status_pembayaran',
-        'no_hp',
+        'no_telkom',
         'jenis_pembayaran'
     ];
 }

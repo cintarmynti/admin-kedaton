@@ -56,7 +56,7 @@
                                     @if ($i->status == 1)
                                         <a class="btn btn-success mx-1" data-bukti="{{ $i->bukti_tf }}"
                                             data-riwayat_id="{{ $i->id }}" data-toggle="modal"
-                                            data-target="#exampleModal" href="{{ route('ipkl.status', $i->id) }}"><i
+                                            data-target="#successModal" href="{{ route('ipkl.status', $i->id) }}"><i
                                                 data-feather="check"></i></a>
 
 
@@ -115,7 +115,7 @@
            </div>
 
             <!-- Modal -->
-            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
                 aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -133,6 +133,8 @@
                                 <input type="hidden" name="user_id" id="user_id">
                                 <input type="hidden" name="tagihan_id" id="tagihan_id">
                                 <input type="hidden" name="pembayaran_id" id="pembayaran_id">
+                                <input type="hidden" name="nominal" id="nominal">
+
 
                         </div>
                         <div class="modal-footer">
@@ -211,7 +213,7 @@
     </script>
     <script>
         var APP_URL = {!! json_encode(url('/')) !!}
-        console.log(APP_URL);
+        // console.log(APP_URL);
         $('#exampleCancelModal').on('show.bs.modal', function(event) {
             var button = $(event.relatedTarget)
             var id = button.data('riwayat_id')
@@ -221,13 +223,12 @@
                 url: "/ipkl/riwayat/" + id,
                 dataType: 'json',
                 success: function(response) {
-                    console.log(response);
-
+                    // console.log(response);
+                    // alert('halo')
                     $('#user_id2').val(response.user_id);
                     $('#pembayaran_id2').val(response.id);
                     $('#tagihan_id2').val(response.tagihan_id);
                     $('#bukti_tf2').attr('src', APP_URL + '/storage/' +response.bukti_tf);
-
 
                 }
             });
@@ -240,8 +241,8 @@
     // ini buat yang disetujui
 
     var APP_URL = {!! json_encode(url('/')) !!}
-    console.log(APP_URL);
-    $('#exampleModal').on('show.bs.modal', function(event) {
+    // console.log(APP_URL);
+    $('#successModal').on('show.bs.modal', function(event) {
         var button = $(event.relatedTarget)
         var id = button.data('riwayat_id')
 
@@ -250,12 +251,13 @@
             url: "/ipkl/riwayat/" + id,
             dataType: 'json',
             success: function(response) {
+                // console.log('halo');
                 console.log(response);
-
                 $('#user_id').val(response.user_id);
                 $('#pembayaran_id').val(response.id);
                 $('#tagihan_id').val(response.tagihan_id);
                 $('#bukti_tf').attr('src', APP_URL + '/storage/' +response.bukti_tf);
+                $('#nominal').val(response.nominal);
 
 
             }

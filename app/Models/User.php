@@ -32,6 +32,16 @@ class User extends Authenticatable
 
     ];
 
+    public function getPhotoIdentitasAttribute($value)
+    {
+        return url('/').'/storage/'.$value;
+    }
+
+    public function getPhotoKtpAttribute($value)
+    {
+        return url('/').'/storage/'.$value;
+    }
+
     public function getImageUrlAttribute($value)
     {
         return  url('/').'/storage/'.$this->photo_identitas;
@@ -40,6 +50,12 @@ class User extends Authenticatable
     public function getImageKtpAttribute($value)
     {
         return url('/').'/storage/'.$this->photo_ktp;
+    }
+
+    public function getEmailCekAttribute($value)
+    {
+        // $nik = $this->nik == null ? '' : $this->nik;
+        return $this->email;
     }
 
     public function properti(){

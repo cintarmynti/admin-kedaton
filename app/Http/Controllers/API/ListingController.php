@@ -104,7 +104,9 @@ class ListingController extends Controller
                     $pemilik->select('id', 'name', 'photo_identitas', 'phone');
                 },
                 'properti.pemilik' => function($pemilik){
+                    // dd($pemilik);
                     $pemilik->select('id', 'name', 'photo_identitas', 'phone');
+                    // return $pemilik->photo_identitas;
                 }
             ]
         )->where('id', $request->listing_id)->first(['id', 'status','cluster_id', 'properti_id', 'image', 'harga', 'diskon', 'setelah_diskon', 'name', 'desc']);

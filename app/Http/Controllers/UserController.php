@@ -248,17 +248,17 @@ class UserController extends Controller
         $user->nik = $request->nik;
         $user->alamat = $request->alamat;
         $user->phone = $request->phone;
-        $user->email = $request->email;
         // $user->password = bcrypt($request->password);
         $user->user_status = 'pengguna';
 
         if($user->email != $request->email){
+            $user->email = $request->email;
             $pw = Str::random(8);
             // dd($pw);
             $hashed_random_password = Hash::make($pw);
             $user->password = $hashed_random_password;
             // dd($user->password);
-            $user->save();
+            // $user->save();
             $details = [
                 'recipient' => $request->email,
                 // 'fromEmail' => 'coba@gmail.com',
@@ -267,7 +267,14 @@ class UserController extends Controller
             ];
 
             Mail::to($details['recipient'])->send(new PasswordBaru($details));
+            $user->update();
 
+        }
+
+        if($user->email == $request->email){
+            $user->email = $request->email;
+            // dd($user->email);
+            $user->update();
         }
 
 

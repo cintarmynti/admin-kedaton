@@ -28,13 +28,13 @@
                     <h6>Butuh Penanganan</h6>
                     <h1>{{$p->name}}-{{$p->no_rumah}}</h1>
                     <hr>
-                    <a data-bs-toggle="modal" data-bs-target="#exampleModal" data-panic_id="{{$p->id}}" class="btn btn-block btn-md btn-danger">TANGANI</a>
+                    <a data-bs-toggle="modal" data-bs-target="#ketPanicModal" data-panic_id="{{$p->id}}" class="btn btn-block btn-md btn-danger">TANGANI</a>
                 </div>
             </div>
         </div>
 
 
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+        <div class="modal fade" id="ketPanicModal" tabindex="-1" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
@@ -142,7 +142,7 @@
 
     @push('after-script')
         <script>
-             $('#exampleModal').on('show.bs.modal', function(event) {
+             $('#ketPanicModal').on('show.bs.modal', function(event) {
         var button = $(event.relatedTarget)
         var id = button.data('panic_id')
 
@@ -151,7 +151,7 @@
             url: "/panic-button/detail/" + id,
             dataType: 'json',
             success: function(response) {
-                // console.log(response);
+                console.log(response.id_rumah);
 
                 $('#user_id').val(response.user_id);
                 $('#id_rumah').val(response.id_rumah);
