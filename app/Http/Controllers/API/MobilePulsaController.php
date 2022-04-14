@@ -177,9 +177,27 @@ class MobilePulsaController extends Controller
     }
 
     public function riwayat(Request $request){
-        $riwayat = Riwayat::with('type')->where('user_id', $request->id)->orderBy('created_at', 'desc')->get();
-        if($riwayat->count() == 0){
+        if(!$request->user_id){
+            return ResponseFormatter::failed('data tidak boleh kosong!', 404);
+        }
+
+
+        $cekriwayat = Riwayat::with('type')->where('user_id', $request->user_id)->orderBy('created_at', 'desc')->get();
+
+        if($cekriwayat->count() == 0){
             return ResponseFormatter::failed('tidak ada riwayat!', 404);
+        }
+
+        $riwayat = [];
+
+        $data = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+        for ($i = 1; $i <= 12; $i++) {
+            $total_income['month'] = $data[$i - 1];
+            $total_income['lists'] = Riwayat::with('type')->where('user_id', $request->user_id)->whereMonth('created_at', $i)->orderBy('created_at', 'desc')->get();
+
+            if($total_income['lists']->count() != 0){
+                array_push($riwayat, $total_income);
+            }
         }
         return ResponseFormatter::success('berhasil mengambil data riwayat!', $riwayat);
 

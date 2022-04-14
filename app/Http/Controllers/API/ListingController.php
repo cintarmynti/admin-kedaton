@@ -65,7 +65,7 @@ class ListingController extends Controller
                         $cluster->select('id','name');
                     }
                 ]
-            )->whereNotNull('diskon')->get(['id', 'status','cluster_id', 'image', 'harga', 'diskon', 'setelah_diskon', 'name']);
+            )->where('diskon','!=', 0)->get(['id', 'status','cluster_id', 'image', 'harga', 'diskon', 'setelah_diskon', 'name']);
 
             if($listing['semua']->count() == 0){
                 return ResponseFormatter::failed('tidak ada data listing !', 404);

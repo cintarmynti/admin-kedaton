@@ -14,7 +14,7 @@
 
                         <select id="category" required class="form-control select2" name="cluster_id"
                             aria-label="Default select example">
-                            <option disabled selected="">Pilih Cluster</option>
+                            {{-- <option>Pilih Cluster</option> --}}
                             @foreach ($cluster as $item)
                                 <option value="{{ $item->id }}">{{ $item->name }}</option>
                             @endforeach
@@ -25,7 +25,9 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             <label for="formGroupExampleInput" class="form-label">No Rumah</label>
-                            <input value="{{ old('no') }}" type="text" required class="form-control" name="no">
+                            <input value="{{ old('no') }}" id="no" onkeydown="getNoDetail(this.value)"
+                            onkeyup="getNoDetail(this.value)" type="text" required class="form-control" name="no">
+                            <p id="pesan" class="text-warning"></p>
                         </div>
                     </div>
                     <div class="col-md-3">
@@ -311,6 +313,31 @@
             $('#name_kel').val($(this).find('option:selected').text());
         });
     </script>
+
+
+<script>
+    var cluster_id = $("#category option:selected").val();
+     function getNoDetail(no) {
+                const base = new URL('/', location.href).href;
+
+                $.ajax({
+                    url: '/properti/norumah/'+ cluster_id +'/' + no,
+                    type: "GET",
+                    data: {
+                        "_token": "{{ csrf_token() }}"
+                    },
+                    dataType: "json",
+                    success: function(data) {
+                        // console.log(data);
+                        if (jQuery.isEmptyObject(data)) {
+                            $('#pesan').html("");
+                        } else {
+                            $('#pesan').html("No Rumah ini sudah ada");
+                        }
+                    }
+                });
+            }
+</script>
 @endpush
 
 @push('before-style')

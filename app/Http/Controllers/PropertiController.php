@@ -33,6 +33,11 @@ class PropertiController extends Controller
         return view('pages.properti.index', ['properti' => $properti]);
     }
 
+    public function ceknomer($id, $name){
+        $user=Properti::where('cluster_id', $id)->where('no_rumah', $name)->first();
+        return response()->json($user);
+    }
+
     public function update_penghuni(Request $request){
         $properti = Properti::find($request->properti_id);
         $properti->penghuni_id = $request->penghuni_id;
@@ -412,7 +417,5 @@ class PropertiController extends Controller
         return view('pages.properti.riwayat',  ['riwayat_ipkl' => $properti]);
     }
 
-    public function addPenghuni(){
 
-    }
 }
