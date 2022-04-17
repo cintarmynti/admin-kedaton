@@ -136,11 +136,11 @@ class PropertiController extends Controller
 
         $properti = Properti::with([
             'pemilik' => function ($pemilik) {
-                $pemilik->select('id', 'name');
+                $pemilik->select('id', 'name', 'photo_identitas');
             },
-            'penghuni' => function ($penghuni) {
-                $penghuni->select('id', 'name');
-            },
+            // 'penghuni' => function ($penghuni) {
+            //     $penghuni->select('id', 'name', 'photo_identitas');
+            // },
             'cluster' => function ($cluster) {
                 $cluster->select('id', 'name');
             }
@@ -152,6 +152,26 @@ class PropertiController extends Controller
         if ($properti == null) {
             return ResponseFormatter::failed('tidak ada properti dengan id tsb!', 400);
         }
+
+        $myArr = [];
+
+        // foreach ($properti as $q) {
+            $pengajuan = Pengajuan::where('properti_id_penghuni', $properti->id)->groupBy('user_id')->get();
+            // dd($pengajuan);
+            foreach($pengajuan as $p)
+            {
+                $penghuni['nama'] = User::where('id', $p->user_id)->first()->name;
+                $status = Pengajuan::where('user_id', $p->user_id)->first()->status_verivikasi;
+                $penghuni['status'] = $status == 1 ? 'terverifikasi' : 'menunggu verifikasi';
+                $penghuni['gambar'] = User::where('id', $p->user_id)->first()->photo_identitas;
+                // dd($penghuni);
+                array_push($myArr, $penghuni);
+                // dd($myArr);
+            }
+        // }
+
+        $properti['properti.penghuni'] = $myArr;
+
 
         if ($properti) {
             return ResponseFormatter::success('berhasil menampilkan detail properti!', $properti);
@@ -262,9 +282,9 @@ class PropertiController extends Controller
             }
 
             $pengajuan = new Pengajuan();
-            $pengajuan->user_id = $user_penghuni->id;
-            $pengajuan->properti_id_penghuni = $request->properti_id;
-            $pengajuan->pemilik_mengajukan = $request->user_id;
+            $pengajuan->user_id = $user_penghuni->id; // penghuni yang diajukan   //atau user yg melakukan pengajuan kepemilikan rumah
+            $pengajuan->properti_id_penghuni = $request->properti_id; //properti id yg diajukan dari ppenghuni
+            $pengajuan->pemilik_mengajukan = $request->user_id; //id user yang mengajukan
             $pengajuan->save();
 
             $notifikasi = new Notifikasi();

@@ -42,8 +42,8 @@ class UserController extends Controller
         }
         // dd($user_detail->image_url);
         $user_detail->email = $user_detail->email_cek == null ? '' : $user_detail->email_cek;
-        $user_detail->photo_identitas = $user_detail->image_url == null ? '' : $user_detail->image_url;
-        $user_detail->photo_ktp = $user_detail->image_ktp == null ? '' : $user_detail->image_ktp;
+        // $user_detail->photo_identitas = $user_detail->image_url == null ? '' : $user_detail->image_url;
+        // $user_detail->photo_ktp = $user_detail->image_ktp == null ? '' : $user_detail->image_ktp;
 
 
 
@@ -174,8 +174,8 @@ class UserController extends Controller
             return ResponseFormatter::failed('tidak ada user dengan id ini!', 404);
         }
 
-        $user->photo_identitas = $user->image_url;
-        $user->photo_ktp = $user->image_ktp;
+        // $user->photo_identitas = $user->image_url;
+        // $user->photo_ktp = $user->image_ktp;
 
         // $cek_kepemilikan_prop = Properti::where('pemilik_id', $request->id)->first();
         // $cek_penghuni_prop = Properti::where('penghuni_id', $request->id)->first();
@@ -183,10 +183,10 @@ class UserController extends Controller
         $properti = Properti::with(
             [
                 'pemilik' => function ($pemilik) {
-                    $pemilik->select('id','name');
+                    $pemilik->select('id','name', 'photo_identitas');
                 },
                 'penghuni' => function ($penghuni) {
-                    $penghuni->select('id','name');
+                    $penghuni->select('id','name', 'photo_identitas');
                 },
                 'cluster' => function ($cluster) {
                     $cluster->select('id','name');
@@ -197,7 +197,7 @@ class UserController extends Controller
         if($properti->count() == 0){
              $return['user'] = $user;
             $return['properti'] = '';
-            $return['properti.penghuni'] = '';
+            // $return['properti.penghuni'] = '';
 
         return ResponseFormatter::success('get user profile n properti!', $return);
         }
@@ -206,25 +206,25 @@ class UserController extends Controller
             $q->gambar =  url('/').'/storage/'.$q->cover_url;
         }
 
-        $myArr = [];
+        // $myArr = [];
 
-        foreach ($properti as $q) {
-            $pengajuan = Pengajuan::where('properti_id_penghuni', $q->id)->get();
-            foreach($pengajuan as $p)
-            {
-                $penghuni['nama'] = User::where('id', $p->user_id)->first()->name;
-                $status = Pengajuan::where('user_id', $p->user_id)->first()->status_verivikasi;
-                $penghuni['status'] = $status == 1 ? 'terverifikasi' : 'menunggu verifikasi';
-                $penghuni['gambar'] = url('/').'/storage/'.User::where('id', $p->user_id)->first()->photo_identitas;
-                // dd($penghuni);
-                array_push($myArr, $penghuni);
-                // dd($myArr);
-            }
-        }
+        // foreach ($properti as $q) {
+        //     $pengajuan = Pengajuan::where('properti_id_penghuni', $q->id)->groupBy('user_id')->get();
+        //     foreach($pengajuan as $p)
+        //     {
+        //         $penghuni['nama'] = User::where('id', $p->user_id)->first()->name;
+        //         $status = Pengajuan::where('user_id', $p->user_id)->first()->status_verivikasi;
+        //         $penghuni['status'] = $status == 1 ? 'terverifikasi' : 'menunggu verifikasi';
+        //         $penghuni['gambar'] = User::where('id', $p->user_id)->first()->photo_identitas;
+        //         // dd($penghuni);
+        //         array_push($myArr, $penghuni);
+        //         // dd($myArr);
+        //     }
+        // }
 
         $return['user'] = $user;
         $return['properti'] = $properti;
-        $return['properti.penghuni'] = $myArr;
+        // $return['properti.penghuni'] = $myArr;
 
         return ResponseFormatter::success('get user profile n properti!', $return);
 

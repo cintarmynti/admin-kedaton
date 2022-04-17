@@ -54,7 +54,7 @@
                 <div class="col-md-2">
                     <label for="formGroupExampleInput" class="form-label ">Foto Pengguna</label>
                     <br>
-                    <img id="output" class="mt-3 w-100" src="{{ asset('storage/' . $user->photo_identitas) }}">
+                    <img id="output" class="mt-3 w-100" src="{{ asset($user->photo_identitas) }}">
                 </div>
 
                 <div class="col-md-2">
@@ -62,7 +62,7 @@
                     <br>
                     {{-- {{dd($user->photo_identitas)}} --}}
                     {{-- {{dd($user->photo_ktp)}} --}}
-                    <img id="output2" class="mt-3 w-100" src="{{ asset('storage/' . $user->photo_ktp) }}">
+                    <img id="output2" class="mt-3 w-100" src="{{ asset($user->photo_ktp) }}">
                 </div>
             </div>
             <h5 class="card-title">Daftar Rumah {{ $user->name }}</h5>
@@ -74,6 +74,7 @@
                         <th scope="col">CLUSTER</th>
                         <th scope="col">NO RUMAH</th>
                         <th scope="col">ALAMAT</th>
+                        {{-- <th scope="col">Pemilik</th> --}}
                         <th scope="col">NAMA penghuni</th>
                         <th scope="col">Update PENGHUNI</th>
                         <th scope="col">RIWAYAT PEMBAYARAN</th>
@@ -91,6 +92,14 @@
                             <td>{{ $us->cluster->name }}</td>
                             <td>{{ $us->no_rumah }}</td>
                             <td>{{ $us->alamat }}, {{$us->kelurahan}}, {{$us->kecamatan}}, {{$us->kabupaten}}, {{$us->provinsi}}</td>
+                            {{-- <td>
+                                @if (isset($us->pemilik->name))
+                                    {{ $us->pemilik->name }}
+                                @elseif ($us->pemilik_id == null)
+                                    <p>tidak ada pemilik</p>
+                                @endif
+
+                            </td> --}}
                             <td>
                                 @if (isset($us->penghuni->name))
                                     {{ $us->penghuni->name }}
@@ -99,7 +108,13 @@
                                 @endif
 
                             </td>
-                            <td><a data-toggle="tooltip" class="btn btn-primary" type="button" data-placement="top" title="tambah penhuni/penyewa" href="{{ route('user.addPenghuni', $us->id) }}"><i class="fa-solid fa-user-plus"></i></a>
+                            <td>
+                                @if ($us->pemilik_id == null)
+                                    <p>Belum memilii pemilik</p>
+                                @else
+                                <a data-toggle="tooltip" class="btn btn-primary" type="button" data-placement="top" title="tambah penhuni/penyewa" href="{{ route('user.addPenghuni', $us->id) }}"><i class="fa-solid fa-user-plus"></i></a>
+                                @endif
+
                             </td>
                             <td><a href="{{ route('properti.riwayat', $us->id) }}">lihat detail</a> </td>
                             <td><a href="/user/detail/rumah/{{ $us->id }}">lihat detail</a></td>

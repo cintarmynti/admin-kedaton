@@ -275,15 +275,15 @@
                 url: "/user/detail_penghuni/" + id,
                 dataType: 'json',
                 success: function(response) {
-                    // console.log(APP_URL + '/storage/' +response.user.photo_ktp);
+                    // console.log(response.user.photo_ktp);
 
                     // $("#stat").val(response.status)
                     // $('#user_id').val(response.id);
                     // $('#id_rumah').val(response.id_rumah);
                     // $('#panic_id').val(response.id);
 
-                    // $('#user_identity_img').attr('src', APP_URL + '/storage/' +response.user.photo_identitas);
-                    $('#user_img').attr('src', APP_URL + '/storage/' +response.user.photo_ktp);
+                    // $('#user_identity_img').attr('src', response.user.photo_identitas);
+                    $('#user_img').attr('src', response.user.photo_ktp);
                     $('#nama_pemilik').html(response.user_pemilik.name);
                     $('#nama_penghuni').html(response.user.name);
                     $('#email').html(response.user.email);

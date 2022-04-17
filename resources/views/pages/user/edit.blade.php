@@ -53,7 +53,7 @@
                     <div class="col-md-4">
                         <label for="formGroupExampleInput" class="form-label">Foto Pengguna</label>
                         <br>
-                        <img id="output" src="{{ asset('storage/' . $user->photo_identitas) }}" class="mt-3 mb-2"
+                        <img id="output" src="{{ asset( $user->photo_identitas) }}" class="mt-3 mb-2"
                             style="height: 200px; width: 200px;object-fit:cover">
                         <input type="file" id="filePhoto" class="form-control" name="photo_identitas"
                             aria-label="First name">
@@ -61,7 +61,7 @@
                     <div class="col-md-4">
                         <label for="formGroupExampleInput" class="form-label">Foto KTP</label>
                         <br>
-                        <img id="output2" src="{{ asset('storage/' . $user->photo_ktp) }}" class="mt-3 mb-2"
+                        <img id="output2" src="{{ asset( $user->photo_ktp) }}" class="mt-3 mb-2"
                             style="height: 200px; width: 300px;object-fit:cover">
                         <input type="file" id="filePhoto2" class="form-control" name="photo_ktp" aria-label="First name">
                     </div>
@@ -72,7 +72,7 @@
                     @if ($user->photo_identitas == null)
 
                     @else
-                    <img id="output"  src="{{ asset('storage/' . $user->photo_identitas) }}" class="mt-3 " style="max-height: 200px; max-width: 300px">
+                    <img id="output"  src="{{ asset( $user->photo_identitas) }}" class="mt-3 " style="max-height: 200px; max-width: 300px">
                     @endif
 
                 </div>

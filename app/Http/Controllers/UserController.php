@@ -157,6 +157,13 @@ class UserController extends Controller
             $properti_id->save();
         }
 
+        $pengajuan = new Pengajuan();
+        $pengajuan->user_id = $user->id; // penghuni yang diajukan   //atau user yg melakukan pengajuan kepemilikan rumah
+        $pengajuan->properti_id_penghuni = $properti_id->id; //properti id yg diajukan dari ppenghuni
+        $pengajuan->pemilik_mengajukan = $properti_id->pemilik_id; //id user yang mengajukan
+        $pengajuan->status_verivikasi = 1; //id user yang mengajukan
+        $pengajuan->save();
+
         $penghuni_detail = new penghuniDetail();
         $penghuni_detail->penghuni_id = $user->id;
         $penghuni_detail->properti_id = $properti_id->id;

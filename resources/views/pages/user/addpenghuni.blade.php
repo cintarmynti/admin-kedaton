@@ -168,8 +168,8 @@
                             password.attr('disabled', true);
                             photo_identitas.attr('disabled', true);
                             photo_ktp.attr('disabled', true);
-                            photoImg.attr("src",base+'storage/'+data[0].photo_identitas);
-                            ktpImg.attr("src", base+'storage/'+data[0].photo_ktp);
+                            photoImg.attr("src",data[0].photo_identitas);
+                            ktpImg.attr("src", data[0].photo_ktp);
                         }
                     }
                 });
