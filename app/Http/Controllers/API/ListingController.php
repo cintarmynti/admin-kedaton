@@ -17,21 +17,56 @@ class ListingController extends Controller
     public function getProperti(Request $request){
 
         if($request->status){
-            $diproses = rev_listing::with(
-                [
-                    'cluster' => function ($cluster) {
-                        $cluster->select('id','name');
-                    },
-                ]
-            )->where('status', $request->status)->orderBy('created_at', 'desc')->get(['id', 'status','image','cluster_id', 'harga', 'diskon', 'setelah_diskon', 'name']);
-            if($diproses->count() == 0){
-                return ResponseFormatter::failed('tidak ada listing dengan status ini!', 404);
+            if($request->status == 'dijual'){
+                $diproses = rev_listing::with(
+                    [
+                        'cluster' => function ($cluster) {
+                            $cluster->select('id','name');
+                        },
+                    ]
+                )->where('status', 'dijual')->orderBy('created_at', 'desc')->get(['id', 'status','image','cluster_id', 'harga', 'diskon', 'setelah_diskon', 'name']);
+                if($diproses->count() == 0){
+                    return ResponseFormatter::failed('tidak ada listing dengan status ini!', 404);
+                }
+
+                foreach ($diproses as $q) {
+                    $q->image =  $q->image_url;
+                }
+                return ResponseFormatter::success('berhasil mengambil properti yang difilter berdasarkan input!', $diproses);
+            }else if($request->status == 'disewakan'){
+                $diproses = rev_listing::with(
+                    [
+                        'cluster' => function ($cluster) {
+                            $cluster->select('id','name');
+                        },
+                    ]
+                )->where('status', 'disewakan')->orderBy('created_at', 'desc')->get(['id', 'status','image','cluster_id', 'harga', 'diskon', 'setelah_diskon', 'name']);
+                if($diproses->count() == 0){
+                    return ResponseFormatter::failed('tidak ada listing dengan status ini!', 404);
+                }
+
+                foreach ($diproses as $q) {
+                    $q->image =  $q->image_url;
+                }
+                return ResponseFormatter::success('berhasil mengambil properti yang difilter berdasarkan input!', $diproses);
+            }else if($request->status == 'promo'){
+
+
+                $promo = rev_listing::with(
+                    [
+                        'cluster' => function ($cluster) {
+                            $cluster->select('id','name');
+                        }
+                    ]
+                )->where('diskon','!=', 0)->get(['id', 'status','cluster_id', 'image', 'harga', 'diskon', 'setelah_diskon', 'name']);
+
+                foreach ($promo as $q) {
+                    $q->image =  $q->image_url;
+                }
+            return ResponseFormatter::success('berhasil mengambil properti yang difilter berdasarkan input!', $promo);
+
             }
 
-            foreach ($diproses as $q) {
-                $q->image =  $q->image_url;
-            }
-            return ResponseFormatter::success('berhasil mengambil properti yang difilter berdasarkan input!', $diproses);
         }else if($request->name){
             $cari = rev_listing::with(
                 [
@@ -50,7 +85,7 @@ class ListingController extends Controller
             // dd($cari);
             return ResponseFormatter::success('berhasil mendapatkan yang dicari!', $cari);
         }else{
-            $listing['semua'] = rev_listing::with(
+            $listing = rev_listing::with(
                 [
                     'cluster' => function ($cluster) {
                         $cluster->select('id','name');
@@ -59,26 +94,16 @@ class ListingController extends Controller
             )->orderBy('created_at', 'desc')->get(['id', 'status','cluster_id', 'image', 'harga', 'diskon', 'setelah_diskon', 'name']);
 
 
-            $listing['dengan_diskon'] = rev_listing::with(
-                [
-                    'cluster' => function ($cluster) {
-                        $cluster->select('id','name');
-                    }
-                ]
-            )->where('diskon','!=', 0)->get(['id', 'status','cluster_id', 'image', 'harga', 'diskon', 'setelah_diskon', 'name']);
-
-            if($listing['semua']->count() == 0){
+            if($listing->count() == 0){
                 return ResponseFormatter::failed('tidak ada data listing !', 404);
             }
 
-            foreach ($listing['semua'] as $q) {
+            foreach ($listing as $q) {
                 $q->image =  $q->image_url;
             }
 
-            foreach ($listing['dengan_diskon'] as $q) {
-                $q->image =  $q->image_url;
-            }
-            return ResponseFormatter::success('berhasil mengambil semua properti!', [$listing]);
+
+            return ResponseFormatter::success('berhasil mengambil semua properti!', $listing);
         }
 
         return ResponseFormatter::failed('gagal mengambil properti!', 404);

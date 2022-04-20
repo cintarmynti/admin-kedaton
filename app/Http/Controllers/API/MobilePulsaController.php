@@ -1,13 +1,15 @@
 <?php
 
 namespace App\Http\Controllers\API;
-
+use Intervention\Image\Facades\Image;
 use App\Http\Controllers\Controller;
-use App\Models\Mobile_pulsa;
+use App\Models\pembayaranMobilePulsa;
 use App\Models\Riwayat;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Storage;
 
 class MobilePulsaController extends Controller
 {
@@ -25,10 +27,12 @@ class MobilePulsaController extends Controller
     public function pascatelkom(Request $request)
     {
         $username = '087859277817';
-        $ref1 = time();
+        // $ref = time();
+
+
         $ref = mt_rand(1000000000,9000000000);
 
-        if(!$request->user_id || !$request->no_telkom){
+        if(!$request->user_id || !$request->no_pelanggan){
             return ResponseFormatter::failed('tidak boleh ada field kosong!', 401);
         }
 
@@ -36,145 +40,90 @@ class MobilePulsaController extends Controller
             'commands' => 'inq-pasca',
             'username'	=> $username,
             'code'	=> 'TELKOMPSTN',
-            'hp'        => $request->no_telkom,
-            'ref_id'	=> $ref1,
-            'sign'	=> md5($username.'54562298422ad2a7'.$ref1)
+            'hp'        => $request->no_pelanggan,
+            'ref_id'	=> $ref,
+            'sign'	=> md5($username.'54562298422ad2a7'.$ref)
         ])->json();
 
         if($indihome["data"]["response_code"] == 14){
+        $ref1 = mt_rand(1000000000,9000000000);
             $nonIndihome  = Http::post('https://testpostpaid.mobilepulsa.net/api/v1/bill/check', [
                 'commands' => 'inq-pasca',
                 'username' => $username,
                 'code'     => 'CBN',
-                'hp'       => $request->no_telkom,
-                'ref_id'   => $ref,
-                'sign'     =>  md5($username.'54562298422ad2a7'.$ref)
+                'hp'       => $request->no_pelanggan,
+                'ref_id'   => $ref1,
+                'sign'     =>  md5($username.'54562298422ad2a7'.$ref1)
 
 
             ])->json();
 
+            if($nonIndihome["data"]["response_code"] == 14){
+                $ref2 = mt_rand(1000000000,9000000000);
+
+                $PLN = Http::post('https://testpostpaid.mobilepulsa.net/api/v1/bill/check', [
+                    'commands'	=> 'inq-pasca',
+                    'username'	=> $username,
+                    'code'	=> 'PLNPOSTPAID',
+                    'hp'	=> $request->no_pelanggan,
+                    'ref_id'    => $ref2,
+                    'sign'	=> md5($username.'54562298422ad2a7'.$ref2)
+                ])->json();
+
+                $PLN['type'] = 4;
+                return $PLN;
+            }
+            $nonIndihome['type'] = 3;
             return $nonIndihome;
         }
 
-
+        $indihome['type'] = 3;
         return $indihome;
     }
+
+
 
     public function paymentTelkom(Request  $request){
-        $username = '087859277817';
+      $mobilPulsa = new pembayaranMobilePulsa();
+      $mobilPulsa->type = $request->type;
+      $mobilPulsa->tr_id = $request->tr_id;
+      $mobilPulsa->user_id = $request->user_id;
+      $mobilPulsa->no_pelanggan = $request->no_pelanggan;
+      $mobilPulsa->bank = $request->bank;
+      $mobilPulsa->nominal = $request->price;
+      if ($request->bukti_tf) {
+        $data = substr($request->bukti_tf, strpos($request->bukti_tf, ',') + 1);
+        $data = base64_decode($data);
 
-        if(!$request->user_id || !$request->tr_id){
-            return ResponseFormatter::failed('tidak boleh ada field kosong!', 401);
-        }
-        $indihome = Http::post('https://testpostpaid.mobilepulsa.net/api/v1/bill/check', [
-            'commands' => 'pay-pasca',
-            'username' => $username,
-            'tr_id'    => $request->tr_id,
-            'sign'     => md5($username.'54562298422ad2a7'.$request->tr_id)
-        ])->json();
+        $fileName = Str::random(10).'.png';
+        Storage::put('bukti_tf/' . $fileName, $data);
 
-        if($indihome["data"]["response_code"] == 01){
-            return $indihome;
-        }
+        $url = 'storage/bukti_tf/'. $fileName;
+        $image = Image::make($url);
+        $image->resize(500, null, function($constraint){
+            $constraint->aspectRatio();
+        });
 
-        $riwayat = new Riwayat();
-        $riwayat->user_id = $request->user_id;
-        $riwayat->harga = $indihome["data"]["price"];
-        $riwayat->type_pembayaran = 4;
-        $riwayat->save();
 
-        return $indihome;
+        Storage::put('bukti_tf/'.$fileName, (string) $image->encode());
+        // dd($fileName);
+        $image_path = 'bukti_tf/'.$fileName;
+        $mobilPulsa->update(
+            [
+                'bukti_tf' => $image_path
+            ]
+        );
+      $mobilPulsa->bukti_tf = $image_path;
+
     }
 
-    public function inquiryPDAM(Request $request){
-        if(!$request->user_id || !$request->no_pdam){
-            return ResponseFormatter::failed('tidak boleh ada field kosong!', 401);
-        }
-        $username = '087859277817';
-        $ref = time();
-        $pdam = Http::post('https://testpostpaid.mobilepulsa.net/api/v1/bill/check', [
-            'commands'	=> 'inq-pasca',
-            'username'	=> $username,
-            'code'	=> 'PDAMKOTA.SURABAYA',
-            'hp'	=> $request->no_pdam,
-            'ref_id'	=> $ref,
-            'sign'      => md5($username.'54562298422ad2a7'.$ref)
-        ])->json();
+      $mobilPulsa->save();
 
-        return $pdam;
+      return ResponseFormatter::success('berhasil melakukan pembayaran', $mobilPulsa);
+
     }
 
 
-    public function paymentPDAM(Request $request){
-        if(!$request->user_id || !$request->tr_id){
-            return ResponseFormatter::failed('tidak boleh ada field kosong!', 401);
-        }
-        $username = '087859277817';
-        $pdam = Http::post('https://testpostpaid.mobilepulsa.net/api/v1/bill/check', [
-            'commands' => 'pay-pasca',
-            'username' => $username,
-            'tr_id'    => $request->tr_id,
-            'sign'     => md5($username.'54562298422ad2a7'.$request->tr_id)
-        ])->json();
-
-        if($pdam["data"]["response_code"] == 01){
-            return $pdam;
-        }
-
-        $riwayat = new Riwayat();
-        $riwayat->user_id = $request->user_id;
-        $riwayat->harga = $pdam["data"]["price"];
-        $riwayat->type_pembayaran = 3;
-        $riwayat->save();
-
-        return $pdam;
-    }
-
-
-    public function inquiryPLN(Request $request){
-
-        $username = '087859277817';
-        $ref = time();
-        if(!$request->user_id || !$request->no_pln){
-            return ResponseFormatter::failed('tidak boleh ada field kosong!', 401);
-        }
-        $pln = Http::post('https://testpostpaid.mobilepulsa.net/api/v1/bill/check', [
-            'commands'	=> 'inq-pasca',
-            'username'	=> $username,
-            'code'	=> 'PLNPOSTPAID',
-            'hp'	=> $request->no_pln,
-            'ref_id'    => $ref,
-            'sign'	=> md5($username.'54562298422ad2a7'.$ref)
-        ])->json();
-
-        return $pln;
-    }
-
-    public function paymentPLN(Request $request){
-        if(!$request->user_id || !$request->tr_id){
-            return ResponseFormatter::failed('tidak boleh ada field kosong!', 401);
-        }
-        $username = '087859277817';
-        $pln = Http::post('https://testpostpaid.mobilepulsa.net/api/v1/bill/check', [
-            'commands' => 'pay-pasca',
-            'username' => $username,
-            'tr_id'    => $request->tr_id,
-            'sign'     => md5($username.'54562298422ad2a7'.$request->tr_id)
-        ])->json();
-
-
-        if($pln["data"]["response_code"] == 01){
-            return $pln;
-        }
-
-        $riwayat = new Riwayat();
-        $riwayat->user_id = $request->user_id;
-        $riwayat->harga = $pln["data"]["price"];
-        $riwayat->type_pembayaran = 5;
-        $riwayat->save();
-
-        return $pln;
-    }
 
     public function riwayat(Request $request){
         if(!$request->user_id){
@@ -203,9 +152,52 @@ class MobilePulsaController extends Controller
 
     }
 
-    public function getMutasi(){
-        $today = Carbon::now();
-        $stringToSign = "GET".":"."https://api.klikbca.com/banking/v3/corporates/BCAAPI2016/accounts/0201245680/statem
-        ents?StartDate=2016-01-29&EndDate=2016-01-30".":".bin2hex(hash('sha256', '')).":".$today;
-    }
+
+    // public function paymentPDAM(Request $request){
+    //     if(!$request->user_id || !$request->tr_id){
+    //         return ResponseFormatter::failed('tidak boleh ada field kosong!', 401);
+    //     }
+    //     $username = '087859277817';
+    //     $pdam = Http::post('https://testpostpaid.mobilepulsa.net/api/v1/bill/check', [
+    //         'commands' => 'pay-pasca',
+    //         'username' => $username,
+    //         'tr_id'    => $request->tr_id,
+    //         'sign'     => md5($username.'54562298422ad2a7'.$request->tr_id)
+    //     ])->json();
+
+    //     if($pdam["data"]["response_code"] == 01){
+    //         return $pdam;
+    //     }
+
+    //     $riwayat = new Riwayat();
+    //     $riwayat->user_id = $request->user_id;
+    //     $riwayat->harga = $pdam["data"]["price"];
+    //     $riwayat->type_pembayaran = 3;
+    //     $riwayat->save();
+
+    //     return $pdam;
+    // }
+
+    // public function inquiryPDAM(Request $request){
+    //     if(!$request->user_id || !$request->no_pdam){
+    //         return ResponseFormatter::failed('tidak boleh ada field kosong!', 401);
+    //     }
+    //     $username = '087859277817';
+    //     $ref = time();
+    //     $pdam = Http::post('https://testpostpaid.mobilepulsa.net/api/v1/bill/check', [
+    //         'commands'	=> 'inq-pasca',
+    //         'username'	=> $username,
+    //         'code'	=> 'PDAMKOTA.SURABAYA',
+    //         'hp'	=> $request->no_pdam,
+    //         'ref_id'	=> $ref,
+    //         'sign'      => md5($username.'54562298422ad2a7'.$ref)
+    //     ])->json();
+
+    //     $pdam['type'] = 4;
+    //     return $pdam;
+    // }
+
+
+
+
 }

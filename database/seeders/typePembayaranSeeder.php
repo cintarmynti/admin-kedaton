@@ -26,20 +26,20 @@ class typePembayaranSeeder extends Seeder
             'desc' => 'Bayar Renovasi'
         ]);
 
-        type_pembayaran::create([
-            // 'id' => 3,
-            'name' => 'PDAM',
-            'desc' => 'Bayar PDAM'
-        ]);
+        // type_pembayaran::create([
+        //     // 'id' => 3,
+        //     'name' => 'PDAM',
+        //     'desc' => 'Bayar PDAM'
+        // ]);
 
         type_pembayaran::create([
-            // 'id' => 4,
+            // 'id' => 3,
             'name' => 'Internet',
             'desc' => 'Bayar Internet'
         ]);
 
         type_pembayaran::create([
-            // 'id' => 5,
+            // 'id' => 4,
             'name' => 'PLN',
             'desc' => 'Bayar PLN'
         ]);

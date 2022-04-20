@@ -21,6 +21,7 @@ use App\Http\Controllers\NotifikasiController;
 use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\LaporanComplainController;
 use App\Http\Controllers\LaporanPanicButtonController;
+use App\Http\Controllers\mobilepulsaController;
 use Facade\FlareClient\Api;
 
 // use App\Http\Controllers\MobilePulsaController;
@@ -47,6 +48,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
     Route::get('/dashboard/saldo', [DashboardController::class, 'balance']);
 
+    Route::get('/mobile-pulsa', [mobilepulsaController::class, 'index'])->name('index.pulsa');
+    Route::get('/mobile-pulsa/json/{id}', [mobilepulsaController::class, 'getJson']);
+    Route::patch('/mobile-pulsa/bayar', [mobilepulsaController::class, 'membayar']);
+    Route::patch('/mobile-pulsa/tolak', [mobilepulsaController::class, 'tolak']);
 
 
     Route::get('/dashboard/notif-admin', [DashboardController::class, 'notif_admin']);

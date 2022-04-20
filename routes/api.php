@@ -95,9 +95,6 @@ Route::get('get-complain', [ComplainController::class, 'getComplain']);
 
 
 Route::get('/mobile-pulsa', [MobilePulsaController::class, 'balance']);
-Route::post('/mobile-pulsa/pascatelkom', [MobilePulsaController::class, 'pascatelkom']);
-Route::post('/mobile-pulsa/paytelkom', [MobilePulsaController::class, 'paymentTelkom']);
-Route::post('/mobile-pulsa/inquiry_pdam', [MobilePulsaController::class, 'inquiryPDAM']);
-Route::post('/mobile-pulsa/payment_pdam', [MobilePulsaController::class, 'paymentPDAM']);
-Route::post('/mobile-pulsa/inquiry_pln', [MobilePulsaController::class, 'inquiryPLN']);
-Route::post('/mobile-pulsa/payment_pln', [MobilePulsaController::class, 'paymentPLN']);
+Route::post('/mobile-pulsa/cek-pembayaran', [MobilePulsaController::class, 'pascatelkom']);
+Route::post('/mobile-pulsa/bayar', [MobilePulsaController::class, 'paymentTelkom']);
+

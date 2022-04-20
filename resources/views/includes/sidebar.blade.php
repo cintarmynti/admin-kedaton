@@ -10,7 +10,7 @@
       Main
     </li>
     <li class="{{ Request::is('dashboard*') ? 'active-page' : '' }}">
-      <a href="{{route('dashboard.index')}}"><i data-feather="home"></i>Dashboard <div class="alert-circle"></div></a>
+      <a href="{{route('dashboard.index')}}"><i data-feather="airplay"></i>Dashboard <div class="alert-circle"></div></a>
     </li>
 
     <li class="{{ Request::is('cluster') ? 'active-page' : '' }}" class="active-page">
@@ -57,6 +57,10 @@
     <li class="{{ Request::is('ipkl*') ? 'active-page' : '' }}" class="active-page">
       <a href="{{route('ipkl')}}"><i data-feather="archive"></i>Pembayaran IPKL</a>
     </li>
+
+    <li class="{{ Request::is('mobile-pulsa*') ? 'active-page' : '' }}" class="active-page">
+        <a href="{{route('index.pulsa')}}"><i data-feather="rss"></i>Internet & Listrik</a>
+      </li>
 
     {{-- <li class="{{ Request::is('layanan*') ? 'active-page' : '' }}" class="active-page">
     <a href="{{route('layanan')}}"><i data-feather="archive"></i>Pembayaran Layanan</a>

@@ -252,7 +252,7 @@
             dataType: 'json',
             success: function(response) {
                 // console.log('halo');
-                console.log(response);
+                // console.log(response);
                 $('#user_id').val(response.user_id);
                 $('#pembayaran_id').val(response.id);
                 $('#tagihan_id').val(response.tagihan_id);
