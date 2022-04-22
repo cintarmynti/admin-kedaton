@@ -84,6 +84,17 @@ class MobilePulsaController extends Controller
 
 
     public function paymentTelkom(Request  $request){
+    $today = Carbon::now()->toDateString();
+    $cek_pembayaran = pembayaranMobilePulsa::where('no_pelanggan', $request->no_pelanggan)->where('status', '!=', 2)->orderBy('id', 'desc')->first();
+    // dd($cek_pembayaran);
+    if($cek_pembayaran != null){
+        $tgl = Carbon::parse($cek_pembayaran->created_at)->toDateString();
+    if($tgl == $today){
+        return ResponseFormatter::failed('tagihan ini sudah dibayar!', 404);
+    }
+    }
+
+
       $mobilPulsa = new pembayaranMobilePulsa();
       $mobilPulsa->type = $request->type;
       $mobilPulsa->tr_id = $request->tr_id;

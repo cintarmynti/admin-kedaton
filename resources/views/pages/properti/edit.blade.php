@@ -106,14 +106,14 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             <label for="formGroupExampleInput" class="form-label">Jumlah Kamar Mandi</label>
-                            <input value="{{ old('jumlah_kamar', $properti->jumlah_kamar) }}" type="number" required
+                            <input value="{{ old('kamar_mandi', $properti->kamar_mandi) }}" type="number" required
                                 class="form-control" name="kamar_mandi">
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
                             <label for="formGroupExampleInput" class="form-label">Carport</label>
-                            <input value="{{ old('jumlah_kamar', $properti->jumlah_kamar) }}" type="number" required
+                            <input value="{{ old('carport', $properti->carport) }}" type="number" required
                                 class="form-control" name="carport">
                         </div>
                     </div>

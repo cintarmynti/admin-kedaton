@@ -242,7 +242,7 @@ class PropertiController extends Controller
 
             PusherFactory::make()->trigger('admin', 'kirim', ['data' => $notifikasi_admin]);
 
-            return ResponseFormatter::success('berhasil menambah penghuni, menunggu konfirmasi!', [$cek_nik]);
+            return ResponseFormatter::success('berhasil menambah penghuni, menunggu konfirmasi!', $cek_nik);
         } else if ($cek_nik == null ) {
 
             if (User::where('email', $request->email)->first() != null) {

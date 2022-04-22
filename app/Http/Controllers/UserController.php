@@ -66,6 +66,8 @@ class UserController extends Controller
         $user = User::where('id', $request->penghuni_id)->first();
         // dd($user);
         $user->email_pengajuan = 2;
+        $user->password = Hash::make($pw);
+        $user->status_penghuni = 'penghuni';
         $user->save();
 
         $details = [

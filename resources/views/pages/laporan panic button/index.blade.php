@@ -110,7 +110,7 @@
                                         <input type="hidden" id="panic_id2" name="id">
 
                                         <input type="hidden" id="user_id2" name="user_id">
-                                        <input type="text" class="form-control" placeholder="Keterangan" name="keterangan">
+                                        <input type="text" id="keterangan2" class="form-control" placeholder="Keterangan" name="keterangan">
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -139,7 +139,7 @@
                                         <input type="hidden" placeholder="panic_id" id="panic_id" name="id">
 
                                         <input type="hidden" placeholder="user_id" id="user_id" name="user_id">
-                                        <input type="text" class="form-control" placeholder="Keterangan" name="keterangan">
+                                        <input type="text"  class="form-control" placeholder="Keterangan" name="keterangan">
 
 
                                 </div>
@@ -190,9 +190,9 @@
 
 @push('after-script')
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-{{-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
-    </script> --}}
+    </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
 </script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
@@ -204,10 +204,7 @@
     });
 </script>
 <script>
-    var APP_URL = {
-        !!json_encode(url('/')) !!
-    }
-    console.log(APP_URL);
+
     $('#exampleModal').on('show.bs.modal', function(event) {
         var button = $(event.relatedTarget)
         var id = button.data('riwayat_id')
@@ -217,7 +214,7 @@
             url: "/panic-button/detail/" + id,
             dataType: 'json',
             success: function(response) {
-                // console.log(response);
+                console.log(response);
 
                 $('#user_id').val(response.user_id);
                 $('#id_rumah').val(response.id_rumah);
@@ -241,10 +238,8 @@
 </script>
 
 <script>
-    var APP_URL = {
-        !!json_encode(url('/')) !!
-    }
-    console.log(APP_URL);
+
+    // console.log(APP_URL);
     $('#exampleEdit').on('show.bs.modal', function(event) {
         var button = $(event.relatedTarget)
         var id = button.data('edit_id')
@@ -259,6 +254,7 @@
                 $('#user_id2').val(response.user_id);
                 $('#id_rumah2').val(response.id_rumah);
                 $('#panic_id2').val(response.id);
+                $('#keterangan2').val(response.keterangan);
 
 
 
@@ -268,12 +264,9 @@
     })
 </script>
 <script>
-    // var APP_URL = {
-    //     !!json_encode(url('/')) !!
-    // }
+
     var APP_URL = {!! json_encode(url('/')) !!}
 
-    // console.log(APP_URL);
 
     function excel() {
 

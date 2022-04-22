@@ -19,6 +19,15 @@ class rev_listing extends Model
         return $this->hasOne(Cluster::class, 'id', 'cluster_id');
     }
 
+    public function getSetelahDiskonAttribute($value)
+    {
+        if($this->diskon == 0){
+           return $value = null;
+        }else{
+            return $value;
+        }
+    }
+
     public function getImageUrlAttribute($value)
     {
         return url('/').'/storage/'.$this->image;

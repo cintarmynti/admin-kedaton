@@ -115,9 +115,9 @@
                            @method('patch')
                            {{-- <img src="" width="400" height="300" id="bukti_tf2" alt=""> --}}
                            <input type="text" required name="alasan_penolakan" class="form-control">
-                           <input type="text" name="user_id" id="user_id2">
-                           <input type="text" name="type" id="type2">
-                           <input type="text" name="id" id="id2">
+                           <input type="hidden" name="user_id" id="user_id2">
+                           <input type="hidden" name="type" id="type2">
+                           <input type="hidden" name="id" id="id2">
 
 
                            {{-- <input type="hidden" name="tagihan_id" id="tagihan_id2"> --}}
@@ -149,11 +149,11 @@
                             @csrf
                             @method('patch')
                             <img src="" width="400" height="300" id="bukti_tf" alt="">
-                            <input type="text" name="tr_id" id="tr_id">
-                            <input type="text" name="user_id" id="user_id">
-                            <input type="text" name="price" id="price">
-                            <input type="text" name="type" id="type">
-                            <input type="text" name="id" id="bayar_id">
+                            <input type="hidden" name="tr_id" id="tr_id">
+                            <input type="hidden" name="user_id" id="user_id">
+                            <input type="hidden" name="price" id="price">
+                            <input type="hidden" name="type" id="type">
+                            <input type="hidden" name="id" id="bayar_id">
 
 
                     </div>

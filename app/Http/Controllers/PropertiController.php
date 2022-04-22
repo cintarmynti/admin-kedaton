@@ -313,6 +313,8 @@ class PropertiController extends Controller
         $properti->RW = $request->RW;
         $properti->lantai = $request->lantai;
         $properti->jumlah_kamar = $request->jumlah_kamar;
+        $properti->kamar_mandi = $request->kamar_mandi;
+        $properti->carport = $request->carport;
         $properti->luas_tanah = $request->luas_tanah;
         $properti->luas_bangunan = $request->luas_bangunan;
         // $properti->penghuni_id = $request->penghuni;

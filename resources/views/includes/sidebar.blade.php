@@ -1,7 +1,7 @@
 <div class="page-sidebar">
   <ul class="list-unstyled accordion-menu">
     <li class="sidebar-title">
-        Saldo
+        Saldo Mobile Pulsa
     </li>
     <li>
         <a href=""><h4 id="total-balance"></h4> </a>
