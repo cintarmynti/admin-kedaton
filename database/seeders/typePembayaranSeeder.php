@@ -26,11 +26,6 @@ class typePembayaranSeeder extends Seeder
             'desc' => 'Bayar Renovasi'
         ]);
 
-        // type_pembayaran::create([
-        //     // 'id' => 3,
-        //     'name' => 'PDAM',
-        //     'desc' => 'Bayar PDAM'
-        // ]);
 
         type_pembayaran::create([
             // 'id' => 3,

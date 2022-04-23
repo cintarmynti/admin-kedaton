@@ -39,9 +39,33 @@ class mobilepulsaController extends Controller
         $riwayat->type_pembayaran = $request->type;
         $riwayat->save();
 
+
+
         $mobilePulsa = pembayaranMobilePulsa::where('id', $request->id)->first();
         $mobilePulsa->status = 1;
         $mobilePulsa->save();
+
+        if($request->type == 3){
+            $tipe_notif = 6;
+        }else if($request->type == 4){
+            $tipe_notif = 5;
+        }
+
+        if($request->type == 3){
+            $tipe = 'internet';
+        }else if($request->type == 4){
+            $tipe = 'PLN';
+        }
+
+        $notifikasi = new Notifikasi();
+        $notifikasi->type = $tipe_notif;
+        $notifikasi->user_id = $request->user_id;
+        $notifikasi->sisi_notifikasi  = 'pengguna';
+        $notifikasi->heading = 'PEMBAYARAN '. $tipe.' TELAH DISETUJUI';
+        $notifikasi->desc = 'Pembayaran '. $tipe.' telah disetujui admin, terimakasih sudah membayar';
+        $notifikasi->save();
+
+
 
         return redirect()->back();
 
@@ -59,11 +83,18 @@ class mobilepulsaController extends Controller
             $tipe = 'PLN';
         }
 
+        if($request->type == 3){
+            $tipe_notif = 6;
+        }else if($request->type == 4){
+            $tipe_notif = 5;
+        }
+
         $notifikasi = new Notifikasi();
+        $notifikasi->type = $tipe_notif;
         $notifikasi->user_id = $request->user_id;
         $notifikasi->sisi_notifikasi  = 'pengguna';
         $notifikasi->heading = 'Pembayaran'. $tipe .'anda ditolak';
-        $notifikasi->desc = 'pembayaran'. $tipe. 'anda ditolak karena'.$request->alasan_penolakan;
+        $notifikasi->desc = 'pembayaran '. $tipe. ' anda ditolak karena '.$request->alasan_penolakan;
         $notifikasi->save();
 
         return redirect()->back();
