@@ -18,7 +18,7 @@ use App\Models\Pengajuan;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-
+use Kutia\Larafirebase\Facades\Larafirebase;
 
 class PropertiController extends Controller
 {
@@ -69,6 +69,22 @@ class PropertiController extends Controller
         $notifikasi->heading = 'BERHASIL MENAMBAHKAN PROPERTI BARU';
         $notifikasi->desc = 'Properti anda dalam proses pengecekan, menunggu persetujuan admin';
         $notifikasi->save();
+
+        try{
+            $fcmTokens =  User::where('id', $request->user_id)->whereNotNull('fcm_token')->pluck('fcm_token')->toArray();
+
+
+            Larafirebase::withTitle($request->title = 'BERHASIL MENAMBAHKAN PROPERTI BARU')
+                ->withBody($request->message = 'Properti anda dalam proses pengecekan, menunggu persetujuan admin')
+                ->sendMessage($fcmTokens);
+
+
+
+        }catch(\Exception $e){
+            report($e);
+
+        }
+
 
         $notifikasi_admin = new Notifikasi();
         $notifikasi_admin ->user_id = null;
@@ -232,6 +248,21 @@ class PropertiController extends Controller
             $notifikasi->desc = 'Menambahkan penghuni baru, menunggu persetujuan admin';
             $notifikasi->save();
 
+            try{
+                $fcmTokens =  User::where('id', $request->user_id)->whereNotNull('fcm_token')->pluck('fcm_token')->toArray();
+
+
+                Larafirebase::withTitle($request->title = 'BERHASIL MELAKUKAN PENGAJUAN PENAMBAHAN PENGHUNI')
+                    ->withBody($request->message = 'Menambahkan penghuni baru, menunggu persetujuan admin')
+                    ->sendMessage($fcmTokens);
+
+
+
+            }catch(\Exception $e){
+                report($e);
+
+            }
+
             $notifikasi_admin = new Notifikasi();
             $notifikasi_admin ->user_id = null;
             $notifikasi_admin ->sisi_notifikasi = 'admin';
@@ -288,11 +319,27 @@ class PropertiController extends Controller
             $pengajuan->save();
 
             $notifikasi = new Notifikasi();
+            $notifikasi->type = 4;
             $notifikasi->user_id = $request->user_id;
             $notifikasi->sisi_notifikasi  = 'pengguna';
             $notifikasi->heading = 'PENDAFTARAN PENGHUNI BARU UNTUK PENYEWA SEDANG DIPROSES';
             $notifikasi->desc = 'tunggu admin memproses pendaftaran penghuni baru';
             $notifikasi->save();
+
+            try{
+                $fcmTokens =  User::where('id', $request->user_id)->whereNotNull('fcm_token')->pluck('fcm_token')->toArray();
+
+
+                Larafirebase::withTitle($request->title = 'PENDAFTARAN PENGHUNI BARU UNTUK PENYEWA SEDANG DIPROSES')
+                    ->withBody($request->message = 'tunggu admin memproses pendaftaran penghuni baru')
+                    ->sendMessage($fcmTokens);
+
+
+
+            }catch(\Exception $e){
+                report($e);
+
+            }
 
             $notifikasi_admin = new Notifikasi();
             $notifikasi_admin ->user_id = null;

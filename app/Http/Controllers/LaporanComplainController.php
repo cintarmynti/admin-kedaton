@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
+use Kutia\Larafirebase\Facades\Larafirebase;
 use Maatwebsite\Excel\Facades\Excel;
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -194,13 +195,44 @@ class LaporanComplainController extends Controller
 
          if($request->status != 'diajukan'){
             $notifikasi = new Notifikasi();
+            $notifikasi->type = 3;
             $notifikasi->user_id = $request->user_id;
             $notifikasi->sisi_notifikasi  = 'pengguna';
             $notifikasi->heading = 'STATUS COMPLAIN TELAH DIPERBARUI ADMIN';
             if($request->status == 'diproses'){
                 $notifikasi->desc = 'Complain anda sedang diproses';
+
+                try{
+                    $fcmTokens =  User::where('id', $request->user_id)->whereNotNull('fcm_token')->pluck('fcm_token')->toArray();
+
+
+                    Larafirebase::withTitle($request->title = 'STATUS COMPLAIN TELAH DIPERBARUI ADMIN')
+                        ->withBody($request->message = 'Complain anda sedang diproses')
+                        ->sendMessage($fcmTokens);
+
+
+
+                }catch(\Exception $e){
+                    report($e);
+
+                }
             }else if($request->status == 'selesai'){
                 $notifikasi->desc = 'Complain anda telah diselesaikan';
+
+                try{
+                    $fcmTokens =  User::where('id', $request->user_id)->whereNotNull('fcm_token')->pluck('fcm_token')->toArray();
+
+
+                    Larafirebase::withTitle($request->title = 'STATUS COMPLAIN TELAH DIPERBARUI ADMIN')
+                        ->withBody($request->message = 'Complain anda telah diselesaikan')
+                        ->sendMessage($fcmTokens);
+
+
+
+                }catch(\Exception $e){
+                    report($e);
+
+                }
             }
             $notifikasi->save();
          }

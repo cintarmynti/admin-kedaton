@@ -25,7 +25,7 @@ use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Storage;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Str;
-
+use Kutia\Larafirebase\Facades\Larafirebase;
 
 class UserController extends Controller
 {
@@ -457,11 +457,27 @@ class UserController extends Controller
         // $cancel->save();
 
         $notifikasi = new Notifikasi();
+        $notifikasi->type = 7;
         $notifikasi->user_id = $request->pemilik_id2;
         $notifikasi->sisi_notifikasi  = 'pengguna';
         $notifikasi->heading = 'PENDAFTARAN PENGHUNI BARU DITOLAK';
-        $notifikasi->desc = 'Mohon Maaf, pedaftaran penghuni baru kami tolak kaena '.$request->alasan_dibatalkan;
+        $notifikasi->desc = 'Mohon Maaf, pedaftaran penghuni baru kami tolak karena '.$request->alasan_dibatalkan;
         $notifikasi->save();
+
+        try{
+            $fcmTokens =  User::where('id', $request->pemilik_id)->whereNotNull('fcm_token')->pluck('fcm_token')->toArray();
+
+
+            Larafirebase::withTitle($request->title = 'PENDAFTARAN PENGHUNI BARU DITOLAK')
+                ->withBody($request->message = 'Mohon Maaf, pedaftaran penghuni baru kami tolak karena '.$request->alasan_dibatalkan)
+                ->sendMessage($fcmTokens);
+
+
+
+        }catch(\Exception $e){
+            report($e);
+
+        }
 
         return redirect('/user');
         // dd($cancel);

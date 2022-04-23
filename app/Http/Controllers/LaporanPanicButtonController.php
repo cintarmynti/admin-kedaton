@@ -6,8 +6,10 @@ use App\Exports\PanicButtonExport;
 use App\Models\Notifikasi;
 use App\Models\PanicButton;
 use App\Models\Properti;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Kutia\Larafirebase\Facades\Larafirebase;
 use Maatwebsite\Excel\Facades\Excel;
 
 class LaporanPanicButtonController extends Controller
@@ -38,7 +40,7 @@ class LaporanPanicButtonController extends Controller
         return response()->json($panic);
     }
 
-    public function dashboard_update($id)
+    public function dashboard_update($id, Request $request)
     {
         $panic = PanicButton::where('id', $id)->update([
             'status_keterangan' => 'checked'
@@ -47,11 +49,28 @@ class LaporanPanicButtonController extends Controller
         $update_notif = PanicButton::where('id', $id)->first();
         // dd($update_notif);
         $notifikasi = new Notifikasi();
+        $notifikasi->type = 2;
         $notifikasi->user_id = $update_notif->user_id;
         $notifikasi->sisi_notifikasi  = 'pengguna';
         $notifikasi->heading = 'LAPORAN PANIC BUTTON';
         $notifikasi->desc = 'Laporan Panic Button anda telah ditangani oleh admin';
         $notifikasi->save();
+
+        try{
+            $fcmTokens =  User::where('id', $update_notif->user_id)->whereNotNull('fcm_token')->pluck('fcm_token')->toArray();
+
+
+            Larafirebase::withTitle($request->title = 'LAPORAN PANIC BUTTON')
+                ->withBody($request->message = 'Laporan Panic Button anda telah ditangani oleh admin')
+                ->sendMessage($fcmTokens);
+
+
+
+        }catch(\Exception $e){
+            report($e);
+
+        }
+
         return redirect('/dashboard');
 
     }

@@ -19,6 +19,7 @@ use App\Models\Properti_image;
 use App\Models\Tagihan;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Storage;
+use Kutia\Larafirebase\Facades\Larafirebase;
 use RealRashid\SweetAlert\Facades\Alert;
 use Symfony\Component\Console\Input\Input;
 use Maatwebsite\Excel\Facades\Excel;
@@ -55,11 +56,28 @@ class PropertiController extends Controller
 
 
         $notifikasi = new Notifikasi();
+        $notifikasi -> type = 7;
         $notifikasi->user_id = $request->pemilik_id;
         $notifikasi->sisi_notifikasi  = 'pengguna';
         $notifikasi->heading = 'PENGHUNI TELAH DISETUJUI';
         $notifikasi->desc = 'Admin telah menyetujui penyewaan propert tersebut';
         $notifikasi->save();
+
+
+        try{
+            $fcmTokens =  User::where('id', $request->pemilik_id)->whereNotNull('fcm_token')->pluck('fcm_token')->toArray();
+
+
+            Larafirebase::withTitle($request->title = 'PENGHUNI TELAH DISETUJUI')
+                ->withBody($request->message = 'Admin telah menyetujui penyewaan propert tersebut')
+                ->sendMessage($fcmTokens);
+
+
+
+        }catch(\Exception $e){
+            report($e);
+
+        }
 
         return redirect()->route('properti');
     }
@@ -74,11 +92,27 @@ class PropertiController extends Controller
         $properti -> save();
 
         $notifikasi = new Notifikasi();
+        $notifikasi -> type = 4;
         $notifikasi->user_id = $request->pemilik_id;
         $notifikasi->sisi_notifikasi  = 'pengguna';
         $notifikasi->heading = 'PENGAJUAN Tambah PROPERTI INI DITOLAK';
         $notifikasi->desc = 'Mohon Maaf, pengajuan Tambah Properti baru pada properti kami tolak karena '.$request->alasan_dibatalkan;
         $notifikasi->save();
+
+        try{
+            $fcmTokens =  User::where('id', $request->pemilik_id)->whereNotNull('fcm_token')->pluck('fcm_token')->toArray();
+
+
+            Larafirebase::withTitle($request->title = 'PENGAJUAN Tambah PROPERTI INI DITOLAK')
+                ->withBody($request->message = 'Mohon Maaf, pengajuan Tambah Properti baru pada properti kami tolak karena '.$request->alasan_dibatalkan)
+                ->sendMessage($fcmTokens);
+
+
+
+        }catch(\Exception $e){
+            report($e);
+
+        }
 
         return redirect()->back();
 
@@ -94,11 +128,27 @@ class PropertiController extends Controller
         $properti -> save();
 
         $notifikasi = new Notifikasi();
+        $notifikasi ->type = 7;
         $notifikasi->user_id = $request->pemilik_id;
         $notifikasi->sisi_notifikasi  = 'pengguna';
         $notifikasi->heading = 'PENGAJUAN PENGHUNI UNTUK PROPERTI INI DITOLAK';
         $notifikasi->desc = 'Mohon Maaf, pengajuan penghuni baru pada properti kami tolak karena '.$request->alasan_dibatalkan;
         $notifikasi->save();
+
+        try{
+            $fcmTokens =  User::where('id', $request->pemilik_id)->whereNotNull('fcm_token')->pluck('fcm_token')->toArray();
+
+
+            Larafirebase::withTitle($request->title = 'PENGAJUAN PENGHUNI UNTUK PROPERTI INI DITOLAK')
+                ->withBody($request->message = 'Mohon Maaf, pengajuan Tambah Properti baru pada properti kami tolak karena '.$request->alasan_dibatalkan)
+                ->sendMessage($fcmTokens);
+
+
+
+        }catch(\Exception $e){
+            report($e);
+
+        }
 
         return redirect()->back();
     }
@@ -124,11 +174,28 @@ class PropertiController extends Controller
         $pengajuan->save();
 
         $notifikasi = new Notifikasi();
+        $notifikasi -> type = 4;
         $notifikasi->user_id = $request->pemilik_id;
         $notifikasi->sisi_notifikasi  = 'pengguna';
         $notifikasi->heading = 'PENAMBAHAN PROPERTI BARU TELAH DISETUJUI';
         $notifikasi->desc = 'Properti anda telah disetujui';
         $notifikasi->save();
+
+        try{
+            $fcmTokens =  User::where('id', $request->pemilik_id)->whereNotNull('fcm_token')->pluck('fcm_token')->toArray();
+
+
+            Larafirebase::withTitle($request->title = 'PENAMBAHAN PROPERTI BARU TELAH DISETUJUI')
+                ->withBody($request->message = 'Properti anda telah disetujui')
+                ->sendMessage($fcmTokens);
+
+
+
+        }catch(\Exception $e){
+            report($e);
+
+        }
+
 
         return redirect()->route('properti');
     }

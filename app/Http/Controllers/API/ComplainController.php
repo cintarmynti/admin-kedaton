@@ -7,10 +7,11 @@ use App\Lib\PusherFactory;
 use App\Models\Complain;
 use App\Models\complain_image;
 use App\Models\Notifikasi;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-
+use Kutia\Larafirebase\Facades\Larafirebase;
 
 class ComplainController extends Controller
 {
@@ -40,11 +41,27 @@ class ComplainController extends Controller
         }
 
         $notifikasi = new Notifikasi();
+        $notifikasi->type = 3;
         $notifikasi->user_id = $request->user_id;
         $notifikasi->sisi_notifikasi  = 'pengguna';
         $notifikasi->heading = 'BERHASIL MENGAJUKAN COMPLAIN';
         $notifikasi->desc = 'Complain berhasil dikirim, complain anda masih diajukan, menunggu perubahan status oleh admin';
         $notifikasi->save();
+
+        try{
+            $fcmTokens =  User::where('id', $request->user_id)->whereNotNull('fcm_token')->pluck('fcm_token')->toArray();
+
+
+            Larafirebase::withTitle($request->title = 'BERHASIL MENGAJUKAN COMPLAIN')
+                ->withBody($request->message = 'Complain berhasil dikirim, complain anda masih diajukan, menunggu perubahan status oleh admin')
+                ->sendMessage($fcmTokens);
+
+
+
+        }catch(\Exception $e){
+            report($e);
+
+        }
 
         $notifikasi_admin = new Notifikasi();
         $notifikasi_admin ->user_id = null;
