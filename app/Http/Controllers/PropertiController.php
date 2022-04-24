@@ -60,7 +60,7 @@ class PropertiController extends Controller
         $notifikasi->user_id = $request->pemilik_id;
         $notifikasi->sisi_notifikasi  = 'pengguna';
         $notifikasi->heading = 'PENGHUNI TELAH DISETUJUI';
-        $notifikasi->desc = 'Admin telah menyetujui penyewaan propert tersebut';
+        $notifikasi->desc = 'Admin telah menyetujui penyewaan properti tersebut';
         $notifikasi->save();
 
 

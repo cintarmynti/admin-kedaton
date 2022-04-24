@@ -86,6 +86,14 @@ class UserController extends Controller
         $properti->status_pengajuan_penghuni = 1;
         $properti->save();
 
+        $notifikasi = new Notifikasi();
+        $notifikasi->type = 7;
+        $notifikasi->user_id = $request->pemilik_id;
+        $notifikasi->sisi_notifikasi  = 'pengguna';
+        $notifikasi->heading = 'PENDAFTARAN PENGHUNI DITERIMA';
+        $notifikasi->desc = 'Pendaftaran penghuni baru diterima';
+        $notifikasi->save();
+
         return redirect('/user');
     }
 

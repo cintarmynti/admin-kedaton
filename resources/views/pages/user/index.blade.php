@@ -137,6 +137,7 @@
                                                     @method('patch')
 
                                                     <input type="hidden" id="input_penghuni" name="penghuni_id">
+                                                    <input type="hidden" id="input_pemilik" name="pemilik_id">
                                                     <button type="submit" class="btn btn-success">Setujui</button>
                                                     {{-- <a href="" >Setujui</a> --}}
                                                 </form>
@@ -293,6 +294,7 @@
                     $('#input_penghuni2').val(response.user.id);
                     $('#input_pemilik2').val(response.user_pemilik.id);
                     $('#input_penghuni').val(response.user.id);
+                    $('#input_pemilik').val(response.user_pemilik.id);
                     $('#halo').html(response.user.photo_ktp);
 
 

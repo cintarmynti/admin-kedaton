@@ -7,11 +7,13 @@ use App\Http\Controllers\Controller;
 use App\Models\Notifikasi;
 use App\Models\pembayaranMobilePulsa;
 use App\Models\Riwayat;
+use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
+use Kutia\Larafirebase\Facades\Larafirebase;
 
 class MobilePulsaController extends Controller
 {
@@ -87,6 +89,10 @@ class MobilePulsaController extends Controller
 
     public function paymentTelkom(Request  $request)
     {
+        if(!$request->type || !$request->tr_id || !$request->user_id || !$request->no_pelanggan || !$request->bank || !$request->price || !$request->bukti_tf){
+            return ResponseFormatter::failed('tidak boleh ada field kososng!', 404);
+        }
+
         $today = Carbon::now()->toDateString();
         $cek_pembayaran = pembayaranMobilePulsa::where('no_pelanggan', $request->no_pelanggan)->where('status', '!=', 2)->orderBy('id', 'desc')->first();
         // dd($cek_pembayaran);
@@ -96,6 +102,7 @@ class MobilePulsaController extends Controller
                 return ResponseFormatter::failed('tagihan ini sudah dibayar!', 404);
             }
         }
+
 
 
         $mobilPulsa = new pembayaranMobilePulsa();
@@ -144,6 +151,14 @@ class MobilePulsaController extends Controller
             $tipe = 'PLN';
         }
 
+        $notifikasi_admin = new Notifikasi();
+        $notifikasi_admin ->user_id = null;
+        $notifikasi_admin ->sisi_notifikasi = 'admin';
+        $notifikasi_admin -> heading = 'PEMBAYARAN ' .$tipe. ' BARU';
+        $notifikasi_admin ->desc = 'ada penghuni yang melakukan pembayaran';
+        $notifikasi_admin -> link = '/mobile-pulsa';
+        $notifikasi_admin ->save();
+
         $notifikasi = new Notifikasi();
         $notifikasi->type = $tipe_notif;
         $notifikasi->user_id = $request->user_id;
@@ -151,6 +166,21 @@ class MobilePulsaController extends Controller
         $notifikasi->heading = 'BERHASIL MELAKUKAN PEMBAYARAN '. $tipe;
         $notifikasi->desc = 'Terimakasih sudah melakukan pembayaran ' .$tipe. ', pembayaran anda sedang di proses Admin';
         $notifikasi->save();
+
+        try{
+            $fcmTokens =  User::where('id', $request->user_id)->whereNotNull('fcm_token')->pluck('fcm_token')->toArray();
+
+
+            Larafirebase::withTitle($request->title = 'BERHASIL MELAKUKAN PEMBAYARAN '. $tipe)
+                ->withBody($request->message = 'Terimakasih sudah melakukan pembayaran ' .$tipe. ', pembayaran anda sedang di proses Admin')
+                ->sendMessage($fcmTokens);
+
+
+
+        }catch(\Exception $e){
+            report($e);
+
+        }
 
         return ResponseFormatter::success('berhasil melakukan pembayaran', $mobilPulsa);
     }
