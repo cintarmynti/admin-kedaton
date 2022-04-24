@@ -33,6 +33,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 //semua riwayat
 Route::get('riwayat', [MobilePulsaController::class, 'riwayat']);
+Route::get('riwayat-mobile-pulsa', [MobilePulsaController::class, 'riwayatMobilePulsa']);
+
 
 
 Route::get('/renovasi', [RenovasiController::class, 'index']);

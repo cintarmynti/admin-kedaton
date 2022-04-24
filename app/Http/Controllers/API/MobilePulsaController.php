@@ -200,64 +200,76 @@ class MobilePulsaController extends Controller
             return ResponseFormatter::failed('tidak ada riwayat!', 404);
         }
 
-        $riwayat = [];
+        if($request->status){
+            if($request->status == 1){
+                $riwayat = [];
+                $data = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+                for ($i = 1; $i <= 12; $i++) {
+                    $total_income['month'] = $data[$i - 1];
+                    $total_income['lists'] = Riwayat::with('type')->where('type_pembayaran', 1)->where('user_id', $request->user_id)->whereMonth('created_at', $i)->orderBy('created_at', 'desc')->get();
 
-        $data = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
-        for ($i = 1; $i <= 12; $i++) {
-            $total_income['month'] = $data[$i - 1];
-            $total_income['lists'] = Riwayat::with('type')->where('user_id', $request->user_id)->whereMonth('created_at', $i)->orderBy('created_at', 'desc')->get();
+                    if ($total_income['lists']->count() != 0) {
+                        array_push($riwayat, $total_income);
+                    }
+                }
+                return ResponseFormatter::success('berhasil mengambil data riwayat!', $riwayat);
+            }else if($request->status == 3){
+                $riwayat = [];
+                $data = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+                for ($i = 1; $i <= 12; $i++) {
+                    $total_income['month'] = $data[$i - 1];
+                    $total_income['lists'] = Riwayat::with('type')->where('type_pembayaran', 3)->where('user_id', $request->user_id)->whereMonth('created_at', $i)->orderBy('created_at', 'desc')->get();
 
-            if ($total_income['lists']->count() != 0) {
-                array_push($riwayat, $total_income);
+                    if ($total_income['lists']->count() != 0) {
+                        array_push($riwayat, $total_income);
+                    }
+                }
+                return ResponseFormatter::success('berhasil mengambil data riwayat!', $riwayat);
+            }else if($request->status == 4){
+                $riwayat = [];
+                $data = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+                for ($i = 1; $i <= 12; $i++) {
+                    $total_income['month'] = $data[$i - 1];
+                    $total_income['lists'] = Riwayat::with('type')->where('type_pembayaran', 4)->where('user_id', $request->user_id)->whereMonth('created_at', $i)->orderBy('created_at', 'desc')->get();
+
+                    if ($total_income['lists']->count() != 0) {
+                        array_push($riwayat, $total_income);
+                    }
+                }
+                return ResponseFormatter::success('berhasil mengambil data riwayat!', $riwayat);
             }
+        }else{
+            $riwayat = [];
+
+            $data = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+            for ($i = 1; $i <= 12; $i++) {
+                $total_income['month'] = $data[$i - 1];
+                $total_income['lists'] = Riwayat::with('type')->where('user_id', $request->user_id)->whereMonth('created_at', $i)->orderBy('created_at', 'desc')->get();
+
+                if ($total_income['lists']->count() != 0) {
+                    array_push($riwayat, $total_income);
+                }
+            }
+            return ResponseFormatter::success('berhasil mengambil data riwayat!', $riwayat);
         }
-        return ResponseFormatter::success('berhasil mengambil data riwayat!', $riwayat);
+
+
     }
 
+    public function riwayatMobilePulsa(Request $request){
+        if(!$request->user_id){
+            return ResponseFormatter::failed('tidak boleh ada field kosong!', 404);
+        }
+        $cekriwayat = Riwayat::with('type')->where('user_id', $request->user_id)->where('type_pembayaran', 3)->orWhere('type_pembayaran', 4)->orderBy('created_at', 'desc')->get();
 
-    // public function paymentPDAM(Request $request){
-    //     if(!$request->user_id || !$request->tr_id){
-    //         return ResponseFormatter::failed('tidak boleh ada field kosong!', 401);
-    //     }
-    //     $username = '087859277817';
-    //     $pdam = Http::post('https://testpostpaid.mobilepulsa.net/api/v1/bill/check', [
-    //         'commands' => 'pay-pasca',
-    //         'username' => $username,
-    //         'tr_id'    => $request->tr_id,
-    //         'sign'     => md5($username.'54562298422ad2a7'.$request->tr_id)
-    //     ])->json();
+        if ($cekriwayat->count() == 0) {
+            return ResponseFormatter::failed('tidak ada riwayat!', 404);
+        }
 
-    //     if($pdam["data"]["response_code"] == 01){
-    //         return $pdam;
-    //     }
+        return ResponseFormatter::success('berhasil mengambil data riwayat!', $cekriwayat);
 
-    //     $riwayat = new Riwayat();
-    //     $riwayat->user_id = $request->user_id;
-    //     $riwayat->harga = $pdam["data"]["price"];
-    //     $riwayat->type_pembayaran = 3;
-    //     $riwayat->save();
+    }
 
-    //     return $pdam;
-    // }
-
-    // public function inquiryPDAM(Request $request){
-    //     if(!$request->user_id || !$request->no_pdam){
-    //         return ResponseFormatter::failed('tidak boleh ada field kosong!', 401);
-    //     }
-    //     $username = '087859277817';
-    //     $ref = time();
-    //     $pdam = Http::post('https://testpostpaid.mobilepulsa.net/api/v1/bill/check', [
-    //         'commands'	=> 'inq-pasca',
-    //         'username'	=> $username,
-    //         'code'	=> 'PDAMKOTA.SURABAYA',
-    //         'hp'	=> $request->no_pdam,
-    //         'ref_id'	=> $ref,
-    //         'sign'      => md5($username.'54562298422ad2a7'.$ref)
-    //     ])->json();
-
-    //     $pdam['type'] = 4;
-    //     return $pdam;
-    // }
 
 
 
