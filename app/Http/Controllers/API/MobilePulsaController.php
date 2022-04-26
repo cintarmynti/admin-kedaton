@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use Intervention\Image\Facades\Image;
 use App\Http\Controllers\Controller;
+use App\Lib\PusherFactory;
 use App\Models\Notifikasi;
 use App\Models\pembayaranMobilePulsa;
 use App\Models\Riwayat;
@@ -153,7 +154,7 @@ class MobilePulsaController extends Controller
         }
 
         if($request->type == 3){
-            $tipe = 'internet';
+            $tipe = 'INTERNET';
         }else if($request->type == 4){
             $tipe = 'PLN';
         }
@@ -165,6 +166,8 @@ class MobilePulsaController extends Controller
         $notifikasi_admin ->desc = 'ada penghuni yang melakukan pembayaran';
         $notifikasi_admin -> link = '/mobile-pulsa';
         $notifikasi_admin ->save();
+
+        PusherFactory::make()->trigger('admin', 'kirim', ['data' => $notifikasi_admin]);
 
         $notifikasi = new Notifikasi();
         $notifikasi->type = $tipe_notif;

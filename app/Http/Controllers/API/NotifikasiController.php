@@ -50,14 +50,10 @@ class NotifikasiController extends Controller
 
     public function updateToken(Request $request){
         try{
-
-            $user = User::where('id', $request->user_id)->first();
-            $user->fcm_token = $request->token;
-            $user->save();
+            $request->user()->update(['fcm_token'=>$request->token]);
             return response()->json([
                 'success'=>true
             ]);
-
         }catch(\Exception $e){
             report($e);
             return response()->json([
@@ -75,15 +71,15 @@ class NotifikasiController extends Controller
         try{
             $fcmTokens = User::whereNotNull('fcm_token')->pluck('fcm_token')->toArray();
 
-            Larafirebase::withTitle($request->title = 'PEMBAYARAN IPKL TELAH DISETUJUI')
-                ->withBody($request->message ='Pembayaran IPKL telah disetujui admin, terimakasih sudah membayar')
+            Larafirebase::withTitle($request->title='p')
+                ->withBody($request->message='p')
                 ->sendMessage($fcmTokens);
 
-            return response()->json(['success'=>'Notification Sent Successfully!!']);
+            return redirect()->back()->with('success','Notification Sent Successfully!!');
 
         }catch(\Exception $e){
             report($e);
-            return response()->json(['error'=>'Something goes wrong while sending notification.']);
+            return redirect()->back()->with('error','Something goes wrong while sending notification.');
         }
     }
 }

@@ -5,17 +5,22 @@
     <div class="card-body">
         <div class="open-email-content">
             <div class="mail-header">
-                <div class="mail-title">
-                    @if ($complain->status == 'diajukan')
-                    <span class="badge bg-warning btn"  data-complain_id="{{ $complain->id }}"  data-bs-toggle="modal" data-bs-target="#exampleModal">Diajukan <i class="fa-solid fa-edit"></i></span>
-                        {{-- <i class="fa-solid fa-house"></i> --}}
-                    @elseif ($complain->status == 'diproses')
-                    <span class="badge bg-primary btn"  data-complain_id="{{ $complain->id }}"  data-bs-toggle="modal" data-bs-target="#exampleModal">Diproses <i class="fa-solid fa-edit"></i></span>
-                    @elseif($complain->status == 'selesai')
-                    <span class="badge bg-success btn"  data-complain_id="{{ $complain->id }}"  data-bs-toggle="modal" data-bs-target="#exampleModal">Selesai <i class="fa-solid fa-edit"></i></span>
-                    @endif
-                    <h4 class="mt-5">Catatan Complain</h4>
+                <div class="d-flex">
+                    <h5 class="mt-2">Ubah Status Complain : </h5>
+                    <div class="mail-title ml-3">
+                        @if ($complain->status == 'diajukan')
+                        <span class="badge bg-warning btn"  data-complain_id="{{ $complain->id }}"  data-bs-toggle="modal" data-bs-target="#exampleModal">Diajukan <i class="fa-solid fa-edit"></i></span>
+                            {{-- <i class="fa-solid fa-house"></i> --}}
+                        @elseif ($complain->status == 'diproses')
+                        <span class="badge bg-primary btn"  data-complain_id="{{ $complain->id }}"  data-bs-toggle="modal" data-bs-target="#exampleModal">Diproses <i class="fa-solid fa-edit"></i></span>
+                        @elseif($complain->status == 'selesai')
+                        <span class="badge bg-success btn"  data-complain_id="{{ $complain->id }}"  data-bs-toggle="modal" data-bs-target="#exampleModal">Selesai <i class="fa-solid fa-edit"></i></span>
+                        @endif
+                    </div>
+
+
                 </div>
+                <h4 class="mt-2 text-left">Catatan Complain</h4>
             </div>
         </div>
         <div class="mail-text">
