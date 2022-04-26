@@ -90,10 +90,10 @@
                         @csrf
                         @method('patch')
 
-                        <input type="text" placeholder="rumah_id" id="id_rumah" name="id_rumah">
-                        <input type="text" placeholder="panic_id" id="panic_id" name="id">
+                        <input type="hidden" placeholder="rumah_id" id="id_rumah" name="id_rumah">
+                        <input type="hidden" placeholder="panic_id" id="panic_id" name="id">
 
-                        <input type="text" placeholder="user_id" id="user_id" name="user_id">
+                        <input type="hidden" placeholder="user_id" id="user_id" name="user_id">
                         <input type="text" class="form-control" placeholder="Keterangan" name="keterangan">
                         {{-- Woohoo, you're reading this text in a modal! --}}
                 </div>
@@ -247,13 +247,13 @@
     <script>
         // Your web app's Firebase configuration
         var firebaseConfig = {
-            apiKey: "AIzaSyB2OL6IhJX7HDGUblKz0OjCF2tbMvT-tV4",
-            authDomain: "kedaton-fbe20.firebaseapp.com",
-            projectId: "kedaton-fbe20",
-            storageBucket: "kedaton-fbe20.appspot.com",
-            messagingSenderId: "201815427799",
-            appId: "1:201815427799:web:8dd19acf1353c737abbe92",
-            measurementId: "G-96L7Y5B4EG"
+            apiKey: "AIzaSyDExuTu6H1H2Cq8_sz8yHzNM0XsGbZJ-uQ",
+            authDomain: "kedaton-e6eb7.firebaseapp.com",
+            projectId: "kedaton-e6eb7",
+            storageBucket: "kedaton-e6eb7.appspot.com",
+            messagingSenderId: "133991064317",
+            appId: "1:133991064317:web:9a5db01764c1fb4a5bd494",
+            measurementId: "G-VEFPNH59NE"
         };
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);

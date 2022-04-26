@@ -38,5 +38,7 @@ class typePembayaranSeeder extends Seeder
             'name' => 'PLN',
             'desc' => 'Bayar PLN'
         ]);
+
+
     }
 }

@@ -94,7 +94,7 @@ class MobilePulsaController extends Controller
         }
 
         $today = Carbon::now()->toDateString();
-        $cek_pembayaran = pembayaranMobilePulsa::where('no_pelanggan', $request->no_pelanggan)->where('status', '!=', 2)->orderBy('id', 'desc')->first();
+        $cek_pembayaran = pembayaranMobilePulsa::where('user_id', $request->user_id)->where('no_pelanggan', $request->no_pelanggan)->where('status', '!=', 2)->orderBy('id', 'desc')->first();
         // dd($cek_pembayaran);
         if ($cek_pembayaran != null) {
             $tgl = Carbon::parse($cek_pembayaran->created_at)->toDateString();
@@ -260,13 +260,29 @@ class MobilePulsaController extends Controller
         if(!$request->user_id){
             return ResponseFormatter::failed('tidak boleh ada field kosong!', 404);
         }
-        $cekriwayat = Riwayat::with('type')->where('user_id', $request->user_id)->where('type_pembayaran', 3)->orWhere('type_pembayaran', 4)->orderBy('created_at', 'desc')->get();
 
-        if ($cekriwayat->count() == 0) {
-            return ResponseFormatter::failed('tidak ada riwayat!', 404);
+        if($request->status){
+            if($request->status == 3){
+                $cekriwayat = Riwayat::with('type')->where('user_id', $request->user_id)->where('type_pembayaran', 3)->orderBy('created_at', 'desc')->get();
+
+                if ($cekriwayat->count() == 0) {
+                    return ResponseFormatter::failed('tidak ada riwayat!', 404);
+                }
+
+                return ResponseFormatter::success('berhasil mengambil data riwayat PLN!', $cekriwayat);
+            }else if($request->status == 4){
+                $cekriwayat = Riwayat::with('type')->where('user_id', $request->user_id)->where('type_pembayaran', 4)->orderBy('created_at', 'desc')->get();
+
+                if ($cekriwayat->count() == 0) {
+                    return ResponseFormatter::failed('tidak ada riwayat!', 404);
+                }
+
+                return ResponseFormatter::success('berhasil mengambil data riwayat Internet!', $cekriwayat);
+            }
+        }else{
+            return ResponseFormatter::failed('Masukkan status!', 404);
         }
 
-        return ResponseFormatter::success('berhasil mengambil data riwayat!', $cekriwayat);
 
     }
 

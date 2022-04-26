@@ -2,13 +2,11 @@ importScripts('https://www.gstatic.com/firebasejs/8.3.2/firebase-app.js');
 importScripts('https://www.gstatic.com/firebasejs/8.3.2/firebase-messaging.js');
 
 firebase.initializeApp({
-    apiKey: "AIzaSyB2OL6IhJX7HDGUblKz0OjCF2tbMvT-tV4",
-    authDomain: "kedaton-fbe20.firebaseapp.com",
-    projectId: "kedaton-fbe20",
-    storageBucket: "kedaton-fbe20.appspot.com",
-    messagingSenderId: "201815427799",
-    appId: "1:201815427799:web:8dd19acf1353c737abbe92",
-    measurementId: "G-96L7Y5B4EG"
+    apiKey: "AIzaSyDExuTu6H1H2Cq8_sz8yHzNM0XsGbZJ-uQ",
+    projectId: "kedaton-e6eb7",
+    messagingSenderId: "133991064317",
+    appId: "1:133991064317:web:9a5db01764c1fb4a5bd494",
+
 });
 
 const messaging = firebase.messaging();

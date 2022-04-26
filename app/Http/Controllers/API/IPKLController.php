@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use Intervention\Image\Facades\Image;
 use App\Lib\PusherFactory;
 use App\Models\IPKL;
 use App\Models\Notifikasi;
@@ -36,12 +37,33 @@ class IPKLController extends Controller
             $ipkl = [];
             if ($request->bukti_tf) {
 
-                $image = $request->bukti_tf;  // your base64 encoded
-                $image = str_replace('data:image/png;base64,', '', $image);
-                $image = str_replace(' ', '+', $image);
-                $imageName = 'bukti_tf/'.Str::random(10) . '.png';
+                // $image = $request->bukti_tf;  // your base64 encoded
+                // $image = str_replace('data:image/png;base64,', '', $image);
+                // $image = str_replace(' ', '+', $image);
+                // $imageName = 'bukti_tf/'.Str::random(10) . '.png';
 
-                Storage::disk('public')->put($imageName, base64_decode($image));
+                // Storage::disk('public')->put($imageName, base64_decode($image));
+
+                if ($request->bukti_tf) {
+                    $data = substr($request->bukti_tf, strpos($request->bukti_tf, ',') + 1);
+                    $data = base64_decode($data);
+
+                    $fileName = Str::random(10) . '.png';
+                    Storage::put('bukti_tf/' . $fileName, $data);
+
+                    $url = 'storage/bukti_tf/' . $fileName;
+                    $image = Image::make($url);
+                    $image->resize(500, null, function ($constraint) {
+                        $constraint->aspectRatio();
+                    });
+
+
+                    Storage::put('bukti_tf/' . $fileName, (string) $image->encode());
+                    // dd($fileName);
+                    $image_path = 'bukti_tf/' . $fileName;
+
+
+                }
             }
             foreach ($request->tagihan_id as $i) {
                 //cek gagal
@@ -64,7 +86,7 @@ class IPKLController extends Controller
                         'status' => 1,
                         'periode_pembayaran' => Carbon::now(),
                         'type' => $tagihan->type_id,
-                        'bukti_tf' =>$imageName
+                        'bukti_tf' =>$image_path
                     ]);
 
                     Tagihan::where('id', $tagihan->id)->update([

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Lib\PusherFactory;
+use Intervention\Image\Facades\Image;
 use App\Models\Complain;
 use App\Models\complain_image;
 use App\Models\Notifikasi;
@@ -27,15 +28,34 @@ class ComplainController extends Controller
 
         foreach($request->gambar as $gbr){
 
-            $image = $gbr;  // your base64 encoded
-            $image = str_replace('data:image/png;base64,', '', $image);
-            $image = str_replace(' ', '+', $image);
-            $imageName = 'complain_image/'. Str::random(10) . '.png';
+            // $image = $gbr;  // your base64 encoded
+            // $image = str_replace('data:image/png;base64,', '', $image);
+            // $image = str_replace(' ', '+', $image);
+            // $imageName = 'complain_image/'. Str::random(10) . '.png';
 
-            Storage::disk('public')->put($imageName, base64_decode($image));
+            // Storage::disk('public')->put($imageName, base64_decode($image));
+
+
+            $data = substr($gbr, strpos($gbr, ',') + 1);
+            $data = base64_decode($data);
+
+            $fileName = Str::random(10) . '.png';
+            Storage::put('complain_image/' . $fileName, $data);
+
+            $url = 'storage/complain_image/' . $fileName;
+            $image = Image::make($url);
+            $image->resize(500, null, function ($constraint) {
+                $constraint->aspectRatio();
+            });
+
+
+            Storage::put('complain_image/' . $fileName, (string) $image->encode());
+            // dd($fileName);
+            $image_path = 'complain_image/' . $fileName;
+
 
             $complain_image = new complain_image();
-            $complain_image->image = $imageName;
+            $complain_image->image = $image_path;
             $complain_image->complain_id = $complain->id;
             $complain_image->save();
         }
@@ -90,7 +110,7 @@ class ComplainController extends Controller
             return ResponseFormatter::success('berhasil mengembil complin dengann status!', $complain);
         }
 
-        $complain = Complain::where('user_id', $request->user_id)->get();
+        $complain = Complain::where('user_id', $request->user_id)->orderBy('id', 'desc')->get();
         // foreach($complain as $com){
             // foreach($complain->gambar as $gbr){
             //     $complain->gambar_image = $gbr;
