@@ -75,7 +75,14 @@ class MobilePulsaController extends Controller
                 ])->json();
 
                 $PLN['type'] = 4;
+
+
+                if ($PLN["data"]["response_code"] == 14){
+                    return ResponseFormatter::failed('tidak boleh nomer pelanggan!', 404);
+
+                }
                 return $PLN;
+
             }
             $nonIndihome['type'] = 3;
             return $nonIndihome;
