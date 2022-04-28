@@ -5,8 +5,7 @@ firebase.initializeApp({
     apiKey: "AIzaSyDExuTu6H1H2Cq8_sz8yHzNM0XsGbZJ-uQ",
     projectId: "kedaton-e6eb7",
     messagingSenderId: "133991064317",
-    appId: "1:133991064317:web:9a5db01764c1fb4a5bd494",
-
+    appId: "1:133991064317:web:9a5db01764c1fb4a5bd494"
 });
 
 const messaging = firebase.messaging();

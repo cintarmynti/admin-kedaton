@@ -68,20 +68,19 @@ class ComplainController extends Controller
         $notifikasi->desc = 'Complain berhasil dikirim, complain anda masih diajukan, menunggu perubahan status oleh admin';
         $notifikasi->save();
 
-        try{
-            $fcmTokens =  User::where('id', $request->user_id)->whereNotNull('fcm_token')->pluck('fcm_token')->toArray();
-
-
-            Larafirebase::withTitle($request->title = 'BERHASIL MENGAJUKAN COMPLAIN')
-                ->withBody($request->message = 'Complain berhasil dikirim, complain anda masih diajukan, menunggu perubahan status oleh admin')
-                ->sendMessage($fcmTokens);
-
-
-
-        }catch(\Exception $e){
-            report($e);
-
-        }
+        // $fcmTokens = User::whereNotNull('fcm_token')->pluck('fcm_token')->toArray();
+        $fcmTokens = User::where('id', $request->user_id)->first()->fcm_token;
+        // dd($fcmTokens);
+         larafirebase::withTitle('BERHASIL MENGAJUKAN COMPLAIN')
+        ->withBody('Complain berhasil dikirim, complain anda masih diajukan, menunggu perubahan status oleh admin')
+        // ->withImage('https://firebase.google.com/images/social.png')
+        ->withIcon('https://seeklogo.com/images/F/fiirebase-logo-402F407EE0-seeklogo.com.png')
+        ->withClickAction('admin/notifications')
+        ->withPriority('high')
+        ->withAdditionalData([
+            'halo' => 'isinya',
+        ])
+        ->sendNotification($fcmTokens);
 
         $notifikasi_admin = new Notifikasi();
         $notifikasi_admin ->user_id = null;

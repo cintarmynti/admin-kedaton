@@ -202,37 +202,35 @@ class LaporanComplainController extends Controller
             if($request->status == 'diproses'){
                 $notifikasi->desc = 'Complain anda sedang diproses';
 
-                try{
-                    $fcmTokens =  User::where('id', $request->user_id)->whereNotNull('fcm_token')->pluck('fcm_token')->toArray();
+                // $fcmTokens = User::whereNotNull('fcm_token')->pluck('fcm_token')->toArray();
 
+                $fcmTokens = User::where('id', $request->user_id)->first()->fcm_token;
+                 larafirebase::withTitle('STATUS COMPLAIN TELAH DIPERBARUI ADMIN')
+                ->withBody('Complain anda sedang diproses')
+                // ->withImage('https://firebase.google.com/images/social.png')
+                ->withIcon('https://seeklogo.com/images/F/fiirebase-logo-402F407EE0-seeklogo.com.png')
+                ->withClickAction('admin/notifications')
+                ->withPriority('high')
+                ->withAdditionalData([
+                    'halo' => 'isinya',
+                ])
+                ->sendNotification($fcmTokens);
 
-                    Larafirebase::withTitle($request->title = 'STATUS COMPLAIN TELAH DIPERBARUI ADMIN')
-                        ->withBody($request->message = 'Complain anda sedang diproses')
-                        ->sendMessage($fcmTokens);
-
-
-
-                }catch(\Exception $e){
-                    report($e);
-
-                }
             }else if($request->status == 'selesai'){
                 $notifikasi->desc = 'Complain anda telah diselesaikan';
 
-                try{
-                    $fcmTokens =  User::where('id', $request->user_id)->whereNotNull('fcm_token')->pluck('fcm_token')->toArray();
+                $fcmTokens = User::whereNotNull('fcm_token')->pluck('fcm_token')->toArray();
 
-
-                    Larafirebase::withTitle($request->title = 'STATUS COMPLAIN TELAH DIPERBARUI ADMIN')
-                        ->withBody($request->message = 'Complain anda telah diselesaikan')
-                        ->sendMessage($fcmTokens);
-
-
-
-                }catch(\Exception $e){
-                    report($e);
-
-                }
+                 larafirebase::withTitle('STATUS COMPLAIN TELAH DIPERBARUI ADMIN')
+                ->withBody('Complain anda telah diselesaikan')
+                // ->withImage('https://firebase.google.com/images/social.png')
+                ->withIcon('https://seeklogo.com/images/F/fiirebase-logo-402F407EE0-seeklogo.com.png')
+                ->withClickAction('admin/notifications')
+                ->withPriority('high')
+                ->withAdditionalData([
+                    'halo' => 'isinya',
+                ])
+                ->sendNotification($fcmTokens);
             }
             $notifikasi->save();
          }

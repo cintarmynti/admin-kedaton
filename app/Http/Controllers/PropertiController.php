@@ -64,20 +64,20 @@ class PropertiController extends Controller
         $notifikasi->save();
 
 
-        try{
-            $fcmTokens =  User::where('id', $request->pemilik_id)->whereNotNull('fcm_token')->pluck('fcm_token')->toArray();
 
-
-            Larafirebase::withTitle($request->title = 'PENGHUNI TELAH DISETUJUI')
-                ->withBody($request->message = 'Admin telah menyetujui penyewaan propert tersebut')
-                ->sendMessage($fcmTokens);
-
-
-
-        }catch(\Exception $e){
-            report($e);
-
-        }
+        $fcmTokens = User::where('id', $request->pemilik_id)->first()->fcm_token;
+        // $fcmTokens = User::where('id', 29)->first()->fcm_token;
+        // dd($fcmTokens);
+        larafirebase::withTitle('PENGHUNI TELAH DISETUJUI')
+        ->withBody('Admin telah menyetujui penyewaan properti tersebut')
+        // ->withImage('https://firebase.google.com/images/social.png')
+        ->withIcon('https://seeklogo.com/images/F/fiirebase-logo-402F407EE0-seeklogo.com.png')
+        ->withClickAction('admin/notifications')
+        ->withPriority('high')
+        ->withAdditionalData([
+            'halo' => 'isinya',
+        ])
+    ->sendNotification($fcmTokens);
 
         return redirect()->route('properti');
     }
@@ -95,24 +95,24 @@ class PropertiController extends Controller
         $notifikasi -> type = 4;
         $notifikasi->user_id = $request->pemilik_id;
         $notifikasi->sisi_notifikasi  = 'pengguna';
-        $notifikasi->heading = 'PENGAJUAN Tambah PROPERTI INI DITOLAK';
+        $notifikasi->heading = 'PENGAJUAN TAMBAH PROPERTI INI DITOLAK';
         $notifikasi->desc = 'Mohon Maaf, pengajuan Tambah Properti baru pada properti kami tolak karena '.$request->alasan_dibatalkan;
         $notifikasi->save();
 
-        try{
-            $fcmTokens =  User::where('id', $request->pemilik_id)->whereNotNull('fcm_token')->pluck('fcm_token')->toArray();
+        $fcmTokens = User::where('id', $request->pemilik_id)->first()->fcm_token;
 
-
-            Larafirebase::withTitle($request->title = 'PENGAJUAN Tambah PROPERTI INI DITOLAK')
-                ->withBody($request->message = 'Mohon Maaf, pengajuan Tambah Properti baru pada properti kami tolak karena '.$request->alasan_dibatalkan)
-                ->sendMessage($fcmTokens);
-
-
-
-        }catch(\Exception $e){
-            report($e);
-
-        }
+        // $fcmTokens = User::where('id', 29)->first()->fcm_token;
+        // dd($fcmTokens);
+        larafirebase::withTitle('PENGAJUAN TAMBAH PROPERTI INI DITOLAK')
+        ->withBody('Mohon Maaf, pengajuan Tambah Properti baru pada properti kami tolak karena '.$request->alasan_dibatalkan)
+        // ->withImage('https://firebase.google.com/images/social.png')
+        ->withIcon('https://seeklogo.com/images/F/fiirebase-logo-402F407EE0-seeklogo.com.png')
+        ->withClickAction('admin/notifications')
+        ->withPriority('high')
+        ->withAdditionalData([
+            'halo' => 'isinya',
+        ])
+    ->sendNotification($fcmTokens);
 
         return redirect()->back();
 
@@ -135,20 +135,20 @@ class PropertiController extends Controller
         $notifikasi->desc = 'Mohon Maaf, pengajuan penghuni baru pada properti kami tolak karena '.$request->alasan_dibatalkan;
         $notifikasi->save();
 
-        try{
-            $fcmTokens =  User::where('id', $request->pemilik_id)->whereNotNull('fcm_token')->pluck('fcm_token')->toArray();
+        $fcmTokens = User::where('id', $request->pemilik_id)->first()->fcm_token;
 
-
-            Larafirebase::withTitle($request->title = 'PENGAJUAN PENGHUNI UNTUK PROPERTI INI DITOLAK')
-                ->withBody($request->message = 'Mohon Maaf, pengajuan Tambah Properti baru pada properti kami tolak karena '.$request->alasan_dibatalkan)
-                ->sendMessage($fcmTokens);
-
-
-
-        }catch(\Exception $e){
-            report($e);
-
-        }
+        // $fcmTokens = User::where('id', 29)->first()->fcm_token;
+        // dd($fcmTokens);
+        larafirebase::withTitle('PENGAJUAN PENGHUNI UNTUK PROPERTI INI DITOLAK')
+        ->withBody('Mohon Maaf, pengajuan penghuni baru pada properti kami tolak karena '.$request->alasan_dibatalkan)
+        // ->withImage('https://firebase.google.com/images/social.png')
+        ->withIcon('https://seeklogo.com/images/F/fiirebase-logo-402F407EE0-seeklogo.com.png')
+        ->withClickAction('admin/notifications')
+        ->withPriority('high')
+        ->withAdditionalData([
+            'halo' => 'isinya',
+        ])
+    ->sendNotification($fcmTokens);
 
         return redirect()->back();
     }
@@ -181,20 +181,20 @@ class PropertiController extends Controller
         $notifikasi->desc = 'Properti anda telah disetujui';
         $notifikasi->save();
 
-        try{
-            $fcmTokens =  User::where('id', $request->pemilik_id)->whereNotNull('fcm_token')->pluck('fcm_token')->toArray();
+        $fcmTokens = User::where('id', $request->pemilik_id)->first()->fcm_token;
 
-
-            Larafirebase::withTitle($request->title = 'PENAMBAHAN PROPERTI BARU TELAH DISETUJUI')
-                ->withBody($request->message = 'Properti anda telah disetujui')
-                ->sendMessage($fcmTokens);
-
-
-
-        }catch(\Exception $e){
-            report($e);
-
-        }
+        // $fcmTokens = User::where('id', 29)->first()->fcm_token;
+        // dd($fcmTokens);
+        larafirebase::withTitle('PENAMBAHAN PROPERTI BARU TELAH DISETUJUI')
+        ->withBody('Properti anda telah disetujui')
+        // ->withImage('https://firebase.google.com/images/social.png')
+        ->withIcon('https://seeklogo.com/images/F/fiirebase-logo-402F407EE0-seeklogo.com.png')
+        ->withClickAction('admin/notifications')
+        ->withPriority('high')
+        ->withAdditionalData([
+            'halo' => 'isinya',
+        ])
+    ->sendNotification($fcmTokens);
 
 
         return redirect()->route('properti');

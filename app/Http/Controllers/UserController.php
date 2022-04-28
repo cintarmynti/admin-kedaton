@@ -94,6 +94,21 @@ class UserController extends Controller
         $notifikasi->desc = 'Pendaftaran penghuni baru diterima';
         $notifikasi->save();
 
+        $fcmTokens = User::where('id', $request->pemilik_id)->first()->fcm_token;
+
+        // $fcmTokens = User::where('id', 29)->first()->fcm_token;
+        // dd($fcmTokens);
+        larafirebase::withTitle('PENDAFTARAN PENGHUNI DITERIMA')
+        ->withBody('Pendaftaran penghuni baru diterima')
+        // ->withImage('https://firebase.google.com/images/social.png')
+        ->withIcon('https://seeklogo.com/images/F/fiirebase-logo-402F407EE0-seeklogo.com.png')
+        ->withClickAction('admin/notifications')
+        ->withPriority('high')
+        ->withAdditionalData([
+            'halo' => 'isinya',
+        ])
+        ->sendNotification($fcmTokens);
+
         return redirect('/user');
     }
 
@@ -472,20 +487,20 @@ class UserController extends Controller
         $notifikasi->desc = 'Mohon Maaf, pedaftaran penghuni baru kami tolak karena '.$request->alasan_dibatalkan;
         $notifikasi->save();
 
-        try{
-            $fcmTokens =  User::where('id', $request->pemilik_id)->whereNotNull('fcm_token')->pluck('fcm_token')->toArray();
+        $fcmTokens = User::where('id', $request->pemilik_id2)->first()->fcm_token;
 
-
-            Larafirebase::withTitle($request->title = 'PENDAFTARAN PENGHUNI BARU DITOLAK')
-                ->withBody($request->message = 'Mohon Maaf, pedaftaran penghuni baru kami tolak karena '.$request->alasan_dibatalkan)
-                ->sendMessage($fcmTokens);
-
-
-
-        }catch(\Exception $e){
-            report($e);
-
-        }
+            // $fcmTokens = User::where('id', 29)->first()->fcm_token;
+            // dd($fcmTokens);
+         larafirebase::withTitle('PENDAFTARAN PENGHUNI BARU DITOLAK')
+            ->withBody('Mohon Maaf, pedaftaran penghuni baru kami tolak karena '.$request->alasan_dibatalkan)
+            // ->withImage('https://firebase.google.com/images/social.png')
+            ->withIcon('https://seeklogo.com/images/F/fiirebase-logo-402F407EE0-seeklogo.com.png')
+            ->withClickAction('admin/notifications')
+            ->withPriority('high')
+            ->withAdditionalData([
+                'halo' => 'isinya',
+            ])
+        ->sendNotification($fcmTokens);
 
         return redirect('/user');
         // dd($cancel);

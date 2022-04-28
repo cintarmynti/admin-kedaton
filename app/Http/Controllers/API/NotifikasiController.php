@@ -50,10 +50,14 @@ class NotifikasiController extends Controller
 
     public function updateToken(Request $request){
         try{
-            $request->user()->update(['fcm_token'=>$request->token]);
+
+            $user = User::where('id', $request->user_id)->first();
+            $user->fcm_token = $request->token;
+            $user->save();
             return response()->json([
                 'success'=>true
             ]);
+
         }catch(\Exception $e){
             report($e);
             return response()->json([
@@ -62,24 +66,25 @@ class NotifikasiController extends Controller
         }
     }
 
-    public function notification(Request $request){
-        // $request->validate([
-        //     'title'=>'required',
-        //     'message'=>'required'
-        // ]);
+    public function notification(){
 
-        try{
+        // try{
             $fcmTokens = User::whereNotNull('fcm_token')->pluck('fcm_token')->toArray();
+            // $fcmTokens = User::where('id', 29)->first()->fcm_token;
+            // dd($fcmTokens);
+            $notif = larafirebase::withTitle('test title')
+            ->withBody('test body')
+            // ->withImage('https://firebase.google.com/images/social.png')
+            ->withIcon('https://seeklogo.com/images/F/fiirebase-logo-402F407EE0-seeklogo.com.png')
+            ->withClickAction('admin/notifications')
+            ->withPriority('high')
+            ->withAdditionalData([
+                'halo' => 'isinya',
+            ])
+        ->sendNotification($fcmTokens);
 
-            Larafirebase::withTitle($request->title='p')
-                ->withBody($request->message='p')
-                ->sendMessage($fcmTokens);
+        return response()->json($notif);
 
-            return redirect()->back()->with('success','Notification Sent Successfully!!');
 
-        }catch(\Exception $e){
-            report($e);
-            return redirect()->back()->with('error','Something goes wrong while sending notification.');
-        }
     }
 }

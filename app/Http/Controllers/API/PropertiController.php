@@ -70,29 +70,28 @@ class PropertiController extends Controller
         $notifikasi->desc = 'Properti anda dalam proses pengecekan, menunggu persetujuan admin';
         $notifikasi->save();
 
-        try{
-            $fcmTokens =  User::where('id', $request->user_id)->whereNotNull('fcm_token')->pluck('fcm_token')->toArray();
-
-
-            Larafirebase::withTitle($request->title = 'BERHASIL MENAMBAHKAN PROPERTI BARU')
-                ->withBody($request->message = 'Properti anda dalam proses pengecekan, menunggu persetujuan admin')
-                ->sendMessage($fcmTokens);
-
-
-
-        }catch(\Exception $e){
-            report($e);
-
-        }
+        // $fcmTokens = User::whereNotNull('fcm_token')->pluck('fcm_token')->toArray();
+        $fcmTokens = User::where('id', $request->user_id)->first()->fcm_token;
+        // dd($fcmTokens);
+        larafirebase::withTitle('BERHASIL MENAMBAHKAN PROPERTI BARU')
+            ->withBody('Properti anda dalam proses pengecekan, menunggu persetujuan admin')
+            // ->withImage('https://firebase.google.com/images/social.png')
+            ->withIcon('https://seeklogo.com/images/F/fiirebase-logo-402F407EE0-seeklogo.com.png')
+            ->withClickAction('admin/notifications')
+            ->withPriority('high')
+            ->withAdditionalData([
+                'halo' => 'isinya',
+            ])
+            ->sendNotification($fcmTokens);
 
 
         $notifikasi_admin = new Notifikasi();
-        $notifikasi_admin ->user_id = null;
-        $notifikasi_admin ->sisi_notifikasi = 'admin';
-        $notifikasi_admin -> heading = 'PENGAJUAN PROPERTI OLEH PENGHUNI';
-        $notifikasi_admin ->desc = 'ada pengajuan properti oleh penghuni';
-        $notifikasi_admin -> link = '/properti';
-        $notifikasi_admin ->save();
+        $notifikasi_admin->user_id = null;
+        $notifikasi_admin->sisi_notifikasi = 'admin';
+        $notifikasi_admin->heading = 'PENGAJUAN PROPERTI OLEH PENGHUNI';
+        $notifikasi_admin->desc = 'ada pengajuan properti oleh penghuni';
+        $notifikasi_admin->link = '/properti';
+        $notifikasi_admin->save();
 
         $tampil_notif = Notifikasi::with('user')->where('user_id', $request->user_id)->first();
 
@@ -172,18 +171,17 @@ class PropertiController extends Controller
         $myArr = [];
 
         // foreach ($properti as $q) {
-            $pengajuan = Pengajuan::where('properti_id_penghuni', $properti->id)->groupBy('user_id')->get();
-            // dd($pengajuan);
-            foreach($pengajuan as $p)
-            {
-                $penghuni['nama'] = User::where('id', $p->user_id)->first()->name;
-                $status = Pengajuan::where('user_id', $p->user_id)->first()->status_verivikasi;
-                $penghuni['status'] = $status == 1 ? 'terverifikasi' : 'menunggu verifikasi';
-                $penghuni['gambar'] = User::where('id', $p->user_id)->first()->photo_identitas;
-                // dd($penghuni);
-                array_push($myArr, $penghuni);
-                // dd($myArr);
-            }
+        $pengajuan = Pengajuan::where('properti_id_penghuni', $properti->id)->groupBy('user_id')->get();
+        // dd($pengajuan);
+        foreach ($pengajuan as $p) {
+            $penghuni['nama'] = User::where('id', $p->user_id)->first()->name;
+            $status = Pengajuan::where('user_id', $p->user_id)->first()->status_verivikasi;
+            $penghuni['status'] = $status == 1 ? 'terverifikasi' : 'menunggu verifikasi';
+            $penghuni['gambar'] = User::where('id', $p->user_id)->first()->photo_identitas;
+            // dd($penghuni);
+            array_push($myArr, $penghuni);
+            // dd($myArr);
+        }
         // }
 
         $properti['properti.penghuni'] = $myArr;
@@ -248,33 +246,32 @@ class PropertiController extends Controller
             $notifikasi->desc = 'Menambahkan penghuni baru, menunggu persetujuan admin';
             $notifikasi->save();
 
-            try{
-                $fcmTokens =  User::where('id', $request->user_id)->whereNotNull('fcm_token')->pluck('fcm_token')->toArray();
-
-
-                Larafirebase::withTitle($request->title = 'BERHASIL MELAKUKAN PENGAJUAN PENAMBAHAN PENGHUNI')
-                    ->withBody($request->message = 'Menambahkan penghuni baru, menunggu persetujuan admin')
-                    ->sendMessage($fcmTokens);
-
-
-
-            }catch(\Exception $e){
-                report($e);
-
-            }
+            // $fcmTokens = User::whereNotNull('fcm_token')->pluck('fcm_token')->toArray();
+            $fcmTokens = User::where('id', $request->user_id)->first()->fcm_token;
+            // dd($fcmTokens);
+            larafirebase::withTitle('BERHASIL MELAKUKAN PENGAJUAN PENAMBAHAN PENGHUNI')
+                ->withBody('Menambahkan penghuni baru, menunggu persetujuan admin')
+                // ->withImage('https://firebase.google.com/images/social.png')
+                ->withIcon('https://seeklogo.com/images/F/fiirebase-logo-402F407EE0-seeklogo.com.png')
+                ->withClickAction('admin/notifications')
+                ->withPriority('high')
+                ->withAdditionalData([
+                    'halo' => 'isinya',
+                ])
+                ->sendNotification($fcmTokens);
 
             $notifikasi_admin = new Notifikasi();
-            $notifikasi_admin ->user_id = null;
-            $notifikasi_admin ->sisi_notifikasi = 'admin';
-            $notifikasi_admin -> heading = 'PEMILIK MELAKUKAN PENGAJUAN UNTUK PENGHUNI PROPERTI';
-            $notifikasi_admin ->desc = 'Ada pengajuan penghuni di properti';
-            $notifikasi_admin -> link = '/properti';
-            $notifikasi_admin ->save();
+            $notifikasi_admin->user_id = null;
+            $notifikasi_admin->sisi_notifikasi = 'admin';
+            $notifikasi_admin->heading = 'PEMILIK MELAKUKAN PENGAJUAN UNTUK PENGHUNI PROPERTI';
+            $notifikasi_admin->desc = 'Ada pengajuan penghuni di properti';
+            $notifikasi_admin->link = '/properti';
+            $notifikasi_admin->save();
 
             PusherFactory::make()->trigger('admin', 'kirim', ['data' => $notifikasi_admin]);
 
             return ResponseFormatter::success('berhasil menambah penghuni, menunggu konfirmasi!', $cek_nik);
-        } else if ($cek_nik == null ) {
+        } else if ($cek_nik == null) {
 
             if (User::where('email', $request->email)->first() != null) {
                 return ResponseFormatter::failed('email ini sudah terdaftar, mohon menggunakan email yang lain!', 401);
@@ -326,28 +323,27 @@ class PropertiController extends Controller
             $notifikasi->desc = 'tunggu admin memproses pendaftaran penghuni baru';
             $notifikasi->save();
 
-            try{
-                $fcmTokens =  User::where('id', $request->user_id)->whereNotNull('fcm_token')->pluck('fcm_token')->toArray();
-
-
-                Larafirebase::withTitle($request->title = 'PENDAFTARAN PENGHUNI BARU UNTUK PENYEWA SEDANG DIPROSES')
-                    ->withBody($request->message = 'tunggu admin memproses pendaftaran penghuni baru')
-                    ->sendMessage($fcmTokens);
-
-
-
-            }catch(\Exception $e){
-                report($e);
-
-            }
+            // $fcmTokens = User::whereNotNull('fcm_token')->pluck('fcm_token')->toArray();
+            $fcmTokens = User::where('id', $request->user_id)->first()->fcm_token;
+            // dd($fcmTokens);
+            larafirebase::withTitle('PENDAFTARAN PENGHUNI BARU UNTUK PENYEWA SEDANG DIPROSES')
+                ->withBody('tunggu admin memproses pendaftaran penghuni baru')
+                // ->withImage('https://firebase.google.com/images/social.png')
+                ->withIcon('https://seeklogo.com/images/F/fiirebase-logo-402F407EE0-seeklogo.com.png')
+                ->withClickAction('admin/notifications')
+                ->withPriority('high')
+                ->withAdditionalData([
+                    'halo' => 'isinya',
+                ])
+                ->sendNotification($fcmTokens);
 
             $notifikasi_admin = new Notifikasi();
-            $notifikasi_admin ->user_id = null;
-            $notifikasi_admin ->sisi_notifikasi = 'admin';
-            $notifikasi_admin -> heading = 'PEMILIK MELAKUKAN PENDAFTARAN PENGHUNI BARU UNTUK PENGHUNI PROPERTI';
-            $notifikasi_admin ->desc = 'lakukan pengecekan pada menu penghuni';
-            $notifikasi_admin ->link = '/user';
-            $notifikasi_admin ->save();
+            $notifikasi_admin->user_id = null;
+            $notifikasi_admin->sisi_notifikasi = 'admin';
+            $notifikasi_admin->heading = 'PEMILIK MELAKUKAN PENDAFTARAN PENGHUNI BARU UNTUK PENGHUNI PROPERTI';
+            $notifikasi_admin->desc = 'lakukan pengecekan pada menu penghuni';
+            $notifikasi_admin->link = '/user';
+            $notifikasi_admin->save();
 
             PusherFactory::make()->trigger('admin', 'kirim', ['data' => $notifikasi_admin]);
 
@@ -357,10 +353,9 @@ class PropertiController extends Controller
             } else {
                 return ResponseFormatter::failed('gagal menambah penghuni!', 401);
             }
-        }
-        else if($cek_nik != null && $cek_nik->snk == 0){
+        } else if ($cek_nik != null && $cek_nik->snk == 0) {
             return ResponseFormatter::failed('penghuni sudah terdaftar di database, namun belum melakukan registrasi aplikasi, mohon registrasi terlebih dahulu', 401);
-        }else if($cek_nik != null && $cek_nik->snk == 1 && $cek_nik->email_pengajuan == 1){
+        } else if ($cek_nik != null && $cek_nik->snk == 1 && $cek_nik->email_pengajuan == 1) {
             return ResponseFormatter::failed('menunggu penyetujuan penghuni baru oleh admin!', 401);
         }
     }

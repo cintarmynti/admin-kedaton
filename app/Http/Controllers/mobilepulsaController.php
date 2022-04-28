@@ -1,10 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Kutia\Larafirebase\Facades\Larafirebase;
 use App\Models\Notifikasi;
 use App\Models\pembayaranMobilePulsa;
 use App\Models\Riwayat;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
@@ -66,6 +67,20 @@ class mobilepulsaController extends Controller
         $notifikasi->save();
 
 
+        $fcmTokens = User::where('id', $request->user_id)->first()->fcm_token;
+        // $fcmTokens = User::where('id', 29)->first()->fcm_token;
+        // dd($fcmTokens);
+        larafirebase::withTitle('PEMBAYARAN '. $tipe.' TELAH DISETUJUI')
+        ->withBody('Pembayaran '. $tipe.' telah disetujui admin, terimakasih sudah membayar')
+        // ->withImage('https://firebase.google.com/images/social.png')
+        ->withIcon('https://seeklogo.com/images/F/fiirebase-logo-402F407EE0-seeklogo.com.png')
+        ->withClickAction('admin/notifications')
+        ->withPriority('high')
+        ->withAdditionalData([
+            'halo' => 'isinya',
+        ])
+    ->sendNotification($fcmTokens);
+
 
         return redirect()->back();
 
@@ -93,9 +108,23 @@ class mobilepulsaController extends Controller
         $notifikasi->type = $tipe_notif;
         $notifikasi->user_id = $request->user_id;
         $notifikasi->sisi_notifikasi  = 'pengguna';
-        $notifikasi->heading = 'Pembayaran'. $tipe .'anda ditolak';
+        $notifikasi->heading = 'PEMBAYARAN'. $tipe .'ANDA DITOLAK';
         $notifikasi->desc = 'pembayaran '. $tipe. ' anda ditolak karena '.$request->alasan_penolakan;
         $notifikasi->save();
+
+        $fcmTokens = User::where('id', $request->user_id)->first()->fcm_token;
+        // $fcmTokens = User::where('id', 29)->first()->fcm_token;
+        // dd($fcmTokens);
+        larafirebase::withTitle('PEMBAYARAN'. $tipe .'ANDA DITOLAK')
+        ->withBody('pembayaran '. $tipe. ' anda ditolak karena '.$request->alasan_penolakan)
+        // ->withImage('https://firebase.google.com/images/social.png')
+        ->withIcon('https://seeklogo.com/images/F/fiirebase-logo-402F407EE0-seeklogo.com.png')
+        ->withClickAction('admin/notifications')
+        ->withPriority('high')
+        ->withAdditionalData([
+            'halo' => 'isinya',
+        ])
+    ->sendNotification($fcmTokens);
 
         return redirect()->back();
 

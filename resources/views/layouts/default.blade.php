@@ -237,65 +237,66 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-bs4.js"></script>
-    <!-- The core Firebase JS SDK is always required and must be listed first -->
-    <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-messaging.js"></script>
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-messaging.js"></script>
 
-    <!-- TODO: Add SDKs for Firebase products that you want to use
-    https://firebase.google.com/docs/web/setup#available-libraries -->
+  <!-- TODO: Add SDKs for Firebase products that you want to use
+  https://firebase.google.com/docs/web/setup#available-libraries -->
 
-    <script>
-        // Your web app's Firebase configuration
-        var firebaseConfig = {
-            apiKey: "AIzaSyDExuTu6H1H2Cq8_sz8yHzNM0XsGbZJ-uQ",
-            authDomain: "kedaton-e6eb7.firebaseapp.com",
-            projectId: "kedaton-e6eb7",
-            storageBucket: "kedaton-e6eb7.appspot.com",
-            messagingSenderId: "133991064317",
-            appId: "1:133991064317:web:9a5db01764c1fb4a5bd494",
-            measurementId: "G-VEFPNH59NE"
+  <script>
+      // Your web app's Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyDExuTu6H1H2Cq8_sz8yHzNM0XsGbZJ-uQ",
+        authDomain: "kedaton-e6eb7.firebaseapp.com",
+        projectId: "kedaton-e6eb7",
+        storageBucket: "kedaton-e6eb7.appspot.com",
+        messagingSenderId: "133991064317",
+        appId: "1:133991064317:web:9a5db01764c1fb4a5bd494",
+        measurementId: "G-VEFPNH59NE"
         };
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
 
-        const messaging = firebase.messaging();
+      const messaging = firebase.messaging();
 
-        function initFirebaseMessagingRegistration() {
-            messaging.requestPermission().then(function() {
-                return messaging.getToken()
-            }).then(function(token) {
+      function initFirebaseMessagingRegistration() {
+          messaging.requestPermission().then(function() {
+              return messaging.getToken()
+          }).then(function(token) {
 
-                $.ajax({
-                    type: "post",
-                    url: "/api/fcm-token",
+              $.ajax({
+                  type: "post",
+                  url: "/api/fcm-token",
 
-                    dataType: "json",
-                    data: {
-                        token: token,
-                        user_id: "{{ Auth::user()->id }}"
-                    },
-                    success: function(response) {
-                        console.log(response);
-                    }
-                });
+                  dataType: "json",
+                  data : {
+                      token : token,
+                      user_id : "{{Auth::user()->id}}"
+                  },
+                  success: function (response) {
+                      console.log(response);
+                  }
+              });
 
-            }).catch(function(err) {
-                console.log(`Token Error :: ${err}`);
-            });
-        }
+          }).catch(function(err) {
+              console.log(`Token Error :: ${err}`);
+          });
+      }
 
-        initFirebaseMessagingRegistration();
+      initFirebaseMessagingRegistration();
 
-        messaging.onMessage(function({
-            data: {
-                body,
-                title
-            }
-        }) {
-            new Notification(title, {
-                body
-            });
-        });
+      messaging.onMessage(function({
+          data: {
+              body,
+              title
+          }
+      }) {
+          new Notification(title, {
+              body
+          });
+      });
+  </script>
     </script>
 
     <script>

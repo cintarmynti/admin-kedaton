@@ -124,20 +124,19 @@ class IPKLController extends Controller
             $notifikasi->desc = 'sudah ada tagihan pembayaran ipkl baru, jangan lupa membayar ya';
             $notifikasi->save();
 
-            try{
-                $fcmTokens =  User::where('id', $request->pemilik_id)->whereNotNull('fcm_token')->pluck('fcm_token')->toArray();
+            // $fcmTokens = User::whereNotNull('fcm_token')->pluck('fcm_token')->toArray();
 
-
-                Larafirebase::withTitle($request->title = 'ADA PEMBAYARAN IPKL BARU')
-                    ->withBody($request->message = 'sudah ada tagihan pembayaran ipkl baru, jangan lupa membayar y')
-                    ->sendMessage($fcmTokens);
-
-
-
-            }catch(\Exception $e){
-                report($e);
-
-            }
+            $fcmTokens = User::where('id', $properti->pemilik_id)->first()->fcm_token;
+            larafirebase::withTitle('ADA PEMBAYARAN IPKL BARU')
+                    ->withBody('sudah ada tagihan pembayaran ipkl baru, jangan lupa membayar ya')
+                    // ->withImage('https://firebase.google.com/images/social.png')
+                    ->withIcon('https://seeklogo.com/images/F/fiirebase-logo-402F407EE0-seeklogo.com.png')
+                    ->withClickAction('admin/notifications')
+                    ->withPriority('high')
+                    ->withAdditionalData([
+                        'halo' => 'isinya',
+                    ])
+                    ->sendNotification($fcmTokens);
         }
 
         if ($properti->penghuni_id != null) {
@@ -149,20 +148,19 @@ class IPKLController extends Controller
             $notifikasi->desc = 'sudah ada tagihan pembayaran ipkl baru, jangan lupa membayar ya';
             $notifikasi->save();
 
-            try{
-                $fcmTokens =  User::where('id', $request->penghuni_id)->whereNotNull('fcm_token')->pluck('fcm_token')->toArray();
+            $fcmTokens = User::where('id', $properti->penghuni_id)->first()->fcm_token;
 
 
-                Larafirebase::withTitle($request->title = 'ADA PEMBAYARAN IPKL BARU')
-                    ->withBody($request->message = 'sudah ada tagihan pembayaran ipkl baru, jangan lupa membayar y')
-                    ->sendMessage($fcmTokens);
-
-
-
-            }catch(\Exception $e){
-                report($e);
-
-            }
+            larafirebase::withTitle('ADA PEMBAYARAN IPKL BARU')
+                    ->withBody('sudah ada tagihan pembayaran ipkl baru, jangan lupa membayar ya')
+                    // ->withImage('https://firebase.google.com/images/social.png')
+                    ->withIcon('https://seeklogo.com/images/F/fiirebase-logo-402F407EE0-seeklogo.com.png')
+                    ->withClickAction('admin/notifications')
+                    ->withPriority('high')
+                    ->withAdditionalData([
+                        'halo' => 'isinya',
+                    ])
+                    ->sendNotification($fcmTokens);
         }
 
 
@@ -207,20 +205,18 @@ class IPKLController extends Controller
                             $notifikasi->save();
 
 
-                            try{
-                                $fcmTokens =  User::where('id', $p->pemilik_id)->whereNotNull('fcm_token')->pluck('fcm_token')->toArray();
+                            $fcmTokens = User::where('id',  $p->pemilik_id)->first()->fcm_token;
 
-
-                                Larafirebase::withTitle($request->title = 'ADA PEMBAYARAN IPKL BARU')
-                                    ->withBody($request->message = 'sudah ada tagihan pembayaran ipkl baru, jangan lupa membayar y')
-                                    ->sendMessage($fcmTokens);
-
-                                // return response()->json(['success'=>'Notification Sent Successfully!!']);
-
-                            }catch(\Exception $e){
-                                report($e);
-                                // return response()->json(['error'=>'Something goes wrong while sending notification.']);
-                            }
+                            larafirebase::withTitle('ADA PEMBAYARAN IPKL BARU')
+                                    ->withBody('sudah ada tagihan pembayaran ipkl baru, jangan lupa membayar ya')
+                                    // ->withImage('https://firebase.google.com/images/social.png')
+                                    ->withIcon('https://seeklogo.com/images/F/fiirebase-logo-402F407EE0-seeklogo.com.png')
+                                    ->withClickAction('admin/notifications')
+                                    ->withPriority('high')
+                                    ->withAdditionalData([
+                                        'halo' => 'isinya',
+                                    ])
+                                    ->sendNotification($fcmTokens);
 
                         }
 
@@ -233,20 +229,18 @@ class IPKLController extends Controller
                             $notifikasi->desc = 'sudah ada tagihan pembayaran ipkl baru, jangan lupa membayar ya';
                             $notifikasi->save();
 
-                            try{
-                                $fcmTokens =  User::where('id', $p->penghuni_id)->whereNotNull('fcm_token')->pluck('fcm_token')->toArray();
+                            $fcmTokens = User::where('id',  $p->penghuni_id)->first()->fcm_token;
 
-
-                                Larafirebase::withTitle($request->title = 'ADA PEMBAYARAN IPKL BARU')
-                                    ->withBody($request->message = 'sudah ada tagihan pembayaran ipkl baru, jangan lupa membayar y')
-                                    ->sendMessage($fcmTokens);
-
-                                // return response()->json(['success'=>'Notification Sent Successfully!!']);
-
-                            }catch(\Exception $e){
-                                report($e);
-                                // return response()->json(['error'=>'Something goes wrong while sending notification.']);
-                            }
+                            larafirebase::withTitle('ADA PEMBAYARAN IPKL BARU')
+                                    ->withBody('sudah ada tagihan pembayaran ipkl baru, jangan lupa membayar ya')
+                                    // ->withImage('https://firebase.google.com/images/social.png')
+                                    ->withIcon('https://seeklogo.com/images/F/fiirebase-logo-402F407EE0-seeklogo.com.png')
+                                    ->withClickAction('admin/notifications')
+                                    ->withPriority('high')
+                                    ->withAdditionalData([
+                                        'halo' => 'isinya',
+                                    ])
+                                    ->sendNotification($fcmTokens);
                         }
                     }
                 }
@@ -320,19 +314,18 @@ class IPKLController extends Controller
         $riwayat->harga = $request->nominal;
         $riwayat->save();
 
-        try{
-            $fcmTokens = User::where('id', $request->user_id)->whereNotNull('fcm_token')->pluck('fcm_token')->toArray();
+        $fcmTokens = User::where('id',  $request->user_id)->first()->fcm_token;
 
-            Larafirebase::withTitle($request->title = 'PEMBAYARAN IPKL TELAH DISETUJUI')
-                ->withBody($request->message = 'Pembayaran IPKL telah disetujui admin, terimakasih sudah membayar')
-                ->sendMessage($fcmTokens);
-
-
-
-        }catch(\Exception $e){
-            report($e);
-
-        }
+        larafirebase::withTitle('PEMBAYARAN IPKL TELAH DISETUJUI')
+                ->withBody('Pembayaran IPKL telah disetujui admin, terimakasih sudah membayar')
+                // ->withImage('https://firebase.google.com/images/social.png')
+                ->withIcon('https://seeklogo.com/images/F/fiirebase-logo-402F407EE0-seeklogo.com.png')
+                ->withClickAction('admin/notifications')
+                ->withPriority('high')
+                ->withAdditionalData([
+                    'halo' => 'isinya',
+                ])
+                ->sendNotification($fcmTokens);
 
 
         $data = IPKL::findOrFail($request->pembayaran_id);
@@ -373,20 +366,18 @@ class IPKLController extends Controller
         $notifikasi->desc = 'pembayaran ipkl anda ditolak karena'.$request->alasan_penolakan;
         $notifikasi->save();
 
-        try{
-            $fcmTokens =  User::where('id', $request->user_id)->whereNotNull('fcm_token')->pluck('fcm_token')->toArray();
+        $fcmTokens = User::where('id',  $request->user_id)->first()->fcm_token;
 
-
-            Larafirebase::withTitle($request->title = 'PEMBAYARAN IPKL ANDA DITOLAK')
-                ->withBody($request->message = 'pembayaran ipkl anda ditolak karena'.$request->alasan_penolakan)
-                ->sendMessage($fcmTokens);
-
-
-
-        }catch(\Exception $e){
-            report($e);
-
-        }
+        larafirebase::withTitle('PEMBAYARAN IPKL ANDA DITOLAK')
+                ->withBody('pembayaran ipkl anda ditolak karena'.$request->alasan_penolakan)
+                // ->withImage('https://firebase.google.com/images/social.png')
+                ->withIcon('https://seeklogo.com/images/F/fiirebase-logo-402F407EE0-seeklogo.com.png')
+                ->withClickAction('admin/notifications')
+                ->withPriority('high')
+                ->withAdditionalData([
+                    'halo' => 'isinya',
+                ])
+                ->sendNotification($fcmTokens);
 
         return redirect('/ipkl');
     }

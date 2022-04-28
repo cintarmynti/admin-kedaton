@@ -177,20 +177,19 @@ class MobilePulsaController extends Controller
         $notifikasi->desc = 'Terimakasih sudah melakukan pembayaran ' .$tipe. ', pembayaran anda sedang di proses Admin';
         $notifikasi->save();
 
-        try{
-            $fcmTokens =  User::where('id', $request->user_id)->whereNotNull('fcm_token')->pluck('fcm_token')->toArray();
-
-
-            Larafirebase::withTitle($request->title = 'BERHASIL MELAKUKAN PEMBAYARAN '. $tipe)
-                ->withBody($request->message = 'Terimakasih sudah melakukan pembayaran ' .$tipe. ', pembayaran anda sedang di proses Admin')
-                ->sendMessage($fcmTokens);
-
-
-
-        }catch(\Exception $e){
-            report($e);
-
-        }
+        // $fcmTokens = User::whereNotNull('fcm_token')->pluck('fcm_token')->toArray();
+            $fcmTokens = User::where('id', $request->user_id)->first()->fcm_token;
+            // dd($fcmTokens);
+             larafirebase::withTitle('BERHASIL MELAKUKAN PEMBAYARAN '. $tipe)
+            ->withBody('Terimakasih sudah melakukan pembayaran ' .$tipe. ', pembayaran anda sedang di proses Admin')
+            // ->withImage('https://firebase.google.com/images/social.png')
+            ->withIcon('https://seeklogo.com/images/F/fiirebase-logo-402F407EE0-seeklogo.com.png')
+            ->withClickAction('admin/notifications')
+            ->withPriority('high')
+            ->withAdditionalData([
+                'halo' => 'isinya',
+            ])
+            ->sendNotification($fcmTokens);
 
         return ResponseFormatter::success('berhasil melakukan pembayaran', $mobilPulsa);
     }

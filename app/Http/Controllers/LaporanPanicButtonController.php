@@ -56,20 +56,19 @@ class LaporanPanicButtonController extends Controller
         $notifikasi->desc = 'Laporan Panic Button anda telah ditangani oleh admin';
         $notifikasi->save();
 
-        try{
-            $fcmTokens =  User::where('id', $update_notif->user_id)->whereNotNull('fcm_token')->pluck('fcm_token')->toArray();
 
+        $fcmTokens = User::where('id', $update_notif->user_id)->first()->fcm_token;
 
-            Larafirebase::withTitle($request->title = 'LAPORAN PANIC BUTTON')
-                ->withBody($request->message = 'Laporan Panic Button anda telah ditangani oleh admin')
-                ->sendMessage($fcmTokens);
-
-
-
-        }catch(\Exception $e){
-            report($e);
-
-        }
+        larafirebase::withTitle('LAPORAN PANIC BUTTON')
+       ->withBody('Laporan Panic Button anda telah ditangani oleh admin')
+       // ->withImage('https://firebase.google.com/images/social.png')
+       ->withIcon('https://seeklogo.com/images/F/fiirebase-logo-402F407EE0-seeklogo.com.png')
+       ->withClickAction('admin/notifications')
+       ->withPriority('high')
+       ->withAdditionalData([
+           'halo' => 'isinya',
+       ])
+       ->sendNotification($fcmTokens);
 
         return redirect('/dashboard');
 
