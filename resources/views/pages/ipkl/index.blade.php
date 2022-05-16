@@ -75,6 +75,7 @@
                         <th scope="col">no rumah</th>
                         <th scope="col">periode Pembayaran</th>
                         <th scope="col">jumlah pembayaran</th>
+                        <th scope="col">Nama</th>
                         <th scope="col">status</th>
                         <th scope="col">aksi</th>
 
@@ -91,7 +92,10 @@
                             <td>{{ $i->nomer->no_rumah }}</td>
                             <td>{{ $i->periode_pembayaran }}</td>
                             <td>Rp.{{ number_format($i->jumlah_pembayaran,2,',','.') }}</td>
-
+                           @php
+                               $properti = \App\Models\Properti::where('id', $i -> properti_id)->with('pemilik')->with('penghuni')->first();
+                           @endphp
+                           <td>{{$properti-> penghuni_id ? $properti->penghuni->name : $properti->pemilik->name }}</td>
                             <td><span
                                     class="badge @if ($i->status == 1)
                                         bg-danger
