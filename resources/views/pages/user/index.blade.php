@@ -8,8 +8,8 @@
                 Tooltip on top
             </a> --}}
             <p class="card-description">
-                <a class="btn btn-primary" href="{{ route('user.create') }}">Tambah Penghuni dan Properti</a>
-                <a href="/user/export_excel" class="btn btn-success my-3" target="_blank">EXPORT EXCEL</a>
+                <a class="btn btn-primary" href="{{ route('user.create') }}"><i class="fa-regular fa-xl mr-1 fa-square-plus"></i> Penghuni properti</a>
+                <a href="/user/export_excel" class="btn btn-success my-3" target="_blank"><i class="fa-regular fa-xl mr-1 fa-file-excel"></i>Excel</a>
             </p>
             <div class="table-responsive">
             <table class="table" id="myTable">

@@ -5,7 +5,7 @@
         <div class="card-body">
             <h5 class="card-title">Daftar cluster</h5>
             <p class="card-description">
-                <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Tambah cluster</a>
+                <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"><i data-feather="plus-square"></i> cluster</a>
                 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
                 aria-hidden="true">
                 <div class="modal-dialog">

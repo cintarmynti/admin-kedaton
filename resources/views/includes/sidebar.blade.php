@@ -13,6 +13,10 @@
       <a href="{{route('dashboard.index')}}"><i data-feather="airplay"></i>Dashboard <div class="alert-circle"></div></a>
     </li>
 
+     <li class="{{ Request::is('admin*') ? 'active-page' : '' }}">
+      <a href="{{route('index.admin')}}"><i data-feather="user-plus"></i>Admin </a>
+    </li>
+
     <li class="{{ Request::is('cluster') ? 'active-page' : '' }}" class="active-page">
         <a href="{{route('cluster')}}"><i data-feather="file-plus"></i>Cluster</a>
     </li>
@@ -68,7 +72,7 @@
 
 
     <li class="{{ Request::is('blog*') ? 'active-page' : '' }}" class="active-page">
-      <a href="{{route('blog')}}"><i data-feather="file"></i>Blog</a>
+      <a href="{{route('blog')}}"><i data-feather="file"></i>Daftar Artikel</a>
     </li>
 
     <!-- <li class="{{ Request::is('renovasi*') ? 'active-page' : '' }}">

@@ -65,10 +65,15 @@
 
           <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                             document.getElementById('logout-form').submit();" href="#"><i data-feather="log-out"></i>Logout</a>
+
+            <a class="dropdown-item" href="/admin/edit/{{auth()->id()}}" onclick="event.preventDefault();><i data-feather="user-plus"></i>Edit Profile</a>
+
           <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
             @csrf
           </form>
         </div>
+
+
       </li>
     </ul>
   </div>

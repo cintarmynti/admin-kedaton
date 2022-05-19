@@ -6,7 +6,7 @@
         <h5 class="card-title">Daftar Complain</h5>
         <p class="card-description">
             {{-- <a class="btn btn-primary" href="{{route('complain.create')}}">Tambah Complain</a> --}}
-            <a onclick="excel()" class="btn btn-success my-3" target="_blank">EXPORT EXCEL</a>
+            <a onclick="excel()" class="btn btn-success my-3" target="_blank"><i class="fa-regular fa-xl mr-1 fa-file-excel"></i> Excel</a>
             <form action="/complain" method="GET">
                 <div class="row">
                         <div class="col-md-3">
@@ -45,7 +45,7 @@
                         <div class="col-md-3">
                             <br>
                             <button class="btn btn-primary" type="submit"><i data-feather="search"></i></button>
-                            <a href="/complain" class="btn btn-primary" type="button">Refresh</a>
+                            <a href="/complain" class="btn btn-primary" type="button"><i data-feather="refresh-cw"></i></a>
 
                         </div>
                 </div>

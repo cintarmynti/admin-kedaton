@@ -5,7 +5,7 @@
         <div class="card-body">
             <h5 class="card-title">Daftar Splash Screen</h5>
             <p class="card-description">
-                <a class="btn btn-primary" href="/splash-screen/create">Tambah Splash Screen</a>
+                <a class="btn btn-primary" href="/splash-screen/create"><i class="fa-regular fa-xl mr-1 fa-square-plus"></i> Splash Screen</a>
                 {{-- <a href="/user/export_excel" class="btn btn-success my-3" target="_blank">EXPORT EXCEL</a> --}}
             </p>
             <div class="table-responsive">

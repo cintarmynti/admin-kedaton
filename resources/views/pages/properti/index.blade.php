@@ -5,8 +5,8 @@
         <div class="card-body">
             <h5 class="card-title">Daftar Properti</h5>
             <p class="card-description">
-                <a class="btn btn-primary" href="{{ route('properti.create') }}">Tambah Properti</a>
-                <a href="/properti/export_excel" class="btn btn-success my-3" target="_blank">EXPORT EXCEL</a>
+                <a class="btn btn-primary" href="{{ route('properti.create') }}"><i class="fa-regular fa-xl mr-1 fa-square-plus"></i> Properti</a>
+                <a href="/properti/export_excel" class="btn btn-success" target="_blank"><i class="fa-regular fa-xl mr-1 fa-file-excel"></i> Excel</a>
             </p>
             <div class="table-responsive">
             <table class="table" id="myTable">

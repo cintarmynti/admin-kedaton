@@ -5,8 +5,8 @@
         <div class="card-body">
             <h5 class="card-title">Daftar Tagihan IPKL</h5>
             <p class="card-description">
-                <a class="btn btn-primary" href="{{ route('ipkl.create') }}">Tambah IPKL</a>
-                <button type="button" onclick="excel()" class="btn btn-success my-3" target="_blank">EXPORT EXCEL</button>
+                <a class="btn btn-primary" href="{{ route('ipkl.create') }}"><i class="fa-regular fa-xl mr-1 fa-square-plus"></i> IPKL</a>
+                <button type="button" onclick="excel()" class="btn btn-success my-3" target="_blank"><i class="fa-regular fa-xl mr-1 fa-file-excel"></i> Excel</button>
                 <form action="/ipkl" method="GET">
                     <div class="row">
                             <div class="col-md-3">
@@ -43,7 +43,7 @@
                             <div class="col-md-3">
                                 <br>
                                 <button class="btn btn-primary" type="submit"><i data-feather="search"></i></button>
-                                <a href="/ipkl" class="btn btn-primary" type="button">Refresh</a>
+                                <a href="/ipkl" class="btn btn-primary" type="button"><i data-feather="refresh-cw"></i></a>
 
                             </div>
                     </div>

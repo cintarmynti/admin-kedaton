@@ -3,9 +3,9 @@
 @section('content')
 <div class="card">
     <div class="card-body">
-        <h5 class="card-title">Daftar Blog</h5>
+        <h5 class="card-title">Daftar Artikel</h5>
         <p class="card-description">
-            <a class="btn btn-primary" href="{{route('blog.create')}}">Tambah Blog</a>
+            <a class="btn btn-primary" href="{{route('blog.create')}}"><i class="fa-regular fa-xl mr-1 fa-square-plus"></i> Artikel</a>
         </p>
         <div class="table-responsive">
         <table class="table" id="myTable">
@@ -33,8 +33,8 @@
                 <td> <a href="{{route('blog.detail', $com->id)}}">lihat detail</a></td>
                 <td>
                     <div class="d-flex">
-                        <a href="{{route('blog.edit',$com->id)}}" class="btn btn-warning fa-regular fa-pen-to-square" data-toggle="tooltip" data-placement="top" title="edit blog"></a>
-                        <button type="submit" class="btn btn-danger delete fa-solid fa-trash-can" data-id="{{ $com->id }}" data-toggle="tooltip" data-placement="top" title="delete blog"></button>
+                        <a href="{{route('blog.edit',$com->id)}}" class="btn btn-warning fa-regular fa-pen-to-square" data-toggle="tooltip" data-placement="top" title="edit Artikel"></a>
+                        <button type="submit" class="btn btn-danger delete fa-solid fa-trash-can" data-id="{{ $com->id }}" data-toggle="tooltip" data-placement="top" title="delete Artikel"></button>
 
                     </div>
                 </td>

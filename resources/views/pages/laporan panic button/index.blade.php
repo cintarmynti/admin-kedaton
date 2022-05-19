@@ -5,7 +5,7 @@
     <div class="card-body">
         <h5 class="card-title">Laporan Panic Button</h5>
         <p class="card-description">
-            <button type="button" onclick="excel()" class="btn btn-success my-3" target="_blank">EXPORT EXCEL</button>
+            <button type="button" onclick="excel()" class="btn btn-success my-3" target="_blank"><i class="fa-regular fa-xl mr-1 fa-file-excel"></i> Excel</button>
             {{-- <a class="btn btn-primary" href="{{route('complain.create')}}">Tambah <Complain></Complain></a> --}}
         <form action="/panic-button" method="GET">
             <div class="row">
@@ -36,7 +36,7 @@
                 <div class="col-md-3">
                     <br>
                     <button class="btn btn-primary" type="submit"><i data-feather="search"></i></button>
-                    <a href="/panic-button" class="btn btn-primary" type="button">Refresh</a>
+                    <a href="/panic-button" class="btn btn-primary" type="button"><i data-feather="refresh-cw"></i></a>
 
                 </div>
             </div>

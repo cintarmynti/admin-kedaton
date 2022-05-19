@@ -34,7 +34,7 @@
 
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="images">
                 @php
                     $no = 1;
                 @endphp
@@ -50,7 +50,7 @@
                             @elseif ($item->type == 4)
                             PLN
                         @endif</td>
-                        <td><img src="{{$item->bukti_tf}}" width="150" height="100" alt=""></td>
+                        <td><img onclick="image()" src="{{$item->bukti_tf}}" width="150" height="100" alt=""></td>
                         <td><span
                             class="badge @if ($item->status == 0)
                                 bg-warning
@@ -148,7 +148,7 @@
                         <form action="/mobile-pulsa/bayar" method="POST">
                             @csrf
                             @method('patch')
-                            <img src="" width="400" height="300" id="bukti_tf" alt="">
+                            <img src=""  width="400" height="300" id="bukti_tf" alt="">
                             <input type="hidden" name="tr_id" id="tr_id">
                             <input type="hidden" name="user_id" id="user_id">
                             <input type="hidden" name="price" id="price">
@@ -199,6 +199,15 @@
                 $('[data-toggle="tooltip"]').tooltip()
             })
         });
+
+         function image() {
+
+            const viewer = new Viewer( document.getElementById('images'), {
+                        viewed() {
+                            viewer.zoomTo(1);
+                        },
+                    });
+        }
 
     </script>
 

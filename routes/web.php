@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Models\IPKL;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BlogController;
@@ -52,6 +53,13 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/mobile-pulsa/json/{id}', [mobilepulsaController::class, 'getJson']);
     Route::patch('/mobile-pulsa/bayar', [mobilepulsaController::class, 'membayar']);
     Route::patch('/mobile-pulsa/tolak', [mobilepulsaController::class, 'tolak']);
+
+    Route::get('/admin', [AdminController::class, 'index'])->name('index.admin');
+    Route::get('/admin/create', [AdminController::class, 'create'])->name('create.admin');
+    Route::post('/admin/store', [AdminController::class, 'store'])->name('store.admin');
+    Route::get('/admin/edit/{id}', [AdminController::class, 'edit'])->name('edit.admin');
+    Route::post('/admin/update', [AdminController::class, 'update'])->name('update.admin');
+    Route::get('/admin/delete/{id}', [AdminController::class, 'delete'])->name('delete.admin');
 
 
     Route::get('/dashboard/notif-admin', [DashboardController::class, 'notif_admin']);

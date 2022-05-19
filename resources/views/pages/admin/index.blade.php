@@ -3,19 +3,18 @@
 @section('content')
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title">Daftar Banner</h5>
+            <h5 class="card-title"> Daftar Admin</h5>
             <p class="card-description">
-                <a class="btn btn-primary" href="{{ route('banner.create') }}"><i class="fa-regular fa-xl mr-1 fa-square-plus"></i> Banner</a>
+                <a class="btn btn-primary" href="{{ route('create.admin') }}">  <i data-feather="plus-square"></i> admin</a>
             </p>
             <div class="table-responsive">
             <table class="table" id="myTable">
                 <thead>
                     <tr>
                         <th scope="col">id</th>
-                        <th scope="col">judul</th>
-                        <th scope="col">link</th>
-                        <th scope="col">foto</th>
-                        <th scope="col">aksi</th>
+                        <th scope="col">Admin</th>
+                        <th scope="col">email</th>
+                        <th scope="col">Aksi</th>
 
                     </tr>
                 </thead>
@@ -23,21 +22,20 @@
                     @php
                         $no = 1;
                     @endphp
-                    @foreach ($banner as $bnr)
+                    @foreach ($users as $bnr)
                         <tr>
-                            <th scope="row">{{ $no++ }}</th>
-                            <td>{{ $bnr->judul }}</td>
-                            <td>{{ substr($bnr->link , 0, 40) }}</td>
-                            <td><img id="images" onclick="image()" src="{{ asset('storage/' . $bnr->foto) }}"
-                                style="height: 100px; width:200px; object-fit:cover" alt=""></td>
-                            <td >
-                                <div class="d-flex">
-                                    <a href="{{ route('banner.edit', $bnr->id) }}" class="btn btn-warning fa-regular fa-pen-to-square" data-toggle="tooltip" data-placement="top" title="edit banner"></a>
-
-                                    <button type="submit" class="btn btn-danger delete fa-solid fa-trash-can" data-id="{{ $bnr->id }}" data-toggle="tooltip" data-placement="top" title="delete banner"></button>
-
-                                </div>
-
+                            <td>{{ $no++ }}</td>
+                            <td>{{ $bnr->name }}</td>
+                            <td>{{ $bnr->email }}</td>
+                            <td>
+                                @if ($bnr->email != 'admin@kedaton.com')
+                                <a class=" btn btn-sm btn-primary" type="button"
+                                href="{{ route('edit.admin', $bnr->id) }}" data-toggle="tooltip"
+                                data-placement="top" title="edit admin"><i data-feather="edit"></i></a>
+                            <a class=" btn btn-sm btn-danger delete" type="button"
+                            data-id="{{$bnr->id}}" data-toggle="tooltip"
+                                data-placement="top" title="delete admin"><i data-feather="delete"></i></a>
+                                @endif
 
                             </td>
                         </tr>
@@ -89,7 +87,7 @@
                 })
                 .then((willDelete) => {
                     if (willDelete) {
-                        window.location = "/banner/delete/" + userId;
+                        window.location = "/admin/delete/" + userId;
                         swal("Data berhasil dihapus!", {
                             icon: "success",
                         });
