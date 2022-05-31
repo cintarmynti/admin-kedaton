@@ -22,6 +22,7 @@ class CreatePembayaranIpklTable extends Migration
             $table->string('bukti_tf')->nullable();
             $table->string('nominal');
             $table->string('type');
+            $table->text('transaction_code');
             $table->integer('status')->default(1);
             $table->timestamps();
         });

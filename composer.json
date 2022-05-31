@@ -17,6 +17,7 @@
         "maatwebsite/excel": "^3.1",
         "pusher/pusher-php-server": "^7.0",
         "realrashid/sweet-alert": "^4.1",
+        "xendit/xendit-php": "^2.17",
         "yajra/laravel-datatables": "1.5",
         "yajra/laravel-datatables-oracle": "^9.19"
     },

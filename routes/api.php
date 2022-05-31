@@ -11,6 +11,7 @@ use App\Http\Controllers\API\ListingController;
 use App\Http\Controllers\API\PanicButtonController;
 use App\Http\Controllers\API\PropertiController;
 use App\Http\Controllers\API\MobilePulsaController;
+use App\Http\Controllers\API\XenditController;
 use App\Models\Properti;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -34,6 +35,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //semua riwayat
 Route::get('riwayat', [MobilePulsaController::class, 'riwayat']);
 Route::get('riwayat-mobile-pulsa', [MobilePulsaController::class, 'riwayatMobilePulsa']);
+
+Route::get('get-bank', [XenditController::class, 'getBank']);
+Route::post('create-va', [XenditController::class, 'createVA']);
+Route::post('store-va', [XenditController::class, 'store']);
 
 
 
