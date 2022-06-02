@@ -126,17 +126,20 @@ class IPKLController extends Controller
 
             // $fcmTokens = User::whereNotNull('fcm_token')->pluck('fcm_token')->toArray();
 
-            $fcmTokens = User::where('id', $properti->pemilik_id)->first()->fcm_token;
-            larafirebase::withTitle('ADA PEMBAYARAN IPKL BARU')
-                    ->withBody('sudah ada tagihan pembayaran ipkl baru, jangan lupa membayar ya')
-                    // ->withImage('https://firebase.google.com/images/social.png')
-                    ->withIcon('https://seeklogo.com/images/F/fiirebase-logo-402F407EE0-seeklogo.com.png')
-                    ->withClickAction('admin/notifications')
-                    ->withPriority('high')
-                    ->withAdditionalData([
-                        'halo' => 'isinya',
-                    ])
-                    ->sendNotification($fcmTokens);
+            $fcmTokens = User::where('id',  $properti->pemilik_id)->where('fcm_token' , '!=', null )->first();
+            // $fcmTokens = User::where('id', $properti->pemilik_id)->first()->fcm_token;
+            if($fcmTokens != null){
+                larafirebase::withTitle('ADA PEMBAYARAN IPKL BARU')
+                ->withBody('sudah ada tagihan pembayaran ipkl baru, jangan lupa membayar ya')
+                // ->withImage('https://firebase.google.com/images/social.png')
+                ->withIcon('https://seeklogo.com/images/F/fiirebase-logo-402F407EE0-seeklogo.com.png')
+                ->withClickAction('admin/notifications')
+                ->withPriority('high')
+                ->withAdditionalData([
+                'halo' => 'isinya',
+                ])
+                ->sendNotification($fcmTokens->fcm_token);
+            }
         }
 
         if ($properti->penghuni_id != null) {
@@ -148,19 +151,20 @@ class IPKLController extends Controller
             $notifikasi->desc = 'sudah ada tagihan pembayaran ipkl baru, jangan lupa membayar ya';
             $notifikasi->save();
 
-            $fcmTokens = User::where('id', $properti->penghuni_id)->first()->fcm_token;
-
-
-            larafirebase::withTitle('ADA PEMBAYARAN IPKL BARU')
-                    ->withBody('sudah ada tagihan pembayaran ipkl baru, jangan lupa membayar ya')
-                    // ->withImage('https://firebase.google.com/images/social.png')
-                    ->withIcon('https://seeklogo.com/images/F/fiirebase-logo-402F407EE0-seeklogo.com.png')
-                    ->withClickAction('admin/notifications')
-                    ->withPriority('high')
-                    ->withAdditionalData([
-                        'halo' => 'isinya',
-                    ])
-                    ->sendNotification($fcmTokens);
+            $fcmTokens = User::where('id',  $properti->pemilik_id)->where('fcm_token' , '!=', null )->first();
+            // $fcmTokens = User::where('id', $properti->pemilik_id)->first()->fcm_token;
+            if($fcmTokens != null){
+                larafirebase::withTitle('ADA PEMBAYARAN IPKL BARU')
+                ->withBody('sudah ada tagihan pembayaran ipkl baru, jangan lupa membayar ya')
+                // ->withImage('https://firebase.google.com/images/social.png')
+                ->withIcon('https://seeklogo.com/images/F/fiirebase-logo-402F407EE0-seeklogo.com.png')
+                ->withClickAction('admin/notifications')
+                ->withPriority('high')
+                ->withAdditionalData([
+                'halo' => 'isinya',
+                ])
+                ->sendNotification($fcmTokens->fcm_token);
+            }
         }
 
 

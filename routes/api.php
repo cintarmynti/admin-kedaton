@@ -39,6 +39,8 @@ Route::get('riwayat-mobile-pulsa', [MobilePulsaController::class, 'riwayatMobile
 Route::get('get-bank', [XenditController::class, 'getBank']);
 Route::post('create-va', [XenditController::class, 'createVA']);
 Route::post('store-va', [XenditController::class, 'store']);
+Route::get('close-va/{id}', [XenditController::class, 'closeVaPayment']);
+
 
 
 
