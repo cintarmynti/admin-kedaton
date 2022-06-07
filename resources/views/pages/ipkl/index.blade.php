@@ -96,6 +96,16 @@
                                $properti = \App\Models\Properti::where('id', $i -> properti_id)->with('pemilik')->with('penghuni')->first();
                            @endphp
                            <td>{{$properti-> penghuni_id ? $properti->penghuni->name : $properti->pemilik->name }}</td>
+
+                           {{-- <td>
+                              @if ($properti-> penghuni_id)
+                               {{ $properti->penghuni->name}}
+                              @elseif ($properti-> penghuni_id == null)
+                                {{$properti->pemilik->name}}
+                              @else
+                              -
+                              @endif
+                           </td> --}}
                             <td><span
                                     class="badge @if ($i->status == 1)
                                         bg-danger

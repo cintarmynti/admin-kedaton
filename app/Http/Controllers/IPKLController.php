@@ -55,7 +55,7 @@ class IPKLController extends Controller
 
     public function getIPKLid($id)
     {
-        $listing = Properti::where('cluster_id', $id)->get();
+        $listing = Properti::where('cluster_id', $id)->where('pemilik_id', '!=', null)->get();
         $html   = '';
         foreach ($listing as $data) {
             $html .= '<option value="' . $data['id'] . '">' . $data['no_rumah'] . '</option>';

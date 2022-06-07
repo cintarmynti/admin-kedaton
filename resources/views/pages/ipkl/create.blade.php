@@ -24,6 +24,8 @@
                         <select class="form-select" required name="properti_id" id="no_rmh">
                             <option value="" selected disabled>Pilih No Rumah</option>
                         </select>
+                        <p id="pesan" class="text-warning"></p>
+
                     </div>
 
 
@@ -126,8 +128,14 @@
                         },
                         dataType: "html",
                         success: function(data) {
+                            if (jQuery.isEmptyObject(data)) {
+                            $('#pesan').html("tidk ada properti / properti tidak ada pemilik");
+                        } else {
                             $('#no_rmh').html(data);
                             $('#no_rmh').trigger('change');
+                            $('#pesan').html(" ");
+
+                        }
                         }
                     });
                 } else {

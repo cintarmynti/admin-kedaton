@@ -7,6 +7,7 @@ use App\Models\IPKL;
 use App\Models\Tagihan;
 use App\Models\User;
 use Carbon\Carbon;
+use DateTime;
 use Illuminate\Http\Request;
 use Xendit\Xendit;
 
@@ -18,10 +19,24 @@ class XenditController extends Controller
     public function getBank()
     {
         Xendit::setApiKey($this->token);
+        $bank = [];
         $getVaBanks = \Xendit\VirtualAccounts::getVABanks();
+        foreach($getVaBanks as $getva){
+            if($getva["code"] != "BSI"){
+                if($getva["code"] != "BJB"){
+                    if($getva["code"] != "SAHABAT_SAMPOERNA"){
+                        if($getva["code"] != "CIMB"){
+                            array_push($bank, $getva);
+                        }
+                    }
+                }
+            }
+        }
+
         return response()->json([
-            'data' => $getVaBanks
+            'data' => $bank
         ])->setStatusCode(200);
+
     }
 
     public function createVa(){
@@ -32,6 +47,7 @@ class XenditController extends Controller
             "name" => "Steve Wozniak",
             "expected_amount" => 12000
             ];
+
 
             $createVA = \Xendit\VirtualAccounts::create($params);
             return response()->json([
@@ -75,7 +91,15 @@ class XenditController extends Controller
                 // dd($ipkl);
             }
 
+
         $createVA = \Xendit\VirtualAccounts::create($params);
+
+        $date = $createVA["expiration_date"];
+        $fixed = date('l, d-m-Y H:i:s', strtotime($date));
+        $fixed2 = Carbon::parse($date)->locale('id')->isoFormat('dddd, MMMM Do YYYY, h:mm:ss ');
+
+        $createVA["expiration_date"] = $fixed2;
+
         return ResponseFormatter::success('berhasil mengambil data riwayat Internet!', $createVA);
 
     }
