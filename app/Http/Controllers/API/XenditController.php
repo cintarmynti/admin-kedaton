@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers\API;
 
+use Kutia\Larafirebase\Facades\Larafirebase;
 use App\Http\Controllers\Controller;
 use App\Models\IPKL;
+use App\Models\Notifikasi;
+use App\Models\Riwayat;
 use App\Models\Tagihan;
 use App\Models\User;
 use Carbon\Carbon;
 use DateTime;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Xendit\Xendit;
 
 
@@ -126,6 +130,133 @@ class XenditController extends Controller
         }
         curl_close($ch);
 
-        dd($result);
+        return response()->json([
+            'data' => json_decode($result, true)
+        ])->setStatusCode(200);
+    }
+
+    public function callback(Request $request){
+        Log::info($request);
+        try {
+            if ($request->external_id && isset($request->status) == "COMPLETED") {
+                $transaction_id = $request->external_id;
+                // $transaction = IPKL::find($transaction_id);
+                $transaction = IPKL::where('transaction_code', $transaction_id)->get();
+                $transaction_user = IPKL::where('transaction_code', $transaction_id)->first();
+
+                Log::info($transaction_id);
+
+                // $user = IPKL::where('user_id', $transaction_user->user_id)->first();
+                if (count($transaction) > 0) {
+
+                    foreach($transaction as $tr){
+                        $tr->status = 3;
+                        $tr->save();
+
+                        $tagihan = Tagihan::where('id', $tr->tagihan_id)->first();
+                        $tagihan->status = 3;
+                        $tagihan->save();
+
+                        $riwayat = new Riwayat();
+                        $riwayat->user_id = $transaction_user->user_id;
+                        $riwayat->type_pembayaran = 1;
+                        $riwayat->harga = $tagihan->jumlah_pembayaran;
+                        $riwayat->save();
+                    }
+
+
+
+
+                    $notifikasi = new Notifikasi();
+                    $notifikasi->type = 1;
+                    $notifikasi->user_id = $transaction_user->user_id;
+                    $notifikasi->sisi_notifikasi  = 'pengguna';
+                    $notifikasi->heading = 'BERHASIL MELAKUKAN PEMBAYARAN IPKL';
+                    $notifikasi->desc = 'Terimakasih sudah melakukan pembayaran IPKL, pembayaran anda sedang di proses Admin';
+                    $notifikasi->save();
+
+                    // $fcmTokens = User::whereNotNull('fcm_token')->pluck('fcm_token')->toArray();
+                    $fcmTokens = User::where('id', $transaction_user->user_id)->first()->fcm_token;
+                    // dd($fcmTokens);
+                     larafirebase::withTitle('BERHASIL MELAKUKAN PEMBAYARAN IPKL')
+                    ->withBody('Terimakasih sudah melakukan pembayaran IPKL, pembayaran anda sedang di proses Admin')
+                    // ->withImage('https://firebase.google.com/images/social.png')
+                    ->withIcon('https://seeklogo.com/images/F/fiirebase-logo-402F407EE0-seeklogo.com.png')
+                    ->withClickAction('admin/notifications')
+                    ->withPriority('high')
+                    ->withAdditionalData([
+                        'halo' => 'isinya',
+                    ])
+                    ->sendNotification([$fcmTokens]);
+                }
+            }else if($request->external_id && isset($request->status) == "FAILED"){
+                $transaction_id = $request->external_id;
+                $transaction = IPKL::where('transaction_code', $transaction_id)->get();
+                $transaction_user = IPKL::where('transaction_code', $transaction_id)->first();
+
+                  // $user = IPKL::where('user_id', $transaction_user->user_id)->first();
+                  if (count($transaction) > 0) {
+
+                    foreach($transaction as $tr){
+                        $tr->status = 4;
+                        $tr->save();
+
+                        $tagihan = Tagihan::where('id', $tr->tagihan_id)->first();
+                        $tagihan->status = 4;
+                        $tagihan->save();
+
+                        $riwayat = new Riwayat();
+                        $riwayat->user_id = $transaction_user->user_id;
+                        $riwayat->type_pembayaran = 1;
+                        $riwayat->harga = $tagihan->jumlah_pembayaran;
+                        $riwayat->save();
+                    }
+
+
+
+
+                    $notifikasi = new Notifikasi();
+                    $notifikasi->type = 1;
+                    $notifikasi->user_id = $transaction_user->user_id;
+                    $notifikasi->sisi_notifikasi  = 'pengguna';
+                    $notifikasi->heading = 'PEMBAYARAN IPKL GAGAL';
+                    $notifikasi->desc = 'Mohon lakukan pembayaran ulang';
+                    $notifikasi->save();
+
+                    // $fcmTokens = User::whereNotNull('fcm_token')->pluck('fcm_token')->toArray();
+                    $fcmTokens = User::where('id', $transaction_user->user_id)->first()->fcm_token;
+                    // dd($fcmTokens);
+                     larafirebase::withTitle('BERHASIL MELAKUKAN PEMBAYARAN IPKL')
+                    ->withBody('Terimakasih sudah melakukan pembayaran IPKL, pembayaran anda sedang di proses Admin')
+                    // ->withImage('https://firebase.google.com/images/social.png')
+                    ->withIcon('https://seeklogo.com/images/F/fiirebase-logo-402F407EE0-seeklogo.com.png')
+                    ->withClickAction('admin/notifications')
+                    ->withPriority('high')
+                    ->withAdditionalData([
+                        'halo' => 'isinya',
+                    ])
+                    ->sendNotification([$fcmTokens]);
+                }
+            }
+        } catch (\Throwable$th) {
+            Log::info($th);
+            throw $th;
+        }
+    }
+
+    public function status_tagihan($id){
+        $tagihan = Tagihan::find($id);
+        if($tagihan->status ==3){
+            $tagihan->status = "success";
+        }else if($tagihan->status ==2){
+            $tagihan->status = "pending";
+        }else if($tagihan->status ==1){
+            $tagihan->status = "belum dibayar";
+        }else if($tagihan->status == 4){
+            $tagihan->status = "gagal";
+
+        }
+        return ResponseFormatter::success('berhasil mengecek status!', $tagihan);
+
     }
 }

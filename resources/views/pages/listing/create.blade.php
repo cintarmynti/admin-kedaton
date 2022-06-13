@@ -80,8 +80,9 @@
                             <input value="{{ old('diskon') }}" required id="diskon" type="number" min="0" required
                                 name="diskon" class="form-control" aria-label="Recipient's username"
                                 aria-describedby="basic-addon2" onkeyup="count()">
-                                <p class="text-warning">isi 0 apabila tidak ada diskon</p>
                             <span class="input-group-text" id="basic-addon2">%</span>
+                            <p class="text-warning">isi 0 apabila tidak ada diskon</p>
+
                         </div>
                     </div>
 

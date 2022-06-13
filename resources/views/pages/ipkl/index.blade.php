@@ -23,19 +23,19 @@
                                     <option selected="" value="" disabled>pilih status pembayaran</option>
                                     @if (request()->status == 1)
                                     <option value="1" selected>Belum Dibayar</option>
-                                    <option value="2">Pending</option>
+                                    {{-- <option value="2">Pending</option> --}}
                                     <option value="3">Sudah Dibayar</option>
                                     @elseif (request()->status == 2)
                                     <option value="1" >Belum Dibayar</option>
-                                    <option value="2" selected>Pending</option>
+                                    {{-- <option value="2" selected>Pending</option> --}}
                                     <option value="3">Sudah Dibayar</option>
                                     @elseif (request()->status == 3)
                                     <option value="1">Belum Dibayar</option>
-                                    <option value="2">Pending</option>
+                                    {{-- <option value="2">Pending</option> --}}
                                     <option value="3" selected>Sudah Dibayar</option>
                                     @elseif (request()->status == null)
                                     <option value="1">Belum Dibayar</option>
-                                    <option value="2">Pending</option>
+                                    {{-- <option value="2">Pending</option> --}}
                                     <option value="3">Sudah Dibayar</option>
                                     @endif
                                   </select>
@@ -107,7 +107,7 @@
                               @endif
                            </td> --}}
                             <td><span
-                                    class="badge @if ($i->status == 1)
+                                    class="badge @if ($i->status == 1 || $i->status == 4)
                                         bg-danger
                                     @elseif($i->status == 2)
                                         bg-warning
@@ -119,6 +119,8 @@
                                          belum dibayar
                                     @elseif($i->status == 2)
                                          pending
+                                    @elseif ($i->status == 4)
+                                        Pembayaran gagal
                                     @else
                                         success
                                     @endif
