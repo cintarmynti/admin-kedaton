@@ -97,11 +97,10 @@ class XenditController extends Controller
 
 
         $createVA = \Xendit\VirtualAccounts::create($params);
-
         $date = $createVA["expiration_date"];
-        $fixed = date('l, d-m-Y H:i:s', strtotime($date));
-        $fixed2 = Carbon::parse($date)->locale('id')->isoFormat('dddd, MMMM Do YYYY, h:mm:ss ');
-
+        // $fixed = date('l, d-m-Y H:i:s', strtotime($date));
+        $fixed2 =Carbon::now()->addDay(1)->locale('id')->isoFormat('dddd, MMMM Do YYYY, h:mm:ss ');
+        // $fixed3 = Carbon::parse($date)->locale('id')->isoFormat('dddd, MMMM Do YYYY, h:mm:ss ');
         $createVA["expiration_date"] = $fixed2;
 
         return ResponseFormatter::success('berhasil mengambil data riwayat Internet!', $createVA);
@@ -138,7 +137,7 @@ class XenditController extends Controller
     public function callback(Request $request){
         Log::info($request);
         try {
-            if ($request->external_id && isset($request->status) == "COMPLETED") {
+            if ($request->external_id) {
                 $transaction_id = $request->external_id;
                 // $transaction = IPKL::find($transaction_id);
                 $transaction = IPKL::where('transaction_code', $transaction_id)->get();
@@ -189,54 +188,7 @@ class XenditController extends Controller
                     ])
                     ->sendNotification([$fcmTokens]);
                 }
-            }else if($request->external_id && isset($request->status) == "FAILED"){
-                $transaction_id = $request->external_id;
-                $transaction = IPKL::where('transaction_code', $transaction_id)->get();
-                $transaction_user = IPKL::where('transaction_code', $transaction_id)->first();
 
-                  // $user = IPKL::where('user_id', $transaction_user->user_id)->first();
-                  if (count($transaction) > 0) {
-
-                    foreach($transaction as $tr){
-                        $tr->status = 4;
-                        $tr->save();
-
-                        $tagihan = Tagihan::where('id', $tr->tagihan_id)->first();
-                        $tagihan->status = 4;
-                        $tagihan->save();
-
-                        $riwayat = new Riwayat();
-                        $riwayat->user_id = $transaction_user->user_id;
-                        $riwayat->type_pembayaran = 1;
-                        $riwayat->harga = $tagihan->jumlah_pembayaran;
-                        $riwayat->save();
-                    }
-
-
-
-
-                    $notifikasi = new Notifikasi();
-                    $notifikasi->type = 1;
-                    $notifikasi->user_id = $transaction_user->user_id;
-                    $notifikasi->sisi_notifikasi  = 'pengguna';
-                    $notifikasi->heading = 'PEMBAYARAN IPKL GAGAL';
-                    $notifikasi->desc = 'Mohon lakukan pembayaran ulang';
-                    $notifikasi->save();
-
-                    // $fcmTokens = User::whereNotNull('fcm_token')->pluck('fcm_token')->toArray();
-                    $fcmTokens = User::where('id', $transaction_user->user_id)->first()->fcm_token;
-                    // dd($fcmTokens);
-                     larafirebase::withTitle('BERHASIL MELAKUKAN PEMBAYARAN IPKL')
-                    ->withBody('Terimakasih sudah melakukan pembayaran IPKL, pembayaran anda sedang di proses Admin')
-                    // ->withImage('https://firebase.google.com/images/social.png')
-                    ->withIcon('https://seeklogo.com/images/F/fiirebase-logo-402F407EE0-seeklogo.com.png')
-                    ->withClickAction('admin/notifications')
-                    ->withPriority('high')
-                    ->withAdditionalData([
-                        'halo' => 'isinya',
-                    ])
-                    ->sendNotification([$fcmTokens]);
-                }
             }
         } catch (\Throwable$th) {
             Log::info($th);
@@ -244,17 +196,14 @@ class XenditController extends Controller
         }
     }
 
-    public function status_tagihan($id){
-        $tagihan = Tagihan::find($id);
-        if($tagihan->status ==3){
+    public function status_tagihan(Request $request){
+        $tagihan = IPKL::where('transaction_code', $request->id)->first();
+        if($tagihan->status == 3){
             $tagihan->status = "success";
-        }else if($tagihan->status ==2){
+        }else if($tagihan->status == 2){
             $tagihan->status = "pending";
-        }else if($tagihan->status ==1){
+        }else if($tagihan->status == 1){
             $tagihan->status = "belum dibayar";
-        }else if($tagihan->status == 4){
-            $tagihan->status = "gagal";
-
         }
         return ResponseFormatter::success('berhasil mengecek status!', $tagihan);
 

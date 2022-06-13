@@ -41,7 +41,7 @@ Route::post('create-va', [XenditController::class, 'createVA']);
 Route::post('store-va', [XenditController::class, 'store']);
 Route::get('close-va/{id}', [XenditController::class, 'closeVaPayment']);
 Route::post('callback', [XenditController::class, 'callback']);
-Route::get('/status-tagihan/{id}', [XenditController::class, 'status_tagihan']);
+Route::get('/status-tagihan', [XenditController::class, 'status_tagihan']);
 
 
 
