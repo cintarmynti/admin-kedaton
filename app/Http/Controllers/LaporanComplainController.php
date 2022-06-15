@@ -219,7 +219,7 @@ class LaporanComplainController extends Controller
             }else if($request->status == 'selesai'){
                 $notifikasi->desc = 'Complain anda telah diselesaikan';
 
-                $fcmTokens = User::whereNotNull('fcm_token')->pluck('fcm_token')->toArray();
+                $fcmTokens = User::where('id', $request->user_id)->first()->fcm_token;
 
                  larafirebase::withTitle('STATUS COMPLAIN TELAH DIPERBARUI ADMIN')
                 ->withBody('Complain anda telah diselesaikan')

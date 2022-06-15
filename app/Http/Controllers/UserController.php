@@ -70,6 +70,8 @@ class UserController extends Controller
         $user->status_penghuni = 'penghuni';
         $user->save();
 
+
+
         $details = [
             'recipient' => $user->email,
             'fromEmail' => 'coba@gmail.com',
@@ -80,11 +82,32 @@ class UserController extends Controller
         Mail::to($details['recipient'])->send(new KedatonNewMember($details));
         $penghuni_pengajuan = Pengajuan::where('user_id', $request->penghuni_id)->first();
         // dd($penghuni_pengajuan);
+
+
         $properti= Properti::where('id', $penghuni_pengajuan->properti_id_penghuni)->first();
 
-        // dd($properti);
-        $properti->status_pengajuan_penghuni = 1;
+        $properti->penghuni_id = $request->penghuni_id;
+        $properti->status_pengajuan_penghuni = 2;
         $properti->save();
+
+        // dd($properti);
+
+
+
+          //batas update user di properti
+
+
+          $pengajuan = Pengajuan::where('user_id', $request->penghuni_id)->where('pemilik_mengajukan', $properti->pemilik_id)->where('properti_id_penghuni', $properti->id)->first();
+        //   dd($pengajuan);
+          $pengajuan->status_verivikasi = 1;
+          $pengajuan->save();
+
+          $penghuni_detail = new penghuniDetail();
+          $penghuni_detail->penghuni_id = $request->penghuni_id;
+          $penghuni_detail->properti_id = $properti->id;
+          $penghuni_detail->save();
+
+          //ini batas akhir
 
         $notifikasi = new Notifikasi();
         $notifikasi->type = 7;

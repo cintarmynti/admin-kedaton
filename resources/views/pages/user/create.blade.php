@@ -41,7 +41,7 @@
                 <div class="col-md-12"></div>
                 <div class="col-md-4">
                     <label for="formGroupExampleInput" class="form-label ">Foto Pengguna</label>
-                    <input value="" type="file" id="" required class="form-control" name="photo_identitas" aria-label="First name">
+                    <input value="" type="file" id="filePhoto" required class="form-control" name="photo_identitas" aria-label="First name">
                     <img id="output" class="mt-3" style="max-height: 200px; max-width: 300px">
                 </div>
 
@@ -187,6 +187,27 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js" defer></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
+
+      <script>
+        $(function() {
+            $("#filePhoto2").change(function(event) {
+                var x = URL.createObjectURL(event.target.files[0]);
+                $("#output2").attr("src", x);
+                console.log(event);
+            });
+        });
+    </script>
+
+<script>
+    $(function() {
+        $("#filePhoto").change(function(event) {
+            var x = URL.createObjectURL(event.target.files[0]);
+            $("#output").attr("src", x);
+            console.log(event);
+        });
+    });
+</script>
+
 <script type="text/javascript">
 
 
@@ -211,14 +232,14 @@
     });
 
 
-    $(function() {
-        $("#filePhoto").change(function(event) {
-            var x = URL.createObjectURL(event.target.files[0]);
-            $("#output").attr("src", x);
-            console.log(event);
-        });
+    // $(function() {
+    //     $("#filePhoto").change(function(event) {
+    //         var x = URL.createObjectURL(event.target.files[0]);
+    //         $("#output").attr("src", x);
+    //         console.log(event);
+    //     });
 
-    });
+    // });
 
     var inc = 1;
     var array_rumah = [];

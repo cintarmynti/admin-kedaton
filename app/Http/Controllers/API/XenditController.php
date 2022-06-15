@@ -18,7 +18,8 @@ use Xendit\Xendit;
 
 class XenditController extends Controller
 {
-    private $token = 'xnd_development_j8CM3HD1RHQRhXPCeRsbYJW6HeMR0LZl5PIQyJXiYQ6uThWp4orLqKLxYWPPNvn';
+
+     private $token = 'xnd_production_WoG3EIpY1zgk8d3iNBfyRq29FMinssAtMkPAsl1Xwy7Y0tByt8WUeKlqVF5yX';
 
     public function getBank()
     {
@@ -30,7 +31,11 @@ class XenditController extends Controller
                 if($getva["code"] != "BJB"){
                     if($getva["code"] != "SAHABAT_SAMPOERNA"){
                         if($getva["code"] != "CIMB"){
-                            array_push($bank, $getva);
+                            if($getva["code"] != "PERMATA"){
+                                if($getva["code"] != "BNI"){
+                                    array_push($bank, $getva);
+                                }
+                            }
                         }
                     }
                 }
@@ -64,13 +69,14 @@ class XenditController extends Controller
         Xendit::setApiKey($this->token);
         $code = "INV-" . time() . "-" . str_pad(rand(0,99), 4 , "0", STR_PAD_LEFT);
 
+        // dd($request->pembayaran);
+
             $user = User::where('id', $request->user_id)->first();
             $params = ["external_id" => $code,
             "bank_code" => $request->code,
             "name" => $user->name,
-            "expected_amount" => $request->pembayaran
+            "amount" => $request->pembayaran
             ];
-
 
             foreach($request->tagihan_id as $tagihan){
                 $cek_tagihan = Tagihan::where('id', $tagihan)->first();
@@ -111,6 +117,12 @@ class XenditController extends Controller
     {
         Xendit::setApiKey($this->token);
 
+        // $cek_harga = IPKL::where('transaction_code', $id)->first();
+        // // dd($cek_harga);
+        // if($cek_harga->nominal != $request->amount){
+        //     return ResponseFormatter::failed('amount yang dimasukkan tidak sama!', 404);
+        // }
+
         $ch = curl_init();
 
         curl_setopt($ch, CURLOPT_URL, 'https://api.xendit.co/callback_virtual_accounts/external_id=' . $id . '/simulate_payment');
@@ -128,6 +140,9 @@ class XenditController extends Controller
             echo 'Error:' . curl_error($ch);
         }
         curl_close($ch);
+
+
+
 
         return response()->json([
             'data' => json_decode($result, true)

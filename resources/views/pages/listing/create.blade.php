@@ -8,19 +8,16 @@
             <form action="{{ route('listing.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="row">
-                    <div class="col-md-5">
+                    <div class="col-md-3">
                         <label for="" class="form-label">Judul Listing</label>
                         <input value="{{ old('name') }}" type="text" required class="form-control" name="name"
                             aria-label="First name">
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <label for="" class="form-label">Masukkan Gambar</label>
                         <input id="filePhoto" required type="file" class="form-control" name="image" placeholder="address">
                         <img id="output" src="" alt="" width="300">
                     </div>
-                </div>
-
-                <div class="row">
                     <div class="col-md-3">
                         <label for="formGroupExampleInput" class="form-label">Tujuan Listing</label>
                         <select class="form-select" id="select_tujuan" onchange="selectTujuan(this.value)" name="status"
@@ -30,26 +27,6 @@
                             <option value="dijual">dijual</option>
                         </select>
                     </div>
-
-                    <div class="col-md-3">
-                        <label for=" " class="form-label">Pilih Cluster</label>
-                        <select class="form-select" name="cluster_id" id="cluster">
-                            <option hidden>Pilih Cluster</option>
-                            @foreach ($cluster as $item)
-                                <option value="{{ $item->id }}">{{ $item->name }}</option>
-                            @endforeach
-                        </select>
-
-                    </div>
-
-                    <div class="col-md-3">
-                        <label for="no_rmh" class="form-label">Pilih No Rumah</label>
-                        <select class="form-select" name="properti_id" id="no_rmh">
-                            <option value="" selected disabled>Pilih No Rumah</option>
-                        </select>
-                    </div>
-
-
                     <div class="col-md-3" id="periode">
                         <div class="form-group">
                             <label for="">Periode</label>
@@ -62,8 +39,8 @@
 
                         </div>
                     </div>
-
                 </div>
+
 
                 <div class="row mt-3">
 
@@ -95,6 +72,31 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="row">
+                    <div class="col-md-3">
+                        <label for=" " class="form-label">Pilih Cluster</label>
+                        <select class="form-select" name="cluster_id" id="cluster">
+                            <option hidden>Pilih Cluster</option>
+                            @foreach ($cluster as $item)
+                                <option value="{{ $item->id }}">{{ $item->name }}</option>
+                            @endforeach
+                        </select>
+
+                    </div>
+
+                    <div class="col-md-3">
+                        <label for="no_rmh" class="form-label">Pilih No Rumah</label>
+                        <select class="form-select" name="properti_id" id="no_rmh">
+                            <option value="" selected disabled>Pilih No Rumah</option>
+                        </select>
+                    </div>
+
+
+
+
+                </div>
+
 
                 <div class="row mt-1">
                     <div class="col">

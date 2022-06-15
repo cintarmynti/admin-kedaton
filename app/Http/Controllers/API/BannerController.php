@@ -82,7 +82,7 @@ class BannerController extends Controller
         }
         $article['blog']->gambar = $article['blog']->image_url;
 
-        $article['rekomendasi'] = Blog::inRandomOrder(3)->where('id', '!=', $request->artikel_id)->get(['id', 'judul', 'gambar']);
+        $article['rekomendasi'] = Blog::inRandomOrder()->limit(3)->where('id', '!=', $request->artikel_id)->get(['id', 'judul', 'gambar']);
         foreach($article['rekomendasi'] as $q){
             $q->gambar = $q->image_url;
         };
