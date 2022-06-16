@@ -14,6 +14,7 @@ use App\Http\Controllers\API\ResponseFormatter;
 use App\Lib\PusherFactory;
 use App\Mail\KedatonNewMember;
 use App\Models\Notifikasi;
+use Illuminate\Support\Facades\Hash;
 use App\Models\Pengajuan;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
@@ -176,7 +177,9 @@ class PropertiController extends Controller
         foreach ($pengajuan as $p) {
             $penghuni['nama'] = User::where('id', $p->user_id)->first()->name;
             $status = Pengajuan::where('user_id', $p->user_id)->first()->status_verivikasi;
+
             $penghuni['status'] = $status == 1 ? 'terverifikasi' : 'menunggu verifikasi';
+            // dd($penghuni['status']);
             $penghuni['gambar'] = User::where('id', $p->user_id)->first()->photo_identitas;
             // dd($penghuni);
             array_push($myArr, $penghuni);
@@ -210,15 +213,17 @@ class PropertiController extends Controller
             return ResponseFormatter::failed('tidak ada properti id ini!', 401);
         }
 
-        if ($cek_nik != null && $cek_nik->snk == 1 && $cek_nik->email_pengajuan == 2) {
+        if ($cek_nik != null && $cek_nik->snk == 1 && $cek_nik->email_pengajuan == 2) { //apabila ada nik dan sudah mendaftar app
             // dd('halo');
             $properti_disewa = Properti::where('id', $request->properti_id)->first();
             if ($properti_disewa == null) {
-                return ResponseFormatter::failed('tidak ada properti!', 401);
+                return ResponseFormatter::failed('tidak ada properti!', 404);
             }
-            // dd($properti_disewa);
+            $properti_disewa->status_pengajuan_penghuni = 1;
             $properti_disewa->penghuni_id = $cek_nik->id;
-            $properti_disewa->save;
+            $properti_disewa->save();
+            // dd($properti_disewa);
+
 
             $cek_pengajuan = Pengajuan::where('user_id', $cek_nik->id)->where('properti_id_penghuni', $request->properti_id)->first();
             if ($cek_pengajuan) {
@@ -231,18 +236,12 @@ class PropertiController extends Controller
             $pengajuan->pemilik_mengajukan = $request->user_id;
             $pengajuan->save();
 
-            $properti = Properti::where('id', $request->properti_id)->first();
-            if ($properti == null) {
-                return ResponseFormatter::failed('tidak ada properti dengan penghuni ini!', 401);
-            }
 
-            $properti->status_pengajuan_penghuni = 1;
-            $properti->save();
 
             $notifikasi = new Notifikasi();
             $notifikasi->user_id = $request->user_id;
             $notifikasi->sisi_notifikasi  = 'pengguna';
-            $notifikasi->heading = 'BERHASIL MELAKUKAN PENGAJUAN PENAMBAHAN PENGHUNI';
+            $notifikasi->heading = 'BERHASIL MELAKUKAN PENGAJUAN PENAMBAHAN PENGHUNI di PROPERTI';
             $notifikasi->desc = 'Menambahkan penghuni baru, menunggu persetujuan admin';
             $notifikasi->save();
 
@@ -271,10 +270,10 @@ class PropertiController extends Controller
             PusherFactory::make()->trigger('admin', 'kirim', ['data' => $notifikasi_admin]);
 
             return ResponseFormatter::success('berhasil menambah penghuni, menunggu konfirmasi!', $cek_nik);
-        } else if ($cek_nik == null) {
+        } else if ($cek_nik == null) { //apabila belum pernah daftar app di admin maupun di hp
 
             if (User::where('email', $request->email)->first() != null) {
-                return ResponseFormatter::failed('email ini sudah terdaftar, mohon menggunakan email yang lain!', 401);
+                return ResponseFormatter::failed('email ini sudah terdaftar, mohon menggunakan email yang lain!', 404);
             }
 
 
@@ -351,12 +350,92 @@ class PropertiController extends Controller
             if ($user) {
                 return ResponseFormatter::success('berhasil menambah penghuni!', [$user_penghuni]);
             } else {
-                return ResponseFormatter::failed('gagal menambah penghuni!', 401);
+                return ResponseFormatter::failed('gagal menambah penghuni!', 404);
             }
-        } else if ($cek_nik != null && $cek_nik->snk == 0) {
-            return ResponseFormatter::failed('penghuni sudah terdaftar di database, namun belum melakukan registrasi aplikasi, mohon registrasi terlebih dahulu', 401);
+        } else if ($cek_nik != null && $cek_nik->snk == 0) { //apabila sudh terftar di admin tapi belum terdaftar di app
+            // $cek_nik = User::where('nik', $request->nik)->first();
+
+            //pendaftaran
+            $pw = Str::random(8);
+            // dd($pw);
+            $hashed_random_password = Hash::make($pw);
+            $cek_nik->password = $hashed_random_password;
+            $cek_nik->email = $request->email;
+            $cek_nik->snk = 1;
+            $cek_nik->save();
+
+            // dd($cek_nik);
+
+            $details = [
+                'recipient' => $request->email,
+                // 'fromEmail' => 'coba@gmail.com',
+                'nik' => $request->nik,
+                'subject' => $pw
+            ];
+
+            Mail::to($details['recipient'])->send(new KedatonNewMember($details));
+
+            $properti_disewa = Properti::where('id', $request->properti_id)->first();
+            if ($properti_disewa == null) {
+                return ResponseFormatter::failed('tidak ada properti!', 404);
+            }
+            $properti_disewa->status_pengajuan_penghuni = 1;
+            $properti_disewa->penghuni_id = $cek_nik->id;
+            $properti_disewa->save();
+            // dd($properti_disewa);
+
+
+            $cek_pengajuan = Pengajuan::where('user_id', $cek_nik->id)->where('properti_id_penghuni', $request->properti_id)->first();
+            if ($cek_pengajuan) {
+                return ResponseFormatter::failed('penghuni ini sudah diajukan, pengajuan anda masih dalam proses, mohon tunggu konfirmasi admin!', 404);
+            }
+
+            $pengajuan = new Pengajuan();
+            $pengajuan->user_id = $cek_nik->id;
+            $pengajuan->properti_id_penghuni = $request->properti_id;
+            $pengajuan->pemilik_mengajukan = $request->user_id;
+            $pengajuan->save();
+
+
+
+            $notifikasi = new Notifikasi();
+            $notifikasi->user_id = $request->user_id;
+            $notifikasi->sisi_notifikasi  = 'pengguna';
+            $notifikasi->heading = 'BERHASIL MELAKUKAN PENGAJUAN PENAMBAHAN PENGHUNI di PROPERTI';
+            $notifikasi->desc = 'Menambahkan penghuni baru, menunggu persetujuan admin';
+            $notifikasi->save();
+
+            // $fcmTokens = User::whereNotNull('fcm_token')->pluck('fcm_token')->toArray();
+            $fcmTokens = User::where('id', $request->user_id)->first()->fcm_token;
+            // dd($fcmTokens);
+            larafirebase::withTitle('BERHASIL MELAKUKAN PENGAJUAN PENAMBAHAN PENGHUNI')
+                ->withBody('Menambahkan penghuni baru, menunggu persetujuan admin')
+                // ->withImage('https://firebase.google.com/images/social.png')
+                ->withIcon('https://seeklogo.com/images/F/fiirebase-logo-402F407EE0-seeklogo.com.png')
+                ->withClickAction('admin/notifications')
+                ->withPriority('high')
+                ->withAdditionalData([
+                    'halo' => 'isinya',
+                ])
+                ->sendNotification($fcmTokens);
+
+            $notifikasi_admin = new Notifikasi();
+            $notifikasi_admin->user_id = null;
+            $notifikasi_admin->sisi_notifikasi = 'admin';
+            $notifikasi_admin->heading = 'PEMILIK MELAKUKAN PENGAJUAN UNTUK PENGHUNI PROPERTI';
+            $notifikasi_admin->desc = 'Ada pengajuan penghuni di properti';
+            $notifikasi_admin->link = '/properti';
+            $notifikasi_admin->save();
+
+            PusherFactory::make()->trigger('admin', 'kirim', ['data' => $notifikasi_admin]);
+
+            return ResponseFormatter::success('berhasil menambah penghuni, menunggu konfirmasi!', $cek_nik);
+
+
+
+            // return ResponseFormatter::failed('penghuni sudah terdaftar di database, namun belum melakukan registrasi aplikasi, mohon registrasi terlebih dahulu', 404);
         } else if ($cek_nik != null && $cek_nik->snk == 1 && $cek_nik->email_pengajuan == 1) {
-            return ResponseFormatter::failed('menunggu penyetujuan penghuni baru oleh admin!', 401);
+            return ResponseFormatter::failed('menunggu penyetujuan penghuni baru oleh admin!', 404);
         }
     }
 }

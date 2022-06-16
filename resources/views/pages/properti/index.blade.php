@@ -205,6 +205,8 @@
 
                             </td>
                             <td>
+                                {{-- halo --}}
+
                             @if ($p->status_pengajuan_penghuni == 1)
                                 ada user menambahkan penghuni ini di propertinya, <a href="" data-toggle="modal"
                                     data-target="#exampleModalPenghuni" type="button"
