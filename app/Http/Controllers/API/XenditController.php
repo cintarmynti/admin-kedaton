@@ -32,8 +32,10 @@ class XenditController extends Controller
                     if($getva["code"] != "SAHABAT_SAMPOERNA"){
                         if($getva["code"] != "CIMB"){
                             if($getva["code"] != "PERMATA"){
-                                if($getva["code"] != "BNI"){
+                                if($getva["code"] != "BCA"){
+                                    if($getva["code"] != "BRI"){
                                     array_push($bank, $getva);
+                                    }
                                 }
                             }
                         }
@@ -108,6 +110,7 @@ class XenditController extends Controller
         $fixed2 =Carbon::now()->addDay(1)->locale('id')->isoFormat('dddd, MMMM Do YYYY, h:mm:ss ');
         // $fixed3 = Carbon::parse($date)->locale('id')->isoFormat('dddd, MMMM Do YYYY, h:mm:ss ');
         $createVA["expiration_date"] = $fixed2;
+        $createVA["is_closed"] = true;
 
         return ResponseFormatter::success('berhasil mengambil data riwayat Internet!', $createVA);
 

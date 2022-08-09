@@ -24,7 +24,18 @@ class BannerController extends Controller
     public function store(Request $request){
         $banner = new Banner();
         $banner-> judul = $request->judul;
-        $banner->link = $request->link;
+
+        if(substr($request->link, 0, 8) == 'https://'){
+            $https = str_replace('https://', '', $request->link);
+            $banner->link = 'https://'.$https;
+        }else if(substr($request->link, 0, 7) == 'http://'){
+            $http = str_replace('http://', '', $request->link);
+            $banner->link = 'http://'.$http;
+        }else{
+            $https = str_replace('https://', '', $request->link);
+            $banner->link = 'https://'.$https;
+        }
+
         if($request->hasFile('photo'))
         {
             $img = Image::make($request->file('photo'));

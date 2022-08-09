@@ -8,6 +8,7 @@ use Intervention\Image\Facades\Image;
 use App\Models\Complain;
 use App\Models\complain_image;
 use App\Models\Notifikasi;
+use App\Models\Properti;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -23,6 +24,7 @@ class ComplainController extends Controller
         $complain->nama = $request->nama;
         $complain->alamat = $request->alamat;
         $complain->catatan = $request->catatan;
+        $complain->properti_id = $request->properti_id;
         $complain->status = 'diajukan';
         $complain->save();
 
@@ -68,10 +70,11 @@ class ComplainController extends Controller
         $notifikasi->desc = 'Complain berhasil dikirim, complain anda masih diajukan, menunggu perubahan status oleh admin';
         $notifikasi->save();
 
-        // $fcmTokens = User::whereNotNull('fcm_token')->pluck('fcm_token')->toArray();
+        //batas
         $fcmTokens = User::where('id', $request->user_id)->first()->fcm_token;
+        // $fcmTokens = User::where('id', 29)->first()->fcm_token;
         // dd($fcmTokens);
-         larafirebase::withTitle('BERHASIL MENGAJUKAN COMPLAIN')
+        $notif = larafirebase::withTitle('BERHASIL MENGAJUKAN COMPLAIN')
         ->withBody('Complain berhasil dikirim, complain anda masih diajukan, menunggu perubahan status oleh admin')
         // ->withImage('https://firebase.google.com/images/social.png')
         ->withIcon('https://seeklogo.com/images/F/fiirebase-logo-402F407EE0-seeklogo.com.png')
@@ -80,7 +83,7 @@ class ComplainController extends Controller
         ->withAdditionalData([
             'halo' => 'isinya',
         ])
-        ->sendNotification($fcmTokens);
+    ->sendNotification($fcmTokens);
 
         $notifikasi_admin = new Notifikasi();
         $notifikasi_admin ->user_id = null;
@@ -104,7 +107,7 @@ class ComplainController extends Controller
         if($request->status){
             $complain = Complain::where('status', $request->status)->where('user_id', $request->user_id)->get();
             if($complain->count() == 0){
-            return ResponseFormatter::failed('tidak ada complaiin dengan status tsb!', 401);
+            return ResponseFormatter::failed('tidak ada complaiin dengan status tsb!', 404);
             }
             return ResponseFormatter::success('berhasil mengembil complin dengann status!', $complain);
         }
@@ -117,5 +120,21 @@ class ComplainController extends Controller
 
         // }
         return ResponseFormatter::success('berhasil mengembil semua complain!', $complain);
+    }
+
+    public function getProperti(Request $request){
+        $properti = Properti::with(
+            [
+                'cluster' => function ($cluster) {
+                    $cluster->select('id','name');
+                }
+            ]
+        )->where('pemilik_id', $request->user_id)->orWhere('penghuni_id', $request->user_id)->get(['id', 'cluster_id', 'no_rumah']);
+
+        if($properti->count() == 0){
+            return ResponseFormatter::failed('user tidak memiliki rumah!', 404);
+        }
+
+        return ResponseFormatter::success('berhasil mengembil semua complain!', $properti);
     }
 }

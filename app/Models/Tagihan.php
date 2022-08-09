@@ -29,7 +29,7 @@ class Tagihan extends Model
     }
 
     public function getTanggalDitagihkanAttribute(){
-        $tanggal =  Carbon::parse($this->periode_pembayaran)->format('D/m/Y');
+        $tanggal =  Carbon::parse($this->periode_pembayaran)->format('d/m/Y');
         return $tanggal;
     }
 

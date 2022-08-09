@@ -188,13 +188,13 @@ class IPKLController extends Controller
 
         $properti = Properti::where('pemilik_id', $request->user_id)->orWhere('penghuni_id', $request->user_id)->get();
         if($properti->count() == 0){
-            return ResponseFormatter::failed('user belum meiliki properti !', 404);
+            return ResponseFormatter::failed('user belum meiliki properti!', 404);
         }
 
 
         $array_unpay = [];
         foreach($properti as $p){
-            $push_unpay = Tagihan::with('type')->where('properti_id', $p->id)->where('status', 1)->where('type_id', 1)->get(['id', 'periode_pembayaran', 'jumlah_pembayaran', 'type_id']);
+            $push_unpay = Tagihan::with('type', 'cluster', 'nomer')->where('properti_id', $p->id)->where('status', 1)->where('type_id', 1)->get(['id', 'periode_pembayaran', 'jumlah_pembayaran', 'type_id', 'properti_id', 'cluster_id']);
 
             foreach($push_unpay as $key => $unpay){
                 array_push($array_unpay, $unpay);

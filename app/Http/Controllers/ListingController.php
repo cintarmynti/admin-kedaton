@@ -48,6 +48,11 @@ class ListingController extends Controller
 	// }
 
     public function store(Request $request){
+
+        $cekTagihan = rev_listing::where('properti_id', $request->properti_id)->where('cluster_id', $request->cluster_id)->first();
+        if ($cekTagihan != null) {
+            return redirect()->back()->withErrors(['msg' => 'properti ini sudah di listing']);
+        }
         // dd($request->all());
         $listing = new rev_listing();
         $listing->harga = $request->harga;

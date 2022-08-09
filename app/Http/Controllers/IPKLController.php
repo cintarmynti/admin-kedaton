@@ -26,7 +26,7 @@ class IPKLController extends Controller
         $start_date = Carbon::parse($request->start_date);
         $end_date = Carbon::parse($request->end_date);
         $query = Tagihan::with('nomer', 'cluster')->orderby('created_at', 'desc');
-        // dd($start_date);
+        // dd($query->get());
 
         if ($request->start_date) {
             $query->whereBetween('periode_pembayaran', [$start_date, $end_date]);

@@ -16,7 +16,9 @@
                     <div class="col-md-3">
                         <label for="" class="form-label">Masukkan Gambar</label>
                         <input id="filePhoto" required type="file" class="form-control" name="image" placeholder="address">
+                        <p class="text-warning">Masukkan Gambar dengan Ratio 1:1</p>
                         <img id="output" src="" alt="" width="300">
+
                     </div>
                     <div class="col-md-3">
                         <label for="formGroupExampleInput" class="form-label">Tujuan Listing</label>
@@ -90,6 +92,9 @@
                         <select class="form-select" name="properti_id" id="no_rmh">
                             <option value="" selected disabled>Pilih No Rumah</option>
                         </select>
+                        @if ($errors->any())
+                            <p style="color: red">{{ $errors->first() }}</p>
+                        @endif
                     </div>
 
 

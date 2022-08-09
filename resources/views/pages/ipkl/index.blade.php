@@ -73,11 +73,12 @@
                         {{-- user id --}}
                         <th scope="col">cluster id</th>
                         <th scope="col">no rumah</th>
+                        <th scope="col">detail <br> properti</th>
                         <th scope="col">periode Pembayaran</th>
                         <th scope="col">jumlah pembayaran</th>
                         <th scope="col">Nama</th>
                         <th scope="col">status</th>
-                        <th scope="col">aksi</th>
+                        <th scope="col">detail <br> pembayaran</th>
 
                     </tr>
                 </thead>
@@ -90,6 +91,7 @@
                             <td>{{ $no++ }}</td>
                             <td>{{ $i->cluster->name }}</td>
                             <td>{{ $i->nomer->no_rumah }}</td>
+                            <td><a href="{{ route('properti.detail', $i->nomer->id) }}">lihat detail</a></td>
                             <td>{{ $i->periode_pembayaran }}</td>
                             <td>Rp.{{ number_format($i->jumlah_pembayaran,2,',','.') }}</td>
                            @php

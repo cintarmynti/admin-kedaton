@@ -10,7 +10,8 @@
       Main
     </li>
     <li class="{{ Request::is('dashboard*') ? 'active-page' : '' }}">
-      <a href="{{route('dashboard.index')}}"><i data-feather="airplay"></i>Dashboard <div class="alert-circle"></div></a>
+      <a href="{{route('dashboard.index')}}"><i data-feather="airplay"></i>Dashboard </a>
+      {{-- <div class="alert-circle"></div> --}}
     </li>
 
      <li class="{{ Request::is('admin*') ? 'active-page' : '' }}">

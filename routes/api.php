@@ -103,6 +103,7 @@ Route::post('create-image', [ListingController::class, 'createImage']);
 
 Route::post('create-complain', [ComplainController::class, 'store']);
 Route::get('get-complain', [ComplainController::class, 'getComplain']);
+Route::get('get-my-properti', [ComplainController::class, 'getProperti']);
 
 
 Route::get('/mobile-pulsa', [MobilePulsaController::class, 'balance']);
