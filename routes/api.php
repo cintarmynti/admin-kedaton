@@ -110,3 +110,7 @@ Route::get('/mobile-pulsa', [MobilePulsaController::class, 'balance']);
 Route::post('/mobile-pulsa/cek-pembayaran', [MobilePulsaController::class, 'pascatelkom']);
 Route::post('/mobile-pulsa/bayar', [MobilePulsaController::class, 'paymentTelkom']);
 
+
+Route::get('/tagihan-revisi', [IPKLController::class, 'tagihan']);
+Route::get('/detail-pembayaran', [IPKLController::class, 'detailPembayaran']);
+Route::get('/detail-tagihan', [IPKLController::class, 'detailTagihan']);

@@ -12,7 +12,8 @@ class Riwayat extends Model
     use HasFactory;
     protected $guarded = ['id'];
     protected $table = 'riwayat_pembayaran';
-    protected $fillable = ['user_id', 'type_pembayaran', 'harga', 'created_at'];
+    //ni ketambahan properti_id and status_pembayaran
+    protected $fillable = ['user_id', 'type_pembayaran', 'harga', 'created_at', 'properti_id', 'status_pembayaran'];
 
     public function user()
     {
@@ -21,6 +22,11 @@ class Riwayat extends Model
 
     public function type(){
         return $this->hasOne(type_pembayaran::class, 'id', 'type_pembayaran');
+    }
+
+    public function nomer(){
+        return $this->hasOne(Properti::class, 'id', 'properti_id');
+
     }
 
     public function getCreatedAtAttribute($value)
