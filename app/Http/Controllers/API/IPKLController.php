@@ -385,18 +385,42 @@ class IPKLController extends Controller
     }
 
     public function detailPembayaran(Request $request){
-        if($request->status = 'terbayar'){
+        if($request->status == 'terbayar'){
             //terbayar
             $ipkl = tagihan::with('type', 'cluster', 'nomer')->where('status', 3)->orderBy('id', 'desc')->get();
-            return ResponseFormatter::success('berhasil mengambil tagihan yg terbayar!', $ipkl);
-        }else if($request->status = 'menunggu'){
+            $terbayar = [];
+            foreach($ipkl as $i){
+                // dd( $i->nomer->penghuni_id == $request->user_id );
+                if($i->nomer->pemilik_id == $request->user_id || $i->nomer->penghuni_id == $request->user_id){
+                    array_push($terbayar, $i);
+                }
+
+            }
+            return ResponseFormatter::success('berhasil mengambil tagihan yg terbayar!', $terbayar);
+        }else if($request->status == 'menunggu'){
             //belum bayar
             $ipkl = tagihan::with('type', 'cluster', 'nomer')->where('status', 1)->orderBy('id', 'desc')->get();
-            return ResponseFormatter::success('berhasil tagihan yg belum terbayar!', $ipkl);
-        }else if($request->status = 'gagal'){
+            $menunggu = [];
+            foreach($ipkl as $i){
+                // dd( $i->nomer->penghuni_id == $request->user_id );
+                if($i->nomer->pemilik_id == $request->user_id || $i->nomer->penghuni_id == $request->user_id){
+                    array_push($menunggu, $i);
+                }
+
+            }
+            return ResponseFormatter::success('berhasil tagihan yg belum terbayar!', $menunggu);
+        }else if($request->status == 'gagal'){
             //gagal
             $ipkl = tagihan::with('type', 'cluster', 'nomer')->where('status', 4)->orderBy('id', 'desc')->get();
-            return ResponseFormatter::success('berhasil mengambil tagihan yg gagal!', $ipkl);
+            $gagal = [];
+            foreach($ipkl as $i){
+                // dd( $i->nomer->penghuni_id == $request->user_id );
+                if($i->nomer->pemilik_id == $request->user_id || $i->nomer->penghuni_id == $request->user_id){
+                    array_push($gagal, $i);
+                }
+
+            }
+            return ResponseFormatter::success('berhasil mengambil tagihan yg gagal!', $gagal);
         }
 
     }
