@@ -296,10 +296,10 @@
             // alert('halo');
         })
 
-        function onchange_comma(id, value) {
-            var x = numeral($("#" + id).val()).format('0,0');
-            $("#" + id).val(x);
-        }
+        // function onchange_comma(id, value) {
+        //     var x = numeral($("#" + id).val()).format('0,0');
+        //     $("#" + id).val(x);
+        // }
     </script>
 @endpush
 

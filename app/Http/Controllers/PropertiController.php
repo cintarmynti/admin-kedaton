@@ -17,6 +17,7 @@ use App\Models\Pengajuan;
 use App\Models\penghuniDetail;
 use App\Models\Properti_image;
 use App\Models\Tagihan;
+use Illuminate\Support\Facades\DB as FacadesDB;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Storage;
 use Kutia\Larafirebase\Facades\Larafirebase;
@@ -28,10 +29,54 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class PropertiController extends Controller
 {
-    public function index()
-    {
-        $properti = Properti::orderBy('id', 'desc')->get();
-        return view('pages.properti.index', ['properti' => $properti]);
+    public function index(Request $request){
+
+        $properti = DB::table('properti')
+            ->leftJoin('cluster', 'properti.cluster_id', '=', 'cluster.id')
+            ->leftJoin('users as penghuni', 'properti.penghuni_id', '=', 'penghuni.id')
+            ->leftJoin('users as pemilik', 'properti.pemilik_id', '=', 'pemilik.id')
+            ->select(
+                'properti.*',
+                'cluster.id as cluster_id',
+                'cluster.name as cluster_name',
+                'penghuni.id as penghuni_id', // Memberikan alias 'penghuni_id' untuk kolom 'id' di tabel 'users' sebagai penghuni
+                'penghuni.name as penghuni_name',
+                'pemilik.id as pemilik_id', // Memberikan alias 'pemilik_id' untuk kolom 'id' di tabel 'users' sebagai pemilik
+                'pemilik.name as pemilik_name'
+            )
+            ->get();
+
+
+            if($request -> harga){
+                // dd("masuk");
+                $hargaThreshold = $request -> harga;
+                $result = DB::select("
+                SELECT
+                    properti.*,
+                    cluster.name AS cluster_name,
+                    penghuni.name AS penghuni_name,
+                    pemilik.name AS pemilik_name
+                FROM properti
+                LEFT JOIN cluster ON properti.cluster_id = cluster.id
+                LEFT JOIN users AS penghuni ON properti.penghuni_id = penghuni.id
+                LEFT JOIN users AS pemilik ON properti.pemilik_id = pemilik.id
+                WHERE properti.id IN (
+                    SELECT properti_id
+                    FROM rev_listing
+                    WHERE harga < :hargaThreshold
+                )
+            ", ['hargaThreshold' => $hargaThreshold]);
+
+            // dd($result);
+            return view('pages.properti.index', ['properti' => $result]);
+            }
+
+
+
+
+            // dd($properti);
+            return view('pages.properti.index', ['properti' => $properti]);
+
     }
 
     public function ceknomer($id, $name){

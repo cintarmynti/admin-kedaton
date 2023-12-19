@@ -5,9 +5,25 @@
         <div class="card-body">
             <h5 class="card-title">Daftar Properti</h5>
             <p class="card-description">
-                <a class="btn btn-primary" href="{{ route('properti.create') }}"><i class="fa-regular fa-xl mr-1 fa-square-plus"></i> Properti</a>
-                <a href="/properti/export_excel" class="btn btn-success" target="_blank"><i class="fa-regular fa-xl mr-1 fa-file-excel"></i> Excel</a>
+                <a class="btn btn-primary" href="{{ route('properti.create') }}"><i class="fa-regular fa-xl mr-1 fa-square-plus"></i> </a>
+                <a href="/properti/export_excel" class="btn btn-success" target="_blank"><i class="fa-regular fa-xl mr-1 fa-file-excel"></i> </a>
             </p>
+            <form action="/properti" method="GET">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="formGroupExampleInput" class="form-label">Harga Rumah dibawah subquery (<)</label>
+                        <input value="{{request()->harga}}" id="harga"  type="text" required class="form-control" name="harga">
+                        <p id="pesan" class="text-warning"></p>
+                    </div>
+                </div>
+                <div class="col-md-4 mt-4">
+                    <button class="btn btn-primary" type="submit"><i data-feather="search"></i></button>
+                    <a href="/properti" class="btn btn-primary" type="button"><i data-feather="refresh-cw"></i></a>
+                </div>
+            </div>
+            </form>
+
             <div class="table-responsive">
             <table class="table" id="myTable">
                 <thead>
@@ -29,7 +45,7 @@
                     @foreach ($properti as $p)
                         <tr>
                             <th scope="row">{{ $no++ }}</th>
-                            <td>{{ $p->cluster->name }}</td>
+                            <td>{{ $p->cluster_name }}</td>
                             <td>{{ $p->no_rumah }}</td>
                             <td>{{ $p->alamat }}, {{ $p->kelurahan }}, {{ $p->kecamatan }}, {{ $p->kabupaten }},
                                 {{ $p->provinsi }}</td>
@@ -40,7 +56,7 @@
                                         data-target="#exampleModal" type="button"
                                         data-properti_id="{{ $p->id }}">lihat</a>
                                 @elseif ($p->status_pengajuan == 2 || $p->status_pengajuan == 0)
-                                    {{ $p->pemilik ? $p->pemilik->name : '-' }}
+                                    {{ $p->pemilik_id ? $p->pemilik_name : '-' }}
                                 @endif
                                 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
                                     aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -212,7 +228,7 @@
                                     data-target="#exampleModalPenghuni" type="button"
                                     data-properti_id_penghuni="{{ $p->id }}" >lihat</a>
                             @elseif ($p->status_pengajuan_penghuni == 2 || $p->status_pengajuan_penghuni == 0)
-                                {{ $p->penghuni ? $p->penghuni->name : '-' }}</td>
+                                {{ $p->penghuni_id ? $p->penghuni_name : '-' }}</td>
                             @endif
                             <td>
                                 <a href="{{ route('properti.edit', $p->id) }}"

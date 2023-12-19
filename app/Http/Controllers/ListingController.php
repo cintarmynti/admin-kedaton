@@ -23,7 +23,22 @@ use Symfony\Component\Console\Input\Input;
 
 class ListingController extends Controller
 {
-    public function index(){
+    public function index(Request $request){
+        if($request->status == 'dijual' || $request->status == 'disewa' ){
+            // dd('masuk');
+            $listing = FacadesDB::table('rev_listing')
+                        ->join('properti', 'rev_listing.properti_id', '=', 'properti.id')
+                        ->join('cluster', 'properti.cluster_id', '=', 'cluster.id')
+                        ->select('rev_listing.*', 'properti.*', 'cluster.*', 'rev_listing.status AS listing_status')
+                        ->where('rev_listing.status', $request->status)
+                        ->get();
+
+                        return view('pages.listing.index', ['listing' => $listing]);
+        }
+
+
+
+
         $listing = FacadesDB::table('rev_listing')
         ->join('properti', 'rev_listing.properti_id', '=', 'properti.id')
         ->join('cluster', 'properti.cluster_id', '=', 'cluster.id')

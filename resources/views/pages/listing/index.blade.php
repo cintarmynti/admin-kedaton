@@ -4,10 +4,43 @@
 <div class="card">
     <div class="card-body">
         <h5 class="card-title">Daftar Listing</h5>
-        <p class="card-description">
-            <a class="btn btn-primary" href="{{ route('listing.create') }}"><i class="fa-regular fa-xl mr-1 fa-square-plus"></i>Listing</a>
-            <a href="/listing/export_excel" class="btn btn-success my-3" target="_blank"><i class="fa-regular fa-xl mr-1 fa-file-excel"></i>Excel</a>
-        </p>
+
+            <div class="row">
+                    <div class="col-md-3">
+                        <p class="card-description">
+                            <a class="btn btn-primary" href="{{ route('listing.create') }}"><i class="fa-regular fa-xl mr-1 fa-square-plus"></i>Listing</a>
+                            <a href="/listing/export_excel" class="btn btn-success my-3" target="_blank"><i class="fa-regular fa-xl mr-1 fa-file-excel"></i>Excel</a>
+                        </p>
+
+                    </div>
+                    <div class="col-md-3">
+                        <form action="/listing" method="GET">
+                        <label for=""></label>
+                        <select class="form-select" name="status" id="status" value="{{request()->status}}" aria-label="Default select example">
+                            <option selected="" value="" disabled>Filter Status</option>
+                            @if (request()->status == 'dijual')
+                            <option value="dijual" selected>Dijual</option>
+                            <option value="disewa">Disewa</option>
+                            @elseif (request()->status == 'disewa')
+                            <option value="dijual" >Dijual</option>
+                            <option value="disewa" selected>Disewa</option>
+                            @elseif (request()->status == null)
+                            <option value="dijual">Dijual</option>
+                            <option value="disewa">disewa</option>
+                            @endif
+                          </select>
+                    </div>
+                    <div class="col-md-3">
+                        <br>
+                        <button class="btn btn-primary" type="submit"><i data-feather="search"></i></button>
+                        <a href="/listing" class="btn btn-primary" type="button"><i data-feather="refresh-cw"></i></a>
+
+                    </div>
+                    <div class="col-md-3">
+
+                    </div>
+            </div>
+            </form>
         <div class="table-responsive">
         <table class="table" id="myTable">
             <thead>
@@ -34,7 +67,7 @@
                     <td>{{ $p->name }} - {{$p->no_rumah}}</td>
                     <td>{{ $p->listing_status }}</td>
                     <!-- <td>{{$p->periode ? $p->periode : "-" }}</td> -->
-                    <td>Rp.{{$p->harga}}</td>
+                    <td>Rp.{{number_format($p->harga)}}</td>
                     <td>{{ $p->diskon ?  $p->diskon ."%"  : 'Tidak ada diskon'}}
 
                     </td>
