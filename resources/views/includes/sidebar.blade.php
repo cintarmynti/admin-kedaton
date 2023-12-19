@@ -50,22 +50,22 @@
     </li>
 
 
-    <li class="{{ Request::is('banner*') ? 'active-page' : '' }}">
+    {{-- <li class="{{ Request::is('banner*') ? 'active-page' : '' }}">
       <a href="{{route('banner')}}"><i data-feather="monitor"></i>Banner</a>
-    </li>
+    </li> --}}
 
 
     {{-- <li class="{{ Request::is('promo*') ? 'active-page' : '' }}" class="active-page">
     <a href="{{route('promo')}}"><i data-feather="paperclip"></i>Promo</a>
     </li> --}}
-
+{{--
     <li class="{{ Request::is('ipkl*') ? 'active-page' : '' }}" class="active-page">
       <a href="{{route('ipkl')}}"><i data-feather="archive"></i>Pembayaran IPKL</a>
-    </li>
+    </li> --}}
 
-    <li class="{{ Request::is('mobile-pulsa*') ? 'active-page' : '' }}" class="active-page">
+    {{-- <li class="{{ Request::is('mobile-pulsa*') ? 'active-page' : '' }}" class="active-page">
         <a href="{{route('index.pulsa')}}"><i data-feather="rss"></i>Internet & Listrik</a>
-      </li>
+      </li> --}}
 
     {{-- <li class="{{ Request::is('layanan*') ? 'active-page' : '' }}" class="active-page">
     <a href="{{route('layanan')}}"><i data-feather="archive"></i>Pembayaran Layanan</a>
@@ -82,9 +82,9 @@
     <li class="{{ Request::is('complain*') ? 'active-page' : '' }}">
       <a href="{{route('complain')}}"><i data-feather="alert-triangle"></i>Laporan Complain</a>
     </li>
-    <li class="{{ Request::is('panic-button*') ? 'active-page' : '' }}">
+    {{-- <li class="{{ Request::is('panic-button*') ? 'active-page' : '' }}">
       <a href="{{route('panic')}}"><i data-feather="activity"></i>Laporan Panic Button</a>
-    </li>
+    </li> --}}
 
     {{-- <li class="{{ Request::is('iuran') ? 'active-page' : '' }}">
     <a href="{{route('iuran')}}"><i data-feather="calendar"></i>Iuran</a>

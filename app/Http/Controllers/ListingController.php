@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use App\Models\listing_image;
 use App\Models\Properti_image;
 use App\Exports\PropertiExport;
+use Illuminate\Support\Facades\DB as FacadesDB;
 use Maatwebsite\Excel\Facades\Excel;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Storage;
@@ -23,7 +24,14 @@ use Symfony\Component\Console\Input\Input;
 class ListingController extends Controller
 {
     public function index(){
-        $listing = rev_listing::orderby('created_at', 'desc')->get();
+        $listing = FacadesDB::table('rev_listing')
+        ->join('properti', 'rev_listing.properti_id', '=', 'properti.id')
+        ->join('cluster', 'properti.cluster_id', '=', 'cluster.id')
+        ->select('rev_listing.*', 'properti.*', 'cluster.*', 'rev_listing.status AS listing_status')
+        ->get();
+
+        // dd($listing);
+        // dd($listing);
         return view('pages.listing.index', ['listing' => $listing]);
     }
 

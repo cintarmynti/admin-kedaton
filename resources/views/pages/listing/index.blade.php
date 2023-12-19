@@ -31,8 +31,8 @@
 
                 <tr>
                     <th scope="row">{{ $no++ }}</th>
-                    <td>{{ $p->name }}</td>
-                    <td>{{ $p->status }}</td>
+                    <td>{{ $p->name }} - {{$p->no_rumah}}</td>
+                    <td>{{ $p->listing_status }}</td>
                     <!-- <td>{{$p->periode ? $p->periode : "-" }}</td> -->
                     <td>Rp.{{$p->harga}}</td>
                     <td>{{ $p->diskon ?  $p->diskon ."%"  : 'Tidak ada diskon'}}

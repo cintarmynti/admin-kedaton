@@ -23,7 +23,7 @@ class revListingSeeder extends Seeder
             'status' => 'dijual',
             'properti_id' => 1,
             'harga' => number_format(12500000,2,',','.'),
-            'image' => '/properti_photo/'.'16444074491056.png',
+            // 'image' => '/properti_photo/'.'16444074491056.png',
             'setelah_diskon' => 12000000,
         ]);
 
@@ -35,7 +35,7 @@ class revListingSeeder extends Seeder
             'status' => 'disewa',
             'properti_id' => 2,
             'harga' => number_format(43500000,2,',','.'),
-            'image' => '/properti_photo/'.'16444075261251.png',
+            // 'image' => '/properti_photo/'.'16444075261251.png',
             'setelah_diskon' => 39000000,
         ]);
 
@@ -47,7 +47,7 @@ class revListingSeeder extends Seeder
             'status' => 'dijual',
             'properti_id' => 3,
             'harga' => number_format(70000000,2,',','.'),
-            'image' => '/properti_photo/'.'16444075851990.png',
+            // 'image' => '/properti_photo/'.'16444075851990.png',
             'setelah_diskon' => 40500000,
         ]);
 
@@ -59,7 +59,7 @@ class revListingSeeder extends Seeder
             'status' => 'dijual',
             'properti_id' => 4,
             'harga' => number_format(8200000,2,',','.'),
-            'image' => '/properti_photo/'.'1644407727401.png',
+            // 'image' => '/properti_photo/'.'1644407727401.png',
             'setelah_diskon' => 8000000,
         ]);
 
@@ -71,7 +71,7 @@ class revListingSeeder extends Seeder
             'status' => 'dijual',
             'properti_id' => 5,
             'harga' => number_format(37200000,2,',','.'),
-            'image' => '/properti_photo/'.'1644407816205.png',
+            // 'image' => '/properti_photo/'.'1644407816205.png',
             'setelah_diskon' => 32000000,
         ]);
 
@@ -83,7 +83,7 @@ class revListingSeeder extends Seeder
             'status' => 'dijual',
             'properti_id' => 6,
             'harga' => number_format(8200000,2,',','.'),
-            'image' => '/properti_photo/'.'16445153461612.png',
+            // 'image' => '/properti_photo/'.'16445153461612.png',
             'setelah_diskon' => 72500000,
         ]);
 
@@ -95,7 +95,7 @@ class revListingSeeder extends Seeder
             'status' => 'disewa',
             'properti_id' => 7,
             'harga' => number_format(13200000,2,',','.'),
-            'image' => '/properti_photo/'.'16445154421213.png',
+            // 'image' => '/properti_photo/'.'16445154421213.png',
             'setelah_diskon' => 13000000,
         ]);
 
@@ -108,7 +108,7 @@ class revListingSeeder extends Seeder
             'status' => 'disewa',
             'properti_id' => 8,
             'harga' => number_format(1100000,2,',','.'),
-            'image' => '/properti_photo/'.'1644407816205.png',
+            // 'image' => '/properti_photo/'.'1644407816205.png',
             'setelah_diskon' => 10500000,
         ]);
 
@@ -120,7 +120,7 @@ class revListingSeeder extends Seeder
             'status' => 'dijual',
             'properti_id' => 9,
             'harga' => number_format(1500000,2,',','.'),
-            'image' => '/properti_photo/'.'1644515768439.png',
+            // 'image' => '/properti_photo/'.'1644515768439.png',
             'setelah_diskon' => null
         ]);
 
@@ -132,7 +132,7 @@ class revListingSeeder extends Seeder
             'status' => 'dijual',
             'properti_id' => 10,
             'harga' => 21000000,
-            'image' => '/properti_photo/'.'16445158321696.png',
+            // 'image' => '/properti_photo/'.'16445158321696.png',
             'setelah_diskon' => null
         ]);
 
